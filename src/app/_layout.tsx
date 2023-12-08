@@ -1,10 +1,13 @@
 import { Stack } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const RootLayout = () => {
-    return (
+  return (
+    <GestureHandlerRootView>
       <Stack>
         <Stack.Screen name="index" />
-        <Stack.Screen name="splash" />
+        <Stack.Screen name="onboarding" />
       </Stack>
-    );
+    </GestureHandlerRootView>
+  );
 }

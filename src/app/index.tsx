@@ -27,29 +27,15 @@ const Home = () => {
       "plusjakarta-semibold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
     });
 
-   const onLayoutRootView = useCallback(async () => {
-     if (fontsLoaded || fontError) {
-       await SplashScreen.hideAsync();
-     }
-   }, [fontsLoaded, fontError]);
+    const onLayoutRootView = useCallback(async () => {
+      if (fontsLoaded || fontError) {
+        await SplashScreen.hideAsync();
+      }
+    }, [fontsLoaded, fontError]);
 
-      const [splashLoading, setSplashLoading] = useState(true);
-
-   let opacity = new Animated.Value(0);
-
-   const animate = (easing: EasingFunction) => {
-     opacity.setValue(0);
-     Animated.timing(opacity, {
-       toValue: 1,
-       duration: 1200,
-       easing,
-       useNativeDriver: false,
-     }).start();
-   };
-
-      useEffect(() => {
-        animate(Easing.in(Easing.bounce));
-      }, [opacity]);
+    if (!fontsLoaded && !fontError) {
+      return null;
+    }
 
 
   return (

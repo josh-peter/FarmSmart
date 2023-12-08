@@ -6,86 +6,73 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
+  Platform,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Directions,
+  Gesture,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { OnboardingData } from "../Data/onBoardingData";
 const { width, height } = Dimensions.get("window");
+import { GestureDetector } from "react-native-gesture-handler";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  BounceInRight,
+  BounceOutLeft,
+} from "react-native-reanimated";
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const Onboarding = () => {
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-    const ref = useRef(null);
-  const OnboardingData = [
-    {
-      id: 1,
-      img: require("../assets/images/phone1.png"),
-      title: "Discover Listings",
-      description: "Search for apartments, houses, lands, and more. Find",
-      subdescription: "your dream property",
-    },
-    {
-      id: 2,
-      img: require("../assets/images/phone2.png"),
-      title: "Book Appointments",
-      description: "Schedule viewings and meetings with agents. Your ",
-      subdescription: "path to hassle-free property hunting.",
-    },
-    {
-      id: 3,
-      img: require("../assets/images/phone3.png"),
-      title: "Save Your Favorites",
-      description:
-        "Keep track of properties you love. Tap the heart icon to save them for later.",
-      subdescription: "to save them for later.",
-    },
-    {
-      id: 4,
-      img: require("../assets/images/phone4.png"),
-      title: "Secure Payments",
-      description: "Easily pay for apartments securely through our ",
-      subdescription: "platform.",
-    },
-  ];
+  const [screenIndex, setScreenIndex] = useState(0);
+  const data = OnboardingData[screenIndex];
+  const onContinue = () => {
+    const isLastScreen = screenIndex === OnboardingData.length - 1;
+    if (isLastScreen) {
+      setScreenIndex(0);
+    } else {
+      setScreenIndex(screenIndex + 1);
+    }
+  };
 
-  const updateCurrentSlideIndex = (e) => {
-    const contentOffsetX = e.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOffsetX / width);
-    setCurrentSlideIndex(currentIndex)
-  }
+  const onBack = () => {
+    const isFirstScreen = screenIndex === 0;
+    if (isFirstScreen) {
+      setScreenIndex(0);
+    } else {
+      setScreenIndex(screenIndex - 1);
+    }
+  };
 
-  const goNextSlide = () => {
-    const nextSlideIndex = currentSlideIndex + 1;
-    const offSet = nextSlideIndex * width;
-     ref?.current?.scrollToIndex({offSet});
-  }
-
+  const swipes = Gesture.Simultaneous(
+    Gesture.Fling().direction(Directions.LEFT).onEnd(onContinue),
+    Gesture.Fling().direction(Directions.LEFT).onEnd(onBack)
+  );
 
   return (
     <SafeAreaView>
+      <Stack.Screen options={{ headerShown: false }} />
+      <StatusBar style="dark" />
       <Image
         resizeMode="contain"
         source={require("../assets/images/spiral.png")}
-        style={{
-          top: RFValue(80),
-          right: RFValue(0),
-          position: "absolute",
-          width: "100%",
-        }}
+        style={styles.spiral}
       />
-      <View
-        style={{
-          flexDirection: "row",
-          paddingHorizontal: RFValue(15),
-        }}
-      >
-        {OnboardingData?.map((_, index) => (
+      <View style={styles.indicatorContainer}>
+        {OnboardingData?.map((step, index) => (
           <View
             key={index}
             style={[
               styles.indicator,
-              currentSlideIndex == index && {
-                backgroundColor: "#06782F",
+              {
+                backgroundColor: index === screenIndex ? "#06782F" : "#d9d9d9",
               },
             ]}
           />
@@ -93,122 +80,74 @@ const Onboarding = () => {
       </View>
       <FlatList
         data={OnboardingData}
-        onMomentumScrollEnd={updateCurrentSlideIndex}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        ref={ref}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flex: 1,
-              width: width,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-              }}
+          <GestureDetector gesture={swipes}>
+            <Animated.View
+              entering={BounceInRight}
+              exiting={BounceOutLeft}
+              style={styles.pageContainer}
             >
-              <Image
-                resizeMode="contain"
-                source={item.img}
+              <Animated.View
+                entering={BounceInRight}
+                exiting={BounceOutLeft}
                 style={{
-                  width: RFValue(220),
-                  height: RFValue(520),
-                }}
-              />
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/cloudy.png")}
-                style={{
-                  bottom: RFValue(0),
-                  right: RFValue(0),
-                  position: "absolute",
-                  width: "100%",
-                }}
-              />
-            </View>
-            <View
-              style={{
-                marginTop: RFValue(-90),
-                paddingHorizontal: RFValue(15),
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: RFValue(32),
-                  fontFamily: "outfit-semibold",
-                  marginBottom: RFValue(2),
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                {item.title}
-              </Text>
-              <Text
+                <Animated.Image
+                  entering={BounceInRight}
+                  exiting={BounceOutLeft}
+                  resizeMode="contain"
+                  source={data.img}
+                  style={styles.phones}
+                />
+                <Image
+                  resizeMode="contain"
+                  source={require("../assets/images/cloudy.png")}
+                  style={styles.cloudyEffect}
+                />
+              </Animated.View>
+              <Animated.View
+                entering={BounceInRight}
+                exiting={BounceOutLeft}
                 style={{
-                  fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#6C727F",
+                  marginTop: RFValue(-90),
+                  paddingHorizontal: RFValue(15),
                 }}
               >
-                {item.description}
-              </Text>
-              <Text
-                style={{
-                  fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#6C727F",
-                }}
-              >
-                {item.subdescription}
-              </Text>
-            </View>
-          </View>
+                <Text style={styles.title}>{data.title}</Text>
+                <Text style={styles.description}>{data.description}</Text>
+                <Text style={styles.subdescription}>{data.subdescription}</Text>
+              </Animated.View>
+            </Animated.View>
+          </GestureDetector>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(data) => data.id.toString()}
       />
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: RFValue(30),
-          paddingHorizontal: RFValue(15),
-        }}
-      >
-        <TouchableOpacity>
-          <Text
-            style={{
-              fontSize: RFValue(14),
-              fontFamily: "plusjakarta-semibold",
-              color: "#06782F",
-            }}
-          >
-            Skip
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={goNextSlide}
+      {screenIndex == OnboardingData.length - 1 ? (
+        <View
           style={{
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fff",
-            shadowOffset: { width: 2, height: 2 },
-            shadowRadius: 20,
-            shadowOpacity: 1.0,
-            elevation: 5,
-            shadowColor: "#caf7b7",
-            width: RFValue(50),
-            height: RFValue(50),
-            borderRadius: RFValue(30),
+            paddingHorizontal: RFValue(15),
           }}
         >
-          <AntDesign name="arrowright" size={24} color="#06782F" />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.startBtn}>
+            <Text style={styles.startText}>Get Started</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.skipBtn}>
+          <TouchableOpacity>
+            <Text style={styles.skipText}>Skip</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onContinue} style={styles.nextBtn}>
+            <AntDesign name="arrowright" size={24} color="#06782F" />
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -222,5 +161,83 @@ const styles = StyleSheet.create({
     backgroundColor: "#d9d9d9",
     marginHorizontal: RFValue(3),
     marginTop: RFValue(20),
+  },
+  spiral: {
+    top: RFValue(80),
+    right: RFValue(0),
+    position: "absolute",
+    width: "100%",
+  },
+  indicatorContainer: {
+    flexDirection: "row",
+    paddingHorizontal: RFValue(15),
+  },
+  pageContainer: {
+    flex: 1,
+    width: width,
+  },
+  phones: {
+    width: RFValue(220),
+    height: RFValue(520),
+  },
+  cloudyEffect: {
+    bottom: RFValue(0),
+    right: RFValue(0),
+    left: RFValue(0),
+    position: "absolute",
+    width: "100%",
+  },
+  title: {
+    fontSize: RFValue(32),
+    fontFamily: "outfit-semibold",
+    marginBottom: RFValue(3),
+  },
+  description: {
+    fontSize: RFValue(12),
+    fontFamily: "plusjakarta-regular",
+    color: "#6C727F",
+  },
+  subdescription: {
+    fontSize: RFValue(12),
+    fontFamily: "plusjakarta-regular",
+    color: "#6C727F",
+  },
+  skipBtn: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: RFValue(50),
+    paddingHorizontal: RFValue(15),
+  },
+  skipText: {
+    fontSize: RFValue(14),
+    fontFamily: "plusjakarta-semibold",
+    color: "#06782F",
+  },
+  nextBtn: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 20,
+    shadowOpacity: 1.0,
+    elevation: 5,
+    shadowColor: Platform.OS === "ios" ? "#caf7b7" : "green",
+    width: RFValue(50),
+    height: RFValue(50),
+    borderRadius: RFValue(30),
+  },
+  startBtn: {
+    backgroundColor: "#06782F",
+    padding: 10,
+    borderRadius: 10,
+    marginTop:RFValue(60)
+  },
+  startText: {
+    fontSize: RFValue(14),
+    color: "#fff",
+    fontFamily: "outfit-medium",
+    textAlign: "center",
   },
 });
