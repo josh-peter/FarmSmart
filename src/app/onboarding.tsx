@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { OnboardingData } from "../Data/onBoardingData";
 const { width, height } = Dimensions.get("window");
@@ -134,9 +134,11 @@ const Onboarding = () => {
             paddingHorizontal: RFValue(15),
           }}
         >
-          <TouchableOpacity style={styles.startBtn}>
-            <Text style={styles.startText}>Get Started</Text>
-          </TouchableOpacity>
+          <Link href={"/auth/login"} asChild>
+            <TouchableOpacity style={styles.startBtn}>
+              <Text style={styles.startText}>Get Started</Text>
+            </TouchableOpacity>
+          </Link>
         </View>
       ) : (
         <View style={styles.skipBtn}>
