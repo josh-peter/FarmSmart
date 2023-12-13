@@ -9,7 +9,7 @@ import {
   Platform,
 } from "react-native";
 import React, { useRef, useState } from "react";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 import {
   Directions,
   Gesture,
@@ -20,41 +20,41 @@ import { Link, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { OnboardingData } from "../Data/onBoardingData";
 const { width, height } = Dimensions.get("window");
-import { GestureDetector } from "react-native-gesture-handler";
-import Animated, {
-  FadeIn,
-  FadeOut,
-  BounceInRight,
-  BounceOutLeft,
-} from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+ import { useFormik } from "formik";
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+interface OnboardingItem {
+  id: number;
+  title: string;
+  description: string;
+  subdescription: string;
+  img: any; 
+}
+
 
 const Onboarding = () => {
   const [screenIndex, setScreenIndex] = useState(0);
-  const data = OnboardingData[screenIndex];
-  const onContinue = () => {
-    const isLastScreen = screenIndex === OnboardingData.length - 1;
-    if (isLastScreen) {
-      setScreenIndex(0);
-    } else {
-      setScreenIndex(screenIndex + 1);
+  const flatListRef = useRef<FlatList<OnboardingItem>>(null);
+
+const updateCurrentSlide = (e: {
+  nativeEvent: { contentOffset: { x: number } };
+}) => {
+  const contentOffsetX = e.nativeEvent.contentOffset.x;
+  const currentIndex = Math.round(contentOffsetX / width);
+  if (currentIndex !== screenIndex) {
+    setScreenIndex(currentIndex);
     }
   };
-
-  const onBack = () => {
-    const isFirstScreen = screenIndex === 0;
-    if (isFirstScreen) {
-      setScreenIndex(0);
-    } else {
-      setScreenIndex(screenIndex - 1);
-    }
-  };
-
-  const swipes = Gesture.Simultaneous(
-    Gesture.Fling().direction(Directions.LEFT).onEnd(onContinue),
-    Gesture.Fling().direction(Directions.LEFT).onEnd(onBack)
-  );
+  
+    const goToNextSlide = () => {
+      if (screenIndex < OnboardingData.length - 1) {
+        setScreenIndex(screenIndex + 1);
+        flatListRef.current?.scrollToIndex({
+          animated: true,
+          index: screenIndex + 1,
+        });
+      }
+    };
 
   return (
     <SafeAreaView>
@@ -66,7 +66,7 @@ const Onboarding = () => {
         style={styles.spiral}
       />
       <View style={styles.indicatorContainer}>
-        {OnboardingData?.map((step, index) => (
+        {OnboardingData?.map((_, index) => (
           <View
             key={index}
             style={[
@@ -79,54 +79,49 @@ const Onboarding = () => {
         ))}
       </View>
       <FlatList
+        onMomentumScrollEnd={updateCurrentSlide}
+        ref={flatListRef}
         data={OnboardingData}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         renderItem={({ item }) => (
-          <GestureDetector gesture={swipes}>
+          <Animated.View
+            entering={FadeInUp.duration(1000).springify()}
+            style={styles.pageContainer}
+          >
             <Animated.View
-              entering={BounceInRight}
-              exiting={BounceOutLeft}
-              style={styles.pageContainer}
+              entering={FadeInUp.duration(1000).springify()}
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              <Animated.View
-                entering={BounceInRight}
-                exiting={BounceOutLeft}
-                style={{
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Animated.Image
-                  entering={BounceInRight}
-                  exiting={BounceOutLeft}
-                  resizeMode="contain"
-                  source={data.img}
-                  style={styles.phones}
-                />
-                <Image
-                  resizeMode="contain"
-                  source={require("../assets/images/cloudy.png")}
-                  style={styles.cloudyEffect}
-                />
-              </Animated.View>
-              <Animated.View
-                entering={BounceInRight}
-                exiting={BounceOutLeft}
-                style={{
-                  marginTop: RFValue(-90),
-                  paddingHorizontal: RFValue(15),
-                }}
-              >
-                <Text style={styles.title}>{data.title}</Text>
-                <Text style={styles.description}>{data.description}</Text>
-                <Text style={styles.subdescription}>{data.subdescription}</Text>
-              </Animated.View>
+              <Animated.Image
+                entering={FadeInUp.duration(1000).springify()}
+                resizeMode="contain"
+                source={item.img}
+                style={styles.phones}
+              />
+              <Image
+                resizeMode="contain"
+                source={require("../assets/images/cloudy.png")}
+                style={styles.cloudyEffect}
+              />
             </Animated.View>
-          </GestureDetector>
+            <Animated.View
+              style={{
+                marginTop: RFValue(-90),
+                paddingHorizontal: RFValue(15),
+              }}
+            >
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+              <Text style={styles.subdescription}>{item.subdescription}</Text>
+            </Animated.View>
+          </Animated.View>
         )}
-        keyExtractor={(data) => data.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
       />
       {screenIndex == OnboardingData.length - 1 ? (
         <View
@@ -145,7 +140,7 @@ const Onboarding = () => {
           <TouchableOpacity>
             <Text style={styles.skipText}>Skip</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onContinue} style={styles.nextBtn}>
+          <TouchableOpacity style={styles.nextBtn} onPress={goToNextSlide}>
             <AntDesign name="arrowright" size={24} color="#06782F" />
           </TouchableOpacity>
         </View>
