@@ -16,6 +16,8 @@ interface PasswordInputProps {
   placeholder: string;
   returnKeyType: any;
   keyboardType: any;
+  secureTextEntry: any;
+  placeholderTextColor: any;
 }
 
 
@@ -41,11 +43,11 @@ const PasswordInputField = ({
         style={{
           fontFamily: "outfit-bold",
           fontSize: RFValue(14),
-          marginTop: RFValue(10),
+          marginTop: RFValue(15),
           color: "#5f5f5f",
         }}
       >
-        Password
+       {label}
       </Text>
       <View
         style={{

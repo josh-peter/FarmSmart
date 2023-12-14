@@ -5,9 +5,10 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Platform,
+    Platform,
+  ScrollView
 } from "react-native";
-import React, { useState, } from "react";
+import React, { useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -16,22 +17,20 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import InputField from "../inputs/inputField";
 import PasswordInputField from "../inputs/passwordInputField";
+import ErrorMsg from "./errors/errorMsg";
 
-
-export default function LoginComp() {
+export default function SignUpComp() {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-
   const handleUserLogin = (values: any, setSubmitting: any) => {
-    console.warn(values, "the values hehehehehehehe")
-     router.push("/auth/otpverification");
-    setSubmitting(false)
+    console.warn(values, "the values hehehehehehehe");
+    router.push("/auth/otpverification");
+    setSubmitting(false);
     console.log("Logging User In...");
   };
-  
 
   return (
     <>
@@ -42,18 +41,35 @@ export default function LoginComp() {
         }}
       />
       <StatusBar style="dark" />
-      <View style={styles.container}>
+          <ScrollView
+              showsHorizontalScrollIndicator={false}
+              style={styles.container}>
         <Formik
           initialValues={{
+            fullName: "",
             email: "",
+            state: "",
+            city: "",
+            address: "",
+            confirmPassword: "",
             password: "",
           }}
           validationSchema={Yup.object({
+            fullName: Yup.string().required("Full name is required").min(5),
             email: Yup.string()
               .required("Email is required")
               .email("Invalid emai")
               .min(5, "Must be a valid email"),
-            password: Yup.string().required("Password is required"),
+            state: Yup.string().required("This field is required"),
+            city: Yup.string().required("This field is required"),
+            address: Yup.string().required("This field is required"),
+            password: Yup.string()
+              .required("Password is required")
+              .min(5, "Your password is too short."),
+            confirmPassword: Yup.string().oneOf(
+              [Yup.ref("password")],
+              "Passwords must match"
+            ),
           })}
           onSubmit={async (values: any, { setSubmitting }) =>
             handleUserLogin(values, setSubmitting)
@@ -68,46 +84,93 @@ export default function LoginComp() {
             errors,
           }) => (
             <View>
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/logo.png")}
-                style={styles.logo}
-              />
-              <Text style={styles.title}>Welcome back</Text>
+              <Text style={styles.title}>Create Account</Text>
               <Text style={styles.subtitle}>
-                Please sign in your account by filling in your login details
+                Fill in your details to create account or sign up with your
+                social account
               </Text>
+              <View>
+                <InputField
+                  label={"Full name"}
+                  value={values.fullName}
+                  onChangeText={handleChange("fullName")}
+                  onBlur={handleBlur}
+                  placeholder={"E.g John Doe"}
+                  returnKeyType="done"
+                  keyboardType="name-phone-pad"
+                  errorMessage={errors.fullName}
+                  placeholderTextColor={"#5f5f5f"}
+                />
+                <InputField
+                  label={"Email"}
+                  value={values.email}
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur}
+                  placeholder={"E.g myfreshpass@gmail.com"}
+                  returnKeyType="done"
+                  keyboardType="email-address"
+                  errorMessage={errors.email}
+                  placeholderTextColor={"#5f5f5f"}
+                />
+                <InputField
+                  label={"State"}
+                  value={values.state}
+                  onChangeText={handleChange("state")}
+                  onBlur={handleBlur}
+                  placeholder={"E.g Akwa Ibom"}
+                  returnKeyType="done"
+                  keyboardType="default"
+                  errorMessage={errors.state}
+                  placeholderTextColor={"#5f5f5f"}
+                />
+                <InputField
+                  label={"City"}
+                  value={values.city}
+                  onChangeText={handleChange("city")}
+                  onBlur={handleBlur}
+                  placeholder={"Uyo"}
+                  returnKeyType="done"
+                  keyboardType="default"
+                  errorMessage={errors.city}
+                  placeholderTextColor={"#5f5f5f"}
+                />
+                <InputField
+                  label={"Address"}
+                  value={values.address}
+                  onChangeText={handleChange("address")}
+                  onBlur={handleBlur}
+                  placeholder={"E.g 13 Ekpri-nsuka"}
+                  returnKeyType="done"
+                  keyboardType="default"
+                  errorMessage={errors.address}
+                  placeholderTextColor={"#5f5f5f"}
+                />
+                <PasswordInputField
+                  label={"Password"}
+                  placeholder="**********"
+                  value={values.password}
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  keyboardType="visible-password"
+                  placeholderTextColor={"#5f5f5f"}
+                  secureTextEntry={passwordVisible}
+                  errorMessage={errors.password}
+                  returnKeyType="done"
+                />
+                <PasswordInputField
+                  label={"Confirm password"}
+                  placeholder="**********"
+                  value={values.confirmPassword}
+                  onChangeText={handleChange("confirmPassword")}
+                  onBlur={handleBlur("confirmPassword")}
+                  placeholderTextColor="#5f5f5f"
+                  keyboardType="visible-password"
+                  secureTextEntry={passwordVisible}
+                  errorMessage={errors.confirmPassword}
+                  returnKeyType="done"
+                />
+              </View>
 
-              <InputField
-                label={"Email/Phone"}
-                value={values.email}
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur}
-                placeholder={"E.g myfreshpass@gmail.com"}
-                returnKeyType="email-address"
-                keyboardType="done"
-                errorMessage={errors.email}
-                placeholderTextColor={"#5f5f5f"}
-              />
-
-              <PasswordInputField
-                label={"Password"}
-                value={values.password}
-                onChangeText={handleChange("password")}
-                errorMessage={errors.password}
-                onBlur={handleBlur("password")}
-                placeholder={"**********"}
-                returnKeyType="done"
-                keyboardType="password"
-                secureTextEntry={passwordVisible}
-                placeholderTextColor={"#5f5f5f"}
-              />
-
-              <Link href={"/auth/otpverification"} asChild>
-                <TouchableOpacity>
-                  <Text style={styles.passText}>Forgot password</Text>
-                </TouchableOpacity>
-              </Link>
               <View>
                 {isSubmitting || errors.email || errors.password ? (
                   <TouchableOpacity style={styles.disableBtn}>
@@ -143,19 +206,7 @@ export default function LoginComp() {
                   marginTop: RFValue(20),
                 }}
               >
-                <TouchableOpacity
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 2,
-                    borderWidth: 1,
-                    borderColor: "#f2f2f2",
-                    paddingVertical: RFValue(5),
-                    width: RFValue(140),
-                    borderRadius: RFValue(5),
-                  }}
-                >
+                <TouchableOpacity style={styles.appleLogoBtn}>
                   <Image
                     resizeMode="contain"
                     source={require("../../assets/images/apple.png")}
@@ -171,19 +222,7 @@ export default function LoginComp() {
                     Apple
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 2,
-                    borderWidth: 1,
-                    borderColor: "#f2f2f2",
-                    paddingVertical: RFValue(5),
-                    width: RFValue(140),
-                    borderRadius: RFValue(5),
-                  }}
-                >
+                <TouchableOpacity style={styles.googleLogoBtn}>
                   <Image
                     resizeMode="contain"
                     source={require("../../assets/images/google.png")}
@@ -202,14 +241,14 @@ export default function LoginComp() {
               </View>
               <Text style={styles.smallText}>
                 Don't have an account?
-                <Link href={"/auth/signup"} asChild>
-                  <Text style={{ color: "#06782f" }}> Sign Up</Text>
+                <Link href={"/auth/login"} asChild>
+                  <Text style={{ color: "#06782f" }}> Sign In</Text>
                 </Link>
               </Text>
             </View>
           )}
         </Formik>
-      </View>
+      </ScrollView>
     </>
   );
 }
@@ -310,6 +349,28 @@ const styles = StyleSheet.create({
     marginTop: RFValue(20),
     fontSize: RFValue(14),
     fontFamily: "plusjakarta-regular",
-    textAlign:"center"
+    textAlign: "center",
+  },
+  appleLogoBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 2,
+    borderWidth: 1,
+    borderColor: "#f2f2f2",
+    paddingVertical: RFValue(5),
+    width: RFValue(140),
+    borderRadius: RFValue(5),
+  },
+  googleLogoBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 2,
+    borderWidth: 1,
+    borderColor: "#f2f2f2",
+    paddingVertical: RFValue(5),
+    width: RFValue(140),
+    borderRadius: RFValue(5),
   },
 });

@@ -12,16 +12,17 @@ interface InputProps {
     placeholder: string;
     returnKeyType: any;
     keyboardType: any;
+    placeholderTextColor: any;
 }
 
-const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, onChangeText, onBlur, errorMessage }: InputProps) => {
+const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, onChangeText, onBlur, errorMessage, placeholderTextColor }: InputProps) => {
     return (
         <View>
             <Text
                 style={{
                     fontFamily: "outfit-bold",
                     fontSize: RFValue(14),
-                    marginTop: RFValue(30),
+                    marginTop: RFValue(15),
                     color: "#5f5f5f",
                 }}
             >
