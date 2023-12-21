@@ -338,6 +338,8 @@ export default function SignUpComp() {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: RFValue(40),
+    marginBottom: RFValue(40),
     paddingHorizontal: RFValue(20),
   },
   logo: {

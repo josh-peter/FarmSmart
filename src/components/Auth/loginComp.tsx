@@ -26,8 +26,7 @@ export default function LoginComp() {
 
 
   const handleUserLogin = (values: any, setSubmitting: any) => {
-    console.warn(values, "the values hehehehehehehe")
-     router.push("/auth/otpverification");
+    router.push("/home");
     setSubmitting(false)
     console.log("Logging User In...");
   };
@@ -82,10 +81,10 @@ export default function LoginComp() {
                 label={"Email/Phone"}
                 value={values.email}
                 onChangeText={handleChange("email")}
-                onBlur={handleBlur}
+                onBlur={handleBlur("email")}
                 placeholder={"E.g myfreshpass@gmail.com"}
-                returnKeyType="email-address"
-                keyboardType="done"
+                returnKeyType="done"
+                keyboardType="email-address"
                 errorMessage={errors.email}
                 placeholderTextColor={"#5f5f5f"}
               />

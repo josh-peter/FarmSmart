@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   startBtn: {
     backgroundColor: "#06782F",
-    padding: 10,
+    padding: Platform.OS === "ios" ? 13 : 12,
     borderRadius: 10,
     marginTop:RFValue(60)
   },
