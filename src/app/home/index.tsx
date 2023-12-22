@@ -20,15 +20,21 @@ import { HomeIconsData } from "../../Data/homeIconsData";
 import { BlurView } from "expo-blur";
 import { PropertiesData } from "../../Data/propertiesData";
 const { width, height } = Dimensions.get("window");
+import { FlashList } from "@shopify/flash-list";
 
 const Index = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [isHeartClicked, setHeartClicked] = useState(false);
+
+  const toggleHeart = () => {
+    setHeartClicked(!isHeartClicked);
+  };
 
   const handleIconPress = (index: number) => {
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
   };
   return (
-    <SafeAreaView>
+    <>
       <Stack.Screen
         options={{
           title: "Home",
@@ -254,9 +260,7 @@ const Index = () => {
         <FlatList
           data={PropertiesData}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            marginBottom: RFValue(20),
-          }}
+          contentContainerStyle={{}}
           renderItem={({ item }) => (
             <View
               style={{
@@ -292,7 +296,7 @@ const Index = () => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={toggleHeart}>
                   <View
                     style={{
                       position: "absolute",
@@ -306,7 +310,11 @@ const Index = () => {
                   >
                     <Image
                       resizeMode="contain"
-                      source={require("../../assets/images/heart.png")}
+                      source={
+                        isHeartClicked
+                          ? require("../../assets/images/heartclicked.png")
+                          : require("../../assets/images/heart.png")
+                      }
                       style={{
                         height: RFValue(28),
                         width: RFValue(28),
@@ -354,7 +362,7 @@ const Index = () => {
                       color: "#06782F",
                     }}
                   >
-                    Rental
+                    {item.type}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -374,7 +382,7 @@ const Index = () => {
                       color: "#414141",
                     }}
                   >
-                    {item.rent}
+                    {item.type === "Rental" ? item.rent : ""}
                   </Text>
                 </Text>
               </View>
@@ -499,7 +507,7 @@ const Index = () => {
           )}
         />
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -507,6 +515,7 @@ export default Index;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: RFValue(15),
     paddingVertical: RFValue(30),
   },
