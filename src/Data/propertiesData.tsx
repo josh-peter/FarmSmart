@@ -51,6 +51,16 @@ export const PropertiesData = [
   },
   {
     id: 6,
+    img: require("../assets/images/land2.png"),
+    name: "Land",
+    type: "Sales",
+    description: "One bedroom flat",
+    price: "₦50,000,000",
+    rent: "yearly",
+    location: "Lekki phase 1, Lagos, Nigeria",
+  },
+  {
+    id: 7,
     img: require("../assets/images/havenshop.png"),
     name: "Shop space",
     type: "Sales",

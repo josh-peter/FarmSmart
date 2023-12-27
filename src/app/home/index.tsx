@@ -10,9 +10,10 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  Animated
 } from "react-native";
-import React, { useState } from "react";
-import { Stack } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Link, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
 import SearchInputField from "../../components/inputs/searchInputField";
@@ -25,6 +26,7 @@ import { FlashList } from "@shopify/flash-list";
 const Index = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isHeartClicked, setHeartClicked] = useState(false);
+   const [selectedType, setSelectedType] = useState<"Rental" | "Sales">("Rental");
 
   const toggleHeart = () => {
     setHeartClicked(!isHeartClicked);
@@ -33,6 +35,22 @@ const Index = () => {
   const handleIconPress = (index: number) => {
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
   };
+
+  const filteredData = PropertiesData.filter(
+    (item) => item.type === selectedType
+  );
+
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true, // Add this line
+    }).start();
+  }, [fadeAnim]);
+
+  
   return (
     <>
       <Stack.Screen
@@ -110,6 +128,7 @@ const Index = () => {
               borderWidth: 1,
               borderColor: "#E4E4E7",
               padding: RFValue(6),
+              backgroundColor: "#Fdfdfd",
             }}
           >
             <TouchableOpacity style={styles.eyeIcon}>
@@ -122,33 +141,36 @@ const Index = () => {
                 }}
               />
             </TouchableOpacity>
+
             <TextInput
               placeholder="Any property or location"
               style={styles.inputbox}
               placeholderTextColor="#5f5f5f"
             />
           </View>
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              borderWidth: 1,
-              borderColor: "#E6E6E6",
-              width: 56,
-              height: 56,
-              borderRadius: 12,
-            }}
-          >
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/filter-edit.png")}
+          <Link href={"/home/search"} asChild>
+            <TouchableOpacity
               style={{
-                height: RFValue(28),
-                width: RFValue(28),
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                borderWidth: 1,
+                borderColor: "#E6E6E6",
+                width: 56,
+                height: 56,
+                borderRadius: 12,
               }}
-            />
-          </View>
+            >
+              <Image
+                resizeMode="contain"
+                source={require("../../assets/images/filter-edit.png")}
+                style={{
+                  height: RFValue(28),
+                  width: RFValue(28),
+                }}
+              />
+            </TouchableOpacity>
+          </Link>
         </View>
         <View
           style={{
@@ -178,11 +200,12 @@ const Index = () => {
             }}
           >
             <TouchableOpacity
+              onPress={() => setSelectedType("Rental")}
               style={{
                 paddingVertical: RFValue(7),
                 paddingHorizontal: RFValue(20),
                 borderRadius: RFValue(5),
-                backgroundColor: "#fff",
+                backgroundColor: selectedType === "Rental" ? "#fff" : "#E4E4E7",
               }}
             >
               <Text
@@ -195,11 +218,12 @@ const Index = () => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              onPress={() => setSelectedType("Sales")}
               style={{
                 paddingVertical: RFValue(7),
                 paddingHorizontal: RFValue(20),
                 borderRadius: RFValue(5),
-                backgroundColor: "#E4E4E7",
+                backgroundColor: selectedType === "Sales" ? "#fff" : "#E4E4E7",
               }}
             >
               <Text
@@ -258,11 +282,11 @@ const Index = () => {
           ))}
         </View>
         <FlatList
-          data={PropertiesData}
+          data={filteredData}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{}}
           renderItem={({ item }) => (
-            <View
+            <Animated.View
               style={{
                 marginBottom: RFValue(20),
               }}
@@ -503,7 +527,7 @@ const Index = () => {
                   }}
                 />
               </View>
-            </View>
+            </Animated.View>
           )}
         />
       </View>
