@@ -7,13 +7,15 @@ import {
   Image,
   Animated,
   FlatList,
+  Modal,
 } from "react-native";
 import React, { useState } from "react";
 import { Link } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import { PropertiesData } from "../../Data/propertiesData";
-import SelectDropdown from "react-native-select-dropdown";
+import ModalPicker from "../../components/common/modalPicker";
+import FilterModal from "../../components/common/modals/filterModal";
 
 interface SearchItem {
   id: number;
@@ -23,6 +25,21 @@ interface SearchItem {
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredResults, setFilteredResults] = useState<SearchItem[]>([]);
+  const [isHeartClicked, setHeartClicked] = useState(false);
+  const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
+    "Rental"
+  );
+  const [chooseData, setChooseData] = useState("All location");
+  const [isModdalVisible, setisModdalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const closeModal = () => {
+    setModalVisible(false);
+    };
+    
+    const openModal = () => {
+        setModalVisible(true)
+    }
 
   const Searchresults: SearchItem[] = [
     { id: 1, search: "Lands" },
@@ -41,33 +58,24 @@ export default function Search() {
       item.search.toLowerCase().includes(text.toLowerCase())
     );
     setFilteredResults(filtered);
-    };
-    
-    const handleClearSearch = () => {
-    setSearchQuery('');
-    // Optionally reset filtered results as well
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
     setFilteredResults(Searchresults);
-    };
-    
-      const [activeIndex, setActiveIndex] = useState<number | null>(null);
-      const [isHeartClicked, setHeartClicked] = useState(false);
-      const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
-        "Rental"
-      );
+  };
 
-      const toggleHeart = () => {
-        setHeartClicked(!isHeartClicked);
-      };
+  const toggleHeart = () => {
+    setHeartClicked(!isHeartClicked);
+  };
 
-      const handleIconPress = (index: number) => {
-        setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
-      };
+  const changeModalVisibility = (bool: any) => {
+    setisModdalVisible(bool);
+  };
 
-      const filteredData = PropertiesData.filter(
-        (item) => item.type === selectedType
-      );
-
-      const [fadeAnim] = useState(new Animated.Value(0));
+  const setData = (option: any) => {
+    setChooseData(option);
+  };
 
   return (
     <View style={styles.container}>
@@ -141,28 +149,58 @@ export default function Search() {
       <View
         style={{
           flexDirection: "row",
-          justifyContent:"space-between",
+          justifyContent: "space-between",
           alignItems: "center",
           marginTop: RFValue(23),
         }}
       >
-        <View
-          style={{
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: "#E4E4E7",
-            padding: RFValue(6),
-            backgroundColor: "#Fdfdfd",
-          }}
-        >
-          <TextInput
-            placeholder="Any property or location"
-            style={styles.selectbox}
-            placeholderTextColor="#5f5f5f"
-          />
+        <View>
+          <TouchableOpacity
+            onPress={() => changeModalVisibility(true)}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 4,
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: "#E4E4E7",
+              paddingVertical: RFValue(12),
+              paddingHorizontal: RFValue(10),
+              backgroundColor: "#Fdfdfd",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: RFValue(13),
+                fontFamily: "plusjakarta-regular",
+              }}
+            >
+              {chooseData}
+            </Text>
+            <Image
+              resizeMode="contain"
+              source={require("../../assets/images/arrow-down.png")}
+              style={{
+                height: RFValue(23),
+                width: RFValue(17),
+              }}
+            />
+          </TouchableOpacity>
+          <Modal
+            transparent={true}
+            animationType="fade"
+            visible={isModdalVisible}
+            onRequestClose={() => changeModalVisibility(false)}
+          >
+            <ModalPicker
+              changeModalVisibility={changeModalVisibility}
+              setData={setData}
+            />
+          </Modal>
         </View>
         <Link href={"/home/search"} asChild>
           <TouchableOpacity
+            onPress={openModal}
             style={{
               flexDirection: "column",
               justifyContent: "center",
@@ -192,7 +230,7 @@ export default function Search() {
           gap: 10,
           flexWrap: "wrap",
           overflow: "hidden",
-          paddingVertical: RFValue(20),
+          paddingVertical: RFValue(10),
         }}
       >
         {searchQuery.length > 0
@@ -317,6 +355,7 @@ export default function Search() {
                   paddingHorizontal: RFValue(20),
                   borderRadius: RFValue(5),
                   backgroundColor: "#ECFFF4",
+                  marginTop: RFValue(10),
                 }}
               >
                 <Text
@@ -470,6 +509,7 @@ export default function Search() {
           </Animated.View>
         )}
       />
+      <FilterModal modalVisible={isModalVisible} closeModal={closeModal} />
     </View>
   );
 }
@@ -477,7 +517,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: RFValue(15),
-    paddingVertical: RFValue(30),
+    paddingVertical: RFValue(6),
   },
   inputbox: {
     width: RFValue(230),
@@ -508,5 +548,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: RFValue(5),
     borderRadius: 20,
+  },
+  dropdown: {
+    width: 150,
+    margin: 16,
+    height: 56,
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 15,
+    borderWidth: 1,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });
