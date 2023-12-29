@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    marginTop: RFValue(20),
     backgroundColor: "#fff",
     borderRadius: 20,
     shadowColor: "#000",
