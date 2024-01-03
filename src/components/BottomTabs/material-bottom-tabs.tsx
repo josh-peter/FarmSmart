@@ -8,6 +8,6 @@
 // const { Navigator } = createMaterialBottomTabNavigator();
 
 // export const MaterialBottomTabs = withLayoutContext<
-//     MaterialBottomTabNavigationOptions,
+//     MaterialBottomTabNavigationOptions, 
 //     typeof Navigator
 // >(Navigator);
