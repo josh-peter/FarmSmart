@@ -13,9 +13,9 @@ import React, { useState } from "react";
 import { Link } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
-import { PropertiesData } from "../../Data/propertiesData";
-import ModalPicker from "../../components/common/modalPicker";
-import FilterModal from "../../components/common/modals/filterModal";
+import { PropertiesData } from "../Data/propertiesData";
+import ModalPicker from "../components/common/modalPicker";
+import FilterModal from "../components/common/modals/filterModal";
 
 interface SearchItem {
   id: number;
@@ -87,7 +87,7 @@ export default function Search() {
           marginTop: RFValue(23),
         }}
       >
-        <Link href={"/home/search"} asChild>
+        <Link href={"/home/account"} asChild>
           <TouchableOpacity
             style={{
               flexDirection: "column",
@@ -102,7 +102,7 @@ export default function Search() {
           >
             <Image
               resizeMode="contain"
-              source={require("../../assets/images/arrow-left.png")}
+              source={require("../assets/images/arrow-left.png")}
               style={{
                 height: RFValue(28),
                 width: RFValue(28),
@@ -122,7 +122,7 @@ export default function Search() {
           <TouchableOpacity style={styles.eyeIcon}>
             <Image
               resizeMode="contain"
-              source={require("../../assets/images/search-normal.png")}
+              source={require("../assets/images/search-normal.png")}
               style={{
                 height: RFValue(23),
                 width: RFValue(23),
@@ -179,7 +179,7 @@ export default function Search() {
             </Text>
             <Image
               resizeMode="contain"
-              source={require("../../assets/images/arrow-down.png")}
+              source={require("../assets/images/arrow-down.png")}
               style={{
                 height: RFValue(23),
                 width: RFValue(17),
@@ -198,7 +198,7 @@ export default function Search() {
             />
           </Modal>
         </View>
-        <Link href={"/home/search"} asChild>
+        <Link href={"/home/account"} asChild>
           <TouchableOpacity
             onPress={openModal}
             style={{
@@ -214,7 +214,7 @@ export default function Search() {
           >
             <Image
               resizeMode="contain"
-              source={require("../../assets/images/filter-edit.png")}
+              source={require("../assets/images/filter-edit.png")}
               style={{
                 height: RFValue(28),
                 width: RFValue(28),
@@ -313,8 +313,8 @@ export default function Search() {
                     resizeMode="contain"
                     source={
                       isHeartClicked
-                        ? require("../../assets/images/heartclicked.png")
-                        : require("../../assets/images/heart.png")
+                        ? require("../assets/images/heartclicked.png")
+                        : require("../assets/images/heart.png")
                     }
                     style={{
                       height: RFValue(28),
@@ -399,7 +399,7 @@ export default function Search() {
             >
               <Image
                 resizeMode="contain"
-                source={require("../../assets/images/location.png")}
+                source={require("../assets/images/location.png")}
                 style={{
                   width: RFValue(20),
                   height: RFValue(20),

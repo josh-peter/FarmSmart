@@ -148,7 +148,7 @@ const Index = () => {
               placeholderTextColor="#5f5f5f"
             />
           </View>
-          <Link href={"/home/search"} asChild>
+          <Link href={"/search"} asChild>
             <TouchableOpacity
               style={{
                 flexDirection: "column",

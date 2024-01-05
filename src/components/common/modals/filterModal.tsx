@@ -20,6 +20,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import PasswordInputField from "../../inputs/passwordInputField";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import Checkbox from "expo-checkbox";
 
 interface Props {
   modalVisible: boolean;
@@ -30,14 +31,21 @@ export default function FilterModal({ modalVisible, closeModal }: Props) {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeBtn, setActiveBtn] = useState<number | null>(null);
+  const [isChecked, setChecked] = useState(false);
+  const [activeComp, setActiveComp] = useState<number | null>(null);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
 
   const handleIconPress = (id: number) => {
     setActiveIndex((prevIndex) => (prevIndex === id ? null : id));
+
+    setActiveComp(id);
+    setShowDetails((prev) => !prev);
   };
 
   const handleNumberPress = (index: number) => {
     setActiveBtn((prevIndex) => (prevIndex === index ? null : index));
   };
+
 
   const propertyType = [
     {
@@ -82,29 +90,28 @@ export default function FilterModal({ modalVisible, closeModal }: Props) {
     },
   ];
 
-    const reviewData = [
-      {
-        id: 1,
-        result: "1.0 (300 results)",
-      },
-      {
-        id: 2,
-        result: "2.0 (50 results)",
-      },
-      {
-        id: 3,
-        result: "3.0 (800 results)",
-      },
-      {
-        id: 4,
-        result: "4.0 (2K results)",
-      },
-      {
-        id: 5,
-        result: "5.0 (1K+ results)",
-      },
-    ];
-
+  const reviewData = [
+    {
+      id: 1,
+      result: "1.0 (300 results)",
+    },
+    {
+      id: 2,
+      result: "2.0 (50 results)",
+    },
+    {
+      id: 3,
+      result: "3.0 (800 results)",
+    },
+    {
+      id: 4,
+      result: "4.0 (2K results)",
+    },
+    {
+      id: 5,
+      result: "5.0 (1K+ results)",
+    },
+  ];
 
   const roomData = [
     "Any",
@@ -378,230 +385,239 @@ export default function FilterModal({ modalVisible, closeModal }: Props) {
                 ))}
               </View>
             </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: RFValue(16),
-                  fontFamily: "outfit-bold",
-                  lineHeight: RFValue(30),
-                  marginBottom: RFValue(10),
-                  marginTop: RFValue(30),
-                }}
-              >
-                Rooms and bed
-              </Text>
+            {showDetails && (
               <View>
-                <Text
-                  style={{
-                    fontFamily: "outfit-bold",
-                    fontSize: RFValue(14),
-                    marginTop: RFValue(3),
-                    color: "#414141",
-                  }}
-                >
-                  Bedrooms
-                </Text>
-                <ScrollView
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
-                  contentContainerStyle={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(7),
-                  }}
-                >
-                  {roomData?.map((room, index: number) => (
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#06782F",
-                        paddingHorizontal: RFValue(20),
-                        paddingVertical: RFValue(8),
-                        borderRadius: 50,
-                        marginTop: RFValue(10),
-                      }}
-                      key={index}
-                    >
-                      <Text
-                        style={{
-                          fontSize: RFValue(16),
-                          fontFamily: "plusjakarta-regular",
-                          color: "#fff",
-                        }}
-                      >
-                        {room}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-              <View
-                style={{
-                  marginTop: RFValue(20),
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "outfit-bold",
-                    fontSize: RFValue(14),
-                    marginTop: RFValue(3),
-                    color: "#414141",
-                  }}
-                >
-                  Kitchen
-                </Text>
-                <ScrollView
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
-                  contentContainerStyle={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(7),
-                  }}
-                >
-                  {roomData?.map((room, index: number) => (
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#06782F",
-                        paddingHorizontal: RFValue(20),
-                        paddingVertical: RFValue(8),
-                        borderRadius: 50,
-                        marginTop: RFValue(10),
-                      }}
-                      key={index}
-                    >
-                      <Text
-                        style={{
-                          fontSize: RFValue(16),
-                          fontFamily: "plusjakarta-regular",
-                          color: "#fff",
-                        }}
-                      >
-                        {room}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-              <View
-                style={{
-                  marginTop: RFValue(20),
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "outfit-bold",
-                    fontSize: RFValue(14),
-                    marginTop: RFValue(3),
-                    color: "#414141",
-                  }}
-                >
-                  Bathroom
-                </Text>
-                <ScrollView
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
-                  contentContainerStyle={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(7),
-                  }}
-                >
-                  {roomData?.map((room, index: number) => (
-                    <TouchableOpacity
-                      onPress={() => handleNumberPress(index)}
-                      style={{
-                        backgroundColor:
-                          activeBtn === index ? "#06782F" : "#F8FFFB",
-                        paddingHorizontal: RFValue(20),
-                        paddingVertical: RFValue(8),
-                        borderRadius: 50,
-                        marginTop: RFValue(10),
-                      }}
-                      key={index}
-                    >
-                      <Text
-                        style={{
-                          fontSize: RFValue(16),
-                          fontFamily: "plusjakarta-regular",
-                          color: activeBtn === index ? "#fff" : "#06782F",
-                        }}
-                      >
-                        {room}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: RFValue(16),
-                  fontFamily: "outfit-bold",
-                  lineHeight: RFValue(30),
-                  marginBottom: RFValue(10),
-                  marginTop: RFValue(30),
-                }}
-              >
-                Rating
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: RFValue(6),
-                }}
-              >
-                <Image
-                  resizeMode="contain"
-                  source={require("../../../assets/images/Vector.png")}
-                  style={{
-                    width: RFValue(20),
-                    height: RFValue(20),
-                  }}
-                />
-                <Text
-                  style={{
-                    fontSize: RFValue(14),
-                    fontFamily: "plusjakarta-regular",
-                  }}
-                >
-                  Find based on ratings by other users
-                </Text>
-              </View>
-            </View>
-            <View>
-              {reviewData?.map((review) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(5),
-                    marginTop: RFValue(15),
-                  }}
-                >
-                  <Image
-                    resizeMode="contain"
-                    source={require("../../../assets/images/Checkbox.png")}
-                    style={{
-                      width: RFValue(25),
-                      height: RFValue(25),
-                    }}
-                  />
+                <View>
                   <Text
                     style={{
-                      fontSize: RFValue(14),
-                      fontFamily: "plusjakarta-regular",
+                      fontSize: RFValue(16),
+                      fontFamily: "outfit-bold",
+                      lineHeight: RFValue(30),
+                      marginBottom: RFValue(10),
+                      marginTop: RFValue(30),
                     }}
                   >
-                    {review.result}
+                    Rooms and bed
                   </Text>
+                  <View>
+                    <Text
+                      style={{
+                        fontFamily: "outfit-bold",
+                        fontSize: RFValue(14),
+                        marginTop: RFValue(3),
+                        color: "#414141",
+                      }}
+                    >
+                      Bedrooms
+                    </Text>
+                    <ScrollView
+                      showsHorizontalScrollIndicator={false}
+                      horizontal
+                      contentContainerStyle={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: RFValue(7),
+                      }}
+                    >
+                      {roomData?.map((room, index: number) => (
+                        <TouchableOpacity
+                          style={{
+                            backgroundColor: "#06782F",
+                            paddingHorizontal: RFValue(20),
+                            paddingVertical: RFValue(8),
+                            borderRadius: 50,
+                            marginTop: RFValue(10),
+                          }}
+                          key={index}
+                        >
+                          <Text
+                            style={{
+                              fontSize: RFValue(16),
+                              fontFamily: "plusjakarta-regular",
+                              color: "#fff",
+                            }}
+                          >
+                            {room}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
+                  <View
+                    style={{
+                      marginTop: RFValue(20),
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "outfit-bold",
+                        fontSize: RFValue(14),
+                        marginTop: RFValue(3),
+                        color: "#414141",
+                      }}
+                    >
+                      Kitchen
+                    </Text>
+                    <ScrollView
+                      showsHorizontalScrollIndicator={false}
+                      horizontal
+                      contentContainerStyle={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: RFValue(7),
+                      }}
+                    >
+                      {roomData?.map((room, index: number) => (
+                        <TouchableOpacity
+                          style={{
+                            backgroundColor: "#06782F",
+                            paddingHorizontal: RFValue(20),
+                            paddingVertical: RFValue(8),
+                            borderRadius: 50,
+                            marginTop: RFValue(10),
+                          }}
+                          key={index}
+                        >
+                          <Text
+                            style={{
+                              fontSize: RFValue(16),
+                              fontFamily: "plusjakarta-regular",
+                              color: "#fff",
+                            }}
+                          >
+                            {room}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
+                  <View
+                    style={{
+                      marginTop: RFValue(20),
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "outfit-bold",
+                        fontSize: RFValue(14),
+                        marginTop: RFValue(3),
+                        color: "#414141",
+                      }}
+                    >
+                      Bathroom
+                    </Text>
+                    <ScrollView
+                      showsHorizontalScrollIndicator={false}
+                      horizontal
+                      contentContainerStyle={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: RFValue(7),
+                      }}
+                    >
+                      {roomData?.map((room, index: number) => (
+                        <TouchableOpacity
+                          onPress={() => handleNumberPress(index)}
+                          style={{
+                            backgroundColor:
+                              activeBtn === index ? "#06782F" : "#F8FFFB",
+                            paddingHorizontal: RFValue(20),
+                            paddingVertical: RFValue(8),
+                            borderRadius: 50,
+                            marginTop: RFValue(10),
+                          }}
+                          key={index}
+                        >
+                          <Text
+                            style={{
+                              fontSize: RFValue(16),
+                              fontFamily: "plusjakarta-regular",
+                              color: activeBtn === index ? "#fff" : "#06782F",
+                            }}
+                          >
+                            {room}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
                 </View>
-              ))}
-            </View>
-            <TouchableOpacity style={styles.startBtn}>
-              <Text style={styles.startText}>Apply filter</Text>
-            </TouchableOpacity>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: RFValue(16),
+                      fontFamily: "outfit-bold",
+                      lineHeight: RFValue(30),
+                      marginBottom: RFValue(10),
+                      marginTop: RFValue(30),
+                    }}
+                  >
+                    Rating
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: RFValue(6),
+                    }}
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={require("../../../assets/images/Vector.png")}
+                      style={{
+                        width: RFValue(20),
+                        height: RFValue(20),
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        fontFamily: "plusjakarta-regular",
+                      }}
+                    >
+                      Find based on ratings by other users
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  {reviewData?.map((review) => (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: RFValue(5),
+                        marginTop: RFValue(15),
+                      }}
+                    >
+                      <Checkbox
+                        style={{
+                          transform: [
+                            {
+                              scaleX: review.result ? 1 : 0,
+                            },
+                          ],
+                          borderRadius: RFValue(3),
+                        }}
+                        value={isChecked}
+                        onValueChange={setChecked}
+                        color={isChecked ? "#06782F" : "#e1e1e1"}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(14),
+                          fontFamily: "plusjakarta-regular",
+                        }}
+                      >
+                        {review.result}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+                <TouchableOpacity style={styles.startBtn}>
+                  <Text style={styles.startText}>Apply filter</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </ScrollView>
         </View>
       </Modal>
@@ -643,4 +659,4 @@ const styles = StyleSheet.create({
     fontFamily: "outfit-medium",
     textAlign: "center",
   },
-});
+})
