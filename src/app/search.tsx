@@ -10,7 +10,7 @@ import {
   Modal,
 } from "react-native";
 import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link,router, SearchParams, useSearchParams } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import { PropertiesData } from "../Data/propertiesData";
@@ -23,7 +23,7 @@ interface SearchItem {
 }
 
 export default function Search() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredResults, setFilteredResults] = useState<SearchItem[]>([]);
   const [isHeartClicked, setHeartClicked] = useState(false);
   const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
@@ -32,17 +32,25 @@ export default function Search() {
   const [chooseData, setChooseData] = useState("All location");
   const [isModdalVisible, setisModdalVisible] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [propertyResult, setPropertyResult] = useState<any>()
 
   const closeModal = () => {
     setModalVisible(false);
-    };
-    
+  };
+
+
+
+  // console.log(SearchParams(), "mem22");
+
+  
+  console.log( "th rrrrrr")
+
     const openModal = () => {
         setModalVisible(true)
     }
 
   const Searchresults: SearchItem[] = [
-    { id: 1, search: "Lands" },
+    { id: 1, search: "Land" },
     { id: 2, search: "Landmark hotel" },
     { id: 3, search: "Land nuet" },
     { id: 4, search: "Mainland apartment" },
@@ -60,9 +68,19 @@ export default function Search() {
     setFilteredResults(filtered);
   };
 
+  const locationSelectedHandler = (query: string) => {
+    setSearchQuery(query); 
+    const filteredProperties = PropertiesData.filter((property) => {
+      return property.location.toLowerCase().includes(query.toLowerCase())  || property.name.toLowerCase().includes(query.toLowerCase())
+    })
+    console.log(filteredProperties, "the filteredddddd")
+    setPropertyResult(filteredProperties)
+  }
+
   const handleClearSearch = () => {
     setSearchQuery("");
     setFilteredResults(Searchresults);
+    setPropertyResult([])
   };
 
   const toggleHeart = () => {
@@ -87,7 +105,7 @@ export default function Search() {
           marginTop: RFValue(23),
         }}
       >
-        <Link href={"/home/account"} asChild>
+        <Link href={"/home"} asChild>
           <TouchableOpacity
             style={{
               flexDirection: "column",
@@ -146,83 +164,86 @@ export default function Search() {
           )}
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: RFValue(23),
-        }}
-      >
-        <View>
-          <TouchableOpacity
-            onPress={() => changeModalVisibility(true)}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: "#E4E4E7",
-              paddingVertical: RFValue(12),
-              paddingHorizontal: RFValue(10),
-              backgroundColor: "#Fdfdfd",
-            }}
-          >
-            <Text
+
+      {propertyResult?.length > 0 && (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: RFValue(23),
+          }}
+        >
+          <View>
+            <TouchableOpacity
+              onPress={() => changeModalVisibility(true)}
               style={{
-                fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 4,
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: "#E4E4E7",
+                paddingVertical: RFValue(12),
+                paddingHorizontal: RFValue(10),
+                backgroundColor: "#Fdfdfd",
               }}
             >
-              {chooseData}
-            </Text>
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-down.png")}
+              <Text
+                style={{
+                  fontSize: RFValue(13),
+                  fontFamily: "plusjakarta-regular",
+                }}
+              >
+                {chooseData}
+              </Text>
+              <Image
+                resizeMode="contain"
+                source={require("../assets/images/arrow-down.png")}
+                style={{
+                  height: RFValue(23),
+                  width: RFValue(17),
+                }}
+              />
+            </TouchableOpacity>
+            <Modal
+              transparent={true}
+              animationType="fade"
+              visible={isModdalVisible}
+              onRequestClose={() => changeModalVisibility(false)}
+            >
+              <ModalPicker
+                changeModalVisibility={changeModalVisibility}
+                setData={setData}
+              />
+            </Modal>
+          </View>
+          <Link href={"/home/account"} asChild>
+            <TouchableOpacity
+              onPress={openModal}
               style={{
-                height: RFValue(23),
-                width: RFValue(17),
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                borderWidth: 1,
+                borderColor: "#E6E6E6",
+                width: 56,
+                height: 56,
+                borderRadius: 12,
               }}
-            />
-          </TouchableOpacity>
-          <Modal
-            transparent={true}
-            animationType="fade"
-            visible={isModdalVisible}
-            onRequestClose={() => changeModalVisibility(false)}
-          >
-            <ModalPicker
-              changeModalVisibility={changeModalVisibility}
-              setData={setData}
-            />
-          </Modal>
+            >
+              <Image
+                resizeMode="contain"
+                source={require("../assets/images/filter-edit.png")}
+                style={{
+                  height: RFValue(28),
+                  width: RFValue(28),
+                }}
+              />
+            </TouchableOpacity>
+          </Link>
         </View>
-        <Link href={"/home/account"} asChild>
-          <TouchableOpacity
-            onPress={openModal}
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              borderWidth: 1,
-              borderColor: "#E6E6E6",
-              width: 56,
-              height: 56,
-              borderRadius: 12,
-            }}
-          >
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/filter-edit.png")}
-              style={{
-                height: RFValue(28),
-                width: RFValue(28),
-              }}
-            />
-          </TouchableOpacity>
-        </Link>
-      </View>
+      )}
       <View
         style={{
           flexDirection: "row",
@@ -233,33 +254,35 @@ export default function Search() {
           paddingVertical: RFValue(10),
         }}
       >
-        {searchQuery.length > 0
-          ? filteredResults.map((search) => (
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#f8fffb",
-                  paddingHorizontal: RFValue(13),
-                  paddingVertical: RFValue(10),
-                  borderRadius: 25,
-                }}
-                key={search.id}
-              >
-                <Text
+          {searchQuery.length > 0 && !propertyResult
+            ? filteredResults.map((search: any) => (
+                <TouchableOpacity
+                  onPress={() => locationSelectedHandler(search.search)}
                   style={{
-                    fontSize: RFValue(14),
-                    fontFamily: "outfit-bold",
-                    lineHeight: RFValue(20.16),
-                    color: "#06782F",
+                    backgroundColor: "#f8fffb",
+                    paddingHorizontal: RFValue(13),
+                    paddingVertical: RFValue(10),
+                    borderRadius: 25,
                   }}
+                  key={search.id}
                 >
-                  {search.search}
-                </Text>
-              </TouchableOpacity>
-            ))
-          : null}
+                  <Text
+                    style={{
+                      fontSize: RFValue(14),
+                      fontFamily: "outfit-bold",
+                      lineHeight: RFValue(20.16),
+                      color: "#06782F",
+                    }}
+                  >
+                    {search.search}
+                  </Text>
+                </TouchableOpacity>
+              ))
+            : null}
       </View>
+
       <FlatList
-        data={PropertiesData}
+        data={propertyResult}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{}}
         renderItem={({ item }) => (

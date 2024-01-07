@@ -13,7 +13,7 @@ import {
   Animated
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
 import SearchInputField from "../../components/inputs/searchInputField";
@@ -21,15 +21,69 @@ import { HomeIconsData } from "../../Data/homeIconsData";
 import { BlurView } from "expo-blur";
 import { PropertiesData } from "../../Data/propertiesData";
 const { width, height } = Dimensions.get("window");
-import { FlashList } from "@shopify/flash-list";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Index = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isHeartClicked, setHeartClicked] = useState(false);
-   const [selectedType, setSelectedType] = useState<"Rental" | "Sales">("Rental");
+  const [selectedType, setSelectedType] = useState<"Rental" | "Sales">("Rental");
+  const [text, setText] = useState('')
+  const [wishlist, setWishlist] = useState<any>()
+  console.log(text, "hsdhshshsh")
+  // const wishList = await AsyncStorage.getItem('wishlist')
 
-  const toggleHeart = () => {
+  const searchHandler = (value: string) => {
+    console.log(value, "hehehehehehe")
+    if (value === '') return;
+
+    // router.push(`/search`)
+    router.push({
+      pathname: `/search`,
+      params: { search: value },
+    });
+  }
+  
+  // console.log(wishlist, "the wisisisi");
+
+  useEffect(() => {
+
+    const getWishList = async () => {
+      try {
+        
+        const res = await AsyncStorage.getItem("@wishlist");
+        if (res == null) return setWishlist([]);
+        let parsedRes = JSON.parse(res!);
+        setWishlist(parsedRes);
+        await   AsyncStorage.clear()
+      } catch (e) {
+        console.log(e, "WISHKSSISISIIS")
+      }
+    }
+
+  }, [])
+  
+
+
+  const toggleHeart = async (property:any) => {
+    console.log(property, "the selected")
     setHeartClicked(!isHeartClicked);
+    let existingWislist = wishlist
+    if (!existingWislist) {
+      existingWislist = [property];
+          await AsyncStorage.setItem("@wishlist", JSON.stringify(wishlist));
+      return setWishlist([property]);
+    } else {
+          const isExxist = existingWislist?.find(
+            (item: any) => item.id === property.id
+          );
+          console.log(isExxist, "rersrsrsrsrsrsrsrsrsr");
+          if (isExxist) {
+            console.log("i dege already");
+            return;
+          }
+    }
+
+    setWishlist([...wishlist, property])
   };
 
   const handleIconPress = (index: number) => {
@@ -146,6 +200,9 @@ const Index = () => {
               placeholder="Any property or location"
               style={styles.inputbox}
               placeholderTextColor="#5f5f5f"
+              value=""
+              onChangeText={(newText) => searchHandler(newText)}
+              defaultValue={text}
             />
           </View>
           <Link href={"/search"} asChild>
@@ -320,7 +377,7 @@ const Index = () => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={toggleHeart}>
+                <TouchableOpacity onPress={() => toggleHeart(item)}>
                   <View
                     style={{
                       position: "absolute",
