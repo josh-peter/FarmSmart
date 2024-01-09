@@ -7,11 +7,23 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CustomMarker from "../../components/mapProps/customMarker";
 import ApartmentsListItem from "../../components/mapProps/ApartmentsListItem";
+import GrantAccessLocations from "../../components/common/modals/grantLocationAccess";
 
 export default function Explore() {
   const [selectedApartment, setSelectedApartment] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false);
+
+
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   const handleCloseNavigationApartment = () => {
-    setSelectedApartment(false);
+    setSelectedApartment(null);
   }
   return (
     <View style={styles.container}>
@@ -37,7 +49,7 @@ export default function Explore() {
       {selectedApartment && (
         <ApartmentsListItem
           apartment={selectedApartment}
-          handleCloseNavigationApartment={handleCloseNavigationApartment}
+          handleCloseNavigationApartment={() => handleCloseNavigationApartment()}
         />
       )}
       <View
@@ -85,6 +97,7 @@ export default function Explore() {
             />
           </View>
           <TouchableOpacity
+            onPress={openModal}
             style={{
               backgroundColor:"#fff",
               flexDirection: "column",
@@ -108,6 +121,7 @@ export default function Explore() {
           </TouchableOpacity>
         </View>
       </View>
+      <GrantAccessLocations modalVisible={modalVisible} closeModal={closeModal}/>
     </View>
   );
 }

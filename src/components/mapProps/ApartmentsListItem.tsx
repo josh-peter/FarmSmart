@@ -97,11 +97,13 @@ const ApartmentsListapartment = ({
           </Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.clearIcon}>
+      <TouchableOpacity
+        onPress={() => handleCloseNavigationApartment()}
+        style={styles.clearIcon}
+      >
         <MaterialIcons name="clear" size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={handleCloseNavigationApartment}
         style={{
           backgroundColor: "#fff",
           position: "absolute",

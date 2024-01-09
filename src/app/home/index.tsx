@@ -70,7 +70,8 @@ const Index = () => {
     let existingWislist = wishlist
     if (!existingWislist) {
       existingWislist = [property];
-          await AsyncStorage.setItem("@wishlist", JSON.stringify(wishlist));
+      await AsyncStorage.setItem("@wishlist", JSON.stringify(wishlist));
+      
       return setWishlist([property]);
     } else {
           const isExxist = existingWislist?.find(
@@ -132,41 +133,43 @@ const Index = () => {
           >
             Welcome, Daniel
           </Text>
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              position: "relative",
-              overflow: "hidden",
-              borderWidth: 1,
-              borderColor: "#E6E6E6",
-              width: 56,
-              height: 56,
-              borderRadius: 12,
-            }}
-          >
-            <View
+          <Link href={"/notification"} asChild>
+            <TouchableOpacity
               style={{
-                position: "absolute",
-                top: RFValue(9),
-                left: RFValue(23),
-                borderRadius: 30,
-                width: 10,
-                height: 10,
-                backgroundColor: "#F71313",
-                zIndex: 999,
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+                overflow: "hidden",
+                borderWidth: 1,
+                borderColor: "#E6E6E6",
+                width: 56,
+                height: 56,
+                borderRadius: 12,
               }}
-            />
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/notification.png")}
-              style={{
-                height: RFValue(28),
-                width: RFValue(28),
-              }}
-            />
-          </View>
+            >
+              <View
+                style={{
+                  position: "absolute",
+                  top: RFValue(9),
+                  left: RFValue(23),
+                  borderRadius: 30,
+                  width: 10,
+                  height: 10,
+                  backgroundColor: "#F71313",
+                  zIndex: 999,
+                }}
+              />
+              <Image
+                resizeMode="contain"
+                source={require("../../assets/images/notification.png")}
+                style={{
+                  height: RFValue(28),
+                  width: RFValue(28),
+                }}
+              />
+            </TouchableOpacity>
+          </Link>
         </View>
         <View
           style={{
