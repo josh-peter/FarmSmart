@@ -25,6 +25,7 @@ const Home = () => {
       "outfit-thin": require("../assets/fonts/Outfit-Thin.ttf"),
       "plusjakarta-regular": require("../assets/fonts/PlusJakartaSans-Regular.ttf"),
       "plusjakarta-semibold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
+      "plusjakarta-bold": require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
     });
 
     const onLayoutRootView = useCallback(async () => {

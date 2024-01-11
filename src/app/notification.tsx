@@ -1,33 +1,51 @@
-import { View, Text, Animated, Dimensions, Image, TouchableOpacity, StyleSheet, Platform } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  Animated,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
-import { Link, Stack } from 'expo-router';
-import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
-import { AntDesign, Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { RFValue } from 'react-native-responsive-fontsize';
- const { width, height } = Dimensions.get("window");
+import { Link, Stack } from "expo-router";
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from "react-native-responsive-dimensions";
+import {
+  AntDesign,
+  Feather,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import { RFValue } from "react-native-responsive-fontsize";
+import NotificationComponents from "../components/notificationsComps/notification";
+import MessagesComp from "../components/notificationsComps/messagesComp";
+const { width, height } = Dimensions.get("window");
 
 export default function Notification() {
-   
+  const fade = useRef(new Animated.Value(0)).current;
+  const [index, setIndex] = useState(0);
+  const [isLoading, setLoading] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
-      const fade = useRef(new Animated.Value(0)).current;
-      const [index, setIndex] = useState(1);
-      const [isLoading, setLoading] = useState(false);
-      const [expanded, setExpanded] = useState(false);
+  const animation = () => {
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  };
 
-      const animation = () => {
-        Animated.timing(fade, {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-        }).start();
-      };
+  useEffect(() => {
+    animation();
+  }, []);
 
-      useEffect(() => {
-        animation();
-      }, []);
-    
-    
   return (
     <>
       <Stack.Screen
@@ -83,7 +101,14 @@ export default function Notification() {
               Notification
             </Text>
             <TouchableOpacity style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={24} color="black" />
+              <Image
+                resizeMode="contain"
+                source={require("../assets/images/arrow-left.png")}
+                style={{
+                  height: RFValue(22),
+                  width: RFValue(22),
+                }}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -98,24 +123,64 @@ export default function Notification() {
           indicatorStyle={{
             backgroundColor: "#06782F",
             height: 3,
-                  }}
-                  variant='default'
+          }}
+          variant="default"
         >
           <Tab.Item
             title="Notifications"
-            titleStyle={{ fontSize: 15, color: "#06782F" }}
+            titleStyle={{
+              fontSize: 15,
+              color: index === 0 ? "#06782F" : "black",
+            }}
+            icon={
+              <Image
+                resizeMode="contain"
+                source={require("../assets/images/notify.png")}
+                style={{
+                  height: RFValue(7),
+                  width: RFValue(7),
+                  position: "absolute",
+                  left: RFValue(37),
+                  top: RFValue(14),
+                  zIndex: 999,
+                }}
+              />
+            }
           />
+
           <Tab.Item
             title="Messages"
-            titleStyle={{ fontSize: 15, color: "#06782F" }}
+            titleStyle={{
+              fontSize: 15,
+              color: index === 1 ? "#06782F" : "black",
+            }}
+            icon={
+              <Image
+                resizeMode="contain"
+                source={require("../assets/images/notify.png")}
+                style={{
+                  height: RFValue(7),
+                  width: RFValue(7),
+                  position: "absolute",
+                  right: RFValue(45),
+                  top: RFValue(15),
+                }}
+              />
+            }
           />
         </Tab>
         <TabView value={index} onChange={setIndex} animationType="spring">
-          <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
-            <Text>Recent</Text>
+          <TabView.Item
+            style={{ backgroundColor: "white", width: "100%", height: "100%" }}
+          >
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <NotificationComponents />
+            </ScrollView>
           </TabView.Item>
           <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
-            <Text>Favorite</Text>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <MessagesComp />
+            </ScrollView>
           </TabView.Item>
         </TabView>
       </Animated.View>
@@ -197,8 +262,11 @@ const styles = StyleSheet.create({
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),
-    borderRadius: 50,
+    borderRadius:10,
     position: "absolute",
-    left: RFValue(15),
+      left: RFValue(15),
+      borderWidth: 1,
+    borderColor:"#e5e5e5"
   },
+
 });

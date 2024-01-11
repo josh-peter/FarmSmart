@@ -105,7 +105,7 @@ export default function Search() {
           marginTop: RFValue(23),
         }}
       >
-        <Link href={"/home"} asChild>
+        <Link href={"/home/"} asChild>
           <TouchableOpacity
             style={{
               flexDirection: "column",
