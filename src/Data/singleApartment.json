@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "latitude": 9.05785,
+    "longitude": 7.49508,
+      "price": "₦1,500,000",
+        "rent": "yearly",
+    "title": "3 Bedroom Flat",
+    "location": "Uyo Aka road, Akwa Ibom, Nigeria",
+    "type": "Sale",
+    "image": "../assets/images/mapimg.png",
+    "pinpoint":"../assets/images/pinpoint.png"
+  }
+]

@@ -30,9 +30,6 @@ const { width, height } = Dimensions.get("window");
 
 export default function ChatBox() {
   const fade = useRef(new Animated.Value(0)).current;
-  const [index, setIndex] = useState(0);
-  const [isLoading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState(false);
 
   const animation = () => {
     Animated.timing(fade, {

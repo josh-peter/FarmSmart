@@ -346,7 +346,8 @@ const Index = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{}}
           renderItem={({ item }) => (
-            <Animated.View
+            <TouchableOpacity
+              onPress={()=> router.push("/property-details")}
               style={{
                 marginBottom: RFValue(20),
               }}
@@ -587,7 +588,7 @@ const Index = () => {
                   }}
                 />
               </View>
-            </Animated.View>
+            </TouchableOpacity>
           )}
         />
       </View>

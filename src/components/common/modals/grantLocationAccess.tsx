@@ -25,8 +25,6 @@ interface Props {
 }
 
 export default function GrantAccessLocations({ modalVisible, closeModal }) {
-
-
   return (
     <Modal
       isVisible={modalVisible}
@@ -48,14 +46,11 @@ export default function GrantAccessLocations({ modalVisible, closeModal }) {
         style={{
           backgroundColor: "#fff",
           paddingHorizontal: RFValue(25),
-                  paddingVertical: RFValue(45),
-          borderRadius:10
+          paddingVertical: RFValue(45),
+          borderRadius: 10,
         }}
       >
-              <TouchableOpacity
-                  onPress={closeModal}
-          style={styles.clearIcon}
-        >
+        <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
           <MaterialIcons name="clear" size={24} color="black" />
         </TouchableOpacity>
         <Text
@@ -63,8 +58,8 @@ export default function GrantAccessLocations({ modalVisible, closeModal }) {
             fontFamily: "outfit-bold",
             fontSize: RFValue(22),
             textAlign: "center",
-                      lineHeight: RFValue(30.25),
-            marginTop: RFValue(20)
+            lineHeight: RFValue(30.25),
+            marginTop: RFValue(20),
           }}
         >
           Grant Location Access
