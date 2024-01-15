@@ -103,30 +103,6 @@ export default function Similarlisting() {
                 overflow: "hidden",
               }}
             >
-              <TouchableOpacity>
-                <View
-                  style={{
-                    position: "absolute",
-                    top: RFValue(28),
-                    left: RFValue(22),
-                    paddingVertical: RFValue(8),
-                    paddingHorizontal: RFValue(22),
-                    backgroundColor: "#ECFFF452",
-                    borderRadius: 12,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: RFValue(13),
-                      fontFamily: "outfit-bold",
-                      color: "#06782F",
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
               <Image
                 resizeMode="cover"
                 source={item.img}

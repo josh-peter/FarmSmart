@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -93,9 +94,9 @@ export default function PropertyCarouselImages() {
           />
         </TouchableOpacity>
       </View>
-          <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           flexDirection: "row",
           flexWrap: "wrap",
@@ -151,28 +152,33 @@ export default function PropertyCarouselImages() {
             }}
           />
         </TouchableOpacity>
-        <View
+      </ScrollView>
+      <TouchableOpacity
+        onPress={()=>router.push("/property-images")}
+        style={{
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems:"center",
+          position: "absolute",
+          top: RFValue(310),
+          right: RFValue(10),
+          borderRadius: 50,
+          backgroundColor: "#ECFFF452",
+          zIndex: 999,
+          width: RFValue(40),
+          height: RFValue(40),
+        }}
+      >
+        <Text
           style={{
-            position: "absolute",
-            top: RFValue(10),
-            right: RFValue(300),
-            borderRadius: 50,
-            backgroundColor: "#ECFFF452",
-            zIndex: 999,
-            padding: RFValue(10),
+            fontSize: RFValue(14),
+            fontFamily: "outfit-bold",
+            color: "#fff",
           }}
         >
-          <Text
-            style={{
-              fontSize: RFValue(14),
-              fontFamily: "outfit-bold",
-              color: "#fff",
-            }}
-          >
-            +20
-          </Text>
-        </View>
-      </ScrollView>
+          +20
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

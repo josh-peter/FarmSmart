@@ -22,10 +22,22 @@ import CustomMarker from "../mapProps/customMarker";
 import ApartmentsListItem from "../mapProps/ApartmentsListItem";
 import Singleapartment from "../../Data/singleApartment.json";
 import { reviewsData } from "../../Data/reviewsData";
+import FeaturesAndAmenities from "../common/modals/featuresAndAmenities";
 
 export default function PropertyFeatureComp() {
   const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(1);
+    const [selectedApartment, setSelectedApartment] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const openModal = () => {
+      setModalVisible(true);
+    };
+
+    const closeModal = () => {
+      setModalVisible(false);
+    };
+
 
   const animation = () => {
     Animated.timing(fade, {
@@ -62,22 +74,14 @@ export default function PropertyFeatureComp() {
     },
   ];
 
-  const [selectedApartment, setSelectedApartment] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-  const handleCloseNavigationApartment = () => {
-    setSelectedApartment(null);
-  };
 
   return (
-    <View>
+    <View
+      style={{
+        height: RFValue(570),
+        marginTop: RFValue(-110),
+      }}
+    >
       <View
         style={{
           paddingHorizontal: RFValue(20),
@@ -233,7 +237,7 @@ export default function PropertyFeatureComp() {
               </View>
             ))}
           </ScrollView>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openModal}>
             <Text
               style={{
                 fontSize: RFValue(16),
@@ -290,11 +294,12 @@ export default function PropertyFeatureComp() {
           <View style={{}}>
             <View>
               <Image
-                resizeMode="contain"
+                resizeMode="cover"
                 source={require("../../assets/images/videobg.png")}
                 style={{
                   width: "100%",
-                  height: RFValue(200),
+                  height: RFValue(230),
+                  borderRadius: 20,
                 }}
               />
               <Image
@@ -320,360 +325,127 @@ export default function PropertyFeatureComp() {
                   right: 10,
                 }}
               />
-              <View
-                style={{
-                  height: height,
-                }}
-              >
+            </View>
+          </View>
+        </TabView.Item>
+        <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
+          <View>
+            <View
+              style={{
+                marginTop: RFValue(15),
+                paddingHorizontal: RFValue(20),
+              }}
+            >
+              <View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: RFValue(16),
+                      fontFamily: "outfit-regular",
+                      color: "#414141",
+                      lineHeight: RFValue(25),
+                    }}
+                  >
+                    Swipe to see more
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: RFValue(16),
+                      fontFamily: "outfit-regular",
+                      color: "#414141",
+                      lineHeight: RFValue(25),
+                    }}
+                  >
+                    1/4
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.indicator,
+                      {
+                        backgroundColor: "#06782F",
+                      },
+                    ]}
+                  />
+                  <View
+                    style={[
+                      styles.indicator,
+                      {
+                        backgroundColor: "#06782F",
+                      },
+                    ]}
+                  />
+                  <View
+                    style={[
+                      styles.indicator,
+                      {
+                        backgroundColor: "#06782F",
+                      },
+                    ]}
+                  />
+                  <View
+                    style={[
+                      styles.indicator,
+                      {
+                        backgroundColor: "#06782F",
+                      },
+                    ]}
+                  />
+                </View>
                 <Text
                   style={{
                     fontSize: RFValue(16),
                     fontFamily: "outfit-bold",
                     color: "#161917",
                     lineHeight: RFValue(40),
-                    marginTop: RFValue(30),
                   }}
                 >
-                  About apartment
+                  Sitting room
                 </Text>
-                <Text
+              </View>
+              <View>
+                <Image
+                  resizeMode="contain"
+                  source={require("../../assets/images/videobg.png")}
                   style={{
-                    fontSize: RFValue(14),
-                    fontFamily: "outfit-regular",
-                    color: "#414141",
+                    width: "100%",
+                    height: RFValue(200),
                   }}
-                >
-                  Welcome to this charming two-bedroom apartment nestled in a
-                  peaceful residential neighborhood. This spacious and bright
-                  apartment offers a comfortable
-                </Text>
-                <TouchableOpacity>
-                  <Text
-                    style={{
-                      fontSize: RFValue(16),
-                      fontFamily: "outfit-regular",
-                      color: "#06782F",
-                      lineHeight: RFValue(40),
-                    }}
-                  >
-                    See all details
-                  </Text>
-                </TouchableOpacity>
-                <View style={{}}>
-                  <Text
-                    style={{
-                      fontSize: RFValue(16),
-                      fontFamily: "outfit-bold",
-                      color: "#161917",
-                      lineHeight: RFValue(30),
-                      marginTop: RFValue(20),
-                    }}
-                  >
-                    Apartment Rules
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: RFValue(14),
-                      fontFamily: "outfit-regular",
-                      color: "#414141",
-                      lineHeight: RFValue(30),
-                    }}
-                  >
-                    Check-In From: 9am-10pm
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: RFValue(14),
-                      fontFamily: "outfit-regular",
-                      color: "#414141",
-                    }}
-                  >
-                    Check-out before: 9am
-                  </Text>
-                  <TouchableOpacity>
-                    <Text
-                      style={{
-                        fontSize: RFValue(16),
-                        fontFamily: "outfit-regular",
-                        color: "#06782F",
-                        lineHeight: RFValue(40),
-                      }}
-                    >
-                      See all details
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={{}}>
-                  <Text
-                    style={{
-                      fontSize: RFValue(16),
-                      fontFamily: "outfit-bold",
-                      color: "#161917",
-                      lineHeight: RFValue(30),
-                      marginTop: RFValue(20),
-                    }}
-                  >
-                    Location
-                  </Text>
-
-                  <View
-                    style={{
-                      borderWidth: 1,
-                      borderColor: "#E6E6E6",
-                      padding: 20,
-                      borderRadius: 20,
-                    }}
-                  >
-                    <View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          gap: 5,
-                          alignItems: "center",
-                          marginTop: RFValue(3),
-                        }}
-                      >
-                        <Image
-                          resizeMode="contain"
-                          source={require("../../assets/images/location.png")}
-                          style={{
-                            width: RFValue(20),
-                            height: RFValue(20),
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: RFValue(13),
-                            fontFamily: "plusjakarta-regular",
-                            color: "#414141",
-                          }}
-                        >
-                          Lekki phase 1, Lagos, Nigeria
-                        </Text>
-                      </View>
-                      {/* <MapView
-                        style={styles.map}
-                        provider="google"
-                        initialRegion={{
-                          latitude: 9.05785,
-                          longitude: 7.49508,
-                          latitudeDelta: 10.0,
-                          longitudeDelta: 10.0,
-                        }}
-                      >
-                        {Singleapartment.map((apartment) => (
-                          <CustomMarker
-                            key={apartment.id}
-                            apartment={apartment}
-                            onPress={() => setSelectedApartment(apartment)}
-                          />
-                        ))}
-                      </MapView> */}
-                    </View>
-                    <TouchableOpacity
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: 10,
-                        backgroundColor: "#ECFFF4",
-                        padding: Platform.OS === "ios" ? 18 : 17,
-                        borderRadius: 10,
-                        marginTop: RFValue(10),
-                      }}
-                    >
-                      <Image
-                        resizeMode="contain"
-                        source={require("../../assets/images/direction.png")}
-                        style={{
-                          width: RFValue(20),
-                          height: RFValue(20),
-                        }}
-                      />
-                      <Text
-                        style={{
-                          fontSize: RFValue(16),
-                          fontFamily: "outfit-regular",
-                          color: "#06782F",
-                        }}
-                      >
-                        Get Direction
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      fontSize: RFValue(16),
-                      fontFamily: "outfit-bold",
-                      color: "#161917",
-                      lineHeight: RFValue(30),
-                      marginTop: RFValue(20),
-                    }}
-                  >
-                    About Host
-                  </Text>
-                  <View>
-                    <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/agentprofile.png")}
-                      style={{
-                        height: RFValue(75),
-                        width: RFValue(65),
-                      }}
-                    />
-                    <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/tag.png")}
-                      style={{
-                        height: RFValue(45),
-                        width: RFValue(45),
-                        position: "absolute",
-                        top: 50,
-                        left: 10,
-                        right: 0,
-                      }}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: RFValue(13),
-                        fontFamily: "outfit-bold",
-                        color: "#161917",
-                        lineHeight: RFValue(30),
-                        marginTop: RFValue(5),
-                      }}
-                    >
-                      Angella Okoro
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 3,
-                      }}
-                    >
-                      <Image
-                        resizeMode="contain"
-                        source={require("../../assets/images/icon-star.png")}
-                        style={{
-                          height: RFValue(20),
-                          width: RFValue(20),
-                        }}
-                      />
-                      <Text
-                        style={{
-                          fontSize: RFValue(12),
-                          fontFamily: "outfit-regular",
-                          color: "#414141",
-                        }}
-                      >
-                        5.0
-                      </Text>
-                    </View>
-                  </View>
-                  <Text
-                    style={{
-                      fontSize: RFValue(14),
-                      fontFamily: "outfit-regular",
-                      color: "#414141",
-                    }}
-                  >
-                    I am a realtor with over 2 years in real estates, I have
-                    sold over ₦400M property and I have helped client find their
-                    dream homes.
-                  </Text>
-                </View>
-                <View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 4,
-                      marginTop: RFValue(8),
-                    }}
-                  >
-                    <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/square.png")}
-                      style={{
-                        height: RFValue(20),
-                        width: RFValue(20),
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: RFValue(14),
-                        fontFamily: "outfit-regular",
-                        color: "#414141",
-                      }}
-                    >
-                      English, Yoruba and Ibibio
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 4,
-                      marginTop: RFValue(8),
-                    }}
-                  >
-                    <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/location.png")}
-                      style={{
-                        height: RFValue(20),
-                        width: RFValue(20),
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: RFValue(14),
-                        fontFamily: "outfit-regular",
-                        color: "#414141",
-                      }}
-                    >
-                      Lagos, Nigeria
-                    </Text>
-                  </View>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#ECFFF4",
-                      padding: Platform.OS === "ios" ? 18 : 17,
-                      borderRadius: 10,
-                      marginTop: RFValue(15),
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: RFValue(16),
-                        fontFamily: "outfit-regular",
-                        color: "#06782F",
-                        textAlign: "center",
-                      }}
-                    >
-                      Book appointment
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                />
+                <Image
+                  resizeMode="contain"
+                  source={require("../../assets/images/play.png")}
+                  style={{
+                    width: RFValue(50),
+                    height: RFValue(50),
+                    position: "absolute",
+                    top: RFValue(70),
+                    right: 0,
+                    left: RFValue(130),
+                  }}
+                />
               </View>
             </View>
           </View>
         </TabView.Item>
-        <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
-          <View></View>
-        </TabView.Item>
       </TabView>
-     
+      <FeaturesAndAmenities
+        modalVisible={modalVisible}
+        closeModal={closeModal}
+      />
     </View>
   );
 }
@@ -684,5 +456,12 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 30,
     marginTop: RFValue(10),
+  },
+  indicator: {
+    height: RFValue(3),
+    width: RFValue(68),
+    backgroundColor: "#d9d9d9",
+    marginHorizontal: RFValue(2),
+    marginTop: RFValue(0),
   },
 });

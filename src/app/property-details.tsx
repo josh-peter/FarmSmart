@@ -19,6 +19,7 @@ import {
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import Similarlisting from "../components/propertyDetailsProps/similarListing";
+import AboutProperty from "../components/propertyDetailsProps/aboutProperty";
 const { width, height } = Dimensions.get("window");
 
 export default function PropertyDetails() {
@@ -73,6 +74,7 @@ export default function PropertyDetails() {
         showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
+          height:height,
           width: width,
           backgroundColor: "#fff",
           position: "relative",
@@ -89,13 +91,11 @@ export default function PropertyDetails() {
       >
         <PropertyCarouselImages />
         <View
-          style={{
-            height: RFValue(1370),
-            marginTop: RFValue(-110),
-          }}
+         
         >
           <PropertyFeatureComp />
         </View>
+        <AboutProperty/>
         <View>
           <HostReviews />
         </View>

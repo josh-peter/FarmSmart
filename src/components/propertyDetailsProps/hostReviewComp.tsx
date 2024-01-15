@@ -1,5 +1,5 @@
 import { reviewsData } from "../../Data/reviewsData";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,11 +10,21 @@ import {
   ScrollView
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import AgentReviews from "../common/modals/agentRviews";
 const { width, height } = Dimensions.get("window");
 
 export default function HostReviews() {
+      const [modalVisible, setModalVisible] = useState(false);
+
+      const openModal = () => {
+        setModalVisible(true);
+      };
+
+      const closeModal = () => {
+        setModalVisible(false);
+      };
   return (
-    <View>
+    <View style={{}}>
       <View
         style={{
           paddingHorizontal: RFValue(20),
@@ -33,12 +43,11 @@ export default function HostReviews() {
         </Text>
         <ScrollView
           horizontal
-         
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
-              flexDirection: "row",
-              gap:30,
-              alignItems:"center"
+            flexDirection: "row",
+            gap: 30,
+            alignItems: "center",
           }}
         >
           {reviewsData?.map((review) => (
@@ -143,20 +152,20 @@ export default function HostReviews() {
           ))}
         </ScrollView>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openModal}>
           <Text
             style={{
               fontSize: RFValue(16),
               fontFamily: "outfit-regular",
               color: "#06782F",
-                          lineHeight: RFValue(30),
-
+              lineHeight: RFValue(30),
             }}
           >
             See all 40 reviews
           </Text>
         </TouchableOpacity>
       </View>
+      <AgentReviews modalVisible={modalVisible} closeModal={closeModal} />
     </View>
   );
 }
