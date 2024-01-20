@@ -14,7 +14,10 @@ import { TouchableOpacity } from "react-native";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { RFValue } from "react-native-responsive-fontsize";
 import Modal from "react-native-modal";
-import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from "react-native-responsive-dimensions";
 
 const { width, height } = Dimensions.get("window");
 
@@ -82,7 +85,12 @@ const ExploringAi = () => {
           height: responsiveScreenHeight(10),
         }}
       >
-        <TouchableOpacity style={styles.clearIcon}>
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(false);
+          }}
+          style={styles.clearIcon}
+        >
           <Image
             resizeMode="contain"
             source={require("../assets/images/arrow-left.png")}
@@ -139,12 +147,12 @@ const ExploringAi = () => {
               justifyContent: "space-between",
               backgroundColor: "#fafafa",
               width: responsiveScreenWidth(100),
-                          height: responsiveScreenHeight(10),
-                          position: "absolute",
-                                        top: responsiveScreenHeight(0),
+              height: responsiveScreenHeight(10),
+              position: "absolute",
+              top: responsiveScreenHeight(0),
             }}
           >
-            <TouchableOpacity style={styles.clearIcon}>
+            <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/arrow-left.png")}
@@ -177,7 +185,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flexWrap: "wrap",
     alignContent: "center",
-    
   },
   image: {
     width: RFValue(164),

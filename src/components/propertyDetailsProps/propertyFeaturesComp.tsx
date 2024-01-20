@@ -23,6 +23,8 @@ import ApartmentsListItem from "../mapProps/ApartmentsListItem";
 import Singleapartment from "../../Data/singleApartment.json";
 import { reviewsData } from "../../Data/reviewsData";
 import FeaturesAndAmenities from "../common/modals/featuresAndAmenities";
+import PropertyVideoPlay from "../common/modals/propertyVideoPlay";
+import ThreeDTourModal from "../common/modals/ThirddTourModal";
 
 export default function PropertyFeatureComp() {
   const fade = useRef(new Animated.Value(0)).current;
@@ -36,6 +38,25 @@ export default function PropertyFeatureComp() {
 
     const closeModal = () => {
       setModalVisible(false);
+    };
+
+  const [modalVideoVisible, setModalVideoVisible] = useState(false);
+  const [modalTourVisible, setModalTourVisible] = useState(false);
+
+  const openVideoModal = () => {
+    setModalVideoVisible(true);
+  };
+
+  const closeVideoModal = () => {
+    setModalVideoVisible(false);
+  };
+
+    const openTourModal = () => {
+      setModalTourVisible(true);
+    };
+
+    const closeTourModal = () => {
+      setModalTourVisible(false);
     };
 
 
@@ -302,18 +323,25 @@ export default function PropertyFeatureComp() {
                   borderRadius: 20,
                 }}
               />
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/play.png")}
+              <TouchableOpacity
+                onPress={openVideoModal}
                 style={{
-                  width: RFValue(50),
-                  height: RFValue(50),
                   position: "absolute",
                   top: RFValue(70),
                   right: 0,
-                  left: 140,
+                  left: RFValue(130),
                 }}
-              />
+              >
+                <Image
+                  resizeMode="contain"
+                  source={require("../../assets/images/play.png")}
+                  style={{
+                    width: RFValue(50),
+                    height: RFValue(50),
+                  }}
+                />
+              </TouchableOpacity>
+
               <Image
                 resizeMode="contain"
                 source={require("../../assets/images/fullview.png")}
@@ -425,18 +453,24 @@ export default function PropertyFeatureComp() {
                     height: RFValue(200),
                   }}
                 />
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/play.png")}
+                <TouchableOpacity
+                  onPress={openTourModal}
                   style={{
-                    width: RFValue(50),
-                    height: RFValue(50),
                     position: "absolute",
                     top: RFValue(70),
                     right: 0,
                     left: RFValue(130),
                   }}
-                />
+                >
+                  <Image
+                    resizeMode="contain"
+                    source={require("../../assets/images/play.png")}
+                    style={{
+                      width: RFValue(50),
+                      height: RFValue(50),
+                    }}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -445,6 +479,14 @@ export default function PropertyFeatureComp() {
       <FeaturesAndAmenities
         modalVisible={modalVisible}
         closeModal={closeModal}
+      />
+      <PropertyVideoPlay
+        modalVideoVisible={modalVideoVisible}
+        closeVideoModal={closeVideoModal}
+      />
+      <ThreeDTourModal
+        modalTourVisible={modalTourVisible}
+        closeTourModal={closeTourModal}
       />
     </View>
   );

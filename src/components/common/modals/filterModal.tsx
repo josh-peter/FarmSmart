@@ -325,6 +325,9 @@ export default function FilterModal({ modalVisible, closeModal }: Props) {
               </Text>
             </View>
             <View>
+              
+            </View>
+            <View>
               <Text
                 style={{
                   fontSize: RFValue(16),

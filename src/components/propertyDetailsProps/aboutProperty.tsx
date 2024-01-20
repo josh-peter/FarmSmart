@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import AboutPropertyModal from '../common/modals/aboutPropertyModal';
+import BookAppointmentModal from '../common/modals/bookAppointmentModal';
 const { width, height } = Dimensions.get("window");
 
 export default function AboutProperty() {
       const [modalVisible, setModalVisible] = useState(false);
+      const [modalIsVisible, setModalIsVisible] = useState(false);
 
       const openModal = () => {
         setModalVisible(true);
@@ -13,7 +15,15 @@ export default function AboutProperty() {
 
       const closeModal = () => {
         setModalVisible(false);
-      };
+  };
+  
+       const openBookModal = () => {
+         setModalIsVisible(true);
+       };
+
+       const closeBookModal = () => {
+         setModalIsVisible(false);
+       };
   return (
     <View
       style={{
@@ -338,10 +348,11 @@ export default function AboutProperty() {
               color: "#414141",
             }}
           >
-            Lagos, Nigeria
+          Lagos, Nigeria
           </Text>
         </View>
         <TouchableOpacity
+          onPress={openBookModal}
           style={{
             backgroundColor: "#ECFFF4",
             padding: Platform.OS === "ios" ? 18 : 17,
@@ -362,6 +373,7 @@ export default function AboutProperty() {
         </TouchableOpacity>
       </View>
       <AboutPropertyModal modalVisible={modalVisible} closeModal={closeModal} />
+      <BookAppointmentModal modalIsVisible={modalIsVisible} closeBookModal={closeBookModal} />
     </View>
   );
 }
