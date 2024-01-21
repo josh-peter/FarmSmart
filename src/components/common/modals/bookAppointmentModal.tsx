@@ -17,10 +17,12 @@ import {
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import { StatusBar, setStatusBarHidden } from "expo-status-bar";
-import DatePicker from "react-native-modern-datepicker";
 import BookApartmentProps from "../../../components/propertyDetailsProps/bookApartmentProps";
 import { TextInput } from "react-native-paper";
 import Checkbox from "expo-checkbox";
+import CalendarComponent from "../../../components/bookAppointmentComps/calendarComp";
+import TimeComp from "../../../components/bookAppointmentComps/timeComp";
+import CreditCardComp from "../../../components/bookAppointmentComps/creditCardComp";
 
 interface Props {
   modalVideoVisible: boolean;
@@ -30,53 +32,10 @@ interface Props {
 export default function BookAppointmentModal({
   modalIsVisible,
   closeBookModal,
-}) {
-  const [selectedDate, setSelectedDate] = useState("");
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [isChecked, setChecked] = useState(false);
-  
-    const handleIconPress = (id: number) => {
-      setActiveIndex((prevIndex) => (prevIndex === id ? null : id));
-    };
+}:any) {
 
-  const timeData = [
-    {
-      id: 1,
-      value: "8am - 8:30am",
-    },
-    {
-      id: 2,
-      value: "9am - 9:30am",
-    },
-    {
-      id: 3,
-      value: "10am - 11:30am",
-    },
-    {
-      id: 4,
-      value: "11:50am - 1:00pm",
-    },
-    {
-      id: 5,
-      value: "1:30pm - 2:30pm",
-    },
-    {
-      id: 6,
-      value: "3pm - 3:30pm",
-    },
-    {
-      id: 7,
-      value: "4pm - 4:30pm",
-    },
-    {
-      id: 8,
-      value: "5pm - 5:30pm",
-    },
-    {
-      id: 9,
-      value: "6pm - 6:30pm",
-    },
-  ];
+  const [appointmentDate, setAppointmentDate] = useState('')
+  const [appointmentTime, setAppointmentTime] = useState('')
 
   return (
     <>
@@ -135,238 +94,43 @@ export default function BookAppointmentModal({
               </TouchableOpacity>
             </View>
             <ScrollView
+              showsVerticalScrollIndicator={false}
               contentContainerStyle={{
-                height: RFValue(5000),
+                height: RFValue(640),
               }}
             >
-              <BookApartmentProps />
+              <BookApartmentProps
+                appointmentTime={appointmentTime}
+                appointmentDate={appointmentDate}
+              />
               <View
                 style={{
                   paddingHorizontal: RFValue(20),
-                  marginTop: RFValue(20),
                 }}
               >
-                <ScrollView>
-
-                </ScrollView>
-                <View
-                  style={{
-                    marginTop: RFValue(10),
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: RFValue(18),
-                      fontFamily: "outfit-bold",
-                      color: "#161917",
-                      lineHeight: RFValue(40),
-                    }}
-                  >
-                    Choose a day
-                  </Text>
-                  <DatePicker
-                    onSelectedChange={(date) => setSelectedDate(date)}
-                    mode="calendar"
-                    options={{
-                      locale: "en-US",
-                      format: "MMM DD YYYY HH:mm A",
-                      backgroundColor: "#fafafa",
-                      mainColor: "#06782F",
-                    }}
-                    style={{
-                      borderRadius: 10,
-                    }}
-                  />
-                </View>
-
-                <View
-                  style={{
-                    marginTop: RFValue(20),
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: RFValue(18),
-                      fontFamily: "outfit-bold",
-                      color: "#161917",
-                      lineHeight: RFValue(40),
-                    }}
-                  >
-                    Choose time
-                  </Text>
-                  <View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        gap: RFValue(5),
-                        alignItems: "center",
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      {timeData?.map((time) => (
-                        <TouchableOpacity
-                          onPress={() => handleIconPress(time.id)}
-                          key={time.id}
-                          style={{
-                            backgroundColor:
-                              activeIndex === time.id ? "#06782F" : "#ECFFF4",
-                            padding: RFValue(10),
-                            borderRadius: 20,
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: RFValue(11),
-                              fontFamily: "outfit-medium",
-                              color:
-                                activeIndex === time.id ? "#fff" : "#06782F",
-                            }}
-                          >
-                            {time.value}
-                          </Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    marginTop: RFValue(20),
-                  }}
-                >
-                  <View
-                    style={{
-                      backgroundColor: "#FAFAFA",
-                      padding: RFValue(10),
-                      borderRadius: 15,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: RFValue(18),
-                        fontFamily: "outfit-bold",
-                        color: "#161917",
-                        lineHeight: RFValue(30),
-                      }}
-                    >
-                      Pay with card
-                    </Text>
-                    <View
-                      style={{
-                        marginTop: RFValue(10),
-                      }}
-                    >
-                      <TextInput
-                        placeholder="Card number"
-                        keyboardType="numeric"
-                        placeholderTextColor={"#808080"}
-                        returnKeyType="done"
-                        secureTextEntry
-                        style={{
-                          backgroundColor: "#F2F2F2",
-                          paddingLeft: RFValue(32),
-                        }}
-                        underlineColor="transparent"
-                        activeUnderlineColor="transparent"
-                      />
-                      <TouchableOpacity style={styles.eyeIcon}>
-                        <Image
-                          resizeMode="contain"
-                          source={require("../../../assets/images/card.png")}
-                          style={{
-                            width: RFValue(30),
-                            height: RFValue(30),
-                          }}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.arrowIcon}>
-                        <Image
-                          resizeMode="contain"
-                          source={require("../../../assets/images/regularright.png")}
-                          style={{
-                            width: RFValue(20),
-                            height: RFValue(20),
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-
-                        marginTop: RFValue(15),
-                      }}
-                    >
-                      <TextInput
-                        placeholder="MM/YY"
-                        keyboardType="numeric"
-                        placeholderTextColor={"#808080"}
-                        returnKeyType="done"
-                        secureTextEntry
-                        style={{
-                          backgroundColor: "#F2F2F2",
-                          width: responsiveScreenWidth(38),
-                        }}
-                        underlineColor="transparent"
-                        activeUnderlineColor="transparent"
-                      />
-                      <TextInput
-                        placeholder="CVV"
-                        keyboardType="numeric"
-                        placeholderTextColor={"#808080"}
-                        returnKeyType="done"
-                        secureTextEntry
-                        style={{
-                          backgroundColor: "#F2F2F2",
-                          width: responsiveScreenWidth(38),
-                        }}
-                        underlineColor="transparent"
-                        activeUnderlineColor="transparent"
-                      />
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: RFValue(5),
-                        marginTop: RFValue(15),
-                      }}
-                    >
-                      <Checkbox
-                        style={{
-                          borderRadius: RFValue(4),
-                        }}
-                        value={isChecked}
-                        onValueChange={setChecked}
-                        color={isChecked ? "#06782F" : "#e1e1e1"}
-                      />
-                      <Text
-                        style={{
-                          fontSize: RFValue(12),
-                          fontFamily: "plusjakarta-regular",
-                        }}
-                      >
-                        Save my card
-                      </Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity
-                    disabled={!activeIndex}
-                    style={{
-                      backgroundColor: activeIndex ? "#06782F" : "#83bb97",
-                      padding: Platform.OS === "ios" ? 15 : 14,
-                      borderRadius: 10,
-                      marginTop: RFValue(30),
-                    }}
-                  >
-                    <Text style={styles.startText}>
-                      Book appointment for ₦1,500
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                {!appointmentDate && (
+                  <CalendarComponent setAppointmentDate={setAppointmentDate} />
+                )}
+                {appointmentDate && !appointmentTime && (
+                  <TimeComp setAppointmentTime={setAppointmentTime} />
+                )}
+                {appointmentTime && appointmentDate && <CreditCardComp />}
               </View>
+              <TouchableOpacity
+                disabled={!appointmentDate && !appointmentTime ? true : false}
+                style={{
+                  backgroundColor:
+                    appointmentDate && appointmentTime ? "#06782F" : "#83bb97",
+                  padding: Platform.OS === "ios" ? 15 : 14,
+                  borderRadius: 10,
+                  marginTop: RFValue(30),
+                  marginHorizontal: RFValue(15),
+                }}
+              >
+                <Text style={styles.startText}>
+                  Book appointment for ₦1,500
+                </Text>
+              </TouchableOpacity>
             </ScrollView>
           </View>
         </Modal>

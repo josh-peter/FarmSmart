@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-export default function BookApartmentProps() {
+export default function BookApartmentProps({ appointmentDate, appointmentTime }:any) {
   return (
     <View
       style={{
@@ -61,7 +61,8 @@ export default function BookApartmentProps() {
                 color: "#414141",
               }}
             >
-              Aug 23, 2023
+              {/* Aug 23, 2023 */}
+              {appointmentDate}
             </Text>
           </View>
           <View
@@ -88,7 +89,8 @@ export default function BookApartmentProps() {
                 color: "#414141",
               }}
             >
-              Aug 23, 2023
+              {/* Aug 23, 2023 */}
+              {appointmentTime}
             </Text>
           </View>
         </View>
@@ -245,42 +247,43 @@ export default function BookApartmentProps() {
           </View>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          overflow: "hidden",
-          gap: RFValue(6),
-          backgroundColor: "#F1F5FF",
-          paddingHorizontal: RFValue(12),
-          paddingVertical: RFValue(10),
-          marginTop: RFValue(5),
-          borderRadius: RFValue(8),
-        }}
-      >
-        <Image
-          resizeMode="contain"
-          source={require("../../assets/images/danger.png")}
+      {!appointmentDate && !appointmentTime && (
+        <View
           style={{
-            width: RFValue(20),
-            height: RFValue(20),
-          }}
-        />
-        <Text
-          style={{
-            fontSize: RFValue(12),
-            fontFamily: "plusjakarta-regular",
-            color: "#306AFF",
-            flexShrink: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            overflow: "hidden",
+            gap: RFValue(6),
+            backgroundColor: "#F1F5FF",
+            paddingHorizontal: RFValue(12),
+            paddingVertical: RFValue(10),
+            marginTop: RFValue(5),
+            borderRadius: RFValue(8),
           }}
         >
-          Please note that you will be charged a non-refundable fee of ₦1,500 to
-          book appointment with this agent, this helps us compensate for agents
-          time and also make sure only serious clients schedule an appointment.
-          Thank you for understanding!
-        </Text>
-
-      </View>
+          <Image
+            resizeMode="contain"
+            source={require("../../assets/images/danger.png")}
+            style={{
+              width: RFValue(20),
+              height: RFValue(20),
+            }}
+          />
+          <Text
+            style={{
+              fontSize: RFValue(12),
+              fontFamily: "plusjakarta-regular",
+              color: "#306AFF",
+              flexShrink: 1,
+            }}
+          >
+            Please note that you will be charged a non-refundable fee of ₦1,500
+            to book appointment with this agent, this helps us compensate for
+            agents time and also make sure only serious clients schedule an
+            appointment. Thank you for understanding!
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
