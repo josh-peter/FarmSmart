@@ -25,7 +25,7 @@ const ExploringAi = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const openModal = (image) => {
+  const openModal = (image: any) => {
     setSelectedImage(image);
     setModalVisible(true);
   };

@@ -27,7 +27,7 @@ export default function Layout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ focused }) => {

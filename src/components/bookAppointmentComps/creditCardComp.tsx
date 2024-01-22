@@ -1,13 +1,50 @@
 import Checkbox from 'expo-checkbox';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, TouchableOpacity,Image, Dimensions, Platform, StyleSheet } from 'react-native';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { TextInput } from "react-native-paper";
 
 export default function CreditCardComp() {
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
-      const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [showArrow, setShowArrow] = useState(false);
+  const [showCardImage, setShowCardImage] = useState(false);
+
+  const expiryInputRef = useRef<any>(null);
+  const cvvInputRef = useRef<any>(null);
+
+const handleCardNumberChange = (text: string) => {
+  const cleanedText = text.replace(/\D/g, "").substring(0, 16);
+  const formattedText = cleanedText.replace(/(.{4})/g, "$1 ").trim();
+  setCardNumber(formattedText);
+  setShowArrow(formattedText.length > 0);
+  setShowCardImage(formattedText.length >= 8);
+
+  if (formattedText.replace(/\s/g, "").length === 16) {
+    expiryInputRef.current?.focus();
+  }
+};
+
+const handleExpiryDateChange = (text: string) => {
+  const cleanedText = text.replace(/\D/g, "").substring(0, 4);
+  const formattedText =
+    cleanedText.length >= 3
+      ? cleanedText.substring(0, 2) + "/" + cleanedText.substring(2)
+      : cleanedText;
+  setExpiryDate(formattedText);
+  if (formattedText.length === 5) {
+    cvvInputRef.current?.focus();
+  }
+};
+
+const handleCvvChange = (text: string) => {
+  const formattedText = text.replace(/\D/g, "").substring(0, 3);
+  setCvv(formattedText);
+  };
+  
   return (
     <View>
       <View
@@ -46,29 +83,37 @@ export default function CreditCardComp() {
                 backgroundColor: "#F2F2F2",
                 paddingLeft: RFValue(32),
               }}
+              onChangeText={handleCardNumberChange}
+              value={cardNumber}
               underlineColor="transparent"
               activeUnderlineColor="transparent"
             />
             <TouchableOpacity style={styles.eyeIcon}>
               <Image
                 resizeMode="contain"
-                source={require("../../assets/images/card.png")}
+                source={
+                  showCardImage
+                    ? require("../../assets/images/Mastercard.png")
+                    : require("../../assets/images/card.png")
+                }
                 style={{
                   width: RFValue(30),
                   height: RFValue(30),
                 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.arrowIcon}>
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/regularright.png")}
-                style={{
-                  width: RFValue(20),
-                  height: RFValue(20),
-                }}
-              />
-            </TouchableOpacity>
+            {showArrow && (
+              <TouchableOpacity style={styles.arrowIcon}>
+                <Image
+                  resizeMode="contain"
+                  source={require("../../assets/images/regularright.png")}
+                  style={{
+                    width: RFValue(20),
+                    height: RFValue(20),
+                  }}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <View
             style={{
@@ -79,6 +124,7 @@ export default function CreditCardComp() {
             }}
           >
             <TextInput
+              ref={expiryInputRef}
               placeholder="MM/YY"
               keyboardType="numeric"
               placeholderTextColor={"#808080"}
@@ -87,19 +133,23 @@ export default function CreditCardComp() {
                 backgroundColor: "#F2F2F2",
                 width: responsiveScreenWidth(38),
               }}
+              onChangeText={handleExpiryDateChange}
+              value={expiryDate}
               underlineColor="transparent"
               activeUnderlineColor="transparent"
             />
             <TextInput
+              ref={cvvInputRef}
               placeholder="CVV"
               keyboardType="numeric"
               placeholderTextColor={"#808080"}
               returnKeyType="done"
-             
               style={{
                 backgroundColor: "#F2F2F2",
                 width: responsiveScreenWidth(38),
               }}
+              onChangeText={handleCvvChange}
+              value={cvv}
               underlineColor="transparent"
               activeUnderlineColor="transparent"
             />

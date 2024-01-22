@@ -98,14 +98,12 @@ export default function PropertyCarouselImages() {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          overflow: "scroll",
           gap: 15,
           marginTop: RFValue(10),
           marginBottom: RFValue(-40),
           paddingHorizontal: RFValue(20),
           height: RFValue(220),
+          overflow:"hidden"
         }}
       >
         <TouchableOpacity style={{}}>

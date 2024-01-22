@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import AboutPropertyModal from '../common/modals/aboutPropertyModal';
-import BookAppointmentModal from '../common/modals/bookAppointmentModal';
+import { router } from 'expo-router';
 const { width, height } = Dimensions.get("window");
 
 export default function AboutProperty() {
@@ -352,7 +352,7 @@ export default function AboutProperty() {
           </Text>
         </View>
         <TouchableOpacity
-          onPress={openBookModal}
+          onPress={()=>router.push("/book-appointment")}
           style={{
             backgroundColor: "#ECFFF4",
             padding: Platform.OS === "ios" ? 18 : 17,
@@ -373,7 +373,6 @@ export default function AboutProperty() {
         </TouchableOpacity>
       </View>
       <AboutPropertyModal modalVisible={modalVisible} closeModal={closeModal} />
-      <BookAppointmentModal modalIsVisible={modalIsVisible} closeBookModal={closeBookModal} />
     </View>
   );
 }
