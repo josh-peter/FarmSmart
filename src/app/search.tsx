@@ -42,9 +42,6 @@ export default function Search() {
 
   // console.log(SearchParams(), "mem22");
 
-  
-  console.log( "th rrrrrr")
-
     const openModal = () => {
         setModalVisible(true)
     }
@@ -73,7 +70,6 @@ export default function Search() {
     const filteredProperties = PropertiesData.filter((property) => {
       return property.location.toLowerCase().includes(query.toLowerCase())  || property.name.toLowerCase().includes(query.toLowerCase())
     })
-    console.log(filteredProperties, "the filteredddddd")
     setPropertyResult(filteredProperties)
   }
 
@@ -105,7 +101,7 @@ export default function Search() {
           marginTop: RFValue(23),
         }}
       >
-        <Link href={"/home/"} asChild>
+        <Link href={"/home/home"} asChild>
           <TouchableOpacity
             style={{
               flexDirection: "column",

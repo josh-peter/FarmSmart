@@ -319,17 +319,6 @@ const styles = StyleSheet.create({
     fontFamily: "outfit-medium",
     textAlign: "center",
   },
-  videoSize: {
-    height: "100%",
-    width: "100%",
-  },
-  fullscreenContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    transform: [{ rotate: "0deg" }],
-    width: Dimensions.get("window").height,
-    height: Dimensions.get("window").width,
-  },
   bgtransparent: {
     marginTop: 0,
     flex: 1,

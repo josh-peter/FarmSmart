@@ -20,11 +20,21 @@ import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import Similarlisting from "../components/propertyDetailsProps/similarListing";
 import AboutProperty from "../components/propertyDetailsProps/aboutProperty";
+import SelectBookingDate from "../components/common/modals/selectBookingDate";
 const { width, height } = Dimensions.get("window");
 
 export default function PropertyDetails() {
   const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(1);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const openModal = () => {
+      setModalVisible(true);
+    };
+
+    const closeModal = () => {
+      setModalVisible(false);
+    };
 
   const animation = () => {
     Animated.timing(fade, {
@@ -74,7 +84,7 @@ export default function PropertyDetails() {
         showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
-          height:height,
+          height: height,
           width: width,
           backgroundColor: "#fff",
           position: "relative",
@@ -90,12 +100,10 @@ export default function PropertyDetails() {
         }}
       >
         <PropertyCarouselImages />
-        <View
-         
-        >
+        <View>
           <PropertyFeatureComp />
         </View>
-        <AboutProperty/>
+        <AboutProperty />
         <View>
           <HostReviews />
         </View>
@@ -105,14 +113,17 @@ export default function PropertyDetails() {
         <View>
           <Similarlisting />
         </View>
-        <View style={{
-          height:RFValue(100),
-          paddingHorizontal: RFValue(20),
-                    marginTop:(50)
-        }}>
+        <View
+          style={{
+            height: RFValue(100),
+            paddingHorizontal: RFValue(20),
+            marginTop: 50,
+          }}
+        >
           <TouchableOpacity
+            onPress={openModal}
             style={{
-              backgroundColor: "#ECFFF4",
+              backgroundColor: "#06782F",
               padding: Platform.OS === "ios" ? 18 : 17,
               borderRadius: 10,
               marginTop: RFValue(15),
@@ -122,15 +133,16 @@ export default function PropertyDetails() {
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-regular",
-                color: "#06782F",
+                color: "#fff",
                 textAlign: "center",
               }}
             >
-              Book appointment
+              Rent apartment
             </Text>
           </TouchableOpacity>
         </View>
       </Animated.ScrollView>
+      <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal}/>
     </>
   );
 }

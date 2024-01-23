@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { OnboardingData } from "../Data/onBoardingData";
 const { width, height } = Dimensions.get("window");
@@ -137,7 +137,7 @@ const updateCurrentSlide = (e: {
         </View>
       ) : (
         <View style={styles.skipBtn}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> router.push("/auth/login")}>
             <Text style={styles.skipText}>Skip</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.nextBtn} onPress={goToNextSlide}>

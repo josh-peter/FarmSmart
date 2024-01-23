@@ -65,7 +65,7 @@ export default function Morelist() {
       style={{
         height: RFValue(390),
         width: width,
-        paddingHorizontal: RFValue(20),
+
       }}
     >
       <Text

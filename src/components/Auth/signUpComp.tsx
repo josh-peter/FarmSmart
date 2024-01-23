@@ -36,10 +36,8 @@ export default function SignUpComp() {
   };
 
   const handleUserLogin = (values: any, setSubmitting: any) => {
-    console.warn(values, "the values hehehehehehehe");
     router.push("/auth/otpverification");
     setSubmitting(false);
-    console.log("Logging User In...");
   };
 
   return (

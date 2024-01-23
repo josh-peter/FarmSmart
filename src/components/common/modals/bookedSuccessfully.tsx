@@ -25,13 +25,10 @@ interface Props {
   closePopModal: () => void;
 }
 
-export default function PaymentSuccessful({
+export default function BookedSuccessfully({
   modalPopVisible,
   closePopModal,
-}:any) {
-
-
-
+}: any) {
   return (
     <View>
       <Modal
@@ -70,7 +67,6 @@ export default function PaymentSuccessful({
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              paddingHorizontal:RFValue(37)
             }}
           >
             <Image
@@ -89,7 +85,7 @@ export default function PaymentSuccessful({
                 lineHeight: RFValue(40),
               }}
             >
-              Payment successful
+              Successful
             </Text>
             <Text
               style={{
@@ -100,7 +96,11 @@ export default function PaymentSuccessful({
                 textAlign: "center",
               }}
             >
-              Your payment for an apartment was successful
+              Your appointment with{" "}
+              <Text style={{ fontFamily: "outfit-bold" }}>
+                Beatrice Jameswas
+              </Text>{" "}
+              successfully booked.
             </Text>
             <View
               style={{

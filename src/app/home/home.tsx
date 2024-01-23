@@ -29,11 +29,9 @@ const Index = () => {
   const [selectedType, setSelectedType] = useState<"Rental" | "Sales">("Rental");
   const [text, setText] = useState('')
   const [wishlist, setWishlist] = useState<any>()
-  console.log(text, "hsdhshshsh")
   // const wishList = await AsyncStorage.getItem('wishlist')
 
   const searchHandler = (value: string) => {
-    console.log(value, "hehehehehehe")
     if (value === '') return;
 
     // router.push(`/search`)
@@ -56,7 +54,6 @@ const Index = () => {
         setWishlist(parsedRes);
         await   AsyncStorage.clear()
       } catch (e) {
-        console.log(e, "WISHKSSISISIIS")
       }
     }
 
@@ -65,7 +62,6 @@ const Index = () => {
 
 
   const toggleHeart = async (property:any) => {
-    console.log(property, "the selected")
     setHeartClicked(!isHeartClicked);
     let existingWislist = wishlist
     if (!existingWislist) {
@@ -77,9 +73,7 @@ const Index = () => {
           const isExxist = existingWislist?.find(
             (item: any) => item.id === property.id
           );
-          console.log(isExxist, "rersrsrsrsrsrsrsrsrsr");
           if (isExxist) {
-            console.log("i dege already");
             return;
           }
     }

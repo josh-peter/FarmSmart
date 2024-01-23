@@ -21,7 +21,7 @@ import TimeComp from "../components/bookAppointmentComps/timeComp";
 import CreditCardComp from "../components/bookAppointmentComps/creditCardComp";
 import { Stack, router } from "expo-router";
 import EditPayment from "../components/common/modals/editPayment";
-import PaymentSuccessful from "../components/common/modals/paymentSuccessful";
+import BookedSuccessfully from "../components/common/modals/bookedSuccessfully";
 
 export default function BookAppointmentModal() {
   const [appointmentDate, setAppointmentDate] = useState("");
@@ -30,15 +30,14 @@ export default function BookAppointmentModal() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalPopVisible, setModalPopVisible] = useState(false);
 
-
   const openModal = () => {
     setModalVisible(true);
   };
 
   const closeModal = () => {
     setModalVisible(false);
-    };
-    
+  };
+
   const openPopModal = () => {
     setModalPopVisible(true);
   };
@@ -127,14 +126,12 @@ export default function BookAppointmentModal() {
                 marginTop: RFValue(5),
                 marginHorizontal: RFValue(15),
                 flexDirection: "column",
-
                 gap: RFValue(150),
               }}
             >
               <View
                 style={{
                   padding: RFValue(10),
-
                   backgroundColor: "#fafafa",
                   borderRadius: 10,
                 }}
@@ -259,8 +256,8 @@ export default function BookAppointmentModal() {
                 {appointmentTime && appointmentDate && <CreditCardComp />}
               </View>
               <TouchableOpacity
-                                  disabled={!appointmentDate || !appointmentTime}
-                                  onPress={openPopModal}
+                disabled={!appointmentDate || !appointmentTime}
+                onPress={openPopModal}
                 style={{
                   backgroundColor:
                     appointmentDate && appointmentTime ? "#06782F" : "#83bb97",
@@ -279,7 +276,10 @@ export default function BookAppointmentModal() {
         </ScrollView>
       </Animated.View>
       <EditPayment modalVisible={modalVisible} closeModal={closeModal} />
-      <PaymentSuccessful modalPopVisible={modalPopVisible} closePopModal={closePopModal} />
+      <BookedSuccessfully
+        modalPopVisible={modalPopVisible}
+        closePopModal={closePopModal}
+      />
     </>
   );
 }

@@ -36,7 +36,7 @@ interface Props {
 export default function ThreeDTourModal({
   modalTourVisible,
   closeTourModal,
-}) {
+}:Props) {
   const [isMute, setIsMute] = useState(false);
   const refVideo2 = useRef<any>(null);
   const [inFullscreen, setInFullsreen] = useState(false);
