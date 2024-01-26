@@ -6,26 +6,15 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  Platform,
-  ScrollView,
   TextInput,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
 import { Link, Stack } from "expo-router";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
-import {
-  AntDesign,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import NotificationComponents from "../components/notificationsComps/notification";
-import MessagesComp from "../components/notificationsComps/messagesComp";
 const { width, height } = Dimensions.get("window");
 
 export default function ChatBox() {

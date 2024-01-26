@@ -120,7 +120,7 @@ export default function BookedSuccessfully({
                 <Text style={styles.startText}>Go to appointment page</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => router.push("/home/home")}
+                onPress={() => router.push("/home/")}
                 style={{
                   backgroundColor: "#ECFFF4",
                   padding: Platform.OS === "ios" ? 15 : 14,

@@ -23,6 +23,7 @@ const { width, height } = Dimensions.get("window");
 
 export default function AgentProfile() {
   const [modalVisible, setModalVisible] = useState(false);
+  
 
   const openModal = () => {
     setModalVisible(true);
