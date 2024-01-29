@@ -26,7 +26,7 @@ export default function LoginComp() {
 
 
   const handleUserLogin = (values: any, setSubmitting: any) => {
-    router.push("/home/home");
+    router.push("/home/");
     setSubmitting(false)
   };
   

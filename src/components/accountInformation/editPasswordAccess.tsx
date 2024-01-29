@@ -16,15 +16,31 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
+import PasswordInputField from "../inputs/passwordInputField";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 interface Props {
-  isVisible: boolean;
-  onClose: () => void;
+  modalVisible: boolean;
+  closeModal: () => void;
 }
 
-export default function GrantAccessLocations({ modalVisible, closeModal }:any) {
+export default function EditPasswordAccess({
+  modalVisible,
+  closeModal,
+}: Readonly<Props>) {
+
+      const [passwordVisible, setPasswordVisible] = useState(true);
+      const handlePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+      };
+    
+  const handleUserLogin = (values: any, setSubmitting: any) => {
+    router.push("/home/");
+    setSubmitting(false);
+  };
   return (
     <Modal
       isVisible={modalVisible}
@@ -56,29 +72,61 @@ export default function GrantAccessLocations({ modalVisible, closeModal }:any) {
         <Text
           style={{
             fontFamily: "outfit-bold",
-            fontSize: RFValue(22),
+            fontSize: RFValue(18),
             textAlign: "center",
             lineHeight: RFValue(30.25),
             marginTop: RFValue(20),
           }}
         >
-          Grant Location Access
+          Enter password to edit
         </Text>
         <Text
           style={{
-            fontSize: RFValue(12),
+            fontSize: RFValue(11),
             fontFamily: "plusjakarta-regular",
             color: "#5F5F5F",
             textAlign: "center",
           }}
         >
-          This will help us suggest nearby properties
+          Please provide your login password to proceed
         </Text>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          validationSchema={Yup.object({
+            email: Yup.string(),
+            password: Yup.string().required("Password is required"),
+          })}
+          onSubmit={async (values: any, { setSubmitting }) =>
+            handleUserLogin(values, setSubmitting)
+          }
+        >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            errors,
+          }) => (
+            <View>
+              <PasswordInputField
+                label={"Password"}
+                value={values.password}
+                onChangeText={handleChange("password")}
+                errorMessage={errors.password}
+                onBlur={handleBlur("password")}
+                placeholder={"************"}
+                returnKeyType="done"
+                keyboardType="password"
+                secureTextEntry={passwordVisible}
+                placeholderTextColor={"#5f5f5f"}
+              />
+            </View>
+          )}
+        </Formik>
         <TouchableOpacity style={styles.startBtn}>
-          <Text style={styles.startText}>Allow location access</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.rejectBtn}>
-          <Text style={styles.rejectText}>No, thanks</Text>
+          <Text style={styles.startText}>Continue</Text>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -111,12 +159,6 @@ const styles = StyleSheet.create({
     marginTop: responsiveScreenFontSize(1.5),
     textAlign: "center",
   },
-  button: {
-    fontFamily: "satoshi-medium",
-    textAlign: "center",
-    color: "#fff",
-    fontSize: responsiveScreenFontSize(2),
-  },
   startBtn: {
     backgroundColor: "#06782F",
     padding: Platform.OS === "ios" ? 18 : 17,
@@ -126,18 +168,6 @@ const styles = StyleSheet.create({
   startText: {
     fontSize: RFValue(14),
     color: "#fff",
-    fontFamily: "outfit-medium",
-    textAlign: "center",
-  },
-  rejectBtn: {
-    backgroundColor: "#ECFFF4",
-    padding: Platform.OS === "ios" ? 18 : 17,
-    borderRadius: 10,
-    marginTop: RFValue(20),
-  },
-  rejectText: {
-    fontSize: RFValue(14),
-    color: "#06782F",
     fontFamily: "outfit-medium",
     textAlign: "center",
   },

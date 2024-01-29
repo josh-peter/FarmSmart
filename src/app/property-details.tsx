@@ -25,16 +25,15 @@ const { width, height } = Dimensions.get("window");
 
 export default function PropertyDetails() {
   const fade = useRef(new Animated.Value(0)).current;
-  const [index, setIndex] = useState(1);
-    const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
-    const openModal = () => {
-      setModalVisible(true);
-    };
+  const openModal = () => {
+    setModalVisible(true);
+  };
 
-    const closeModal = () => {
-      setModalVisible(false);
-    };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const animation = () => {
     Animated.timing(fade, {
@@ -47,29 +46,6 @@ export default function PropertyDetails() {
   useEffect(() => {
     animation();
   }, []);
-
-  const amenities = [
-    {
-      id: 1,
-      number: 1,
-      amenity: "Kitchen",
-    },
-    {
-      id: 2,
-      number: 2,
-      amenity: "Bathroom",
-    },
-    {
-      id: 3,
-      number: 1,
-      amenity: "Garage",
-    },
-    {
-      id: 4,
-      number: 1,
-      amenity: "Bedroom",
-    },
-  ];
 
   return (
     <>
@@ -107,7 +83,11 @@ export default function PropertyDetails() {
         <View>
           <HostReviews />
         </View>
-        <View>
+        <View
+          style={{
+            paddingHorizontal: RFValue(20),
+          }}
+        >
           <Morelist />
         </View>
         <View>
@@ -142,7 +122,7 @@ export default function PropertyDetails() {
           </TouchableOpacity>
         </View>
       </Animated.ScrollView>
-      <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal}/>
+      <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );
 }

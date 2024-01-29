@@ -18,24 +18,17 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
-import {
-  AntDesign,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import NotificationComponents from "../components/notificationsComps/notification";
-import MessagesComp from "../components/notificationsComps/messagesComp";
-import { Switch } from "react-native-switch";
 import ModalPicker from "../components/common/modalPicker";
+import AddressModalPicker from "../components/common/addressModalPicker";
+import LanguageModalPicker from "../components/common/languageModalPicker";
 const { width, height } = Dimensions.get("window");
 
 export default function EditProfile() {
   const fade = useRef(new Animated.Value(0)).current;
   const [chooseData, setChooseData] = useState("Lagos, Nigeria");
   const [chooseLanguage, setChooseLanguage] = useState(
-    "English, Yoruba, Ibibio"
+    "English"
   );
   const [isModdalVisible, setisModdalVisible] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -44,8 +37,6 @@ export default function EditProfile() {
   const closeModal = () => {
     setModalVisible(false);
   };
-
-  // console.log(SearchParams(), "mem22");
 
   const openModal = () => {
     setModalVisible(true);
@@ -57,7 +48,11 @@ export default function EditProfile() {
 
   const setData = (option: any) => {
     setChooseData(option);
-  };
+    };
+    
+      const setLanguageData = (option: any) => {
+        setChooseLanguage(option);
+      };
 
   const animation = () => {
     Animated.timing(fade, {
@@ -114,7 +109,7 @@ export default function EditProfile() {
               lineHeight: RFValue(30),
             }}
           >
-            My profile
+            Edit profile
           </Text>
           <TouchableOpacity style={styles.clearIcon}>
             <Image
@@ -129,7 +124,7 @@ export default function EditProfile() {
         </View>
         <ScrollView
           contentContainerStyle={{
-                      paddingHorizontal: RFValue(15),
+            paddingHorizontal: RFValue(15),
           }}
         >
           <View
@@ -143,7 +138,7 @@ export default function EditProfile() {
               paddingVertical: RFValue(10),
               borderRadius: RFValue(8),
               marginBottom: RFValue(10),
-              marginTop: RFValue(30),
+              marginTop: RFValue(20),
             }}
           >
             <Image
@@ -177,13 +172,13 @@ export default function EditProfile() {
               />
               <Image
                 resizeMode="contain"
-                source={require("../assets/images/client.png")}
+                source={require("../assets/images/EditPen.png")}
                 style={{
-                  height: RFValue(45),
-                  width: RFValue(45),
+                  height: RFValue(25),
+                  width: RFValue(25),
                   position: "absolute",
-                  top: 50,
-                  left: 10,
+                  top: 60,
+                  left: 20,
                   right: 0,
                 }}
               />
@@ -204,19 +199,45 @@ export default function EditProfile() {
                   marginTop: RFValue(5),
                 }}
               >
-                Angella Okoro
+                Daniel Israel
               </Text>
             </View>
-            <Text
+            <View
               style={{
-                fontSize: RFValue(14),
-                fontFamily: "outfit-regular",
-                color: "#414141",
+                backgroundColor: "#fafafa",
+                padding: RFValue(10),
+                borderRadius: 10,
               }}
             >
-              I am a realtor with over 2 years in real estates, I have sold over
-              ₦400M property and I have helped client find their dream homes.
-            </Text>
+              <Text
+                style={{
+                  fontSize: RFValue(14),
+                  fontFamily: "outfit-medium",
+                  lineHeight: RFValue(20),
+                  color: "#5F5F5F",
+                }}
+              >
+                Bio (300 characters)
+              </Text>
+              <View
+                style={{
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#E4E4E7",
+                  padding: RFValue(8),
+                  marginTop: RFValue(10),
+                }}
+              >
+                <TextInput
+                  style={[styles.inputbox, { textAlignVertical: "top" }]}
+                  placeholderTextColor="#5f5f5f"
+                  keyboardType="default"
+                  multiline={true}
+                  numberOfLines={3}
+                  returnKeyType="done"
+                />
+              </View>
+            </View>
           </View>
           <View>
             <View
@@ -263,7 +284,7 @@ export default function EditProfile() {
                 visible={isModdalVisible}
                 onRequestClose={() => changeModalVisibility(false)}
               >
-                <ModalPicker
+                <AddressModalPicker
                   changeModalVisibility={changeModalVisibility}
                   setData={setData}
                 />
@@ -313,14 +334,13 @@ export default function EditProfile() {
                 visible={isModdalVisible}
                 onRequestClose={() => changeModalVisibility(false)}
               >
-                <ModalPicker
+                <LanguageModalPicker
                   changeModalVisibility={changeModalVisibility}
-                  setData={setData}
+                  setData={setLanguageData}
                 />
               </Modal>
             </View>
           </View>
-
           <TouchableOpacity
             onPress={() => router.push("/edit-profile")}
             style={{
@@ -338,7 +358,7 @@ export default function EditProfile() {
                 textAlign: "center",
               }}
             >
-              Edit profile
+             Update profile
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -426,5 +446,11 @@ const styles = StyleSheet.create({
     left: RFValue(15),
     borderWidth: 1,
     borderColor: "#e5e5e5",
+  },
+  inputbox: {
+    backgroundColor: "transparent",
+    fontFamily: "outfit-light",
+    fontSize: RFValue(14),
+    paddingVertical: RFValue(5),
   },
 });

@@ -23,28 +23,6 @@ export default function IncomingCall() {
     animation();
   }, []);
 
-  const buttons = [
-    {
-      id: 1,
-      image: require("../assets/images/volume.png"),
-    },
-    {
-      id: 2,
-      image: require("../assets/images/mute.png"),
-    },
-    {
-      id: 3,
-      image: require("../assets/images/reject.png"),
-    },
-    {
-      id: 4,
-      image: require("../assets/images/video.png"),
-    },
-    {
-      id: 5,
-      image: require("../assets/images/camera.png"),
-    },
-  ];
 
   return (
     <>

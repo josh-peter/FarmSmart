@@ -92,7 +92,10 @@ export default function ClientProfile() {
           >
             My profile
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity
+            style={styles.clearIcon}
+            onPress={() => router.push("/home/account")}
+          >
             <Image
               resizeMode="contain"
               source={require("../assets/images/arrow-left.png")}
@@ -103,9 +106,11 @@ export default function ClientProfile() {
             />
           </TouchableOpacity>
         </View>
-        <View style={{
-           paddingHorizontal: RFValue(15),
-        }}>
+        <View
+          style={{
+            paddingHorizontal: RFValue(15),
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
@@ -140,7 +145,6 @@ export default function ClientProfile() {
             </Text>
           </View>
           <View>
-           
             <View>
               <Image
                 resizeMode="contain"
@@ -179,7 +183,7 @@ export default function ClientProfile() {
                   marginTop: RFValue(5),
                 }}
               >
-                Angella Okoro
+                Daniel Israel
               </Text>
             </View>
             <Text
@@ -388,7 +392,7 @@ export default function ClientProfile() {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => router.push("/book-appointment")}
+            onPress={() => router.push("/edit-profile")}
             style={{
               backgroundColor: "#ECFFF4",
               padding: Platform.OS === "ios" ? 18 : 17,

@@ -72,7 +72,7 @@ export default function Account() {
             Profile
           </Text>
           <TouchableOpacity
-            onPress={()=> router.push("/client-profile")}
+            onPress={() => router.push("/client-profile")}
             style={{
               flexDirection: "row",
               alignItems: "center",
@@ -149,6 +149,17 @@ export default function Account() {
                 {item.name}
               </Text>
               <TouchableOpacity
+                onPress={() =>
+                  item.id === 1
+                    ? router.push("/account-information")
+                    : item.id === 2
+                    ? router.push("/booking")
+                    : item.id === 3
+                    ? router.push("/refund")
+                    : item.id === 4
+                    ? router.push("/payment-management")
+                    : undefined
+                }
                 style={{
                   flexDirection: "row",
                   alignItems: "center",

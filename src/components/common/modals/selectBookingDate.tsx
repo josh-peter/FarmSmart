@@ -24,9 +24,9 @@ interface Props {
   closeModal: () => void;
 }
 
-export default function SelectBookingDate({ modalVisible, closeModal }: Props) {
+export default function SelectBookingDate({ modalVisible, closeModal }: Readonly<Props>) {
   const [selectedDate, setSelectedDate] = useState("");
-      const [modalPayVisible, setModalPayVisible] = useState(false);
+  const [modalPayVisible, setModalPayVisible] = useState(false);
 
       const openPayModal = () => {
         setModalPayVisible(true);
