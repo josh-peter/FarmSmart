@@ -25,6 +25,7 @@ import PasswordInputField from "../inputs/passwordInputField";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Checkbox from "expo-checkbox";
+import BookingCancelledSuccessfully from "../common/modals/bookingCancelledSuccessfully";
 
 interface Props {
   modalOtherVisible: boolean;
@@ -35,7 +36,14 @@ export default function OtherReason({
   modalOtherVisible,
   closeOtherModal,
 }: Readonly<Props>) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [modalPopVisible, setModalPopVisible] = useState(false);
+      const openPopModal = () => {
+        setModalPopVisible(true);
+      };
+
+      const closePopModal = () => {
+        setModalPopVisible(false);
+      };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -134,10 +142,14 @@ export default function OtherReason({
                 />
               </View>
             </View>
-            <TouchableOpacity style={styles.startBtn}>
+            <TouchableOpacity onPress={openPopModal} style={styles.startBtn}>
               <Text style={styles.startText}>Done</Text>
             </TouchableOpacity>
           </View>
+          <BookingCancelledSuccessfully
+            modalPopVisible={modalPopVisible}
+            closePopModal={closePopModal}
+          />
         </View>
       </Modal>
     </SafeAreaView>

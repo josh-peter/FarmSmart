@@ -32,11 +32,7 @@ export default function BookingDetails({
   modalBookVisible,
   closeBookModal,
 }: Readonly<Props>) {
-  const [isChecked, setIsChecked] = useState(false);
-  const handleUserLogin = (values: any, setSubmitting: any) => {
-    router.push("/home/");
-    setSubmitting(false);
-  };
+
 
   return (
     <SafeAreaView style={styles.container}>

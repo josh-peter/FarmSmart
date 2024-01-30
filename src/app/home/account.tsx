@@ -155,9 +155,9 @@ export default function Account() {
                     : item.id === 2
                     ? router.push("/booking")
                     : item.id === 3
-                    ? router.push("/refund")
-                    : item.id === 4
                     ? router.push("/payment-management")
+                    : item.id === 4
+                    ? router.push("/notification-settings")
                     : undefined
                 }
                 style={{

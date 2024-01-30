@@ -26,7 +26,6 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
 import { Switch } from "react-native-switch";
-import AppointmentUpcoming from "../components/appointmentComps/appointmentUpcoming";
 import BookingDetails from "../components/accountInformation/bookingDetails";
 import CancelBooking from "../components/accountInformation/cancelBooking";
 

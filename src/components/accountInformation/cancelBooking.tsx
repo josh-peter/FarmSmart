@@ -25,6 +25,7 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Checkbox from "expo-checkbox";
 import OtherReason from "./otherReason";
+import BookingCancelledSuccessfully from "../common/modals/bookingCancelledSuccessfully";
 
 interface Props {
   modalCancelVisible: any;
@@ -38,6 +39,7 @@ export default function EditPasswordAccess({
   const [isChecked, setIsChecked] = useState(false);
   const [modalOtherVisible, setModalOtherVisible] = useState(false);
 
+
   const openOtherModal = () => {
     setModalOtherVisible(true);
   };
@@ -45,6 +47,8 @@ export default function EditPasswordAccess({
   const closeOtherModal = () => {
     setModalOtherVisible(false);
   };
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -295,6 +299,7 @@ export default function EditPasswordAccess({
             modalOtherVisible={modalOtherVisible}
             closeOtherModal={closeOtherModal}
           />
+         
         </View>
       </Modal>
     </SafeAreaView>
