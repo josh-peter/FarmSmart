@@ -79,7 +79,8 @@ export default function PaymentHistoryModal({
               justifyContent: "center",
               backgroundColor: "#fafafa",
               width: responsiveScreenWidth(100),
-              height: responsiveScreenHeight(10),
+              height: responsiveScreenWidth(22),
+              marginTop: RFValue(20),
             }}
           >
             <Text
@@ -89,10 +90,17 @@ export default function PaymentHistoryModal({
                 lineHeight: RFValue(30),
               }}
             >
-              Features & amenities
+              Payment history
             </Text>
             <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={24} color="black" />
+              <Image
+                resizeMode="contain"
+                source={require("../../assets/images/arrow-left.png")}
+                style={{
+                  height: RFValue(15),
+                  width: RFValue(15),
+                }}
+              />
             </TouchableOpacity>
           </View>
           <Tab
@@ -122,7 +130,7 @@ export default function PaymentHistoryModal({
               }}
             />
             <Tab.Item
-              title="Cancelled"
+              title="Failed"
               titleStyle={{
                 fontSize: 13,
                 color: index === 2 ? "black" : "#1A1A1AB2",
@@ -546,7 +554,6 @@ export default function PaymentHistoryModal({
                   paddingHorizontal: RFValue(15),
                 }}
               >
-               
                 <View
                   style={{
                     borderWidth: 1,
@@ -681,7 +688,6 @@ export default function PaymentHistoryModal({
                       </View>
                     </View>
                   </View>
-                 
                 </View>
                 <View
                   style={{
@@ -816,7 +822,6 @@ export default function PaymentHistoryModal({
                       </View>
                     </View>
                   </View>
-                
                 </View>
               </ScrollView>
             </TabView.Item>
@@ -831,9 +836,11 @@ const styles = StyleSheet.create({
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),
-    borderRadius: 50,
+    borderRadius: 10,
     position: "absolute",
-    right: RFValue(15),
+    left: RFValue(15),
+    borderWidth: 1,
+    borderColor: "#E6E6E6",
   },
   inputbox: {
     width: responsiveScreenWidth(33),

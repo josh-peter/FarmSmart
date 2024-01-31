@@ -20,11 +20,13 @@ import UpdatePhoneModal from "../components/accountInformation/updatePhoneModal"
 import EditDateOfBirth from "../components/accountInformation/editDateOfBirth";
 import { additionalData } from "../Data/additionalData";
 import PaymentHistoryModal from "../components/accountInformation/paymenthistoryModal";
+import CardPayment from "../components/accountInformation/cardPayment";
 const { width, height } = Dimensions.get("window");
 
 export default function PaymentManagement() {
   const fade = useRef(new Animated.Value(0)).current;
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalPayVisible, setModalPayVisible] = useState(false);
 
   const openModal = () => {
     setModalVisible(true);
@@ -34,6 +36,13 @@ export default function PaymentManagement() {
     setModalVisible(false);
   };
 
+    const openPayModal = () => {
+      setModalPayVisible(true);
+    };
+
+    const closePayModal = () => {
+      setModalPayVisible(false);
+    };
 
 
   const animation = () => {
@@ -173,6 +182,7 @@ export default function PaymentManagement() {
               }}
             >
               <TouchableOpacity
+                onPress={openPayModal}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -221,7 +231,8 @@ export default function PaymentManagement() {
               </TouchableOpacity>
             </View>
           </View>
-          <PaymentHistoryModal modalVisible={modalVisible} closeModal={closeModal}/>
+          <PaymentHistoryModal modalVisible={modalVisible} closeModal={closeModal} />
+          <CardPayment modalPayVisible={modalPayVisible} closePayModal={closePayModal}/>
         </View>
       </Animated.View>
     </>
