@@ -152,7 +152,7 @@ export default function NotificationSettings() {
           >
             Account information
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity onPress={()=> router.back()} style={styles.clearIcon}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/arrow-left.png")}

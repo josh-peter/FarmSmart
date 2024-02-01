@@ -158,7 +158,9 @@ export default function Account() {
                     ? router.push("/payment-management")
                     : item.id === 4
                     ? router.push("/notification-settings")
-                    : undefined
+                          : item.id === 5
+                            ? router.push("/security")
+                            :undefined
                 }
                 style={{
                   flexDirection: "row",

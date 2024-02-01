@@ -17,25 +17,8 @@ import * as Yup from "yup";
 import ErrorMsg from "../../components/Auth/errors/errorMsg";
 
 export default function NewPassword() {
-    const [email, setEmail] = useState(""),
-        [password, setPassword] = useState(""),
-        [firstName, setFirstName] = useState(""),
-        [lastName, setLastName] = useState(""),
-        [disableButton, setDisableButton] = useState(true),
-        [passwordVisible, setPasswordVisible] = useState(true),
-        [phoneNumber, setPhoneNumber] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
-    const handleEmail = (email: React.SetStateAction<string>) => {
-        setEmail(email);
-        if (email == "") setDisableButton(true);
-        else setDisableButton(false);
-    };
-
-    const handlePassword = (password: React.SetStateAction<string>) => {
-        setPassword(password);
-        if (password == "") setDisableButton(true);
-        else setDisableButton(false);
-    };
 
     const handlePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
