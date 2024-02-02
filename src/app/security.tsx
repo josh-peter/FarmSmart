@@ -27,16 +27,13 @@ import * as Yup from "yup";
 import { Ionicons } from "@expo/vector-icons";
 import ErrorMsg from "../components/Auth/errors/errorMsg";
 import PasswordInputField from "../components/inputs/passwordInputField";
+import DeleteAccountFlow from "../components/accountInformation/deleteAccountFlow";
 
 const { width, height } = Dimensions.get("window");
 
 export default function Security() {
   const fade = useRef(new Animated.Value(0)).current;
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalEmailVisible, setModalEmailVisible] = useState(false);
-  const [modalPhoneVisible, setModalPhoneVisible] = useState(false);
-  const [modalDOBVisible, setModalDOBVisible] = useState(false);
-  const [modalPayVisible, setModalPayVisible] = useState(false);
+  const [modalCancelVisible, setModalCancelVisible] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
 
   const handlePasswordVisibility = () => {
@@ -45,45 +42,16 @@ export default function Security() {
 
   const handleNewPassword = (values: any, setSubmitting: any) => {};
 
-  const openModal = () => {
-    setModalVisible(true);
+  const openCancelModal = () => {
+   setModalCancelVisible(true);
   };
 
-  const closeModal = () => {
-    setModalVisible(false);
+  const closeCancelModal = () => {
+    setModalCancelVisible(false);
   };
 
-  const openEmailModal = () => {
-    setModalEmailVisible(true);
-  };
 
-  const closeEmailModal = () => {
-    setModalEmailVisible(false);
-  };
 
-  const openPhoneModal = () => {
-    setModalPhoneVisible(true);
-  };
-
-  const closePhoneModal = () => {
-    setModalPhoneVisible(false);
-  };
-
-  const openDOBModal = () => {
-    setModalDOBVisible(true);
-  };
-
-  const closeDOBModal = () => {
-    setModalDOBVisible(false);
-  };
-
-  const openPayModal = () => {
-    setModalPayVisible(true);
-  };
-
-  const closePayModal = () => {
-    setModalPayVisible(false);
-  };
   const animation = () => {
     Animated.timing(fade, {
       toValue: 1,
@@ -682,6 +650,7 @@ export default function Security() {
               Delete account
             </Text>
             <TouchableOpacity
+              onPress={openCancelModal}
               style={{
                 backgroundColor: "#FFF8F8",
                 marginTop: RFValue(15),
@@ -700,28 +669,15 @@ export default function Security() {
                   fontSize: RFValue(14),
                 }}
               >
-                Sign in
+                Delete
               </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
 
-        <AccountNameModal modalVisible={modalVisible} closeModal={closeModal} />
-        <EmailAddressModal
-          modalEmailVisible={modalEmailVisible}
-          closeEmailModal={closeEmailModal}
-        />
-        <UpdatePhoneModal
-          modalPhoneVisible={modalPhoneVisible}
-          closePhoneModal={closePhoneModal}
-        />
-        <EditDateOfBirth
-          modalDOBVisible={modalDOBVisible}
-          closeDOBModal={closeDOBModal}
-        />
-        <NotificationSettingsModal
-          modalPayVisible={modalPayVisible}
-          closePayModal={closePayModal}
+        <DeleteAccountFlow
+          modalCancelVisible={modalCancelVisible}
+          closeCancelModal={closeCancelModal}
         />
       </Animated.View>
     </>
