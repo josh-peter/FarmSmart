@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import Modal from "react-native-modal";
+import SummaryAndConfirmation from "./summaryAndConfirmation";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
