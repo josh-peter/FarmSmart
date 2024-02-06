@@ -8,8 +8,9 @@ import {
   Platform,
   ScrollView,
   Alert,
+  Animated,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -26,7 +27,6 @@ export default function SignUpComp() {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [value, setValue] = useState("");
   const [formattedValue, setFormattedValue] = useState("");
-  const [phoneNumber, setphoneNumber] = useState("");
   const [checked, setChecked] = React.useState(true);
 
   const toggleCheckbox = () => setChecked(!checked);
@@ -40,16 +40,30 @@ export default function SignUpComp() {
     setSubmitting(false);
   };
 
+   const fade = useRef(new Animated.Value(0)).current;
+
+   const animation = () => {
+     Animated.timing(fade, {
+       toValue: 1,
+       duration: 800,
+       useNativeDriver: true,
+     }).start();
+   };
+
+   useEffect(() => {
+     animation();
+   }, []);
+
   return (
     <>
       <Stack.Screen
         options={{
-          title: "login",
+          title: "sign in",
           headerShown: false,
         }}
       />
       <StatusBar style="dark" />
-      <ScrollView
+      <Animated.ScrollView
         showsHorizontalScrollIndicator={false}
         style={styles.container}
       >
@@ -96,7 +110,19 @@ export default function SignUpComp() {
             isSubmitting,
             errors,
           }) => (
-            <View>
+            <Animated.View
+              style={{
+                opacity: fade,
+                transform: [
+                  {
+                    translateY: fade.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [150, 0],
+                    }),
+                  },
+                ],
+              }}
+            >
               <Text style={styles.title}>Create Account</Text>
               <Text style={styles.subtitle}>
                 Fill in your details to create account or sign up with your
@@ -326,10 +352,10 @@ export default function SignUpComp() {
                   <Text style={{ color: "#06782f" }}> Sign In</Text>
                 </Link>
               </Text>
-            </View>
+            </Animated.View>
           )}
         </Formik>
-      </ScrollView>
+      </Animated.ScrollView>
     </>
   );
 }

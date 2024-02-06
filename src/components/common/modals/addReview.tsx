@@ -27,7 +27,7 @@ interface Props {
   closeModal: () => void;
 }
 
-export default function AddReview({ modalVisible, closeModal }: Props) {
+export default function AddReview({ modalVisible, closeModal }: Readonly<Props>) {
   const [modalCardVisible, setModalCardVisible] = useState(false);
   const [rating, setRating] = useState(0);
 

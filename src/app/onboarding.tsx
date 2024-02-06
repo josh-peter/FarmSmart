@@ -5,10 +5,11 @@ import {
   Image,
   FlatList,
   SafeAreaView,
+  Animated,
   Dimensions,
   Platform,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import {
   Directions,
@@ -20,41 +21,53 @@ import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { OnboardingData } from "../Data/onBoardingData";
 const { width, height } = Dimensions.get("window");
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
- import { useFormik } from "formik";
 
 interface OnboardingItem {
   id: number;
   title: string;
   description: string;
   subdescription: string;
-  img: any; 
+  img: any;
 }
-
 
 const Onboarding = () => {
   const [screenIndex, setScreenIndex] = useState(0);
   const flatListRef = useRef<FlatList<OnboardingItem>>(null);
+  const scrollX = useRef(new Animated.Value(0)).current;
+  
+    const fade = useRef(new Animated.Value(0)).current;
 
-const updateCurrentSlide = (e: {
-  nativeEvent: { contentOffset: { x: number } };
-}) => {
-  const contentOffsetX = e.nativeEvent.contentOffset.x;
-  const currentIndex = Math.round(contentOffsetX / width);
-  if (currentIndex !== screenIndex) {
-    setScreenIndex(currentIndex);
+    const animation = () => {
+       Animated.timing(fade, {
+         toValue: 1,
+         duration: 1000,
+         useNativeDriver: true,
+       }).start();
+    };
+
+    useEffect(() => {
+      animation();
+    }, []);
+
+  const updateCurrentSlide = (e: {
+    nativeEvent: { contentOffset: { x: number } };
+  }) => {
+    const contentOffsetX = e.nativeEvent.contentOffset.x;
+    const currentIndex = Math.round(contentOffsetX / width);
+    if (currentIndex !== screenIndex) {
+      setScreenIndex(currentIndex);
     }
   };
-  
-    const goToNextSlide = () => {
-      if (screenIndex < OnboardingData.length - 1) {
-        setScreenIndex(screenIndex + 1);
-        flatListRef.current?.scrollToIndex({
-          animated: true,
-          index: screenIndex + 1,
-        });
-      }
-    };
+
+  const goToNextSlide = () => {
+    if (screenIndex < OnboardingData.length - 1) {
+      setScreenIndex(screenIndex + 1);
+      flatListRef.current?.scrollToIndex({
+        animated: true,
+        index: screenIndex + 1,
+      });
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -65,7 +78,11 @@ const updateCurrentSlide = (e: {
         source={require("../assets/images/spiral.png")}
         style={styles.spiral}
       />
-      <View style={styles.indicatorContainer}>
+      <View
+        style={
+          styles.indicatorContainer
+        }
+      >
         {OnboardingData?.map((_, index) => (
           <View
             key={index}
@@ -82,23 +99,38 @@ const updateCurrentSlide = (e: {
         onMomentumScrollEnd={updateCurrentSlide}
         ref={flatListRef}
         data={OnboardingData}
+        scrollEventThrottle={32}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: false }
+        )}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         renderItem={({ item }) => (
           <Animated.View
-            entering={FadeInUp.duration(1000).springify()}
-            style={styles.pageContainer}
+            style={[
+              styles.pageContainer,
+              {
+                opacity: fade,
+                transform: [
+                  {
+                    translateY: fade.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [150, 0],
+                    }),
+                  },
+                ],
+              },
+            ]}
           >
             <Animated.View
-              entering={FadeInUp.duration(1000).springify()}
               style={{
                 flexDirection: "column",
                 alignItems: "center",
               }}
             >
               <Animated.Image
-                entering={FadeInUp.duration(1000).springify()}
                 resizeMode="contain"
                 source={item.img}
                 style={styles.phones}
@@ -137,7 +169,7 @@ const updateCurrentSlide = (e: {
         </View>
       ) : (
         <View style={styles.skipBtn}>
-          <TouchableOpacity onPress={()=> router.push("/auth/login")}>
+          <TouchableOpacity onPress={() => router.push("/auth/login")}>
             <Text style={styles.skipText}>Skip</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.nextBtn} onPress={goToNextSlide}>
@@ -229,7 +261,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#06782F",
     padding: Platform.OS === "ios" ? 13 : 12,
     borderRadius: 10,
-    marginTop:RFValue(60)
+    marginTop: RFValue(60),
   },
   startText: {
     fontSize: RFValue(14),

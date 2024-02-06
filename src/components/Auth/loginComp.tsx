@@ -6,8 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
+  Animated,
 } from "react-native";
-import React, { useState, } from "react";
+import React, { useEffect, useRef, useState, } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -23,6 +24,20 @@ export default function LoginComp() {
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+      const fade = useRef(new Animated.Value(0)).current;
+
+      const animation = () => {
+        Animated.timing(fade, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }).start();
+      };
+
+      useEffect(() => {
+        animation();
+      }, []);
 
 
   const handleUserLogin = (values: any, setSubmitting: any) => {
@@ -40,7 +55,7 @@ export default function LoginComp() {
         }}
       />
       <StatusBar style="dark" />
-      <View style={styles.container}>
+      <Animated.View style={styles.container}>
         <Formik
           initialValues={{
             email: "",
@@ -65,7 +80,19 @@ export default function LoginComp() {
             isSubmitting,
             errors,
           }) => (
-            <View>
+            <Animated.View
+              style={{
+                opacity: fade,
+                transform: [
+                  {
+                    translateY: fade.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [150, 0],
+                    }),
+                  },
+                ],
+              }}
+            >
               <Image
                 resizeMode="contain"
                 source={require("../../assets/images/logo.png")}
@@ -204,10 +231,10 @@ export default function LoginComp() {
                   <Text style={{ color: "#06782f" }}> Sign Up</Text>
                 </Link>
               </Text>
-            </View>
+            </Animated.View>
           )}
         </Formik>
-      </View>
+      </Animated.View>
     </>
   );
 }

@@ -1,84 +1,76 @@
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
   Image,
   TouchableOpacity,
   TextInput,
-  ImageBackground,
-  ScrollView,
   FlatList,
   Dimensions,
-  Animated
+  Animated,
+  Platform
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
-import SearchInputField from "../../components/inputs/searchInputField";
 import { HomeIconsData } from "../../Data/homeIconsData";
-import { BlurView } from "expo-blur";
 import { PropertiesData } from "../../Data/propertiesData";
-const { width, height } = Dimensions.get("window");
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Skeleton } from "moti/skeleton";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
+const { width, height } = Dimensions.get("window");
 
 const Index = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [isHeartClicked, setHeartClicked] = useState(false);
-  const [selectedType, setSelectedType] = useState<"Rental" | "Sales">("Rental");
-  const [text, setText] = useState('')
-  const [wishlist, setWishlist] = useState<any>()
-  // const wishList = await AsyncStorage.getItem('wishlist')
+  const [isHeartClicked, setIsHeartClicked] = useState(false);
+  const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
+    "Rental"
+  );
+  const [text, setText] = useState("");
+  const [wishlist, setWishlist] = useState<any>();
+  const [loading, setLoading] = useState(false);
+  
 
   const searchHandler = (value: string) => {
-    if (value === '') return;
+    if (value === "") return;
 
-    // router.push(`/search`)
     router.push({
       pathname: `/search`,
       params: { search: value },
     });
-  }
-  
-  // console.log(wishlist, "the wisisisi");
+  };
 
   useEffect(() => {
-
     const getWishList = async () => {
       try {
-        
         const res = await AsyncStorage.getItem("@wishlist");
         if (res == null) return setWishlist([]);
         let parsedRes = JSON.parse(res!);
         setWishlist(parsedRes);
-        await   AsyncStorage.clear()
-      } catch (e) {
-      }
-    }
+        await AsyncStorage.clear();
+      } catch (e) {}
+    };
+  }, []);
 
-  }, [])
-  
-
-
-  const toggleHeart = async (property:any) => {
-    setHeartClicked(!isHeartClicked);
-    let existingWislist = wishlist
+  const toggleHeart = async (property: any) => {
+    setIsHeartClicked(!isHeartClicked);
+    let existingWislist = wishlist;
     if (!existingWislist) {
       existingWislist = [property];
       await AsyncStorage.setItem("@wishlist", JSON.stringify(wishlist));
-      
+
       return setWishlist([property]);
     } else {
-          const isExxist = existingWislist?.find(
-            (item: any) => item.id === property.id
-          );
-          if (isExxist) {
-            return;
-          }
+      const isExxist = existingWislist?.find(
+        (item: any) => item.id === property.id
+      );
+      if (isExxist) {
+        return;
+      }
     }
 
-    setWishlist([...wishlist, property])
+    setWishlist([...wishlist, property]);
   };
 
   const handleIconPress = (index: number) => {
@@ -89,17 +81,22 @@ const Index = () => {
     (item) => item.type === selectedType
   );
 
-  const [fadeAnim] = useState(new Animated.Value(0));
+  const fade = useRef(new Animated.Value(0)).current;
+
+  const animation = () => {
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  };
 
   useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true, // Add this line
-    }).start();
-  }, [fadeAnim]);
+    animation();
+  }, []);
 
-  
+    const colorMode: "light" | "dark" = "light";
+
   return (
     <>
       <Stack.Screen
@@ -110,7 +107,22 @@ const Index = () => {
         }}
       />
       <StatusBar style="dark" />
-      <View style={styles.container}>
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            opacity: fade,
+            transform: [
+              {
+                translateY: fade.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [150, 0],
+                }),
+              },
+            ],
+          },
+        ]}
+      >
         <View
           style={{
             flexDirection: "row",
@@ -118,57 +130,66 @@ const Index = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text
-            style={{
-              fontSize: RFValue(22),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            Welcome, Daniel
-          </Text>
-          <Link href={"/notification"} asChild>
-            <TouchableOpacity
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                position: "relative",
-                overflow: "hidden",
-                borderWidth: 1,
-                borderColor: "#E6E6E6",
-                width: 56,
-                height: 56,
-                borderRadius: 12,
-              }}
-            >
-              <View
+          <Skeleton colorMode={colorMode} width={"70%"} height={30}>
+            {loading ? null : (
+              <Text
                 style={{
-                  position: "absolute",
-                  top: RFValue(9),
-                  left: RFValue(23),
-                  borderRadius: 30,
-                  width: 10,
-                  height: 10,
-                  backgroundColor: "#F71313",
-                  zIndex: 999,
+                  fontSize: RFValue(22),
+                  fontFamily: "outfit-bold",
+                  lineHeight: RFValue(30),
                 }}
-              />
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/notification.png")}
-                style={{
-                  height: RFValue(28),
-                  width: RFValue(28),
-                }}
-              />
-            </TouchableOpacity>
-          </Link>
+              >
+                Welcome, Daniel
+              </Text>
+            )}
+          </Skeleton>
+
+          <Skeleton colorMode={colorMode} width={RFValue(50)} height={56}>
+            {loading ? null : (
+              <Link href={"/notification"} asChild>
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative",
+                    overflow: "hidden",
+                    borderWidth: 1,
+                    borderColor: "#E6E6E6",
+                    width: RFValue(46),
+                height: RFValue(46),
+                    borderRadius: 12,
+                  }}
+                >
+                  <View
+                    style={{
+                      position: "absolute",
+                      top: RFValue(9),
+                      left: RFValue(23),
+                      borderRadius: 30,
+                      width: 10,
+                      height: 10,
+                      backgroundColor: "#F71313",
+                      zIndex: 999,
+                    }}
+                  />
+                  <Image
+                    resizeMode="contain"
+                    source={require("../../assets/images/notification.png")}
+                    style={{
+                      height: RFValue(28),
+                      width: RFValue(28),
+                    }}
+                  />
+                </TouchableOpacity>
+              </Link>
+            )}
+          </Skeleton>
         </View>
         <View
           style={{
             flexDirection: "row",
-            gap: 15,
+            gap: Platform.OS === "android" ? 13 : 24,
             alignItems: "center",
             marginTop: RFValue(23),
           }}
@@ -210,8 +231,8 @@ const Index = () => {
                 alignItems: "center",
                 borderWidth: 1,
                 borderColor: "#E6E6E6",
-                width: 56,
-                height: 56,
+                width: RFValue(46),
+                height: RFValue(50),
                 borderRadius: 12,
               }}
             >
@@ -341,9 +362,11 @@ const Index = () => {
           contentContainerStyle={{}}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={()=> router.push("/property-details")}
+              onPress={() => router.push("/property-details")}
               style={{
                 marginBottom: RFValue(20),
+                position: "relative",
+                overflow:"hidden"
               }}
             >
               <View
@@ -402,11 +425,13 @@ const Index = () => {
                   </View>
                 </TouchableOpacity>
                 <Image
-                  resizeMode="contain"
+                  resizeMode="cover"
                   source={item.img}
                   style={{
-                    width: RFValue(300),
-                    height: RFValue(270),
+                    width: Platform.OS === "ios" ? RFValue(310) : RFValue(300),
+                    height: RFValue(220),
+                    borderRadius: 15,
+                     marginBottom:RFValue(15),
                     zIndex: -999,
                   }}
                 />
@@ -497,8 +522,9 @@ const Index = () => {
                   gap: 5,
                   alignItems: "center",
                   position: "absolute",
-                  top: RFValue(240),
+                  top: RFValue(200),
                   left: RFValue(48),
+                 
                 }}
               >
                 <View
@@ -585,7 +611,7 @@ const Index = () => {
             </TouchableOpacity>
           )}
         />
-      </View>
+      </Animated.View>
     </>
   );
 };
@@ -603,14 +629,14 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
     fontSize: RFValue(14),
-    paddingVertical: RFValue(3),
+    paddingVertical: Platform.OS === "android" ? RFValue(3) : RFValue(8),
     paddingLeft: RFValue(32),
     paddingRight: RFValue(15),
   },
   eyeIcon: {
     position: "absolute",
-    top: 10,
-    left: 10,
+    top: RFValue(10),
+    left: RFValue(10),
     zIndex: 1,
   },
 });
