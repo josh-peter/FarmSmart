@@ -1,15 +1,25 @@
 import { View, Text,StyleSheet, Image, TouchableOpacity, Platform } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize';
 import { MaterialIcons } from '@expo/vector-icons';
-import { responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
+import PropertyListed from '../common/modals/propertyListedModal';
 
 const ApartmentsListapartment = ({
   apartment,
   handleCloseNavigationApartment,
-}) => {
+}: any) => {
+  
+  const [modalVisible, setModalVisible] = useState<boolean>(true);
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+ const closeModal = () => {
+   setModalVisible(false);
+ };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={openModal} style={styles.container}>
       <Image
         source={require("../../assets/images/mapimg.png")}
         style={styles.image}
@@ -103,7 +113,7 @@ const ApartmentsListapartment = ({
       >
         <MaterialIcons name="clear" size={24} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           backgroundColor: "#fff",
           position: "absolute",
@@ -116,8 +126,9 @@ const ApartmentsListapartment = ({
           height: responsiveScreenHeight(2),
           transform: [{ rotate: "45deg" }],
         }}
-      />
-    </View>
+      /> */}
+      <PropertyListed modalVisible={modalVisible} closeModal={closeModal}/>
+    </TouchableOpacity>
   );
 };
 

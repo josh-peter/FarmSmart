@@ -80,7 +80,7 @@ export default function Appointment() {
             marginTop: RFValue(50),
             paddingHorizontal: RFValue(3),
             paddingVertical: RFValue(3),
-            marginHorizontal: RFValue(7),
+            marginHorizontal: Platform.OS === "ios" ? RFValue(7) : RFValue(12),
             borderRadius: 10,
           }}
           variant="default"

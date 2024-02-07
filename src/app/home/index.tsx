@@ -99,32 +99,6 @@ const Index = () => {
 
     const colorMode: "light" | "dark" = "light";
 
-  const images = [
-    {
-      name: "bedrom",
-      img: require("../../assets/images/flat.png"),
-    },
-    {
-      name: "sitting room",
-      img: require("../../assets/images/flat.png"),
-    },
-    {
-      name: "balcony",
-      img: require("../../assets/images/flat.png"),
-    },
-    {
-      name: "living area",
-      img: require("../../assets/images/flat.png"),
-    },
-    {
-      name: "toilet",
-      img: require("../../assets/images/flat.png"),
-    },
-    {
-      name: "alfy",
-      img: require("../../assets/images/flat.png"),
-    },
-  ];
 
   return (
     <>
@@ -479,6 +453,8 @@ const Index = () => {
                       showsControls={false}
                       dotStyle={styles.dot}
                       activeDotStyle={styles.activeDot}
+                      autoplay={true}
+                      autoplayInterval={3000}
                       style={{
                         height: RFValue(260),
                         marginBottom: RFValue(15),

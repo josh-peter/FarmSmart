@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, View, Image, Text, TextInput } from "react-native";
+import MapView, { Callout } from 'react-native-maps';
+import { StyleSheet, View, Image, Text, TextInput, Platform } from "react-native";
 import { Stack } from "expo-router";
 import apartments from "../../Data/apartments.json"
 import { RFValue } from "react-native-responsive-fontsize";
@@ -10,8 +10,8 @@ import ApartmentsListItem from "../../components/mapProps/ApartmentsListItem";
 import GrantAccessLocations from "../../components/common/modals/grantLocationAccess";
 
 export default function Explore() {
-  const [selectedApartment, setSelectedApartment] = useState(null)
-  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedApartment, setSelectedApartment] = useState<any>(null)
+const [modalVisible, setModalVisible] = useState<boolean>(true);
 
 
 
@@ -19,9 +19,13 @@ export default function Explore() {
     setModalVisible(true);
   };
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+   const handleGrantLocationAccess = () => {
+     setModalVisible(false);
+   };
+
+ const closeModal = () => {
+   setModalVisible(false);
+ };
   const handleCloseNavigationApartment = () => {
     setSelectedApartment(null);
   }
@@ -49,7 +53,9 @@ export default function Explore() {
       {selectedApartment && (
         <ApartmentsListItem
           apartment={selectedApartment}
-          handleCloseNavigationApartment={() => handleCloseNavigationApartment()}
+          handleCloseNavigationApartment={() =>
+            handleCloseNavigationApartment()
+          }
         />
       )}
       <View
@@ -99,7 +105,7 @@ export default function Explore() {
           <TouchableOpacity
             onPress={openModal}
             style={{
-              backgroundColor:"#fff",
+              backgroundColor: "#fff",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
@@ -121,7 +127,11 @@ export default function Explore() {
           </TouchableOpacity>
         </View>
       </View>
-      <GrantAccessLocations modalVisible={modalVisible} closeModal={closeModal}/>
+      <GrantAccessLocations
+        modalVisible={modalVisible}
+        closeModal={closeModal}
+        handleGrantLocationAccess={handleGrantLocationAccess}
+      />
     </View>
   );
 }
@@ -139,15 +149,15 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
     fontSize: RFValue(14),
-    paddingVertical: RFValue(3),
+    paddingVertical: Platform.OS === "android" ? RFValue(3) : RFValue(8),
     paddingLeft: RFValue(32),
     paddingRight: RFValue(15),
   },
   eyeIcon: {
-    position: "absolute", 
-    left: 2, 
-    top: "60%", 
-    transform: [{ translateY: RFValue(3.0) }], 
-    zIndex: 10, 
+    position: "absolute",
+    left: 2,
+    top: "60%",
+    transform: [{ translateY: RFValue(3.0) }],
+    zIndex: 10,
   },
 });

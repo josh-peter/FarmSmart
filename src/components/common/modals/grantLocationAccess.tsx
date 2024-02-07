@@ -24,7 +24,11 @@ interface Props {
   onClose: () => void;
 }
 
-export default function GrantAccessLocations({ modalVisible, closeModal }:any) {
+export default function GrantAccessLocations({
+  modalVisible,
+  closeModal,
+  handleGrantLocationAccess,
+}: any) {
   return (
     <Modal
       isVisible={modalVisible}
@@ -74,7 +78,10 @@ export default function GrantAccessLocations({ modalVisible, closeModal }:any) {
         >
           This will help us suggest nearby properties
         </Text>
-        <TouchableOpacity style={styles.startBtn}>
+        <TouchableOpacity
+          onPress={handleGrantLocationAccess}
+          style={styles.startBtn}
+        >
           <Text style={styles.startText}>Allow location access</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.rejectBtn}>

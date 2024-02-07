@@ -1,12 +1,24 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
-import React from 'react'
-import { Marker } from 'react-native-maps';
+import { StyleSheet, Text, TouchableOpacity, View, Image, ImageBackground } from 'react-native'
+import React, { useState } from 'react'
+import { Marker, Callout } from "react-native-maps";
 import { RFValue } from 'react-native-responsive-fontsize';
 
-const CustomMarker = ({apartment, onPress}) => {
+const CustomMarker = ({ apartment, onPress }: any) => {
+  const [isActive, setIsActive] = useState(false);
+
+const handlePress = () => {
+  if (!isActive) {
+    setIsActive(true); 
+    onPress(); 
+  } else {
+    setIsActive(false);
+  }
+  };
+  
+
   return (
-      <Marker
-          onPress={onPress}
+    <Marker
+      onPress={handlePress}
       key={apartment.id}
       coordinate={{
         latitude: apartment.latitude,
@@ -14,15 +26,30 @@ const CustomMarker = ({apartment, onPress}) => {
       }}
     >
       <TouchableOpacity>
-        <Image
+        <ImageBackground
           resizeMode="contain"
-          source={require("../../assets/images/indicator.png")}
+          source={
+            isActive
+              ? require("../../assets/images/activepointer.png")
+              : require("../../assets/images/pointer.png")
+          }
           style={{
-            width: RFValue(40),
-            height: RFValue(40),
-            borderRadius: 20,
+            width: isActive ? RFValue(60) : RFValue(53),
+            height: isActive ? RFValue(60) : RFValue(53),
+            flexDirection: "column",
+            alignItems: "center",
           }}
-        />
+        >
+          <Image
+            source={require("../../assets/images/custompointer.png")}
+            style={{
+              width: RFValue(40),
+              height: RFValue(40),
+              borderRadius: 50,
+              marginTop: isActive ? RFValue(5) : RFValue(3),
+            }}
+          />
+        </ImageBackground>
       </TouchableOpacity>
     </Marker>
   );

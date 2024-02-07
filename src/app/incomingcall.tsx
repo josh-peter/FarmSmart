@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Image, StyleSheet, Animated, Dimensions, TouchableOpacity } from "react-native";
+import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
 
@@ -53,13 +54,13 @@ export default function IncomingCall() {
         <Image
           resizeMode="contain"
           source={require("../assets/images/incoming-caller.png")}
-          style={[
+          style={
             {
-              width: "100%",
-              height: "100%",
+              width: responsiveScreenWidth(100),
+              height: responsiveScreenHeight(100),
               zIndex: -999,
-            },
-          ]}
+            }
+          }
         />
         <Image
           resizeMode="contain"
