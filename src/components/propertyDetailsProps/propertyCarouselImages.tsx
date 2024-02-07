@@ -37,6 +37,7 @@ export default function PropertyCarouselImages() {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => router.back()}
           style={{
             position: "absolute",
             top: RFValue(20),

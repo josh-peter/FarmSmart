@@ -20,6 +20,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Skeleton } from "moti/skeleton";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 const { width, height } = Dimensions.get("window");
+import Carousel from "pinar"
+import { ScrollView } from "react-native-gesture-handler";
 
 const Index = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -97,6 +99,33 @@ const Index = () => {
 
     const colorMode: "light" | "dark" = "light";
 
+  const images = [
+    {
+      name: "bedrom",
+      img: require("../../assets/images/flat.png"),
+    },
+    {
+      name: "sitting room",
+      img: require("../../assets/images/flat.png"),
+    },
+    {
+      name: "balcony",
+      img: require("../../assets/images/flat.png"),
+    },
+    {
+      name: "living area",
+      img: require("../../assets/images/flat.png"),
+    },
+    {
+      name: "toilet",
+      img: require("../../assets/images/flat.png"),
+    },
+    {
+      name: "alfy",
+      img: require("../../assets/images/flat.png"),
+    },
+  ];
+
   return (
     <>
       <Stack.Screen
@@ -157,7 +186,7 @@ const Index = () => {
                     borderWidth: 1,
                     borderColor: "#E6E6E6",
                     width: RFValue(46),
-                height: RFValue(46),
+                    height: RFValue(46),
                     borderRadius: 12,
                   }}
                 >
@@ -194,58 +223,65 @@ const Index = () => {
             marginTop: RFValue(23),
           }}
         >
-          <View
-            style={{
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: "#E4E4E7",
-              padding: RFValue(6),
-              backgroundColor: "#Fdfdfd",
-            }}
-          >
-            <TouchableOpacity style={styles.eyeIcon}>
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/search-normal.png")}
+          <Skeleton colorMode={colorMode} width={RFValue(230)} height={50}>
+            {loading ? null : (
+              <View
                 style={{
-                  height: RFValue(23),
-                  width: RFValue(23),
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#E4E4E7",
+                  padding: RFValue(6),
+                  backgroundColor: "#Fdfdfd",
                 }}
-              />
-            </TouchableOpacity>
-
-            <TextInput
-              placeholder="Any property or location"
-              style={styles.inputbox}
-              placeholderTextColor="#5f5f5f"
-              value=""
-              onChangeText={(newText) => searchHandler(newText)}
-              defaultValue={text}
-            />
-          </View>
-          <Link href={"/search"} asChild>
-            <TouchableOpacity
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                borderWidth: 1,
-                borderColor: "#E6E6E6",
-                width: RFValue(46),
-                height: RFValue(50),
-                borderRadius: 12,
-              }}
-            >
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/filter-edit.png")}
-                style={{
-                  height: RFValue(28),
-                  width: RFValue(28),
-                }}
-              />
-            </TouchableOpacity>
-          </Link>
+              >
+                <TouchableOpacity style={styles.eyeIcon}>
+                  <Image
+                    resizeMode="contain"
+                    source={require("../../assets/images/search-normal.png")}
+                    style={{
+                      height: RFValue(23),
+                      width: RFValue(23),
+                    }}
+                  />
+                </TouchableOpacity>
+                <TextInput
+                  placeholder="Any property or location"
+                  style={styles.inputbox}
+                  placeholderTextColor="#5f5f5f"
+                  value=""
+                  onChangeText={(newText) => searchHandler(newText)}
+                  defaultValue={text}
+                />
+              </View>
+            )}
+          </Skeleton>
+          <Skeleton colorMode={colorMode} width={RFValue(56)} height={50}>
+            {loading ? null : (
+              <Link href={"/search"} asChild>
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderWidth: 1,
+                    borderColor: "#E6E6E6",
+                    width: RFValue(46),
+                    height: RFValue(50),
+                    borderRadius: 12,
+                  }}
+                >
+                  <Image
+                    resizeMode="contain"
+                    source={require("../../assets/images/filter-edit.png")}
+                    style={{
+                      height: RFValue(28),
+                      width: RFValue(28),
+                    }}
+                  />
+                </TouchableOpacity>
+              </Link>
+            )}
+          </Skeleton>
         </View>
         <View
           style={{
@@ -255,62 +291,72 @@ const Index = () => {
             marginTop: RFValue(20),
           }}
         >
-          <Text
-            style={{
-              fontSize: RFValue(18),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            Properties
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 5,
-              alignItems: "center",
-              backgroundColor: "#E4E4E7",
-              padding: RFValue(3),
-              borderRadius: RFValue(7),
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => setSelectedType("Rental")}
-              style={{
-                paddingVertical: RFValue(7),
-                paddingHorizontal: RFValue(20),
-                borderRadius: RFValue(5),
-                backgroundColor: selectedType === "Rental" ? "#fff" : "#E4E4E7",
-              }}
-            >
+          <Skeleton colorMode={colorMode} width={"55%"} height={30}>
+            {loading ? null : (
               <Text
                 style={{
-                  fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(18),
+                  fontFamily: "outfit-bold",
+                  lineHeight: RFValue(30),
                 }}
               >
-                Rent
+                Properties
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setSelectedType("Sales")}
-              style={{
-                paddingVertical: RFValue(7),
-                paddingHorizontal: RFValue(20),
-                borderRadius: RFValue(5),
-                backgroundColor: selectedType === "Sales" ? "#fff" : "#E4E4E7",
-              }}
-            >
-              <Text
+            )}
+          </Skeleton>
+          <Skeleton colorMode={colorMode} width={RFValue(90)} height={40}>
+            {loading ? null : (
+              <View
                 style={{
-                  fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
+                  flexDirection: "row",
+                  gap: 5,
+                  alignItems: "center",
+                  backgroundColor: "#E4E4E7",
+                  padding: RFValue(3),
+                  borderRadius: RFValue(7),
                 }}
               >
-                Buy
-              </Text>
-            </TouchableOpacity>
-          </View>
+                <TouchableOpacity
+                  onPress={() => setSelectedType("Rental")}
+                  style={{
+                    paddingVertical: RFValue(7),
+                    paddingHorizontal: RFValue(20),
+                    borderRadius: RFValue(5),
+                    backgroundColor:
+                      selectedType === "Rental" ? "#fff" : "#E4E4E7",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: RFValue(12),
+                      fontFamily: "plusjakarta-regular",
+                    }}
+                  >
+                    Rent
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setSelectedType("Sales")}
+                  style={{
+                    paddingVertical: RFValue(7),
+                    paddingHorizontal: RFValue(20),
+                    borderRadius: RFValue(5),
+                    backgroundColor:
+                      selectedType === "Sales" ? "#fff" : "#E4E4E7",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: RFValue(12),
+                      fontFamily: "plusjakarta-regular",
+                    }}
+                  >
+                    Buy
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </Skeleton>
         </View>
         <View
           style={{
@@ -322,120 +368,150 @@ const Index = () => {
           }}
         >
           {HomeIconsData?.map((icon, index: number) => (
-            <TouchableOpacity
-              onPress={() => handleIconPress(index)}
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              key={icon.id}
-            >
-              <Image
-                resizeMode="contain"
-                source={icon.img}
-                style={{
-                  height: RFValue(22),
-                  width: RFValue(22),
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
-                  lineHeight: RFValue(17),
-                  marginTop: RFValue(3),
-                  color: activeIndex === index ? "#06782F" : "#414141",
-                  borderBottomWidth: activeIndex === index ? 2 : 0,
-                  borderBottomColor:
-                    activeIndex === index ? "#06782F" : "transparent",
-                }}
-              >
-                {icon.title}
-              </Text>
-            </TouchableOpacity>
+            <Skeleton colorMode={colorMode} width={RFValue(50)} height={50}>
+              {loading ? null : (
+                <TouchableOpacity
+                  onPress={() => handleIconPress(index)}
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  key={icon.id}
+                >
+                  <Image
+                    resizeMode="contain"
+                    source={icon.img}
+                    style={{
+                      height: RFValue(22),
+                      width: RFValue(22),
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: RFValue(12),
+                      fontFamily: "plusjakarta-regular",
+                      lineHeight: RFValue(17),
+                      marginTop: RFValue(3),
+                      color: activeIndex === index ? "#06782F" : "#414141",
+                      borderBottomWidth: activeIndex === index ? 2 : 0,
+                      borderBottomColor:
+                        activeIndex === index ? "#06782F" : "transparent",
+                    }}
+                  >
+                    {icon.title}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </Skeleton>
           ))}
         </View>
-        <FlatList
-          data={filteredData}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{}}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => router.push("/property-details")}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {filteredData?.map((item) => (
+            <View
+              key={item.id}
+              // onPress={() => router.push("/property-details")}
               style={{
                 marginBottom: RFValue(20),
                 position: "relative",
-                overflow:"hidden"
+                overflow: "hidden",
               }}
             >
-              <View
-                style={{
-                  position: "relative",
-                  overflow: "hidden",
-                }}
+              <Skeleton colorMode={colorMode} width={RFValue(310)} height={RFValue(250)}
               >
-                <TouchableOpacity>
+                {loading ? null : (
                   <View
                     style={{
-                      position: "absolute",
-                      top: RFValue(28),
-                      left: RFValue(22),
-                      paddingVertical: RFValue(8),
-                      paddingHorizontal: RFValue(22),
-                      backgroundColor: "#ECFFF452",
-                      borderRadius: 12,
+                      position: "relative",
+                      overflow: "hidden",
                     }}
                   >
-                    <Text
+                    <TouchableOpacity>
+                      <View
+                        style={{
+                          position: "absolute",
+                          top: RFValue(28),
+                          left: RFValue(22),
+                          paddingVertical: RFValue(8),
+                          paddingHorizontal: RFValue(22),
+                          backgroundColor: "#ECFFF452",
+                          borderRadius: 12,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: RFValue(13),
+                            fontFamily: "outfit-bold",
+                            color: "#06782F",
+                          }}
+                        >
+                          {item.name}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => toggleHeart(item)}>
+                      <View
+                        style={{
+                          position: "absolute",
+                          top: RFValue(24),
+                          right: RFValue(20),
+                          paddingVertical: RFValue(8),
+                          paddingHorizontal: RFValue(10),
+                          backgroundColor: "#ECFFF452",
+                          borderRadius: 30,
+                        }}
+                      >
+                        <Image
+                          resizeMode="contain"
+                          source={
+                            isHeartClicked
+                              ? require("../../assets/images/heartclicked.png")
+                              : require("../../assets/images/heart.png")
+                          }
+                          style={{
+                            height: RFValue(28),
+                            width: RFValue(28),
+                          }}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                    <Carousel
+                      showsControls={false}
+                      dotStyle={styles.dot}
+                      activeDotStyle={styles.activeDot}
                       style={{
-                        fontSize: RFValue(13),
-                        fontFamily: "outfit-bold",
-                        color: "#06782F",
+                        height: RFValue(260),
+                        marginBottom: RFValue(15),
+                        zIndex: -999,
                       }}
                     >
-                      {item.name}
-                    </Text>
+                      {[
+                        item.img,
+                        item.img1,
+                        item.img2,
+                        item.img3,
+                        item.img4,
+                        item.img5,
+                        item.img6,
+                      ].map((img, index) => (
+                        <Image
+                          key={index}
+                          source={img}
+                          style={{
+                            width:
+                              Platform.OS === "ios"
+                                ? RFValue(310)
+                                : RFValue(300),
+                            height: RFValue(260),
+                            borderRadius: 15,
+                          }}
+                        />
+                      ))}
+                    </Carousel>
                   </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => toggleHeart(item)}>
-                  <View
-                    style={{
-                      position: "absolute",
-                      top: RFValue(24),
-                      right: RFValue(20),
-                      paddingVertical: RFValue(8),
-                      paddingHorizontal: RFValue(10),
-                      backgroundColor: "#ECFFF452",
-                      borderRadius: 30,
-                    }}
-                  >
-                    <Image
-                      resizeMode="contain"
-                      source={
-                        isHeartClicked
-                          ? require("../../assets/images/heartclicked.png")
-                          : require("../../assets/images/heart.png")
-                      }
-                      style={{
-                        height: RFValue(28),
-                        width: RFValue(28),
-                      }}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <Image
-                  resizeMode="cover"
-                  source={item.img}
-                  style={{
-                    width: Platform.OS === "ios" ? RFValue(310) : RFValue(300),
-                    height: RFValue(220),
-                    borderRadius: 15,
-                     marginBottom:RFValue(15),
-                    zIndex: -999,
-                  }}
-                />
-              </View>
+                )}
+              </Skeleton>
+
               <View
                 style={{
                   flexDirection: "row",
@@ -443,174 +519,94 @@ const Index = () => {
                   alignItems: "center",
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: RFValue(18),
-                    fontFamily: "outfit-bold",
-                  }}
-                >
-                  {item.description}
-                </Text>
-                <TouchableOpacity
-                  style={{
-                    paddingVertical: RFValue(7),
-                    paddingHorizontal: RFValue(20),
-                    borderRadius: RFValue(5),
-                    backgroundColor: "#ECFFF4",
-                  }}
-                >
-                  <Text
+                <Skeleton colorMode={colorMode} width={"70%"} height={30}>
+                  {loading ? null : (
+                    <Text
+                      style={{
+                        fontSize: RFValue(18),
+                        fontFamily: "outfit-bold",
+                      }}
+                    >
+                      {item.description}
+                    </Text>
+                  )}</Skeleton>
+                <Skeleton colorMode={colorMode} width={RFValue(80)} height={30} >
+                  {loading ? null : (
+                    <TouchableOpacity
+                      style={{
+                        paddingVertical: RFValue(7),
+                        paddingHorizontal: RFValue(20),
+                        borderRadius: RFValue(5),
+                        backgroundColor: "#ECFFF4",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: RFValue(14),
+                          fontFamily: "outfit-medium",
+                          color: "#06782F",
+                        }}
+                      >
+                        {item.type}
+                      </Text>
+                    </TouchableOpacity>
+                  )}</Skeleton>
+              </View>
+              <Skeleton colorMode={colorMode} width={RFValue(150)} height={30}>
+                {loading ? null : (
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: RFValue(18),
+                        fontFamily: "outfit-bold",
+                        color: "#06782F",
+                      }}
+                    >
+                      {item.price}{" "}
+                      <Text
+                        style={{
+                          fontSize: RFValue(14),
+                          fontFamily: "plusjakarta-regular",
+                          color: "#414141",
+                        }}
+                      >
+                        {item.type === "Rental" ? item.rent : ""}
+                      </Text>
+                    </Text>
+                  </View>
+                )}</Skeleton>
+               <Skeleton colorMode={colorMode} width={RFValue(150)} height={30}>
+                {loading ? null : (
+                  <View
                     style={{
-                      fontSize: RFValue(14),
-                      fontFamily: "outfit-medium",
-                      color: "#06782F",
+                      flexDirection: "row",
+                      gap: 5,
+                      alignItems: "center",
+                      marginTop: RFValue(3),
                     }}
                   >
-                    {item.type}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    fontSize: RFValue(18),
-                    fontFamily: "outfit-bold",
-                    color: "#06782F",
-                  }}
-                >
-                  {item.price}{" "}
-                  <Text
-                    style={{
-                      fontSize: RFValue(14),
-                      fontFamily: "plusjakarta-regular",
-                      color: "#414141",
-                    }}
-                  >
-                    {item.type === "Rental" ? item.rent : ""}
-                  </Text>
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 5,
-                  alignItems: "center",
-                  marginTop: RFValue(3),
-                }}
-              >
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/location.png")}
-                  style={{
-                    width: RFValue(20),
-                    height: RFValue(20),
-                  }}
-                />
-                <Text
-                  style={{
-                    fontSize: RFValue(13),
-                    fontFamily: "plusjakarta-regular",
-                    color: "#414141",
-                  }}
-                >
-                  {item.location}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 5,
-                  alignItems: "center",
-                  position: "absolute",
-                  top: RFValue(200),
-                  left: RFValue(48),
-                 
-                }}
-              >
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#06782F",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-                <View
-                  style={{
-                    width: RFValue(18),
-                    height: RFValue(4),
-                    borderRadius: 30,
-                    backgroundColor: "#D9D9D9",
-                  }}
-                />
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+                    <Image
+                      resizeMode="contain"
+                      source={require("../../assets/images/location.png")}
+                      style={{
+                        width: RFValue(20),
+                        height: RFValue(20),
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: RFValue(13),
+                        fontFamily: "plusjakarta-regular",
+                        color: "#414141",
+                      }}
+                    >
+                      {item.location}
+                    </Text>
+                  </View>
+                )}</Skeleton>
+            </View>
+          ))}
+        </ScrollView>
       </Animated.View>
     </>
   );
@@ -638,5 +634,19 @@ const styles = StyleSheet.create({
     top: RFValue(10),
     left: RFValue(10),
     zIndex: 1,
+  },
+  dot: {
+    width: RFValue(18),
+    height: RFValue(4),
+    borderRadius: 30,
+    backgroundColor: "#D9D9D9",
+    marginHorizontal: RFValue(2),
+  },
+  activeDot: {
+    width: RFValue(18),
+    height: RFValue(4),
+    borderRadius: 30,
+    backgroundColor: "#06782F",
+    marginHorizontal: RFValue(2),
   },
 });

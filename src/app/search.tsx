@@ -8,6 +8,7 @@ import {
   Animated,
   FlatList,
   Modal,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { Link,router, SearchParams, useSearchParams } from "expo-router";
@@ -16,6 +17,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { PropertiesData } from "../Data/propertiesData";
 import ModalPicker from "../components/common/modalPicker";
 import FilterModal from "../components/common/modals/filterModal";
+import Carousel from "pinar";
 
 interface SearchItem {
   id: number;
@@ -26,9 +28,6 @@ export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredResults, setFilteredResults] = useState<SearchItem[]>([]);
   const [isHeartClicked, setHeartClicked] = useState(false);
-  const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
-    "Rental"
-  );
   const [chooseData, setChooseData] = useState("All location");
   const [isModdalVisible, setisModdalVisible] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -37,10 +36,6 @@ export default function Search() {
   const closeModal = () => {
     setModalVisible(false);
   };
-
-
-
-  // console.log(SearchParams(), "mem22");
 
     const openModal = () => {
         setModalVisible(true)
@@ -214,7 +209,6 @@ export default function Search() {
               />
             </Modal>
           </View>
-          <Link href={"/home/account"} asChild>
             <TouchableOpacity
               onPress={openModal}
               style={{
@@ -237,7 +231,6 @@ export default function Search() {
                 }}
               />
             </TouchableOpacity>
-          </Link>
         </View>
       )}
       <View
@@ -250,31 +243,31 @@ export default function Search() {
           paddingVertical: RFValue(10),
         }}
       >
-          {searchQuery.length > 0 && !propertyResult
-            ? filteredResults.map((search: any) => (
-                <TouchableOpacity
-                  onPress={() => locationSelectedHandler(search.search)}
+        {searchQuery.length > 0 && !propertyResult
+          ? filteredResults.map((search: any) => (
+              <TouchableOpacity
+                onPress={() => locationSelectedHandler(search.search)}
+                style={{
+                  backgroundColor: "#f8fffb",
+                  paddingHorizontal: RFValue(13),
+                  paddingVertical: RFValue(10),
+                  borderRadius: 25,
+                }}
+                key={search.id}
+              >
+                <Text
                   style={{
-                    backgroundColor: "#f8fffb",
-                    paddingHorizontal: RFValue(13),
-                    paddingVertical: RFValue(10),
-                    borderRadius: 25,
+                    fontSize: RFValue(14),
+                    fontFamily: "outfit-bold",
+                    lineHeight: RFValue(20.16),
+                    color: "#06782F",
                   }}
-                  key={search.id}
                 >
-                  <Text
-                    style={{
-                      fontSize: RFValue(14),
-                      fontFamily: "outfit-bold",
-                      lineHeight: RFValue(20.16),
-                      color: "#06782F",
-                    }}
-                  >
-                    {search.search}
-                  </Text>
-                </TouchableOpacity>
-              ))
-            : null}
+                  {search.search}
+                </Text>
+              </TouchableOpacity>
+            ))
+          : null}
       </View>
 
       <FlatList
@@ -342,16 +335,37 @@ export default function Search() {
                   />
                 </View>
               </TouchableOpacity>
-              <Image
-                resizeMode="cover"
-                source={item.img}
+              <Carousel
+                showsControls={false}
+                dotStyle={styles.dot}
+                activeDotStyle={styles.activeDot}
                 style={{
-                  width: RFValue(300),
-                  height: RFValue(270),
+                  height: RFValue(260),
+                  marginBottom: RFValue(5),
                   zIndex: -999,
-                  borderRadius: 20,
                 }}
-              />
+              >
+                {[
+                  item.img,
+                  item.img1,
+                  item.img2,
+                  item.img3,
+                  item.img4,
+                  item.img5,
+                  item.img6,
+                ].map((img, index) => (
+                  <Image
+                    key={index}
+                    source={img}
+                    style={{
+                      width:
+                        Platform.OS === "ios" ? RFValue(310) : RFValue(300),
+                      height: RFValue(260),
+                      borderRadius: 15,
+                    }}
+                  />
+                ))}
+              </Carousel>
             </View>
             <View
               style={{
@@ -434,97 +448,6 @@ export default function Search() {
                 {item.location}
               </Text>
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 5,
-                alignItems: "center",
-                position: "absolute",
-                top: RFValue(240),
-                left: RFValue(48),
-              }}
-            >
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#06782F",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-            </View>
           </Animated.View>
         )}
       />
@@ -603,5 +526,19 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+  dot: {
+    width: RFValue(18),
+    height: RFValue(4),
+    borderRadius: 30,
+    backgroundColor: "#D9D9D9",
+    marginHorizontal: RFValue(2),
+  },
+  activeDot: {
+    width: RFValue(18),
+    height: RFValue(4),
+    borderRadius: 30,
+    backgroundColor: "#06782F",
+    marginHorizontal: RFValue(2),
   },
 });

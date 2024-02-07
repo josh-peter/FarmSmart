@@ -1,4 +1,4 @@
-import { Animated, FlatList, StyleSheet, Text, TouchableOpacity, View,Image, TextInput } from 'react-native'
+import { Animated, FlatList, StyleSheet, Text, TouchableOpacity, View,Image, TextInput, Platform } from 'react-native'
 import React,{useEffect, useState} from 'react'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -373,18 +373,18 @@ const styles = StyleSheet.create({
     paddingVertical: RFValue(30),
   },
   inputbox: {
-    width: RFValue(230),
+    width: Platform.OS === "android" ? RFValue(230) : RFValue(245),
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
     fontSize: RFValue(14),
-    paddingVertical: RFValue(3),
+    paddingVertical: Platform.OS === "android" ? RFValue(3) : RFValue(8),
     paddingLeft: RFValue(32),
     paddingRight: RFValue(15),
   },
   eyeIcon: {
     position: "absolute",
-    top: 10,
-    left: 10,
+   top: RFValue(10),
+    left: RFValue(10),
     zIndex: 1,
-  },                    
+  },
 });

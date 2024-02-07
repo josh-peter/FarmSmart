@@ -6,7 +6,8 @@ import {
   Dimensions,
   ScrollView,
   TextInput,
-  Image
+  Image,
+  Platform
 } from "react-native";
 import React, { useState } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -136,14 +137,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: responsiveScreenHeight(60),
+    marginTop:
+      Platform.OS === "android"
+        ? responsiveScreenHeight(-10)
+        : responsiveScreenHeight(-5),
   },
   modal: {
     backgroundColor: "#fff",
     borderRadius: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.37,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.24,
     shadowRadius: 9.66 / 2,
     elevation: 12,
     overflow: "hidden",
