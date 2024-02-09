@@ -488,7 +488,8 @@ const Index = () => {
                 )}
               </Skeleton>
 
-              <View
+              <TouchableOpacity onPress={()=> router.push("/property-details") }>
+                  <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -580,6 +581,7 @@ const Index = () => {
                     </Text>
                   </View>
                 )}</Skeleton>
+            </TouchableOpacity>
             </View>
           ))}
         </ScrollView>
