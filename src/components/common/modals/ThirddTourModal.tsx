@@ -9,6 +9,7 @@ import {
   Platform,
   Dimensions,
   Button,
+  FlatList,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import Modal from "react-native-modal";
@@ -17,33 +18,41 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from "react-native-responsive-dimensions";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+const { width, height } = Dimensions.get("window");
 import { RFValue } from "react-native-responsive-fontsize";
-import VideoPlayer from "expo-video-player";
-import { setStatusBarHidden } from "expo-status-bar";
-import {
-  Video,
-  AVPlaybackStatus,
-  VideoFullscreenUpdateEvent,
-  ResizeMode,
-} from "expo-av";
+const image1 = require("../../../assets/images/full-frame.png");
+const image2 = require("../../../assets/images/full-frame.png");
+const image3 = require("../../../assets/images/full-frame.png");
+const image4 = require("../../../assets/images/full-frame.png");
 
 interface Props {
-  modalVideoVisible: boolean;
-  closeVideoModal: () => void;
+  modalTourVisible: boolean;
+  closeTourModal: () => void;
 }
 
 export default function ThreeDTourModal({
+  
   modalTourVisible,
   closeTourModal,
-}:Props) {
-  const [isMute, setIsMute] = useState(false);
-  const refVideo2 = useRef<any>(null);
-  const [inFullscreen, setInFullsreen] = useState(false);
-
-  const videoContainerStyles = inFullscreen
-    ? styles.fullscreenContainer
-    : styles.videoContainer;
+}: Readonly<Props>) {
+    const [selectIndex, setSelectIndex] = useState(0);
+    const totalNumberOfPages = 4;
+    const roomOptions = [
+      "Sitting room",
+      "Bedroom",
+      "Dining room",
+      "Swimming pool",
+    ];
+    const [data, setData] = useState([
+      {
+        items: [image1, image2, image3, image4],
+      },
+    ]);
+  
+   const getCurrentRoomOption = () => {
+     return roomOptions[selectIndex];
+   };
+ 
   return (
     <View>
       <Modal
@@ -127,7 +136,7 @@ export default function ThreeDTourModal({
                     lineHeight: RFValue(25),
                   }}
                 >
-                  1/4
+                  {`${selectIndex + 1}/${totalNumberOfPages}`}
                 </Text>
               </View>
               <View
@@ -137,39 +146,20 @@ export default function ThreeDTourModal({
                   justifyContent: "space-between",
                 }}
               >
-                <View
-                  style={[
-                    styles.indicator,
-                    {
-                      backgroundColor: "#06782F",
-                    },
-                  ]}
-                />
-                <View
-                  style={[
-                    styles.indicator,
-                    {
-                      backgroundColor: "#06782F",
-                    },
-                  ]}
-                />
-                <View
-                  style={[
-                    styles.indicator,
-                    {
-                      backgroundColor: "#06782F",
-                    },
-                  ]}
-                />
-                <View
-                  style={[
-                    styles.indicator,
-                    {
-                      backgroundColor: "#06782F",
-                    },
-                  ]}
-                />
+                {data[0].items.map((item, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      styles.indicator,
+                      {
+                        backgroundColor:
+                          selectIndex === index ? "#06782F" : "#D9D9D9",
+                      },
+                    ]}
+                  />
+                ))}
               </View>
+             
               <Text
                 style={{
                   fontSize: RFValue(16),
@@ -178,19 +168,34 @@ export default function ThreeDTourModal({
                   lineHeight: RFValue(60),
                 }}
               >
-                Sitting room
+                {getCurrentRoomOption()}
               </Text>
             </View>
           </View>
-          <View>
-            <Image
-              source={require("../../../assets/images/full-frame.png")}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          </View>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            onScroll={(e) => {
+              setSelectIndex(
+                parseInt((e.nativeEvent.contentOffset.x / width).toFixed(0))
+              );
+            }}
+            data={data[0].items}
+            renderItem={({ item, index }) => {
+              return (
+                <View key={index}>
+                  <Image
+                    source={item}
+                    style={{
+                      width: width,
+                      height: "100%",
+                    }}
+                  />
+                </View>
+              );
+            }}
+          />
         </View>
       </Modal>
     </View>

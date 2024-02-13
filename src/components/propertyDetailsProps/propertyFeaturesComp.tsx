@@ -16,29 +16,44 @@ import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
 import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
-import MapView, { Marker } from "react-native-maps";
-import apartments from "../../Data/apartments.json";
-import CustomMarker from "../mapProps/customMarker";
-import ApartmentsListItem from "../mapProps/ApartmentsListItem";
-import Singleapartment from "../../Data/singleApartment.json";
-import { reviewsData } from "../../Data/reviewsData";
 import FeaturesAndAmenities from "../common/modals/featuresAndAmenities";
 import PropertyVideoPlay from "../common/modals/propertyVideoPlay";
 import ThreeDTourModal from "../common/modals/ThirddTourModal";
+const image1 = require("../../assets/images/videobg.png");
+const image2 = require("../../assets/images/videobg.png");
+const image3 = require("../../assets/images/videobg.png");
+const image4 = require("../../assets/images/videobg.png");
 
 export default function PropertyFeatureComp() {
   const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(1);
-    const [selectedApartment, setSelectedApartment] = useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
+  const [selectedApartment, setSelectedApartment] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectIndex, setSelectIndex] = useState(0);
+  const totalNumberOfPages = 4;
+  const roomOptions = [
+    "Sitting room",
+    "Bedroom",
+    "Dining room",
+    "Swimming pool",
+  ];
+  const [data, setData] = useState([
+    {
+      items: [image1, image2, image3, image4],
+    },
+  ]);
 
-    const openModal = () => {
-      setModalVisible(true);
-    };
+   const getCurrentRoomOption = () => {
+     return roomOptions[selectIndex];
+  };
+  
+  const openModal = () => {
+    setModalVisible(true);
+  };
 
-    const closeModal = () => {
-      setModalVisible(false);
-    };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const [modalVideoVisible, setModalVideoVisible] = useState(false);
   const [modalTourVisible, setModalTourVisible] = useState(false);
@@ -51,14 +66,13 @@ export default function PropertyFeatureComp() {
     setModalVideoVisible(false);
   };
 
-    const openTourModal = () => {
-      setModalTourVisible(true);
-    };
+  const openTourModal = () => {
+    setModalTourVisible(true);
+  };
 
-    const closeTourModal = () => {
-      setModalTourVisible(false);
-    };
-
+  const closeTourModal = () => {
+    setModalTourVisible(false);
+  };
 
   const animation = () => {
     Animated.timing(fade, {
@@ -94,7 +108,6 @@ export default function PropertyFeatureComp() {
       amenity: "Bedroom",
     },
   ];
-
 
   return (
     <View
@@ -361,10 +374,13 @@ export default function PropertyFeatureComp() {
             <View
               style={{
                 marginTop: RFValue(15),
-                paddingHorizontal: RFValue(20),
               }}
             >
-              <View>
+              <View
+                style={{
+                  paddingHorizontal: RFValue(20),
+                }}
+              >
                 <View
                   style={{
                     flexDirection: "row",
@@ -390,7 +406,7 @@ export default function PropertyFeatureComp() {
                       lineHeight: RFValue(25),
                     }}
                   >
-                    1/4
+                    {`${selectIndex + 1}/${totalNumberOfPages}`}
                   </Text>
                 </View>
                 <View
@@ -400,38 +416,18 @@ export default function PropertyFeatureComp() {
                     justifyContent: "space-between",
                   }}
                 >
-                  <View
-                    style={[
-                      styles.indicator,
-                      {
-                        backgroundColor: "#06782F",
-                      },
-                    ]}
-                  />
-                  <View
-                    style={[
-                      styles.indicator,
-                      {
-                        backgroundColor: "#06782F",
-                      },
-                    ]}
-                  />
-                  <View
-                    style={[
-                      styles.indicator,
-                      {
-                        backgroundColor: "#06782F",
-                      },
-                    ]}
-                  />
-                  <View
-                    style={[
-                      styles.indicator,
-                      {
-                        backgroundColor: "#06782F",
-                      },
-                    ]}
-                  />
+                  {data[0].items.map((item, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        styles.indicator,
+                        {
+                          backgroundColor:
+                            selectIndex === index ? "#06782F" : "#D9D9D9",
+                        },
+                      ]}
+                    />
+                  ))}
                 </View>
                 <Text
                   style={{
@@ -441,36 +437,61 @@ export default function PropertyFeatureComp() {
                     lineHeight: RFValue(40),
                   }}
                 >
-                  Sitting room
+                  {getCurrentRoomOption()}
                 </Text>
               </View>
-              <View>
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/videobg.png")}
-                  style={{
-                    width: "100%",
-                    height: RFValue(200),
+
+              <View
+                style={{
+                  height: 270,
+                  width: width,
+                }}
+              >
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  pagingEnabled
+                  onScroll={(e) => {
+                    setSelectIndex(
+                      parseInt(
+                        (e.nativeEvent.contentOffset.x / width).toFixed(0)
+                      )
+                    );
+                  }}
+                  data={data[0].items}
+                  renderItem={({ item, index }) => {
+                    return (
+                      <View>
+                        <Image
+                          resizeMode="contain"
+                          source={item}
+                          style={{
+                            width: width,
+                            height: RFValue(200),
+                          }}
+                        />
+                        <TouchableOpacity
+                          onPress={openTourModal}
+                          style={{
+                            position: "absolute",
+                            top: RFValue(70),
+                            right: 0,
+                            left: RFValue(130),
+                          }}
+                        >
+                          <Image
+                            resizeMode="contain"
+                            source={require("../../assets/images/play.png")}
+                            style={{
+                              width: RFValue(50),
+                              height: RFValue(50),
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    );
                   }}
                 />
-                <TouchableOpacity
-                  onPress={openTourModal}
-                  style={{
-                    position: "absolute",
-                    top: RFValue(70),
-                    right: 0,
-                    left: RFValue(130),
-                  }}
-                >
-                  <Image
-                    resizeMode="contain"
-                    source={require("../../assets/images/play.png")}
-                    style={{
-                      width: RFValue(50),
-                      height: RFValue(50),
-                    }}
-                  />
-                </TouchableOpacity>
               </View>
             </View>
           </View>
