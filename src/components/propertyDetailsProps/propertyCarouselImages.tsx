@@ -35,11 +35,15 @@ export default function PropertyCarouselImages() {
           horizontal
           showsHorizontalScrollIndicator={false}
           pagingEnabled
-          onScroll={(e) => {
-            setSelectIndex(
-              parseInt((e.nativeEvent.contentOffset.x / width).toFixed(0))
-            );
-          }}
+          /* The commented out code is an event handler for the `onScroll` event of the `FlatList`
+          component. It calculates the index of the currently visible item in the horizontal scroll
+          view and updates the `selectIndex` state variable accordingly. However, it is currently
+          commented out, so it is not being executed. */
+          // onScroll={(e) => {
+          //   setSelectIndex(
+          //     parseInt((e.nativeEvent.contentOffset.x / width).toFixed(0))
+          //   );
+          // }}
           data={data[0].items}
           renderItem={({ item, index }) => {
             return (
@@ -163,7 +167,7 @@ export default function PropertyCarouselImages() {
             >
               <Image
                 resizeMode="cover"
-                source={item.items[0]}
+                source={item.items[1]}
                 style={{
                   height: RFValue(80),
                   width: RFValue(130),

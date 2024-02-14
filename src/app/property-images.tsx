@@ -4,28 +4,25 @@ import {
   View,
   Image,
   FlatList,
-  Alert,
   Dimensions,
-  SafeAreaView,
-  Button,
+  Platform
 } from "react-native";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { useNavigation, useTheme } from "@react-navigation/native";
 import { RFValue } from "react-native-responsive-fontsize";
 import Modal from "react-native-modal";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
-
+import { ImageGallery } from "../Data/imageGallery";
 const { width, height } = Dimensions.get("window");
 
 const ExploringAi = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const openModal = (image: any) => {
+  const openModal = (image:any) => {
     setSelectedImage(image);
     setModalVisible(true);
   };
@@ -34,44 +31,7 @@ const ExploringAi = () => {
     setModalVisible(false);
     setSelectedImage(null);
   };
-  const ImageGallery = [
-    {
-      id: 1,
-      image: require("../assets/images/roomViews/view1.png"),
-    },
-    {
-      id: 2,
-      image: require("../assets/images/roomViews/view2.png"),
-    },
-    {
-      id: 3,
-      image: require("../assets/images/roomViews/view3.png"),
-    },
-    {
-      id: 4,
-      image: require("../assets/images/roomViews/view4.png"),
-    },
-    {
-      id: 5,
-      image: require("../assets/images/roomViews/view5.png"),
-    },
-    {
-      id: 6,
-      image: require("../assets/images/roomViews/view6.png"),
-    },
-    {
-      id: 7,
-      image: require("../assets/images/roomViews/view7.png"),
-    },
-    {
-      id: 8,
-      image: require("../assets/images/roomViews/view8.png"),
-    },
-    {
-      id: 9,
-      image: require("../assets/images/roomViews/view9.png"),
-    },
-  ];
+
 
   return (
     <View style={styles.imageContainer}>
@@ -104,11 +64,7 @@ const ExploringAi = () => {
       <FlatList
         data={ImageGallery}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => {
-              setModalVisible(true);
-            }}
-          >
+          <TouchableOpacity onPress={() => openModal(item.image)}>
             <Image style={styles.image} source={item.image} />
           </TouchableOpacity>
         )}
@@ -164,13 +120,24 @@ const ExploringAi = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.popup}>
-            {ImageGallery.filter((item) => item.id === 1).map((item) => (
-              <Image
-                key={item.id}
-                style={styles.popupImages}
-                source={item.image}
-              />
-            ))}
+            {selectedImage && (
+              <View>
+                <Image style={styles.popupImages} source={selectedImage} />
+                <Text
+                  style={{
+                    fontSize: RFValue(14),
+                    fontFamily: "plusjakarta-regular",
+                    color: "#414141",
+                    textAlign: "center"
+                  }}
+                >
+                  {
+                    ImageGallery.find((item) => item.image === selectedImage)
+                      ?.name
+                  }
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </Modal>
@@ -187,18 +154,19 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   image: {
-    width: RFValue(164),
+    width: Platform.OS==="ios"? RFValue(170):RFValue(164),
     height: RFValue(280),
-    margin: 1,
+    marginVertical: RFValue(1),
+    
   },
   popup: {
-    width: "100%",
-    height: "50%",
+    width: width,
+height: responsiveScreenHeight(70),
     alignItems: "center",
   },
   popupImages: {
-    width: "100%",
-    height: "70%",
+    width: width,
+    height: responsiveScreenHeight(75),
     margin: 1,
   },
   columnWrapperStyle: {
