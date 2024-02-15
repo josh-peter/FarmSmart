@@ -1,30 +1,67 @@
-import { router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, SafeAreaView, Dimensions } from 'react-native';
+import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+  SafeAreaView,
+  Dimensions,
+  VirtualizedList
+} from "react-native";
 const { width, height } = Dimensions.get("window");
-import { RFValue } from 'react-native-responsive-fontsize';
-const image1 = require("../../assets/images/bedroomarea.png");
-const image2 = require("../../assets/images/bedroomarea.png");
-const image3 = require("../../assets/images/bedroomarea.png");
-const image4 = require("../../assets/images/bedroomarea.png");
-const image5 = require("../../assets/images/bedroomarea.png");
-const image6 = require("../../assets/images/bedspace.png");
-const image7 = require("../../assets/images/dinningroom.png");
-const image8 = require("../../assets/images/sittingroom.png");
+import { RFValue } from "react-native-responsive-fontsize";
+import { dataImages } from "../../Data/dataImages";
 
 export default function PropertyCarouselImages() {
   const [selectIndex, setSelectIndex] = useState(0);
-  const [selectedRooms, setSelectedRooms] = useState(0);
+  const [viewableIndex, setViewableIndex] = useState(0);
 
-    const [data, setData] = useState([
-      {
-        items: [image1, image2, image3, image4],
+
+ 
+  useEffect(() => {
+    const prefetchImages = async () => {
+      const promises = dataImages.map((item) => Image.prefetch(item.image));
+      await Promise.all(promises);
+    };
+    prefetchImages();
+  }, [dataImages]);
+
+  const flatListRef1 = useRef<FlatList | null>(null);
+  const flatListRef2 = useRef<FlatList | null>(null);
+
+  const scrollImageToIndex = (index: number) => {
+    flatListRef1.current?.scrollToIndex({
+      animated: true,
+      index: index,
+    });
+  };
+
+  const paginatorToIndex = (index: number) => {
+    flatListRef2.current?.scrollToIndex({
+      animated: true,
+      index: index,
+      viewPosition: 0.5,
+    });
+  };
+
+  const onViewableItemsChanged = ({ viewableItems }: any) => {
+      scrollImageToIndex(viewableItems[0].index);
+    setViewableIndex(viewableItems[0].index);
+  };
+
+  const viewabilityConfigCallbackPairs = useRef([
+    {
+      viewabilityConfig: {
+        waitForInteraction: false,
+        viewAreaCoveragePercentThreshold: 50,
       },
-      {
-        items: [image5, image6, image7, image8],
-      },
-    ]);
+      onViewableItemsChanged,
+    },
+  ]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -32,24 +69,22 @@ export default function PropertyCarouselImages() {
         <StatusBar style="dark" />
 
         <FlatList
+          ref={flatListRef1}
+          snapToAlignment="start"
+          decelerationRate="fast"
+          scrollEventThrottle={16}
+          viewabilityConfigCallbackPairs={
+            viewabilityConfigCallbackPairs.current
+          }
           horizontal
           showsHorizontalScrollIndicator={false}
-          pagingEnabled
-          /* The commented out code is an event handler for the `onScroll` event of the `FlatList`
-          component. It calculates the index of the currently visible item in the horizontal scroll
-          view and updates the `selectIndex` state variable accordingly. However, it is currently
-          commented out, so it is not being executed. */
-          // onScroll={(e) => {
-          //   setSelectIndex(
-          //     parseInt((e.nativeEvent.contentOffset.x / width).toFixed(0))
-          //   );
-          // }}
-          data={data[0].items}
+          pagingEnabled={true}
+          data={dataImages}
           renderItem={({ item, index }) => {
             return (
               <Image
                 resizeMode="contain"
-                source={require("../../assets/images/bedroomarea.png")}
+                source={item.image}
                 style={{
                   height: RFValue(290),
                   width: width,
@@ -140,42 +175,42 @@ export default function PropertyCarouselImages() {
         </TouchableOpacity>
       </View>
       <FlatList
+        ref={flatListRef2}
+        decelerationRate="fast"
+        scrollEventThrottle={16}
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={data}
+        data={dataImages}
         pinchGestureEnabled={false}
         style={{
           marginLeft: RFValue(25),
         }}
         renderItem={({ item, index }) => (
-          <View
+          <TouchableOpacity
             key={index}
+            onPress={() => {
+              paginatorToIndex(index); 
+              scrollImageToIndex(index); 
+            }}
             style={{
               gap: 15,
               marginTop: RFValue(10),
               marginBottom: RFValue(-40),
-
               paddingHorizontal: RFValue(5),
               height: RFValue(220),
               overflow: "hidden",
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                setSelectIndex(index);
-            }}
-            >
-              <Image
-                resizeMode="cover"
-                source={item.items[1]}
-                style={{
-                  height: RFValue(80),
-                  width: RFValue(130),
-                  borderRadius: 15,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
+            <Image
+              resizeMode="cover"
+              source={item.image}
+              style={{
+                height: RFValue(80),
+                width: RFValue(130),
+                borderRadius: 15,
+              }}
+            />
+          </TouchableOpacity>
         )}
       />
 
