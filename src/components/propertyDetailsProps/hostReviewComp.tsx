@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import AgentReviews from "../common/modals/agentRviews";
+import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 const { width, height } = Dimensions.get("window");
 
 export default function HostReviews() {
@@ -24,7 +25,7 @@ export default function HostReviews() {
         setModalVisible(false);
       };
   return (
-    <View style={{}}>
+    <View style={{marginTop:responsiveScreenHeight(25)}}>
       <View
         style={{
           paddingHorizontal: RFValue(20),

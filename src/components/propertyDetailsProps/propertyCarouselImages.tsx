@@ -19,16 +19,7 @@ import { dataImages } from "../../Data/dataImages";
 export default function PropertyCarouselImages() {
   const [selectIndex, setSelectIndex] = useState(0);
   const [viewableIndex, setViewableIndex] = useState(0);
-
-
- 
-  useEffect(() => {
-    const prefetchImages = async () => {
-      const promises = dataImages.map((item) => Image.prefetch(item.image));
-      await Promise.all(promises);
-    };
-    prefetchImages();
-  }, [dataImages]);
+   const [availableImages, setAvailableImages] = useState(dataImages.length);
 
   const flatListRef1 = useRef<FlatList | null>(null);
   const flatListRef2 = useRef<FlatList | null>(null);
@@ -49,8 +40,9 @@ export default function PropertyCarouselImages() {
   };
 
   const onViewableItemsChanged = ({ viewableItems }: any) => {
-      scrollImageToIndex(viewableItems[0].index);
+    scrollImageToIndex(viewableItems[0].index);
     setViewableIndex(viewableItems[0].index);
+     setAvailableImages(dataImages.length - viewableItems[0].index);
   };
 
   const viewabilityConfigCallbackPairs = useRef([
@@ -62,6 +54,14 @@ export default function PropertyCarouselImages() {
       onViewableItemsChanged,
     },
   ]);
+
+  // useEffect(() => {
+  //   const prefetchImages = async () => {
+  //     const promises = dataImages.map((item) => Image.prefetch(item.image));
+  //     await Promise.all(promises);
+  //   };
+  //   prefetchImages();
+  // }, [dataImages]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -237,7 +237,7 @@ export default function PropertyCarouselImages() {
             color: "#fff",
           }}
         >
-          +20
+          + {availableImages}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

@@ -3,11 +3,17 @@ import { View, Text, Image, TouchableOpacity, Dimensions, Platform } from 'react
 import { RFValue } from 'react-native-responsive-fontsize';
 import AboutPropertyModal from '../common/modals/aboutPropertyModal';
 import { router } from 'expo-router';
+import MapView from 'react-native-maps';
 const { width, height } = Dimensions.get("window");
+import CustomMarker from "../../components/mapProps/customMarker";
+import ApartmentsListItem from "../../components/mapProps/ApartmentsListItem";
+import SingleApartment from "../../Data/singleApartment.json"; 
+import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
 
 export default function AboutProperty() {
       const [modalVisible, setModalVisible] = useState(false);
-      const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+    const [selectedApartment, setSelectedApartment] = useState<any>(null);
 
       const openModal = () => {
         setModalVisible(true);
@@ -138,6 +144,7 @@ export default function AboutProperty() {
                 gap: 5,
                 alignItems: "center",
                 marginTop: RFValue(3),
+                marginBottom: RFValue(5),
               }}
             >
               <Image
@@ -158,24 +165,27 @@ export default function AboutProperty() {
                 Lekki phase 1, Lagos, Nigeria
               </Text>
             </View>
-            {/* <MapView
-                        style={styles.map}
-                        provider="google"
-                        initialRegion={{
-                          latitude: 9.05785,
-                          longitude: 7.49508,
-                          latitudeDelta: 10.0,
-                          longitudeDelta: 10.0,
-                        }}
-                      >
-                        {Singleapartment.map((apartment) => (
-                          <CustomMarker
-                            key={apartment.id}
-                            apartment={apartment}
-                            onPress={() => setSelectedApartment(apartment)}
-                          />
-                        ))}
-                      </MapView> */}
+            <MapView
+              style={{
+                width: "100%",
+                height: RFValue(150),
+              }}
+              provider="google"
+              initialRegion={{
+                latitude: 9.05785,
+                longitude: 7.49508,
+                latitudeDelta: 10.0,
+                longitudeDelta: 10.0,
+              }}
+            >
+              {SingleApartment.map((apartment) => (
+                <CustomMarker
+                  key={apartment.id}
+                  apartment={apartment}
+                  onPress={() => setSelectedApartment(apartment)}
+                />
+              ))}
+            </MapView>
           </View>
           <TouchableOpacity
             style={{
@@ -209,7 +219,7 @@ export default function AboutProperty() {
           </TouchableOpacity>
         </View>
       </View>
-      <View>
+      <View style={{ marginTop: responsiveScreenHeight(2) }}>
         <Text
           style={{
             fontSize: RFValue(16),
@@ -348,11 +358,11 @@ export default function AboutProperty() {
               color: "#414141",
             }}
           >
-          Lagos, Nigeria
+            Lagos, Nigeria
           </Text>
         </View>
         <TouchableOpacity
-          onPress={()=>router.push("/book-appointment")}
+          onPress={() => router.push("/book-appointment")}
           style={{
             backgroundColor: "#ECFFF4",
             padding: Platform.OS === "ios" ? 18 : 17,

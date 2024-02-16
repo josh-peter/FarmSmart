@@ -23,6 +23,10 @@ const image1 = require("../../assets/images/videobg.png");
 const image2 = require("../../assets/images/videobg.png");
 const image3 = require("../../assets/images/videobg.png");
 const image4 = require("../../assets/images/videobg.png");
+const image5 = require("../../assets/images/videobg.png");
+const image6 = require("../../assets/images/videobg.png");
+const image7 = require("../../assets/images/videobg.png");
+const image8 = require("../../assets/images/videobg.png");
 
 export default function PropertyFeatureComp() {
   const fade = useRef(new Animated.Value(0)).current;
