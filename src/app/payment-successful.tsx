@@ -1,60 +1,32 @@
 import {
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Image,
-  ScrollView,
   Platform,
   Dimensions,
-  Button,
 } from "react-native";
-import React, { useRef, useState } from "react";
-import Modal from "react-native-modal";
+import React from "react";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
-import { router } from "expo-router";
+import { Stack, router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
-interface Props {
-  modalPopVisible: boolean;
-  closePopModal: () => void;
-}
-
-export default function PaymentSuccessful({
-  modalPopVisible,
-  closePopModal,
-}:Props) {
-
-
-
+export default function PaymentSuccessful() {
   return (
-    <View>
-      <Modal
-        isVisible={modalPopVisible}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        animationInTiming={300}
-        animationOutTiming={300}
-        backdropTransitionInTiming={300}
-        backdropTransitionOutTiming={300}
-        onBackdropPress={closePopModal}
-        onBackButtonPress={closePopModal}
-        backdropOpacity={0.5}
-        backdropColor="#000"
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          bottom: 0,
-          position: "absolute",
-          margin: 0,
+    <>
+      <StatusBar style="dark" />
+      <Stack.Screen
+        options={{
+          title: "Payment Successful",
+          headerShown: false,
+          gestureEnabled: false,
         }}
-      >
+      />
         <View
           style={{
             flexDirection: "column",
@@ -62,7 +34,7 @@ export default function PaymentSuccessful({
             justifyContent: "center",
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(100),
+            height: responsiveScreenHeight(70),
           }}
         >
           <View
@@ -70,12 +42,12 @@ export default function PaymentSuccessful({
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              paddingHorizontal:RFValue(37)
+              paddingHorizontal: RFValue(37),
             }}
           >
             <Image
               resizeMode="contain"
-              source={require("../../../assets/images/success.png")}
+              source={require("../assets/images/success.png")}
               style={{
                 width: RFValue(180),
                 height: RFValue(180),
@@ -143,9 +115,8 @@ export default function PaymentSuccessful({
             </View>
           </View>
         </View>
-      </Modal>
-    </View>
-  );
+      </>
+  )
 }
 
 const styles = StyleSheet.create({

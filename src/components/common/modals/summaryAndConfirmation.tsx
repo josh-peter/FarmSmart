@@ -19,6 +19,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
 import PaymentSuccessful from "./paymentSuccessful";
+import { router } from "expo-router";
 
 interface Props {
   modalConfirmVisible: boolean;
@@ -29,18 +30,16 @@ export default function SummaryAndConfirmation({
   modalConfirmVisible,
   closeConfirmModal,
 }: Props) {
-    const [isChecked, setIsChecked] = useState(false);
-      const [modalPopVisible, setModalPopVisible] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [modalPopVisible, setModalPopVisible] = useState(false);
 
+  const openPopModal = () => {
+    setModalPopVisible(true);
+  };
 
-
-      const openPopModal = () => {
-        setModalPopVisible(true);
-      };
-
-      const closePopModal = () => {
-        setModalPopVisible(false);
-      };
+  const closePopModal = () => {
+    setModalPopVisible(false);
+  };
   return (
     <View>
       <Modal
@@ -534,8 +533,10 @@ export default function SummaryAndConfirmation({
                   Sat, 3 Nov 2023 - Mon, 5 Nov 2023
                 </Text>
               </View>
-                          <TouchableOpacity
-                              onPress={openPopModal}
+              <TouchableOpacity
+                onPress={() => {
+                  router.push("/payment-successful")
+                }}
                 style={{
                   backgroundColor: "#06782F",
                   paddingVertical: RFValue(10),

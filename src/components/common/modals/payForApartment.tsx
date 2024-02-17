@@ -547,7 +547,7 @@ export default function PayForApartment({
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={openConfirmModal}
+                onPress={openConfirmModal }
                 style={{
                   backgroundColor:
                     cardNumber && expiryDate && cvv ? "#06782F" : "#83bb97",

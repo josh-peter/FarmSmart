@@ -18,23 +18,38 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import DatePicker from "react-native-modern-datepicker";
 import PayForApartment from "./payForApartment";
+import { router } from "expo-router";
 
 interface Props {
   modalVisible: boolean;
   closeModal: () => void;
 }
 
+const availableDates = ["2024-02-17", "2024-02-18", "2024-02-19"]; 
+const bookedDates = ["2024-02-20", "2024-02-21"];
+
 export default function SelectBookingDate({ modalVisible, closeModal }: Readonly<Props>) {
   const [selectedDate, setSelectedDate] = useState("");
   const [modalPayVisible, setModalPayVisible] = useState(false);
 
-      const openPayModal = () => {
-        setModalPayVisible(true);
-      };
-
       const closePayModal = () => {
         setModalPayVisible(false);
+  };
+  
+  const getDateStyle = (date: any) => {
+    if (availableDates.includes(date)) {
+      return {
+        backgroundColor: "#7FFF7F", 
       };
+    } else if (bookedDates.includes(date)) {
+      return {
+        backgroundColor: "#7FFF7F80", 
+      };
+    } else {
+      return {}; 
+    }
+  };
+
 
   return (
     <View>
@@ -113,9 +128,7 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
                   backgroundColor: "#fafafa",
                   mainColor: "#06782F",
                 }}
-                style={{
-                  borderRadius: 10,
-                }}
+                style={[getDateStyle, { borderRadius: 10 }]}
               />
             </View>
             <View
@@ -187,7 +200,9 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
               </Text>
             </View>
             <TouchableOpacity
-              onPress={openPayModal}
+              onPress={() => {
+                router.push("/pay-for-apartment");
+              }}
               style={{
                 backgroundColor: "#06782F",
                 padding: Platform.OS === "ios" ? 15 : 14,
@@ -200,7 +215,10 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
           </View>
         </View>
       </Modal>
-      <PayForApartment modalPayVisible={modalPayVisible} closePayModal={closePayModal} />
+      <PayForApartment
+        modalPayVisible={modalPayVisible}
+        closePayModal={closePayModal}
+      />
     </View>
   );
 }

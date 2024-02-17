@@ -603,7 +603,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
     fontSize: RFValue(14),
-    paddingVertical: Platform.OS === "android" ? RFValue(3) : RFValue(8),
+    paddingVertical: Platform.OS === "android" ? RFValue(6) : RFValue(8),
     paddingLeft: RFValue(32),
     paddingRight: RFValue(15),
   },
