@@ -46,6 +46,10 @@ export default function EditProfile() {
     setisModdalVisible(bool);
   };
 
+    const changeModalLangVisibility = (bool: any) => {
+      setChooseLanguage(bool);
+    };
+
   const setData = (option: any) => {
     setChooseData(option);
     };
@@ -306,7 +310,7 @@ export default function EditProfile() {
                 Language
               </Text>
               <TouchableOpacity
-                onPress={() => changeModalVisibility(true)}
+                onPress={() => changeModalLangVisibility(true)}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -332,10 +336,10 @@ export default function EditProfile() {
                 transparent={true}
                 animationType="fade"
                 visible={isModdalVisible}
-                onRequestClose={() => changeModalVisibility(false)}
+                onRequestClose={() => changeModalLangVisibility(false)}
               >
                 <LanguageModalPicker
-                  changeModalVisibility={changeModalVisibility}
+                  changeModalLangVisibility={changeModalLangVisibility}
                   setData={setLanguageData}
                 />
               </Modal>
@@ -358,7 +362,7 @@ export default function EditProfile() {
                 textAlign: "center",
               }}
             >
-             Update profile
+              Update profile
             </Text>
           </TouchableOpacity>
         </ScrollView>

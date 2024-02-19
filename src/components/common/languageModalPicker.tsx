@@ -33,7 +33,7 @@ const LanguageModalPicker = (props: any) => {
 
   const onPressItem = (option: any) => {
     setActiveLanguages(option);
-    props.changeModalVisibility(false);
+    props.changeModalLangVisibility(false);
     props.setData(option);
   };
 
@@ -67,7 +67,7 @@ const LanguageModalPicker = (props: any) => {
   ));
   return (
     <TouchableOpacity
-      onPress={() => props.changeModalVisibility(false)}
+      onPress={() => props.changeModalLangVisibility(false)}
       style={styles.container}
     >
       <View style={[styles.modal, { width: WIDTH - 20, height: RFValue(180) }]}>

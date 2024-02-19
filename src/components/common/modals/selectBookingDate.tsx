@@ -128,7 +128,7 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
                   backgroundColor: "#fafafa",
                   mainColor: "#06782F",
                 }}
-                style={[getDateStyle, { borderRadius: 10 }]}
+                style={{ borderRadius: 10 }}
               />
             </View>
             <View
