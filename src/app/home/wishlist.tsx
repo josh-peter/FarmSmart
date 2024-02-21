@@ -4,11 +4,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RFValue } from 'react-native-responsive-fontsize';
 import { PropertiesData } from "../../Data/propertiesData";
 import { Link } from 'expo-router';
+import Carousel from "pinar";
 
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState<any>();
-  console.log(wishlist, 'i deyehjehehe')
 
   useEffect(() => {
     const getWishList = async () => {
@@ -17,16 +17,16 @@ const Wishlist = () => {
         if (res == null) return setWishlist([]);
         let parsedRes = JSON.parse(res!);
         setWishlist(parsedRes);
-        console.log('jhsjsjsj')
+      
       } catch (e) {
-        console.log(e, "WISHKSSISISIIS");
+       
       }
     };
 
     getWishList();
   }, []);
 
-  const [isHeartClicked, setHeartClicked] = useState(false);
+  const [isHeartClicked, setHeartClicked] = useState(true);
 
 
     const toggleHeart = async (property: any) => {
@@ -76,7 +76,6 @@ const Wishlist = () => {
               }}
             />
           </TouchableOpacity>
-
           <TextInput
             placeholder="Any property or location"
             style={styles.inputbox}
@@ -110,7 +109,7 @@ const Wishlist = () => {
         </Link>
       </View>
       <FlatList
-        data={wishlist}
+        data={PropertiesData}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{}}
         renderItem={({ item }) => (
@@ -174,16 +173,39 @@ const Wishlist = () => {
                   />
                 </View>
               </TouchableOpacity>
-              <Image
-                resizeMode="cover"
-                source={item.img}
+              <Carousel
+                showsControls={false}
+                dotStyle={styles.dot}
+                activeDotStyle={styles.activeDot}
+                autoplay={true}
+                autoplayInterval={3000}
                 style={{
-                  width: RFValue(300),
-                  height: RFValue(270),
+                  height: RFValue(260),
+                  marginBottom: RFValue(15),
                   zIndex: -999,
-                  borderRadius: 20,
                 }}
-              />
+              >
+                {[
+                  item.img,
+                  item.img1,
+                  item.img2,
+                  item.img3,
+                  item.img4,
+                  item.img5,
+                  item.img6,
+                ].map((img, index) => (
+                  <Image
+                    key={index}
+                    source={img}
+                    style={{
+                      width:
+                        Platform.OS === "ios" ? RFValue(310) : RFValue(300),
+                      height: RFValue(260),
+                      borderRadius: 15,
+                    }}
+                  />
+                ))}
+              </Carousel>
             </View>
             <View
               style={{
@@ -266,97 +288,7 @@ const Wishlist = () => {
                 {item.location}
               </Text>
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 5,
-                alignItems: "center",
-                position: "absolute",
-                top: RFValue(240),
-                left: RFValue(48),
-              }}
-            >
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#06782F",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <View
-                style={{
-                  width: RFValue(18),
-                  height: RFValue(4),
-                  borderRadius: 30,
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-            </View>
+
           </Animated.View>
         )}
       />
@@ -383,8 +315,22 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: "absolute",
-   top: RFValue(10),
+    top: RFValue(10),
     left: RFValue(10),
     zIndex: 1,
+  },
+  dot: {
+    width: RFValue(18),
+    height: RFValue(4),
+    borderRadius: 30,
+    backgroundColor: "#D9D9D9",
+    marginHorizontal: RFValue(2),
+  },
+  activeDot: {
+    width: RFValue(18),
+    height: RFValue(4),
+    borderRadius: 30,
+    backgroundColor: "#06782F",
+    marginHorizontal: RFValue(2),
   },
 });

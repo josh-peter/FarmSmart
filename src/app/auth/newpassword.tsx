@@ -15,32 +15,33 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "../../components/Auth/errors/errorMsg";
+import CustomAlert from "../../components/common/modals/customAlert";
 
 export default function NewPassword() {
   const [passwordVisible, setPasswordVisible] = useState(true);
-
-
+  const [modalPopVisible, setModalPopVisible] = useState(false);
     const handlePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
+  const openPopModal = () => {
+    setModalPopVisible(true);
+  };
 
-    // const signupUserPrompt = () => {
-    //   if (!email || !password) Toast.error("Please fill in the fields");
-    //   else {
-    //     router.push("/auth/otpverification");
-    //   }
-    // };
-
-
-    const handleNewPassword = (values: any, setSubmitting: any) => {
-
-    };
-
+  const closePopModal = () => {
+  setModalPopVisible(false)
+}
+    const handleNewPassword = async (values: any, setSubmitting: Function) => {
+   setTimeout(() => {
+     router.push("/auth/login");
+     openPopModal();
+     setSubmitting(false);
+   }, 500);
+  }
     return (
       <>
         <Stack.Screen
           options={{
-            title: "login",
+            title: "chnage password",
             headerShown: false,
           }}
         />
@@ -78,9 +79,9 @@ export default function NewPassword() {
                   source={require("../../assets/images/logo.png")}
                   style={styles.logo}
                 />
-                <Text style={styles.title}>Welcome back</Text>
+                <Text style={styles.title}>New Password</Text>
                 <Text style={styles.subtitle}>
-                  Please sign in your account by filling in your login details
+                  Please enter your new password to Sign In
                 </Text>
                 <View>
                   <View>
@@ -175,28 +176,6 @@ export default function NewPassword() {
                     {errors.confirmPassword && (
                       <ErrorMsg message={`${errors.confirmPassword}`} />
                     )}
-                    {/* <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 2,
-                        paddingVertical: RFValue(7),
-                      }}
-                    >
-                      <MaterialIcons
-                        name="info-outline"
-                        size={24}
-                        color="red"
-                      />
-                      <Text
-                        style={{
-                          textAlign: "left",
-                          color: "red",
-                        }}
-                      >
-                        Password does not match
-                      </Text>
-                    </View> */}
                   </View>
                 </View>
                 <View
@@ -206,15 +185,14 @@ export default function NewPassword() {
                 >
                   {isSubmitting || errors.password || errors.confirmPassword ? (
                     <TouchableOpacity style={styles.disableBtn}>
-                      <Text style={styles.button}>Sign in</Text>
+                      <Text style={styles.button}>Update</Text>
                     </TouchableOpacity>
                   ) : (
-                    // <Link href={"/auth/otpverification"} asChild>
                     <TouchableOpacity
                       onPress={() => handleSubmit()}
                       style={styles.activeBtn}
                     >
-                      <Text style={styles.button}>Sign in</Text>
+                      <Text style={styles.button}>Update</Text>
                     </TouchableOpacity>
                   )}
                 </View>
@@ -222,6 +200,12 @@ export default function NewPassword() {
             </View>
           )}
         </Formik>
+        {modalPopVisible && (
+          <CustomAlert
+            modalPopVisible={modalPopVisible}
+            closePopModal={closePopModal}
+          />
+        )}
       </>
     );
 }

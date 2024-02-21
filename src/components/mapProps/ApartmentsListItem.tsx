@@ -9,7 +9,7 @@ const ApartmentsListapartment = ({
   handleCloseNavigationApartment,
 }: any) => {
   
-  const [modalVisible, setModalVisible] = useState<boolean>(true);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const openModal = () => {
     setModalVisible(true);

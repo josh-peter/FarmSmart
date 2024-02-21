@@ -344,7 +344,7 @@ export default function PropertyFeatureComp() {
                 onPress={openVideoModal}
                 style={{
                   position: "absolute",
-                  top: RFValue(70),
+                  top: RFValue(90),
                   right: 0,
                   left: RFValue(130),
                 }}
@@ -358,7 +358,6 @@ export default function PropertyFeatureComp() {
                   }}
                 />
               </TouchableOpacity>
-
               <Image
                 resizeMode="contain"
                 source={require("../../assets/images/fullview.png")}

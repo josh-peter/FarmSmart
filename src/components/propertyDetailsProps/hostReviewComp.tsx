@@ -16,7 +16,6 @@ const { width, height } = Dimensions.get("window");
 
 export default function HostReviews() {
       const [modalVisible, setModalVisible] = useState(false);
-
       const openModal = () => {
         setModalVisible(true);
       };
@@ -24,6 +23,8 @@ export default function HostReviews() {
       const closeModal = () => {
         setModalVisible(false);
       };
+
+  
   return (
     <View style={{marginTop:responsiveScreenHeight(25)}}>
       <View
@@ -152,7 +153,6 @@ export default function HostReviews() {
             </View>
           ))}
         </ScrollView>
-
         <TouchableOpacity onPress={openModal}>
           <Text
             style={{

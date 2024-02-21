@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
     fontSize: RFValue(14),
-    paddingVertical: RFValue(3),
+    paddingVertical: Platform.OS === "android" ? RFValue(3) :RFValue(7),
     paddingLeft: RFValue(32),
     paddingRight: RFValue(15),
   },

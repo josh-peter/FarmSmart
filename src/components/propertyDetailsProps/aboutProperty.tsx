@@ -23,13 +23,6 @@ export default function AboutProperty() {
         setModalVisible(false);
   };
   
-       const openBookModal = () => {
-         setModalIsVisible(true);
-       };
-
-       const closeBookModal = () => {
-         setModalIsVisible(false);
-       };
   return (
     <View
       style={{

@@ -8,7 +8,7 @@ export default function BookApartmentProps({ appointmentDate, appointmentTime }:
       style={{
         paddingHorizontal: RFValue(10),
         paddingVertical: RFValue(10),
-        backgroundColor: "#fafafa",
+        backgroundColor: "#fff",
         marginHorizontal: RFValue(20),
         marginVertical: RFValue(10),
         borderRadius: 10,

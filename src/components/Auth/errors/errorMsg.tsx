@@ -13,14 +13,15 @@ const ErrorMsg = ({message}: IErrorProps) => {
         flexDirection: "row",
         alignItems: "center",
         gap: 2,
-        paddingVertical: RFValue(7),
+        paddingVertical: RFValue(2),
       }}
     >
-      <MaterialIcons name="info-outline" size={24} color="red" />
+      <MaterialIcons name="info-outline" size={26} color="red" />
       <Text
         style={{
           textAlign: "left",
           color: "red",
+         fontSize:RFValue(14),
         }}
           >
               {message}

@@ -9,12 +9,13 @@ import {
   TextInput,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, router } from "expo-router";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
+import { StatusBar } from "expo-status-bar";
 const { width, height } = Dimensions.get("window");
 
 export default function ChatBox() {
@@ -34,6 +35,7 @@ export default function ChatBox() {
 
   return (
     <>
+      <StatusBar style="dark"/>
       <Stack.Screen
         options={{
           title: "Chatbox",
@@ -76,7 +78,7 @@ export default function ChatBox() {
               paddingBottom: RFValue(10),
             }}
           >
-            <TouchableOpacity style={styles.clearIcon}>
+            <TouchableOpacity style={styles.clearIcon} onPress={()=> router.push("/notification")}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/arrow-left.png")}
@@ -286,7 +288,6 @@ export default function ChatBox() {
               {new Intl.DateTimeFormat("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
-                timeZone: "Etc/GMT-1",
               }).format(new Date())}
             </Text>
           </View>
@@ -333,7 +334,6 @@ export default function ChatBox() {
               {new Intl.DateTimeFormat("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
-                timeZone: "Etc/GMT-1",
               }).format(new Date())}
             </Text>
             <Text
@@ -389,7 +389,6 @@ export default function ChatBox() {
               {new Intl.DateTimeFormat("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
-                timeZone: "Etc/GMT-1",
               }).format(new Date())}
             </Text>
           </View>
@@ -450,7 +449,6 @@ export default function ChatBox() {
                 {new Intl.DateTimeFormat("en-GB", {
                   hour: "2-digit",
                   minute: "2-digit",
-                  timeZone: "Etc/GMT-1",
                 }).format(new Date())}
               </Text>
             </View>

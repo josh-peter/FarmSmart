@@ -1,4 +1,5 @@
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Image, StyleSheet, Animated, Dimensions, TouchableOpacity } from "react-native";
 import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
@@ -27,6 +28,7 @@ export default function IncomingCall() {
 
   return (
     <>
+      <StatusBar style="dark" />
       <Stack.Screen
         options={{
           title: "Incoming call",
@@ -53,14 +55,12 @@ export default function IncomingCall() {
       >
         <Image
           resizeMode="contain"
-          source={require("../assets/images/incoming-caller.png")}
-          style={
-            {
-              width: responsiveScreenWidth(100),
-              height: responsiveScreenHeight(100),
-              zIndex: -999,
-            }
-          }
+          source={require("../assets/images/zoomcall.png")}
+          style={{
+            width: responsiveScreenWidth(100),
+            height: responsiveScreenHeight(100),
+            zIndex: -999,
+          }}
         />
         <Image
           resizeMode="contain"
@@ -78,7 +78,7 @@ export default function IncomingCall() {
         <TouchableOpacity
           style={{
             flexDirection: "row",
-            gap:20,
+            gap: 20,
             alignItems: "center",
             position: "absolute",
             bottom: RFValue(30),
@@ -93,7 +93,6 @@ export default function IncomingCall() {
               {
                 width: 60,
                 height: 60,
-               
               },
             ]}
           />
@@ -104,21 +103,21 @@ export default function IncomingCall() {
               {
                 width: 60,
                 height: 60,
-                
               },
             ]}
           />
-          <Image
-            resizeMode="contain"
-            source={require("../assets/images/reject.png")}
-            style={[
-              {
-                width: 60,
-                height: 60,
-               
-              },
-            ]}
-          />
+          <TouchableOpacity onPress={()=> router.push("/home/appointment")}>
+            <Image
+              resizeMode="contain"
+              source={require("../assets/images/reject.png")}
+              style={[
+                {
+                  width: 60,
+                  height: 60,
+                },
+              ]}
+            />
+          </TouchableOpacity>
           <Image
             resizeMode="contain"
             source={require("../assets/images/video.png")}
@@ -126,7 +125,6 @@ export default function IncomingCall() {
               {
                 width: 60,
                 height: 60,
-                
               },
             ]}
           />
@@ -137,7 +135,6 @@ export default function IncomingCall() {
               {
                 width: 60,
                 height: 60,
-               
               },
             ]}
           />

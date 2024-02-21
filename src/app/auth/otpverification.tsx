@@ -18,32 +18,14 @@ import * as Yup from "yup";
 import OTPTextInput from "react-native-otp-textinput";
 import ErrorMsg from "../../components/Auth/errors/errorMsg";
 
-
 const OtpVerification = () => {
-  const [otp, setOTP] = useState(["", "", "", "",]);
-  const [incorrectCode, setIncorrectCode] = useState(false);
-  const [disableButton, setDisableButton] = useState(true);
-  const [attempts, setAttempts] = useState(0);
-  const maxAttempts = 2;
   const [resendText, setResendText] = useState("Resend code in 60s");
   const [timer, setTimer] = useState(60);
 
   const handleVerifyOTPCode = (values: any, setSubmitting: any) => {
-    console.warn(values, "the values hehehehehehehe");
     router.push("/auth/newpassword");
     setSubmitting(false);
-    console.log("Logging User In...");
   };
-
-  const otpInputRefs: React.RefObject<TextInput>[] = [
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-    React.createRef(),
-  ];
-
-
-
 
   useEffect(() => {
     let countdown = setInterval(() => {
@@ -79,7 +61,7 @@ const OtpVerification = () => {
         validationSchema={Yup.object({
           code: Yup.string()
             .required("OTP code is required")
-            .min(4, "invalid OTP Code"),
+            .min(4, "Incorrect Code"),
         })}
         onSubmit={async (values: any, { setSubmitting }) =>
           handleVerifyOTPCode(values, setSubmitting)
@@ -94,7 +76,7 @@ const OtpVerification = () => {
             />
             <Text style={styles.title}>Welcome back</Text>
             <Text style={styles.subtitle}>
-              Please enter the code we just sent to your email
+              Please enter the code we just sent to your email{" "}
               <Text
                 style={{
                   color: "#06782f",
@@ -116,7 +98,6 @@ const OtpVerification = () => {
                 />
               </View>
             </View>
-
             {errors.code && (
               <View
                 style={{
@@ -136,7 +117,6 @@ const OtpVerification = () => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
-                  marginBottom: RFValue(2),
                 }}
               >
                 <Text
@@ -148,9 +128,7 @@ const OtpVerification = () => {
                     },
                   ]}
                 >
-                  {timer > 0
-                    ? `Resend code in ${timer}s`
-                    : "Didn’t receive code? "}
+                  {!errors.code && "Didn’t receive code? "}
                 </Text>
                 <TouchableOpacity onPress={handleRequestAgain}>
                   <Text
@@ -162,7 +140,12 @@ const OtpVerification = () => {
                       },
                     ]}
                   >
-                    {timer > 0 ? "" : "Resend code"}
+                    <Text style={{ fontFamily: "plusjakarta-bold" }}>
+                      {!errors.code ? "" : "Resend"}
+                    </Text>
+                    <Text style={styles.resendText}>
+                      {!errors.code ? "Resend code" : ""}
+                    </Text>
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -178,10 +161,7 @@ const OtpVerification = () => {
                   </TouchableOpacity>
                 ) : (
                   <Link href={"/auth/newpassword"} asChild>
-                    <TouchableOpacity
-                      
-                      style={styles.activeBtn}
-                    >
+                    <TouchableOpacity style={styles.activeBtn}>
                       <Text style={styles.button}>Verify</Text>
                     </TouchableOpacity>
                   </Link>
@@ -256,6 +236,7 @@ const styles = StyleSheet.create({
     borderColor: "#D0D5DD",
     borderRadius: Platform.OS == "android" ? 5 : 6,
     backgroundColor: "#fff",
+    borderBottom: 0,
   },
   hyphen: {
     fontSize: 24,
@@ -281,7 +262,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14),
     fontFamily: "plusjakarta-regular",
     textAlign: "center",
-    marginTop: RFValue(20)
+    marginTop: RFValue(10),
   },
   button: {
     fontFamily: "outfit-medium",

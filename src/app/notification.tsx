@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, router } from "expo-router";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -100,7 +100,7 @@ export default function Notification() {
             >
               Notification
             </Text>
-            <TouchableOpacity style={styles.clearIcon}>
+            <TouchableOpacity style={styles.clearIcon} onPress={()=>router.push("/home/")}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/arrow-left.png")}
