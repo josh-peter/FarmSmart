@@ -42,6 +42,7 @@ export default function EditPasswordAccess({
 
   const openOtherModal = () => {
     setModalOtherVisible(true);
+    closeCancelModal()
   };
 
   const closeOtherModal = () => {

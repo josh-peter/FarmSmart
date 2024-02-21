@@ -173,7 +173,7 @@ const handleDateSelect = (date: Date) => {
                     >
                       {dateOfBirth
                         ? dateOfBirth.toLocaleDateString()
-                        : "Select Date of Birth"}{" "}
+                        : "Select Date of Birth"}
                      
                     </Text>
                     <TouchableOpacity style={styles.eyeIcon}>
