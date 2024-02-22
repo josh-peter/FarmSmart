@@ -19,6 +19,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
 import SummaryAndConfirmation from "./summaryAndConfirmation";
+import SelectBookingDate from "./selectBookingDate";
 
 interface Props {
   modalPayVisible: boolean;
@@ -36,6 +37,15 @@ export default function PayForApartment({
   const [showArrow, setShowArrow] = useState(false);
   const [showCardImage, setShowCardImage] = useState(false);
   const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const openModal = () => {
+      setModalVisible(true);
+    };
+
+    const closeModal = () => {
+      setModalVisible(false);
+    };
 
   const openConfirmModal = () => {
     setModalConfirmVisible(true);
@@ -294,16 +304,18 @@ export default function PayForApartment({
                           Wed, Aug 23, 2023
                         </Text>
                       </View>
-                      <Text
-                        style={{
-                          fontSize: RFValue(18),
-                          fontFamily: "outfit-bold",
-                          lineHeight: RFValue(40),
-                          color: "#06782F",
-                        }}
-                      >
-                        Edit
-                      </Text>
+                      <TouchableOpacity>
+                        <Text
+                          style={{
+                            fontSize: RFValue(18),
+                            fontFamily: "outfit-bold",
+                            lineHeight: RFValue(40),
+                            color: "#06782F",
+                          }}
+                        >
+                          Edit
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
                   <View>
@@ -349,16 +361,18 @@ export default function PayForApartment({
                           Wed, Aug 23, 2023
                         </Text>
                       </View>
-                      <Text
-                        style={{
-                          fontSize: RFValue(18),
-                          fontFamily: "outfit-bold",
-                          lineHeight: RFValue(40),
-                          color: "#06782F",
-                        }}
-                      >
-                        Edit
-                      </Text>
+                      <TouchableOpacity onPress={openModal}>
+                        <Text
+                          style={{
+                            fontSize: RFValue(18),
+                            fontFamily: "outfit-bold",
+                            lineHeight: RFValue(40),
+                            color: "#06782F",
+                          }}
+                        >
+                          Edit
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -547,7 +561,7 @@ export default function PayForApartment({
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={openConfirmModal }
+                onPress={openConfirmModal}
                 style={{
                   backgroundColor:
                     cardNumber && expiryDate && cvv ? "#06782F" : "#83bb97",

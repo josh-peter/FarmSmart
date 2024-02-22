@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions, Platform, Pressable } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import AboutPropertyModal from '../common/modals/aboutPropertyModal';
 import { router } from 'expo-router';
@@ -181,6 +181,7 @@ export default function AboutProperty() {
             </MapView>
           </View>
           <TouchableOpacity
+            onPress={() => router.push("/book-appointment")}
             style={{
               flexDirection: "row",
               justifyContent: "center",
@@ -354,7 +355,7 @@ export default function AboutProperty() {
             Lagos, Nigeria
           </Text>
         </View>
-        <TouchableOpacity
+        <Pressable
           onPress={() => router.push("/book-appointment")}
           style={{
             backgroundColor: "#ECFFF4",
@@ -373,7 +374,7 @@ export default function AboutProperty() {
           >
             Book appointment
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <AboutPropertyModal modalVisible={modalVisible} closeModal={closeModal} />
     </View>

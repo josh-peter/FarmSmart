@@ -19,7 +19,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
 import SummaryAndConfirmation from "../components/common/modals/summaryAndConfirmation";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 
@@ -108,7 +108,9 @@ export default function PayForApartment() {
           >
             Pay for apartment
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity onPress={() => {
+            router.push("/book-appointment")
+          }} style={styles.clearIcon}>
             <MaterialIcons name="clear" size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -276,16 +278,18 @@ export default function PayForApartment() {
                         Wed, Aug 23, 2023
                       </Text>
                     </View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(18),
-                        fontFamily: "outfit-bold",
-                        lineHeight: RFValue(40),
-                        color: "#06782F",
-                      }}
-                    >
-                      Edit
-                    </Text>
+                    <TouchableOpacity>
+                      <Text
+                        style={{
+                          fontSize: RFValue(18),
+                          fontFamily: "outfit-bold",
+                          lineHeight: RFValue(40),
+                          color: "#06782F",
+                        }}
+                      >
+                        Edit
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
                 <View>
@@ -331,16 +335,18 @@ export default function PayForApartment() {
                         Wed, Aug 23, 2023
                       </Text>
                     </View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(18),
-                        fontFamily: "outfit-bold",
-                        lineHeight: RFValue(40),
-                        color: "#06782F",
-                      }}
-                    >
-                      Edit
-                    </Text>
+                    <TouchableOpacity>
+                      <Text
+                        style={{
+                          fontSize: RFValue(18),
+                          fontFamily: "outfit-bold",
+                          lineHeight: RFValue(40),
+                          color: "#06782F",
+                        }}
+                      >
+                        Edit
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
