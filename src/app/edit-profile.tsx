@@ -34,14 +34,6 @@ export default function EditProfile() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [propertyResult, setPropertyResult] = useState<any>();
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-
   const changeModalVisibility = (bool: any) => {
     setisModdalVisible(bool);
   };

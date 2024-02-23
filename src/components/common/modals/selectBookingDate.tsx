@@ -201,7 +201,7 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
             </View>
             <TouchableOpacity
               onPress={() => {
-                router.push("/pay-for-apartment");
+                router.push("/summary-confirmation");
               }}
               style={{
                 backgroundColor: "#06782F",

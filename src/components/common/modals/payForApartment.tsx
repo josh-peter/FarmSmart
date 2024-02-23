@@ -18,8 +18,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
-import SummaryAndConfirmation from "./summaryAndConfirmation";
-import SelectBookingDate from "./selectBookingDate";
+import { router } from "expo-router";
 
 interface Props {
   modalPayVisible: boolean;
@@ -561,7 +560,7 @@ export default function PayForApartment({
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={openConfirmModal}
+                onPress={() => router.push("/summary-confirmation")}
                 style={{
                   backgroundColor:
                     cardNumber && expiryDate && cvv ? "#06782F" : "#83bb97",
@@ -577,10 +576,6 @@ export default function PayForApartment({
           </View>
         </View>
       </Modal>
-      <SummaryAndConfirmation
-        modalConfirmVisible={modalConfirmVisible}
-        closeConfirmModal={closeConfirmModal}
-      />
     </View>
   );
 }

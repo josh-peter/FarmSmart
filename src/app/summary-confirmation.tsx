@@ -6,8 +6,10 @@ import {
   Image,
   ScrollView,
   Platform,
+  Animated,
+  Dimensions,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-native-modal";
 import {
   responsiveScreenHeight,
@@ -18,49 +20,57 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
-import PaymentSuccessful from "./paymentSuccessful";
-import { router } from "expo-router";
+import { Stack, router } from "expo-router";
+import PaymentSuccessful from "./payment-successful";
+import { StatusBar } from "expo-status-bar";
+const { width, height } = Dimensions.get("window");
 
-interface Props {
-  modalConfirmVisible: boolean;
-  closeConfirmModal: () => void;
-}
-
-export default function SummaryAndConfirmation({
-  modalConfirmVisible,
-  closeConfirmModal,
-}: Props) {
+export default function SummaryAndConfirmation() {
   const [isChecked, setIsChecked] = useState(false);
   const [modalPopVisible, setModalPopVisible] = useState(false);
-
-  const openPopModal = () => {
-    setModalPopVisible(true);
-  };
+  const fade = useRef(new Animated.Value(0)).current;
 
   const closePopModal = () => {
     setModalPopVisible(false);
   };
+
+  const animation = () => {
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  useEffect(() => {
+    animation();
+  }, []);
+
   return (
-    <View>
-      <Modal
-        isVisible={modalConfirmVisible}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        animationInTiming={300}
-        animationOutTiming={300}
-        backdropTransitionInTiming={300}
-        backdropTransitionOutTiming={300}
-        onBackdropPress={closeConfirmModal}
-        onBackButtonPress={closeConfirmModal}
-        backdropOpacity={0.5}
-        backdropColor="#000"
+    <>
+      <StatusBar style="dark" />
+      <Stack.Screen
+        options={{
+          title: "Summary and Confirmation",
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Animated.View
         style={{
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          bottom: 0,
-          position: "absolute",
-          margin: 0,
+          width: width,
+          backgroundColor: "#fff",
+          position: "relative",
+          opacity: fade,
+          transform: [
+            {
+              translateY: fade.interpolate({
+                inputRange: [0, 1],
+                outputRange: [150, 0],
+              }),
+            },
+          ],
         }}
       >
         <View
@@ -77,7 +87,7 @@ export default function SummaryAndConfirmation({
               justifyContent: "center",
               backgroundColor: "#fafafa",
               width: responsiveScreenWidth(100),
-              height: responsiveScreenHeight(12),
+              height: responsiveScreenHeight(7),
             }}
           >
             <Text
@@ -86,25 +96,47 @@ export default function SummaryAndConfirmation({
                 fontFamily: "outfit-bold",
                 lineHeight: RFValue(30),
                 textAlign: "center",
-                marginTop: RFValue(30),
+                marginTop: RFValue(5),
               }}
             >
-              Pay for apartment
+              Summary & Confirmation
             </Text>
-            <TouchableOpacity
-              onPress={closeConfirmModal}
-              style={styles.clearIcon}
-            >
+            <TouchableOpacity style={styles.clearIcon}>
               <MaterialIcons name="clear" size={20} color="black" />
             </TouchableOpacity>
           </View>
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
-              height: RFValue(760),
+              height: RFValue(900),
               paddingHorizontal: RFValue(15),
             }}
           >
+            <View
+              style={{
+                paddingVertical: RFValue(15),
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: RFValue(15),
+                  fontFamily: "outfit-bold",
+                  color: "#161917",
+                  lineHeight: RFValue(20),
+                }}
+              >
+                Please carefully review your details
+              </Text>
+              <Text
+                style={{
+                  fontSize: RFValue(13),
+                  fontFamily: "outfit-regular",
+                  color: "#414141",
+                }}
+              >
+                Make sure to read and tick all boxes before approving payment.
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: "row",
@@ -122,7 +154,7 @@ export default function SummaryAndConfirmation({
             >
               <Image
                 resizeMode="contain"
-                source={require("../../../assets/images/bedroom.png")}
+                source={require("../assets/images/bedroom.png")}
                 style={{
                   height: RFValue(80),
                   width: RFValue(80),
@@ -147,7 +179,7 @@ export default function SummaryAndConfirmation({
                 >
                   <Image
                     resizeMode="contain"
-                    source={require("../../../assets/images/location.png")}
+                    source={require("../assets/images/location.png")}
                     style={{
                       width: RFValue(15),
                       height: RFValue(15),
@@ -169,7 +201,7 @@ export default function SummaryAndConfirmation({
                     paddingHorizontal: RFValue(12),
                     borderRadius: RFValue(5),
                     backgroundColor: "#ECFFF4",
-                    width: RFValue(60),
+                    width: RFValue(80),
                     marginTop: RFValue(3),
                   }}
                 >
@@ -180,7 +212,7 @@ export default function SummaryAndConfirmation({
                       color: "#06782F",
                     }}
                   >
-                    Rental
+                    Apartment
                   </Text>
                 </TouchableOpacity>
                 <View
@@ -195,15 +227,15 @@ export default function SummaryAndConfirmation({
                       color: "#06782F",
                     }}
                   >
-                    ₦1,500,000{" "}
+                    ₦30,000{" "}
                     <Text
                       style={{
-                        fontSize: RFValue(9),
+                        fontSize: RFValue(10),
                         fontFamily: "plusjakarta-regular",
                         color: "#414141",
                       }}
                     >
-                      yearly
+                      /night
                     </Text>
                   </Text>
                 </View>
@@ -250,7 +282,7 @@ export default function SummaryAndConfirmation({
                       >
                         <Image
                           resizeMode="contain"
-                          source={require("../../../assets/images/calendar.png")}
+                          source={require("../assets/images/calendar.png")}
                           style={{
                             height: RFValue(18),
                             width: RFValue(18),
@@ -296,7 +328,7 @@ export default function SummaryAndConfirmation({
                       >
                         <Image
                           resizeMode="contain"
-                          source={require("../../../assets/images/calendar.png")}
+                          source={require("../assets/images/calendar.png")}
                           style={{
                             height: RFValue(18),
                             width: RFValue(18),
@@ -342,7 +374,7 @@ export default function SummaryAndConfirmation({
                   fontSize: RFValue(14),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                  lineHeight: RFValue(30),
+                  lineHeight: RFValue(20),
                 }}
               >
                 Check-In From: 9am-10pm
@@ -421,7 +453,14 @@ export default function SummaryAndConfirmation({
                 }}
               >
                 Free cancellation before Aug 22, cancel before Aug 23 to get
-                partial refund. Learn more
+                partial refund.{" "}
+                <Text
+                  style={{
+                    color: "#06782f",
+                  }}
+                >
+                  Learn more
+                </Text>
               </Text>
               <View
                 style={{
@@ -464,7 +503,7 @@ export default function SummaryAndConfirmation({
             >
               <Image
                 resizeMode="contain"
-                source={require("../../../assets/images/danger.png")}
+                source={require("../assets/images/danger.png")}
                 style={{
                   width: RFValue(20),
                   height: RFValue(20),
@@ -489,7 +528,7 @@ export default function SummaryAndConfirmation({
             style={{
               backgroundColor: "#fff",
               position: "absolute",
-              bottom: 0,
+              bottom: Platform.OS === "android" ? RFValue(30) : RFValue(45),
             }}
           >
             <View
@@ -535,7 +574,7 @@ export default function SummaryAndConfirmation({
               </View>
               <TouchableOpacity
                 onPress={() => {
-                  router.push("/payment-successful")
+                  router.push("/pay-for-apartment");
                 }}
                 style={{
                   backgroundColor: "#06782F",
@@ -550,12 +589,12 @@ export default function SummaryAndConfirmation({
             </View>
           </View>
         </View>
-      </Modal>
-      <PaymentSuccessful
+      </Animated.View>
+      {/* <PaymentSuccessful
         modalPopVisible={modalPopVisible}
         closePopModal={closePopModal}
-      />
-    </View>
+      /> */}
+    </>
   );
 }
 
@@ -568,7 +607,7 @@ const styles = StyleSheet.create({
     left: RFValue(15),
     borderWidth: 1,
     borderColor: "#E6E6E6",
-    top: RFValue(40),
+    top: RFValue(7),
   },
   inputbox: {
     width: responsiveScreenWidth(33),

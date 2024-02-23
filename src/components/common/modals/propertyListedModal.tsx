@@ -18,7 +18,6 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
-import SummaryAndConfirmation from "./summaryAndConfirmation";
 import Carousel from "pinar";
 import { PropertyListedData } from "../../../Data/propertyListed";
 
@@ -27,54 +26,8 @@ interface Props {
   closeModal: () => void;
 }
 
-export default function PropertyListed({ modalVisible, closeModal }: Props) {
-  const [isChecked, setIsChecked] = useState(false);
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [showArrow, setShowArrow] = useState(false);
-  const [showCardImage, setShowCardImage] = useState(false);
-  const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
+export default function PropertyListed({ modalVisible, closeModal }: Readonly<Props>) {
 
-  const openConfirmModal = () => {
-    setModalConfirmVisible(true);
-  };
-
-  const closeConfirmModal = () => {
-    setModalConfirmVisible(false);
-  };
-
-  const expiryInputRef = useRef<any>(null);
-  const cvvInputRef = useRef<any>(null);
-
-  const handleCardNumberChange = (text: string) => {
-    const cleanedText = text.replace(/\D/g, "").substring(0, 16);
-    const formattedText = cleanedText.replace(/(.{4})/g, "$1 ").trim();
-    setCardNumber(formattedText);
-    setShowArrow(formattedText.length > 0);
-    setShowCardImage(formattedText.length >= 8);
-
-    if (formattedText.replace(/\s/g, "").length === 16) {
-      expiryInputRef.current?.focus();
-    }
-  };
-
-  const handleExpiryDateChange = (text: string) => {
-    const cleanedText = text.replace(/\D/g, "").substring(0, 4);
-    const formattedText =
-      cleanedText.length >= 3
-        ? cleanedText.substring(0, 2) + "/" + cleanedText.substring(2)
-        : cleanedText;
-    setExpiryDate(formattedText);
-    if (formattedText.length === 5) {
-      cvvInputRef.current?.focus();
-    }
-  };
-
-  const handleCvvChange = (text: string) => {
-    const formattedText = text.replace(/\D/g, "").substring(0, 3);
-    setCvv(formattedText);
-  };
 
   return (
     <View>
@@ -245,10 +198,6 @@ export default function PropertyListed({ modalVisible, closeModal }: Props) {
           </Carousel>
         </View>
       </Modal>
-      <SummaryAndConfirmation
-        modalConfirmVisible={modalConfirmVisible}
-        closeConfirmModal={closeConfirmModal}
-      />
     </View>
   );
 }
