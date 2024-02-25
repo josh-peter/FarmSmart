@@ -281,12 +281,15 @@ export default function SignUpComp() {
                 errors.password ||
                 errors.confirmPassword ||
                 errors.checkBox ? (
-                  <TouchableOpacity style={styles.disableBtn}>
+                  <TouchableOpacity
+                    onPress={() => router.push("/auth/login")}
+                    style={styles.activeBtn}
+                  >
                     <Text style={styles.button}>Sign in</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => handleSubmit()}
+                    onPress={() => router.push("/auth/login")}
                     style={styles.activeBtn}
                   >
                     <Text style={styles.button}>Sign in</Text>

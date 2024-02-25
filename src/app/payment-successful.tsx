@@ -81,7 +81,7 @@ export default function PaymentSuccessful() {
               }}
             >
               <TouchableOpacity
-                onPress={() => router.back()}
+                onPress={() => router.push("/property-details")}
                 style={{
                   backgroundColor: "#06782F",
                   padding: Platform.OS === "ios" ? 15 : 14,

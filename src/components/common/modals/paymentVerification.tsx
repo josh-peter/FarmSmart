@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
   View,
-  useColorScheme,
   StyleSheet,
-  ImageBackground,
-  Image,
   TouchableOpacity,
   Platform,
-  TextInput,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  useWindowDimensions,
 } from "react-native";
 import { Link, Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -17,8 +17,16 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import OTPTextInput from "react-native-otp-textinput";
 import ErrorMsg from "../../Auth/errors/errorMsg";
+import Modal from "react-native-modal";
+import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const paymentVerification = () => {
+interface Props {
+  modalPayVisible: boolean;
+  closePayModal: () => void;
+}
+
+export default function ({ modalPayVisible, closePayModal }: Props){
   const [resendText, setResendText] = useState("Resend code in 60s");
   const [timer, setTimer] = useState(60);
 
@@ -42,144 +50,197 @@ const paymentVerification = () => {
   }, [timer]);
   const handleRequestAgain = () => {
     setResendText("Resend code in 60s");
-  };
+    };
+    
+    const {height} = useWindowDimensions()
 
   return (
-    <>
-      <Stack.Screen
-        options={{
-          title: "OtpVerification",
-          headerShown: false,
-          gestureEnabled: false,
-        }}
-      />
-      <Formik
-        initialValues={{
-          email: "",
-          password: "",
-        }}
-        validationSchema={Yup.object({
-          code: Yup.string()
-            .required("OTP code is required")
-            .min(4, "Incorrect Code"),
-        })}
-        onSubmit={async (values: any, { setSubmitting }) =>
-          handleVerifyOTPCode(values, setSubmitting)
-        }
+    <SafeAreaView style={{flex:1}}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={60}
+        style={styles.container}
       >
-        {({ values, handleChange, handleSubmit, isSubmitting, errors }) => (
-          <View style={styles.container}>
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/logo.png")}
-              style={styles.logo}
-            />
-            <Text style={styles.title}>Welcome back</Text>
-            <Text style={styles.subtitle}>
-              Please enter the code we just sent to your email{" "}
+        <Modal
+          isVisible={modalPayVisible}
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          animationInTiming={300}
+          animationOutTiming={300}
+          backdropTransitionInTiming={300}
+          backdropTransitionOutTiming={300}
+          onBackdropPress={closePayModal}
+          onBackButtonPress={closePayModal}
+          backdropOpacity={0.5}
+          backdropColor="#000"
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            bottom: 0,
+            position: "absolute",
+            margin: 0,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              width: responsiveScreenWidth(100),
+              height: responsiveScreenHeight(50),
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#fafafa",
+                width: responsiveScreenWidth(100),
+                height: responsiveScreenHeight(10),
+              }}
+            >
               <Text
                 style={{
-                  color: "#06782f",
+                  fontSize: RFValue(16),
+                  fontFamily: "outfit-bold",
+                  lineHeight: RFValue(30),
                 }}
               >
-                danielsnr.design@gmail.com
+                Payment verification
               </Text>
-            </Text>
-
-            <View style={styles.otpHeaderContainer}>
-              <View style={styles.otpInputContainer}>
-                <OTPTextInput
-                  textInputStyle={{
-                    ...styles.otpInput,
-                  }}
-                  ref={(e) => (values.code = e)}
-                  autoFocus={true}
-                  handleTextChange={handleChange("code")}
-                />
-              </View>
+              <TouchableOpacity onPress={closePayModal} style={styles.clearIcon}>
+                <MaterialIcons name="clear" size={24} color="black" />
+              </TouchableOpacity>
             </View>
-            {errors.code && (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 2,
-                  paddingVertical: RFValue(7),
-                }}
-              >
-                <ErrorMsg message={`${errors.code}`} />
-              </View>
-            )}
-            <View style={{}}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={[
-                    styles.resendText,
-                    {
-                      color: "#051040",
-                      textAlign: "center",
-                    },
-                  ]}
-                >
-                  {!errors.code && "Didn’t receive code? "}
-                </Text>
-                <TouchableOpacity onPress={handleRequestAgain}>
-                  <Text
-                    style={[
-                      styles.resendText,
-                      {
-                        color: "#06782f",
-                        textAlign: "center",
-                      },
-                    ]}
-                  >
-                    <Text style={{ fontFamily: "plusjakarta-bold" }}>
-                      {!errors.code ? "" : "Resend"}
-                    </Text>
-                    <Text style={styles.resendText}>
-                      {!errors.code ? "Resend code" : ""}
-                    </Text>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              validationSchema={Yup.object({
+                code: Yup.string()
+                  .required("OTP code is required")
+                  .min(4, "Incorrect Code"),
+              })}
+              onSubmit={async (values: any, { setSubmitting }) =>
+                handleVerifyOTPCode(values, setSubmitting)
+              }
+            >
+              {({
+                values,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                errors,
+              }) => (
+                <View style={styles.container}>
+                  <Text style={styles.title}>OTP</Text>
+                  <Text style={styles.subtitle}>
+                    Please provide the one time password sent to your phone
                   </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  paddingHorizontal: RFValue(10),
-                  paddingVertical: RFValue(28),
-                }}
-              >
-                {isSubmitting || errors.code ? (
-                  <TouchableOpacity style={styles.disableBtn}>
-                    <Text style={styles.button}>Verify</Text>
-                  </TouchableOpacity>
-                ) : (
-                  <Link href={"/auth/newpassword"} asChild>
-                    <TouchableOpacity style={styles.activeBtn}>
-                      <Text style={styles.button}>Verify</Text>
-                    </TouchableOpacity>
-                  </Link>
-                )}
-              </View>
-            </View>
+
+                  <View style={styles.otpHeaderContainer}>
+                    <View style={styles.otpInputContainer}>
+                      <OTPTextInput
+                        textInputStyle={{
+                          ...styles.otpInput,
+                        }}
+                        ref={(e) => (values.code = e)}
+                        autoFocus={false}
+                        handleTextChange={handleChange("code")}
+                      />
+                    </View>
+                  </View>
+                  {errors.code && (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 2,
+                        paddingVertical: RFValue(7),
+                      }}
+                    >
+                      <ErrorMsg message={`${errors.code}`} />
+                    </View>
+                  )}
+                  <View style={{}}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text
+                        style={[
+                          styles.resendText,
+                          {
+                            color: "#051040",
+                            textAlign: "center",
+                          },
+                        ]}
+                      >
+                        {!errors.code && "Didn’t receive code? "}
+                      </Text>
+                      <TouchableOpacity onPress={handleRequestAgain}>
+                        <Text
+                          style={[
+                            styles.resendText,
+                            {
+                              color: "#06782f",
+                              textAlign: "center",
+                            },
+                          ]}
+                        >
+                          <Text style={{ fontFamily: "plusjakarta-bold" }}>
+                            {!errors.code ? "" : "Resend"}
+                          </Text>
+                          <Text style={styles.resendText}>
+                            {!errors.code ? "Resend code" : ""}
+                          </Text>
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View
+                      style={{
+                        paddingHorizontal: RFValue(10),
+                        paddingVertical: RFValue(28),
+                      }}
+                    >
+                      {isSubmitting || errors.code ? (
+                        <TouchableOpacity style={styles.disableBtn}>
+                          <Text style={styles.button}>Verify</Text>
+                        </TouchableOpacity>
+                      ) : (
+                          <TouchableOpacity style={styles.activeBtn} onPress={()=> {router.push("/payment-successful")}}>
+                            <Text style={styles.button}>Verify</Text>
+                          </TouchableOpacity>
+                      )}
+                    </View>
+                  </View>
+                </View>
+              )}
+            </Formik>
           </View>
-        )}
-      </Formik>
-    </>
+        </Modal>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: RFValue(5),
+    paddingHorizontal: RFValue(15),
     paddingVertical: RFValue(7),
+    },
+      clearIcon: {
+    backgroundColor: "#fff",
+    padding: RFValue(10),
+    borderRadius: 50,
+    position: "absolute",
+    right: RFValue(15),
   },
   logo: {
     height: RFValue(70),
@@ -288,5 +349,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default paymentVerification;

@@ -21,6 +21,7 @@ import EditDateOfBirth from "../components/accountInformation/editDateOfBirth";
 import { additionalData } from "../Data/additionalData";
 import PaymentHistoryModal from "../components/accountInformation/paymenthistoryModal";
 import CardPayment from "../components/accountInformation/cardPayment";
+import { StatusBar } from "expo-status-bar";
 const { width, height } = Dimensions.get("window");
 
 export default function PaymentManagement() {
@@ -61,6 +62,7 @@ export default function PaymentManagement() {
 
   return (
     <>
+      <StatusBar style="dark"/>
       <Stack.Screen
         options={{
           title: "Account Information",
@@ -104,7 +106,7 @@ export default function PaymentManagement() {
           >
             Account information
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity onPress={()=> router.push("/home/account")} style={styles.clearIcon}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/arrow-left.png")}

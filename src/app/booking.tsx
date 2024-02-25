@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, router } from "expo-router";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -35,11 +35,11 @@ export default function Booking() {
   const [modalBookVisible, setModalBookVisible] = useState(false);
   const [modalCancelVisible, setModalCancelVisible] = useState(false);
 
-  const openModal = () => {
+  const openBookModal = () => {
     setModalBookVisible(true);
   };
 
-  const closeModal = () => {
+  const closeBookModal = () => {
     setModalBookVisible(false);
   };
 
@@ -89,12 +89,45 @@ export default function Booking() {
           ],
         }}
       >
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#fafafa",
+            width: responsiveScreenWidth(100),
+            height: responsiveScreenWidth(20),
+          }}
+        >
+          <Text
+            style={{
+              fontSize: RFValue(16),
+              fontFamily: "outfit-bold",
+              lineHeight: RFValue(30),
+            }}
+          >
+           Booking
+          </Text>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.clearIcon}
+          >
+            <Image
+              resizeMode="contain"
+              source={require("../assets/images/arrow-left.png")}
+              style={{
+                height: RFValue(15),
+                width: RFValue(15),
+              }}
+            />
+          </TouchableOpacity>
+        </View>
         <Tab
           value={index}
           onChange={(e) => setIndex(e)}
           style={{
             backgroundColor: "#E4E4E7",
-            marginTop: RFValue(50),
+            marginTop: RFValue(15),
             paddingHorizontal: RFValue(3),
             paddingVertical: RFValue(3),
             marginHorizontal: RFValue(7),
@@ -313,7 +346,10 @@ export default function Booking() {
                   </TouchableOpacity>
                 </View>
               </View>
-              <CancelBooking modalCancelVisible={modalCancelVisible} closeCancelModal={closeCancelModal}/>
+              <CancelBooking
+                modalCancelVisible={modalCancelVisible}
+                closeCancelModal={closeCancelModal}
+              />
             </ScrollView>
           </TabView.Item>
           <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
@@ -574,7 +610,7 @@ export default function Booking() {
                         height: RFValue(80),
                         width: RFValue(70),
                         position: "absolute",
-                        bottom: RFValue(40),
+                        bottom: RFValue(50),
                         left: RFValue(-5),
                         right: RFValue(0),
                       }}
@@ -744,7 +780,7 @@ export default function Booking() {
                         height: RFValue(80),
                         width: RFValue(70),
                         position: "absolute",
-                        bottom: RFValue(40),
+                        bottom: RFValue(50),
                         left: RFValue(-5),
                         right: RFValue(0),
                       }}
@@ -859,7 +895,7 @@ export default function Booking() {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={openModal}
+                    onPress={openBookModal}
                     style={{
                       backgroundColor: "#06782F",
                       padding: Platform.OS === "ios" ? 14 : 12,
@@ -880,7 +916,10 @@ export default function Booking() {
                   </TouchableOpacity>
                 </View>
               </View>
-              <BookingDetails modalBookVisible={modalBookVisible} closeBookModal={closeModal}/>
+              <BookingDetails
+                modalBookVisible={modalBookVisible}
+                closeBookModal={closeBookModal}
+              />
             </ScrollView>
           </TabView.Item>
         </TabView>

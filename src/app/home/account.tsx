@@ -158,9 +158,11 @@ export default function Account() {
                     ? router.push("/payment-management")
                     : item.id === 4
                     ? router.push("/notification-settings")
-                          : item.id === 5
-                            ? router.push("/security")
-                            :undefined
+                    : item.id === 5
+                    ? router.push("/security")
+                    : item.id === 6
+                    ? router.push("/help-center")
+                    : undefined
                 }
                 style={{
                   flexDirection: "row",
@@ -242,7 +244,7 @@ export default function Account() {
             <View>
               <Text
                 style={{
-                  fontSize: RFValue(12),
+                  fontSize: RFValue(13),
                   fontFamily: "plusjakarta-regular",
                   lineHeight: RFValue(20),
                   color: "#1A1A1A",
@@ -290,6 +292,13 @@ export default function Account() {
               }}
             >
               <TouchableOpacity
+                onPress={() =>
+                  item.id === 1
+                    ? router.push("/help-center")
+                    : item.id === 2
+                    ? router.push("/")
+                    : undefined
+                }
                 style={{
                   flexDirection: "row",
                   alignItems: "center",

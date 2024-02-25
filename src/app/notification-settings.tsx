@@ -217,7 +217,7 @@ export default function NotificationSettings() {
                   </Text>
                   <Text
                     style={{
-                      fontSize: RFValue(11),
+                      fontSize: RFValue(12),
                       fontFamily: "plusjakarta-regular",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",

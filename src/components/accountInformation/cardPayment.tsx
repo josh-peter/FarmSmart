@@ -105,7 +105,7 @@ export default function CardPayment({
           >
             Payment method
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity onPress={closePayModal} style={styles.clearIcon}>
             <Image
               resizeMode="contain"
               source={require("../../assets/images/arrow-left.png")}
@@ -219,8 +219,8 @@ export default function CardPayment({
                 </TouchableOpacity>
               </View>
             </View>
-                      <TouchableOpacity
-                          onPress={openCardModal}
+            <TouchableOpacity
+              onPress={openCardModal}
               style={{
                 backgroundColor: "#06782F",
                 padding: Platform.OS === "ios" ? 14 : 13,
@@ -240,8 +240,11 @@ export default function CardPayment({
               </Text>
             </TouchableOpacity>
           </View>
-              </View>
-              <AddNewCard modalCardVisible={modalCardVisible} closeCardModal={closeCardModal}/>
+        </View>
+        <AddNewCard
+          modalCardVisible={modalCardVisible}
+          closeCardModal={closeCardModal}
+        />
       </View>
     </Modal>
   );

@@ -7,10 +7,10 @@ import {
   Image,
   ScrollView,
   Platform,
+  SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
 import Modal from "react-native-modal";
-import SummaryAndConfirmation from "./summaryAndConfirmation";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -40,7 +40,7 @@ export default function AddReview({ modalVisible, closeModal }: Readonly<Props>)
   };
 
   return (
-    <View>
+    <SafeAreaView  style={{ }}>
       <Modal
         isVisible={modalVisible}
         animationIn="slideInUp"
@@ -57,8 +57,8 @@ export default function AddReview({ modalVisible, closeModal }: Readonly<Props>)
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          bottom: 0,
-          position: "absolute",
+          top: 120,
+         
           margin: 0,
         }}
       >
@@ -180,7 +180,7 @@ export default function AddReview({ modalVisible, closeModal }: Readonly<Props>)
                     placeholderTextColor="#5f5f5f"
                     keyboardType="default"
                     multiline={true}
-                    numberOfLines={4}
+                    numberOfLines={3}
                     returnKeyType="done"
                   />
                 </View>
@@ -220,7 +220,7 @@ export default function AddReview({ modalVisible, closeModal }: Readonly<Props>)
         modalCardVisible={modalCardVisible}
         closeCardModal={closeCardModal}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

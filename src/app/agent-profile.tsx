@@ -113,7 +113,7 @@ export default function AgentProfile() {
           }}
         >
           <View>
-            <Text
+            {/* <Text
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-bold",
@@ -123,8 +123,12 @@ export default function AgentProfile() {
               }}
             >
               About Host
-            </Text>
-            <View>
+            </Text> */}
+            <View
+              style={{
+                marginTop: RFValue(20),
+              }}
+            >
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/agentprofile.png")}
@@ -265,7 +269,7 @@ export default function AgentProfile() {
                 marginTop: RFValue(20),
               }}
             >
-              Host review (40)
+              Agent review (40)
             </Text>
             <TouchableOpacity
               onPress={openModal}
@@ -287,6 +291,17 @@ export default function AgentProfile() {
                 Add review
               </Text>
             </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: RFValue(16),
+                fontFamily: "outfit-bold",
+                color: "#161917",
+                lineHeight: RFValue(20),
+                marginTop: RFValue(20),
+              }}
+            >
+              Host review (40)
+            </Text>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -429,7 +444,7 @@ export default function AgentProfile() {
                 textAlign: "center",
               }}
             >
-              Rent apartment
+    Book apartment
             </Text>
           </TouchableOpacity>
         </ScrollView>

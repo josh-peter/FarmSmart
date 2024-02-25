@@ -16,7 +16,7 @@ import BankListPicker from "../common/modals/bankListPicker";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 
 export default function SearchInput() {
-  const [chooseData, setChooseData] = useState("");
+  const [chooseData, setChooseData] = useState("Select bank");
   const [isModdalVisible, setIsModalVisible] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(true);
 

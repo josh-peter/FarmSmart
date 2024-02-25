@@ -108,7 +108,7 @@ export default function ClientProfile() {
         </View>
         <View
           style={{
-            paddingHorizontal: RFValue(15),
+            paddingHorizontal: RFValue(25),
           }}
         >
           <View
@@ -117,17 +117,18 @@ export default function ClientProfile() {
               alignItems: "center",
               overflow: "hidden",
               gap: RFValue(6),
-              backgroundColor: "#F1F5FF",
+              backgroundColor: "#F5F5F5",
               paddingHorizontal: RFValue(12),
               paddingVertical: RFValue(10),
               borderRadius: RFValue(8),
               marginBottom: RFValue(10),
               marginTop: RFValue(30),
+              width:responsiveScreenWidth(52),
             }}
           >
             <Image
               resizeMode="contain"
-              source={require("../assets/images/danger.png")}
+              source={require("../assets/images/eyeIcon.png")}
               style={{
                 width: RFValue(20),
                 height: RFValue(20),
@@ -136,12 +137,12 @@ export default function ClientProfile() {
             <Text
               style={{
                 fontSize: RFValue(14),
-                fontFamily: "plusjakarta-regular",
-                color: "#306AFF",
+                fontFamily: "outfit-medium",
+                color: "#000",
                 flexShrink: 1,
               }}
             >
-              This is what agents you get in contact with will see!
+              Visible to all agents
             </Text>
           </View>
           <View>

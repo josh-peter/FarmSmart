@@ -20,7 +20,8 @@ import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
 import { Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-
+import PaymentVerification from "../components/common/modals/paymentVerification";
+import SelectBookingDate from "../components/common/modals/selectBookingDate";
 
 export default function PayForApartment() {
   const [isChecked, setIsChecked] = useState(false);
@@ -29,14 +30,23 @@ export default function PayForApartment() {
   const [cvv, setCvv] = useState("");
   const [showArrow, setShowArrow] = useState(false);
   const [showCardImage, setShowCardImage] = useState(false);
-  const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
+  const [modalPayVisible, setModalPayVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const openConfirmModal = () => {
-    setModalConfirmVisible(true);
+  const openModal = () => {
+    setModalVisible(true);
   };
 
-  const closeConfirmModal = () => {
-    setModalConfirmVisible(false);
+  const closePayModal = () => {
+    setModalPayVisible(false);
+  };
+
+  const openPayModal = () => {
+    setModalPayVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
   };
 
   const expiryInputRef = useRef<any>(null);
@@ -107,9 +117,12 @@ export default function PayForApartment() {
           >
             Pay for apartment
           </Text>
-          <TouchableOpacity onPress={() => {
-            router.push("/book-appointment")
-          }} style={styles.clearIcon}>
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/book-appointment");
+            }}
+            style={styles.clearIcon}
+          >
             <MaterialIcons name="clear" size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -182,7 +195,7 @@ export default function PayForApartment() {
                   paddingHorizontal: RFValue(12),
                   borderRadius: RFValue(5),
                   backgroundColor: "#ECFFF4",
-                  width: RFValue(60),
+                  width: RFValue(80),
                   marginTop: RFValue(3),
                 }}
               >
@@ -193,7 +206,7 @@ export default function PayForApartment() {
                     color: "#06782F",
                   }}
                 >
-                  Rental
+                  Apartment
                 </Text>
               </TouchableOpacity>
               <View
@@ -208,7 +221,7 @@ export default function PayForApartment() {
                     color: "#06782F",
                   }}
                 >
-                  ₦1,500,000{" "}
+                  ₦300,000{" "}
                   <Text
                     style={{
                       fontSize: RFValue(9),
@@ -216,7 +229,7 @@ export default function PayForApartment() {
                       color: "#414141",
                     }}
                   >
-                    yearly
+                    /night
                   </Text>
                 </Text>
               </View>
@@ -277,7 +290,7 @@ export default function PayForApartment() {
                         Wed, Aug 23, 2023
                       </Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={openModal}>
                       <Text
                         style={{
                           fontSize: RFValue(18),
@@ -334,7 +347,7 @@ export default function PayForApartment() {
                         Wed, Aug 23, 2023
                       </Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={openModal}>
                       <Text
                         style={{
                           fontSize: RFValue(18),
@@ -534,7 +547,7 @@ export default function PayForApartment() {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={()=> router.push("/summary-confirmation")}
+              onPress={openPayModal}
               style={{
                 backgroundColor:
                   cardNumber && expiryDate && cvv ? "#06782F" : "#83bb97",
@@ -549,6 +562,11 @@ export default function PayForApartment() {
           </View>
         </View>
       </View>
+      <PaymentVerification
+        modalPayVisible={modalPayVisible}
+        closePayModal={closePayModal}
+      />
+      <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );
 }

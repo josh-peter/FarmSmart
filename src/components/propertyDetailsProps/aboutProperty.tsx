@@ -82,7 +82,7 @@ export default function AboutProperty() {
             fontSize: RFValue(14),
             fontFamily: "outfit-regular",
             color: "#414141",
-            lineHeight: RFValue(30),
+            lineHeight: RFValue(20),
           }}
         >
           Check-In From: 9am-10pm
@@ -105,7 +105,7 @@ export default function AboutProperty() {
               lineHeight: RFValue(40),
             }}
           >
-            See all details
+            See all rules
           </Text>
         </TouchableOpacity>
       </View>
@@ -181,7 +181,6 @@ export default function AboutProperty() {
             </MapView>
           </View>
           <TouchableOpacity
-            onPress={() => router.push("/book-appointment")}
             style={{
               flexDirection: "row",
               justifyContent: "center",
@@ -225,7 +224,7 @@ export default function AboutProperty() {
         >
           About Host
         </Text>
-        <View>
+        <TouchableOpacity onPress={()=>{router.push("/agent-profile")}}>
           <Image
             resizeMode="contain"
             source={require("../../assets/images/agentprofile.png")}
@@ -246,7 +245,7 @@ export default function AboutProperty() {
               right: 0,
             }}
           />
-        </View>
+        </TouchableOpacity>
         <View
           style={{
             flexDirection: "row",

@@ -22,12 +22,6 @@ import {
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
-import Similarlisting from "../components/propertyDetailsProps/similarListing";
-import AboutProperty from "../components/propertyDetailsProps/aboutProperty";
-import SelectBookingDate from "../components/common/modals/selectBookingDate";
-import AddressModalPicker from "../components/common/addressModalPicker";
-import LanguageModalPicker from "../components/common/languageModalPicker";
-import BankListPicker from "../components/common/modals/bankListPicker";
 import SearchInput from "../components/inputs/searchInput";
 import InputField from "../components/inputs/inputField";
 const { width, height } = Dimensions.get("window");

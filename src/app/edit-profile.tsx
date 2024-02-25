@@ -107,7 +107,7 @@ export default function EditProfile() {
           >
             Edit profile
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity style={styles.clearIcon} onPress={()=> router.back()}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/arrow-left.png")}
@@ -129,17 +129,18 @@ export default function EditProfile() {
               alignItems: "center",
               overflow: "hidden",
               gap: RFValue(6),
-              backgroundColor: "#F1F5FF",
+              backgroundColor: "#F5F5F5",
               paddingHorizontal: RFValue(12),
               paddingVertical: RFValue(10),
               borderRadius: RFValue(8),
               marginBottom: RFValue(10),
-              marginTop: RFValue(20),
+              marginTop: RFValue(30),
+              width: responsiveScreenWidth(52),
             }}
           >
             <Image
               resizeMode="contain"
-              source={require("../assets/images/danger.png")}
+              source={require("../assets/images/eyeIcon.png")}
               style={{
                 width: RFValue(20),
                 height: RFValue(20),
@@ -148,12 +149,12 @@ export default function EditProfile() {
             <Text
               style={{
                 fontSize: RFValue(14),
-                fontFamily: "plusjakarta-regular",
-                color: "#306AFF",
+                fontFamily: "outfit-medium",
+                color: "#000",
                 flexShrink: 1,
               }}
             >
-              This is what agents you get in contact with will see!
+              Visible to all agents
             </Text>
           </View>
           <View>

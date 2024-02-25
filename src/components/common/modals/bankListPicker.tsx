@@ -13,6 +13,12 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import Checkbox from "expo-checkbox";
 
+interface Bank {
+  id: number;
+  img: number;
+  name: string;
+}
+
 const BankListPicker = (props: any) => {
   const [activeLanguages, setActiveLanguages] = useState("");
 
@@ -57,11 +63,12 @@ const BankListPicker = (props: any) => {
   const WIDTH = Dimensions.get("window").width;
   const HEIGHT = Dimensions.get("window").height;
 
-  const onPressItem = (option: any) => {
-    setActiveLanguages(option);
-    props.changeModalVisibility(false);
-    props.setData(option);
-  };
+
+const onPressItem = (option: Bank) => {
+  setActiveLanguages(option.name);
+  props.changeModalVisibility(false);
+  props.setData(option);
+};
 
 
   return (
@@ -105,7 +112,7 @@ const BankListPicker = (props: any) => {
             <TouchableOpacity
               key={item.id}
               style={styles.option}
-              onPress={() => onPressItem(item)}
+              // onPress={() => onPressItem(item)}
             >
               <Image
                 resizeMode="contain"

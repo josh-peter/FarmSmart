@@ -18,6 +18,7 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
+import CardPayment from "./cardPayment";
 
 interface Props {
   modalCardVisible: boolean;
@@ -34,6 +35,7 @@ export default function AddNewCard({
   const [cvv, setCvv] = useState("");
   const [showArrow, setShowArrow] = useState(false);
   const [showCardImage, setShowCardImage] = useState(false);
+    const [modalPayVisible, setModalPayVisible] = useState(false);
 
   const expiryInputRef = useRef<any>(null);
   const cvvInputRef = useRef<any>(null);
@@ -66,6 +68,15 @@ export default function AddNewCard({
     const formattedText = text.replace(/\D/g, "").substring(0, 3);
     setCvv(formattedText);
   };
+
+    
+        const openPayModal = () => {
+          setModalPayVisible(true);
+        };
+
+        const closePayModal = () => {
+          setModalPayVisible(false);
+        };
   return (
     <View>
       <Modal
@@ -81,7 +92,6 @@ export default function AddNewCard({
         backdropOpacity={0.5}
         backdropColor="#000"
         style={{
-          flex: 1,
           justifyContent: "center",
           alignItems: "center",
           bottom: 0,
@@ -104,7 +114,7 @@ export default function AddNewCard({
               backgroundColor: "#fafafa",
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(10),
-              marginTop: RFValue(15),
+              marginTop: RFValue(25),
             }}
           >
             <Text
@@ -127,7 +137,6 @@ export default function AddNewCard({
               />
             </TouchableOpacity>
           </View>
-
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -135,15 +144,6 @@ export default function AddNewCard({
               marginHorizontal: RFValue(7),
             }}
           >
-            <Text
-              style={{
-                fontSize: RFValue(15),
-                fontFamily: "outfit-regular",
-                lineHeight: RFValue(40),
-              }}
-            >
-              Add and manage your card apyment
-            </Text>
             <View
               style={{
                 backgroundColor: "#FAFAFA",
@@ -274,6 +274,7 @@ export default function AddNewCard({
             </View>
             <TouchableOpacity
               // disabled={!cardNumber || !expiryDate || cvv}
+              onPress={openPayModal}
               style={{
                 backgroundColor:
                   cardNumber && expiryDate && cvv ? "#06782F" : "#83bb97",
@@ -288,6 +289,7 @@ export default function AddNewCard({
           </ScrollView>
         </View>
       </Modal>
+      <CardPayment modalPayVisible={modalPayVisible} closePayModal={closePayModal}/>
     </View>
   );
 }

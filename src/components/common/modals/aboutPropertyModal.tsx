@@ -142,7 +142,7 @@ export default function AboutPropertyModal({
 
               <Text
                 style={{
-                  fontSize: RFValue(12),
+                  fontSize: RFValue(14),
                   fontFamily: "plusjakarta-regular",
                   color: "#414141",
                 }}

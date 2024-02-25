@@ -121,7 +121,8 @@ export default function EditProfile() {
           ],
         }}
       >
-        <View
+        <TouchableOpacity
+          onPress={()=>router.back()}
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -140,7 +141,7 @@ export default function EditProfile() {
           >
             Account information
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity style={styles.clearIcon} onPress={()=> router.back()}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/arrow-left.png")}
@@ -150,7 +151,7 @@ export default function EditProfile() {
               }}
             />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
         <View
           style={{
             paddingHorizontal: RFValue(15),

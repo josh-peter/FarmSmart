@@ -28,7 +28,7 @@ interface Props {
 export default function PayForApartment({
   modalPayVisible,
   closePayModal,
-}: Props) {
+}: Readonly<Props>) {
   const [isChecked, setIsChecked] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");

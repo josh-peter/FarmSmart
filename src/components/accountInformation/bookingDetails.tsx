@@ -72,7 +72,6 @@ export default function BookingDetails({
               backgroundColor: "#fafafa",
               width: responsiveScreenWidth(100),
               height: responsiveScreenWidth(22),
-              marginTop: RFValue(20),
             }}
           >
             <Text
@@ -130,6 +129,38 @@ export default function BookingDetails({
                     borderRadius: 20,
                   }}
                 />
+                <View
+                  style={{
+                    position: 'absolute',
+                    left: 20,
+                    top: 20,
+                    elevation:10,
+                  }}
+                >
+                  <Image
+                    resizeMode="contain"
+                    source={require("../../assets/images/agentprofile.png")}
+                    style={{
+                      height: RFValue(55),
+                      width: RFValue(55),
+                      borderWidth: 1,
+                      borderColor: '#fff',
+                      borderRadius:RFValue(50)
+                    }}
+                  />
+                  <Image
+                    resizeMode="contain"
+                    source={require("../../assets/images/agentTag.png")}
+                    style={{
+                      height: RFValue(45),
+                      width: RFValue(35),
+                      position: "absolute",
+                      top: 40,
+                      left: 10,
+                      right: 0,
+                    }}
+                  />
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
