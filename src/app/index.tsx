@@ -1,6 +1,5 @@
 import { Animated, Easing, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import type { EasingFunction } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Link, Stack } from 'expo-router';
 import { useFonts } from 'expo-font';

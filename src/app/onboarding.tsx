@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   FlatList,
   SafeAreaView,
   Animated,
@@ -21,6 +20,8 @@ import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { OnboardingData } from "../Data/onBoardingData";
 const { width, height } = Dimensions.get("window");
+import { Image } from "expo-image";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 
 interface OnboardingItem {
   id: number;
@@ -72,17 +73,8 @@ const Onboarding = () => {
   return (
     <SafeAreaView>
       <Stack.Screen options={{ headerShown: false }} />
-      <StatusBar style="dark" />
-      <Image
-        resizeMode="contain"
-        source={require("../assets/images/spiral.png")}
-        style={styles.spiral}
-      />
-      <View
-        style={
-          styles.indicatorContainer
-        }
-      >
+      <StatusBar style="light" />
+      <View style={styles.indicatorContainer}>
         {OnboardingData?.map((_, index) => (
           <View
             key={index}
@@ -130,15 +122,10 @@ const Onboarding = () => {
                 alignItems: "center",
               }}
             >
-              <Animated.Image
-                resizeMode="contain"
+              <Image
+                contentFit="contain"
                 source={item.img}
                 style={styles.phones}
-              />
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/cloudy.png")}
-                style={styles.cloudyEffect}
               />
             </Animated.View>
             <Animated.View
@@ -192,7 +179,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(20),
   },
   spiral: {
-    top: RFValue(80),
+    top: RFValue(70),
     right: RFValue(0),
     position: "absolute",
     width: "100%",
@@ -206,7 +193,7 @@ const styles = StyleSheet.create({
     width: width,
   },
   phones: {
-    width: RFValue(220),
+    width: responsiveScreenWidth(100),
     height: RFValue(520),
   },
   cloudyEffect: {
