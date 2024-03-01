@@ -3,6 +3,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Image, View, Text } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
+import colors from "../../constants/Colors";
 
 export default function Layout() {
   return (
@@ -55,7 +56,7 @@ export default function Layout() {
                 />
                 <Text
                   style={{
-                    color: focused ? "#06782F" : "#BABABA",
+                    color: focused ? colors.primary : colors.bottomTab,
                     fontSize: RFValue(10),
                     fontFamily: "outfit-medium",
                   }}
@@ -96,7 +97,7 @@ export default function Layout() {
                 />
                 <Text
                   style={{
-                    color: focused ? "#06782F" : "#BABABA",
+                    color: focused ? colors.primary : "#BABABA",
                     fontSize: RFValue(10),
                     fontFamily: "outfit-medium",
                   }}
@@ -137,7 +138,7 @@ export default function Layout() {
                 />
                 <Text
                   style={{
-                    color: focused ? "#06782F" : "#BABABA",
+                    color: focused ? colors.primary : "#BABABA",
                     fontSize: RFValue(10),
                     fontFamily: "outfit-medium",
                   }}
@@ -178,7 +179,7 @@ export default function Layout() {
                 />
                 <Text
                   style={{
-                    color: focused ? "#06782F" : "#BABABA",
+                    color: focused ? colors.primary : "#BABABA",
                     fontSize: RFValue(10),
                     fontFamily: "outfit-medium",
                   }}
@@ -219,7 +220,7 @@ export default function Layout() {
                 />
                 <Text
                   style={{
-                    color: focused ? "#06782F" : "#BABABA",
+                    color: focused ? colors.primary : "#BABABA",
                     fontSize: RFValue(10),
                     fontFamily: "outfit-medium",
                   }}

@@ -2,7 +2,6 @@ import {
     View,
     Text,
     StyleSheet,
-    Image,
     TextInput,
     TouchableOpacity,
     Platform,
@@ -16,6 +15,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "../../components/Auth/errors/errorMsg";
 import CustomAlert from "../../components/common/modals/customAlert";
+import colors from "../../constants/Colors";
+import { Image } from "expo-image";
 
 export default function NewPassword() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -72,132 +73,139 @@ export default function NewPassword() {
             isSubmitting,
             errors,
           }) => (
-            <View style={styles.container}>
-              <View>
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/logo.png")}
-                  style={styles.logo}
-                />
-                <Text style={styles.title}>New Password</Text>
-                <Text style={styles.subtitle}>
-                  Please enter your new password to Sign In
-                </Text>
+            <>
+              <View style={styles.container}>
                 <View>
+                  <Image
+                    contentFit="contain"
+                    source={require("../../assets/images/icon2.png")}
+                    style={styles.logo}
+                  />
+                  <Text style={styles.title}>New Password</Text>
+                  <Text style={styles.subtitle}>
+                    Please enter your new password to Sign In
+                  </Text>
                   <View>
-                    <Text
-                      style={{
-                        fontFamily: "outfit-bold",
-                        fontSize: RFValue(14),
-                        marginTop: RFValue(20),
-                        color: "#5f5f5f",
-                      }}
-                    >
-                      New Password
-                    </Text>
-                    <View
-                      style={{
-                        borderRadius: 10,
-                        borderWidth: 1,
-                        borderColor: "#E4E4E7",
-                        padding: RFValue(8),
-                        marginTop: RFValue(10),
-                      }}
-                    >
-                      <TextInput
-                        placeholder="**********"
-                        value={values.password}
-                        style={styles.inputbox}
-                        onChangeText={handleChange("password")}
-                        onBlur={handleBlur("password")}
-                        placeholderTextColor="#5f5f5f"
-                        secureTextEntry={passwordVisible}
-                      />
-                      <TouchableOpacity
-                        style={styles.eyeIcon}
-                        onPress={handlePasswordVisibility}
+                    <View>
+                      <Text
+                        style={{
+                          fontFamily: "outfit-bold",
+                          fontSize: RFValue(14),
+                          marginTop: RFValue(20),
+                          color: "#5f5f5f",
+                        }}
                       >
-                        <Ionicons
-                          name={
-                            passwordVisible ? "eye-outline" : "eye-off-outline"
-                          }
-                          size={34}
-                          color="#5f5f5f"
+                        New Password
+                      </Text>
+                      <View
+                        style={{
+                          borderRadius: 10,
+                          borderWidth: 1,
+                          borderColor: "#E4E4E7",
+                          padding: RFValue(8),
+                          marginTop: RFValue(10),
+                        }}
+                      >
+                        <TextInput
+                          placeholder="**********"
+                          value={values.password}
+                          style={styles.inputbox}
+                          onChangeText={handleChange("password")}
+                          onBlur={handleBlur("password")}
+                          placeholderTextColor="#5f5f5f"
+                          secureTextEntry={passwordVisible}
                         />
-                      </TouchableOpacity>
-                    </View>
+                        <TouchableOpacity
+                          style={styles.eyeIcon}
+                          onPress={handlePasswordVisibility}
+                        >
+                          <Ionicons
+                            name={
+                              passwordVisible
+                                ? "eye-outline"
+                                : "eye-off-outline"
+                            }
+                            size={34}
+                            color="#5f5f5f"
+                          />
+                        </TouchableOpacity>
+                      </View>
 
-                    {errors.password && (
-                      <ErrorMsg message={`${errors.password}`} />
-                    )}
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontFamily: "outfit-bold",
-                        fontSize: RFValue(14),
-                        marginTop: RFValue(20),
-                        color: "#5f5f5f",
-                      }}
-                    >
-                      Confirm New Password
-                    </Text>
-                    <View
-                      style={{
-                        borderRadius: 10,
-                        borderWidth: 1,
-                        borderColor: "#E4E4E7",
-                        padding: RFValue(8),
-                        marginTop: RFValue(10),
-                      }}
-                    >
-                      <TextInput
-                        placeholder="**********"
-                        value={values.confirmPassword}
-                        onChangeText={handleChange("confirmPassword")}
-                        onBlur={handleBlur("confirmPassword")}
-                        style={styles.inputbox}
-                        placeholderTextColor="#5f5f5f"
-                        secureTextEntry={passwordVisible}
-                      />
-                      <TouchableOpacity
-                        style={styles.eyeIcon}
-                        onPress={handlePasswordVisibility}
-                      >
-                        <Ionicons
-                          name={
-                            passwordVisible ? "eye-outline" : "eye-off-outline"
-                          }
-                          size={34}
-                          color="#5f5f5f"
-                        />
-                      </TouchableOpacity>
+                      {errors.password && (
+                        <ErrorMsg message={`${errors.password}`} />
+                      )}
                     </View>
-                    {errors.confirmPassword && (
-                      <ErrorMsg message={`${errors.confirmPassword}`} />
-                    )}
+                    <View>
+                      <Text
+                        style={{
+                          fontFamily: "outfit-bold",
+                          fontSize: RFValue(14),
+                          marginTop: RFValue(20),
+                          color: "#5f5f5f",
+                        }}
+                      >
+                        Confirm New Password
+                      </Text>
+                      <View
+                        style={{
+                          borderRadius: 10,
+                          borderWidth: 1,
+                          borderColor: "#E4E4E7",
+                          padding: RFValue(8),
+                          marginTop: RFValue(10),
+                        }}
+                      >
+                        <TextInput
+                          placeholder="**********"
+                          value={values.confirmPassword}
+                          onChangeText={handleChange("confirmPassword")}
+                          onBlur={handleBlur("confirmPassword")}
+                          style={styles.inputbox}
+                          placeholderTextColor="#5f5f5f"
+                          secureTextEntry={passwordVisible}
+                        />
+                        <TouchableOpacity
+                          style={styles.eyeIcon}
+                          onPress={handlePasswordVisibility}
+                        >
+                          <Ionicons
+                            name={
+                              passwordVisible
+                                ? "eye-outline"
+                                : "eye-off-outline"
+                            }
+                            size={34}
+                            color="#5f5f5f"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      {errors.confirmPassword && (
+                        <ErrorMsg message={`${errors.confirmPassword}`} />
+                      )}
+                    </View>
                   </View>
-                </View>
-                <View
-                  style={{
-                    marginTop: RFValue(30),
-                  }}
-                >
-                  {isSubmitting || errors.password || errors.confirmPassword ? (
-                    <TouchableOpacity style={styles.disableBtn}>
-                      <Text style={styles.button}>Update</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity
-                      onPress={() => handleSubmit()}
-                      style={styles.activeBtn}
-                    >
-                      <Text style={styles.button}>Update</Text>
-                    </TouchableOpacity>
-                  )}
                 </View>
               </View>
-            </View>
+              <View
+                style={{
+                  paddingHorizontal: RFValue(10),
+                  paddingVertical: RFValue(28),
+                }}
+              >
+                {isSubmitting || errors.password || errors.confirmPassword ? (
+                  <TouchableOpacity style={styles.disableBtn}>
+                    <Text style={styles.button}>Update</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => handleSubmit()}
+                    style={styles.activeBtn}
+                  >
+                    <Text style={styles.activeButton}>Update</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </>
           )}
         </Formik>
         {modalPopVisible && (
@@ -211,101 +219,108 @@ export default function NewPassword() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: RFValue(20),
-    },
-    logo: {
-        height: RFValue(70),
-        width: RFValue(70),
-        alignSelf: "center",
-        marginTop: RFValue(30),
-    },
-    title: {
-        textAlign: "center",
-        fontSize: RFValue(20),
-        fontFamily: "outfit-bold",
-        color: "#32264D",
-        marginTop: 9,
-    },
-    subtitle: {
-        textAlign: "center",
-        fontSize: RFValue(13),
-        fontWeight: "normal",
-        fontFamily: "outfit-regular",
-        color: "#8E8C84",
-        marginVertical: RFValue(7),
-    },
-    inputbox: {
-        backgroundColor: "transparent",
-        fontFamily: "outfit-light",
-        fontSize: RFValue(16),
-        paddingVertical: RFValue(5),
-    },
-    errorText: {
-        fontFamily: "outfit-medium",
-        fontSize: RFValue(10),
-        color: "red",
-    },
-    eyeIcon: {
-        position: "absolute",
-        top: 10,
-        right: 19,
-        zIndex: 1,
-    },
-    passText: {
-        fontSize: RFValue(15),
-        fontWeight: "normal",
-        fontFamily: "outfit-regular",
-        color: "#06782f",
-        marginVertical: RFValue(13),
-    },
-    button: {
-        fontFamily: "outfit-medium",
-        textAlign: "center",
-        color: "#fff",
-        fontSize: RFValue(14),
-    },
-    disableBtn: {
-        backgroundColor: "#06782f",
-        marginTop: RFValue(10),
-        paddingHorizontal: RFValue(14),
-        paddingVertical: RFValue(12),
-        borderRadius: Platform.OS == "android" ? 15 : 15,
-        justifyContent: "center",
-        opacity: 0.2,
-    },
-    activeBtn: {
-        backgroundColor: "#06782f",
-        marginTop: RFValue(10),
-        paddingHorizontal: RFValue(14),
-        paddingVertical: RFValue(12),
-        borderRadius: Platform.OS == "android" ? 15 : 15,
-        justifyContent: "center",
-    },
-    line: {
-        height: RFValue(1.2),
-        width: Platform.OS === "ios" ? RFValue(110) : RFValue(104),
-        backgroundColor: "#C0C0C0",
-    },
-    signupText: {
-        color: "#C0C0C0",
-        fontSize: RFValue(11),
-        fontWeight: "normal",
-        fontFamily: "outfit-regular",
-        marginHorizontal: RFValue(4),
-    },
-    appleLogo: {
-        height: RFValue(30),
-        width: RFValue(30),
-    },
-    googleLogo: {
-        height: RFValue(30),
-        width: RFValue(30),
-    },
-    smallText: {
-        marginTop: RFValue(20),
-        fontSize: RFValue(16),
-        fontFamily: "plusjakarta-regular",
-        textAlign: "center",
-    },
+  container: {
+    paddingHorizontal: RFValue(20),
+    flex: 1,
+  },
+  logo: {
+    height: RFValue(40),
+    width: RFValue(140),
+    alignSelf: "center",
+    marginTop: RFValue(30),
+  },
+  title: {
+    textAlign: "center",
+    fontSize: RFValue(16),
+    fontFamily: "outfit-bold",
+    color: "#32264D",
+    marginTop: 9,
+  },
+  subtitle: {
+    textAlign: "center",
+    fontSize: RFValue(13),
+    fontWeight: "normal",
+    fontFamily: "urbanist-medium",
+    marginVertical: RFValue(7),
+  },
+  inputbox: {
+    backgroundColor: "transparent",
+    fontFamily: "outfit-light",
+    fontSize: RFValue(16),
+    paddingVertical: RFValue(5),
+  },
+  errorText: {
+    fontFamily: "outfit-medium",
+    fontSize: RFValue(10),
+    color: "red",
+  },
+  eyeIcon: {
+    position: "absolute",
+    top: 10,
+    right: 19,
+    zIndex: 1,
+  },
+  passText: {
+    fontSize: RFValue(15),
+    fontWeight: "normal",
+    fontFamily: "outfit-regular",
+    color: "#06782f",
+    marginVertical: RFValue(13),
+  },
+  button: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.buttontext,
+    fontSize: RFValue(14),
+  },
+  activeButton: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.background,
+    fontSize: RFValue(14),
+  },
+  disableBtn: {
+    backgroundColor: colors.button,
+    marginTop: RFValue(10),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
+  },
+  activeBtn: {
+    backgroundColor: colors.primary,
+    marginTop: RFValue(10),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
+  },
+  line: {
+    height: RFValue(1.2),
+    width: Platform.OS === "ios" ? RFValue(110) : RFValue(104),
+    backgroundColor: "#C0C0C0",
+  },
+  signupText: {
+    color: "#C0C0C0",
+    fontSize: RFValue(11),
+    fontWeight: "normal",
+    fontFamily: "outfit-regular",
+    marginHorizontal: RFValue(4),
+  },
+  appleLogo: {
+    height: RFValue(30),
+    width: RFValue(30),
+  },
+  googleLogo: {
+    height: RFValue(30),
+    width: RFValue(30),
+  },
+  smallText: {
+    marginTop: RFValue(20),
+    fontSize: RFValue(16),
+    fontFamily: "plusjakarta-regular",
+    textAlign: "center",
+  },
 });

@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
   ScrollView,
   Platform,
 } from "react-native";
@@ -13,14 +12,13 @@ import Modal from "react-native-modal";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import PasswordInputField from "../../inputs/passwordInputField";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import Checkbox from "expo-checkbox";
+import colors from "../../../constants/Colors";
+import { Image } from "expo-image";
 
 interface Props {
   modalVisible: boolean;
@@ -62,42 +60,50 @@ const handleIconPress = (id: number) => {
   const propertyType = [
     {
       id: 1,
-      icon: "building",
+      img: require("../../../assets/images/building.png"),
+      img2: require("../../../assets/images/building-dark.png"),
       type: "Apartment",
     },
     {
       id: 2,
-      icon: "home",
+      img: require("../../../assets/images/house.png"),
+      img2: require("../../../assets/images/house-dark.png"),
       type: "Home",
     },
     {
       id: 3,
-      icon: "store",
+      img: require("../../../assets/images/shop.png"),
+      img2: require("../../../assets/images/shop-dark.png"),
       type: "Shop space",
     },
     {
       id: 4,
-      icon: "hat-cowboy-side",
+      img: require("../../../assets/images/slider-vertical.png"),
+      img2: require("../../../assets/images/land-dark.png"),
       type: "Land",
     },
     {
       id: 5,
-      icon: "hotel",
+      img: require("../../../assets/images/hotels.png"),
+      img2: require("../../../assets/images/hotels-dark.png"),
       type: "Hotel",
     },
     {
       id: 6,
-      icon: "landmark",
+      img: require("../../../assets/images/shortlet.png"),
+      img2: require("../../../assets/images/shortlet-dark.png"),
       type: "Shortlet",
     },
     {
       id: 7,
-      icon: "hospital",
+      img: require("../../../assets/images/building-3.png"),
+      img2: require("../../../assets/images/building3-dark.png"),
       type: "Office Space",
     },
     {
       id: 8,
-      icon: "bed",
+      img: require("../../../assets/images/Component.png"),
+      img2: require("../../../assets/images/Component-dark.png"),
       type: "Rooms",
     },
   ];
@@ -181,7 +187,7 @@ const handleIconPress = (id: number) => {
           >
             <Text
               style={{
-                fontSize: RFValue(18),
+                fontSize: RFValue(13),
                 fontFamily: "outfit-bold",
                 textTransform: "uppercase",
                 lineHeight: RFValue(30),
@@ -190,7 +196,7 @@ const handleIconPress = (id: number) => {
               Filters
             </Text>
             <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={24} color="black" />
+              <MaterialIcons name="clear" size={20} color="black" />
             </TouchableOpacity>
           </View>
           <ScrollView
@@ -212,8 +218,8 @@ const handleIconPress = (id: number) => {
               </Text>
               <Text
                 style={{
-                  fontSize: RFValue(14),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(13),
+                  fontFamily: "urbanist-regular",
                 }}
               >
                 Type in your desired price range that best fits your budget
@@ -245,18 +251,18 @@ const handleIconPress = (id: number) => {
                     borderWidth: 1,
                     borderColor: "#E4E4E7",
                     padding: RFValue(8),
-                    marginTop: RFValue(5),
+                    marginTop: RFValue(8),
                   }}
                 >
                   <TextInput
                     placeholder="Type here"
                     style={styles.inputbox}
-                    placeholderTextColor="#5f5f5f"
+                    placeholderTextColor={colors.onboardingText}
                   />
                   <TouchableOpacity style={styles.eyeIcon}>
                     <Image
                       resizeMode="contain"
-                      source={require("../../../assets/images/naira.png")}
+                      source={require("../../../assets/images/₦.png")}
                       style={{
                         width: RFValue(15),
                         height: RFValue(15),
@@ -301,7 +307,7 @@ const handleIconPress = (id: number) => {
                   <TouchableOpacity style={styles.eyeIcon}>
                     <Image
                       resizeMode="contain"
-                      source={require("../../../assets/images/naira.png")}
+                      source={require("../../../assets/images/₦.png")}
                       style={{
                         width: RFValue(15),
                         height: RFValue(15),
@@ -317,7 +323,7 @@ const handleIconPress = (id: number) => {
                 alignItems: "center",
                 overflow: "hidden",
                 gap: RFValue(6),
-                backgroundColor: "#F1F5FF",
+                backgroundColor: colors.warm,
                 paddingHorizontal: RFValue(12),
                 paddingVertical: RFValue(8),
                 marginTop: RFValue(35),
@@ -334,9 +340,9 @@ const handleIconPress = (id: number) => {
               />
               <Text
                 style={{
-                  fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#306AFF",
+                  fontSize: RFValue(13),
+                  fontFamily: "urbanist-regular",
+                  color: colors.green,
                 }}
               >
                 Pick property type to load more filter option
@@ -372,7 +378,9 @@ const handleIconPress = (id: number) => {
                       alignItems: "center",
                       justifyContent: "center",
                       backgroundColor:
-                        activeIndex === item.id ? "#06782F" : "#FAFAFA",
+                        activeIndex === item.id
+                          ? colors.green
+                          : colors.filterbg,
                       width:
                         Platform.OS === "android" ? RFValue(70) : RFValue(72),
                       height: RFValue(65),
@@ -386,16 +394,19 @@ const handleIconPress = (id: number) => {
                         marginBottom: RFValue(3),
                       }}
                     >
-                      <Icon
-                        name={item.icon}
-                        size={20}
-                        color={activeIndex === item.id ? "#06782F" : "#414141"}
+                      <Image
+                        contentFit="contain"
+                        source={activeIndex === item.id ? item.img2 : item.img}
+                        style={{
+                          height: RFValue(22),
+                          width: RFValue(22),
+                        }}
                       />
                     </View>
                     <Text
                       style={{
-                        fontSize: RFValue(9),
-                        fontFamily: "plusjakarta-regular",
+                        fontSize: RFValue(10),
+                        fontFamily: "urbanist-regular",
                         color: activeIndex === item.id ? "#fff" : "#414141",
                       }}
                     >
@@ -445,7 +456,9 @@ const handleIconPress = (id: number) => {
                             onPress={() => handleRoomPress(index)}
                             style={{
                               backgroundColor:
-                                activeRoomBtn === index ? "#06782F" : "#F8FFFB",
+                                activeRoomBtn === index
+                                  ? colors.green
+                                  : colors.warm,
                               paddingHorizontal: RFValue(20),
                               paddingVertical: RFValue(8),
                               borderRadius: 50,
@@ -456,9 +469,11 @@ const handleIconPress = (id: number) => {
                             <Text
                               style={{
                                 fontSize: RFValue(16),
-                                fontFamily: "plusjakarta-regular",
+                                fontFamily: "urbanist-regular",
                                 color:
-                                  activeRoomBtn === index ? "#fff" : "#06782F",
+                                  activeRoomBtn === index
+                                    ? colors.background
+                                    : colors.green,
                               }}
                             >
                               {room}
@@ -496,9 +511,9 @@ const handleIconPress = (id: number) => {
                             onPress={() => handleKitchenPress(index)}
                             style={{
                               backgroundColor:
-                                activeKitchenBtn === index
-                                  ? "#06782F"
-                                  : "#F8FFFB",
+                                activeRoomBtn === index
+                                  ? colors.green
+                                  : colors.warm,
                               paddingHorizontal: RFValue(20),
                               paddingVertical: RFValue(8),
                               borderRadius: 50,
@@ -509,11 +524,11 @@ const handleIconPress = (id: number) => {
                             <Text
                               style={{
                                 fontSize: RFValue(16),
-                                fontFamily: "plusjakarta-regular",
+                                fontFamily: "urbanist-regular",
                                 color:
-                                  activeKitchenBtn === index
-                                    ? "#fff"
-                                    : "#06782F",
+                                  activeRoomBtn === index
+                                    ? colors.background
+                                    : colors.green,
                               }}
                             >
                               {room}
@@ -551,7 +566,9 @@ const handleIconPress = (id: number) => {
                             onPress={() => handleNumberPress(index)}
                             style={{
                               backgroundColor:
-                                activeBtn === index ? "#06782F" : "#F8FFFB",
+                                activeRoomBtn === index
+                                  ? colors.green
+                                  : colors.warm,
                               paddingHorizontal: RFValue(20),
                               paddingVertical: RFValue(8),
                               borderRadius: 50,
@@ -562,8 +579,11 @@ const handleIconPress = (id: number) => {
                             <Text
                               style={{
                                 fontSize: RFValue(16),
-                                fontFamily: "plusjakarta-regular",
-                                color: activeBtn === index ? "#fff" : "#06782F",
+                                fontFamily: "urbanist-regular",
+                                color:
+                                  activeRoomBtn === index
+                                    ? colors.background
+                                    : colors.green,
                               }}
                             >
                               {room}
@@ -574,7 +594,7 @@ const handleIconPress = (id: number) => {
                     </View>
                   </View>
                 )}
-                {activeIndex == "land" && (
+                {activeIndex == "Land" && (
                   <>
                     <Text
                       style={{
@@ -597,24 +617,28 @@ const handleIconPress = (id: number) => {
                     >
                       {landData?.map((room, index: number) => (
                         <TouchableOpacity
+                          key={index}
                           onPress={() => handleLandPress(index)}
                           style={{
                             backgroundColor:
-                              activeLandBtn === index ? "#06782F" : "#F8FFFB",
+                              activeRoomBtn === index
+                                ? colors.green
+                                : colors.warm,
                             paddingHorizontal: RFValue(20),
                             paddingVertical: RFValue(8),
                             borderRadius: 50,
                             marginTop: RFValue(10),
                           }}
-                          key={index}
                         >
                           <Text
                             style={{
                               fontSize: RFValue(16),
-                              fontFamily: "plusjakarta-regular",
                               textAlign: "center",
+                              fontFamily: "urbanist-regular",
                               color:
-                                activeLandBtn === index ? "#fff" : "#06782F",
+                                activeRoomBtn === index
+                                  ? colors.background
+                                  : colors.green,
                             }}
                           >
                             {room}
@@ -644,8 +668,8 @@ const handleIconPress = (id: number) => {
                     }}
                   >
                     <Image
-                      resizeMode="contain"
-                      source={require("../../../assets/images/Vector.png")}
+                      contentFit="contain"
+                      source={require("../../../assets/images/star.png")}
                       style={{
                         width: RFValue(20),
                         height: RFValue(20),
@@ -689,12 +713,12 @@ const handleIconPress = (id: number) => {
                           );
                           setChecked(newCheckedState);
                         }}
-                        color={isChecked[review.id] ? "#06782F" : "#e1e1e1"}
+                        color={isChecked[review.id] ? colors.green : "#e1e1e1"}
                       />
                       <Text
                         style={{
                           fontSize: RFValue(14),
-                          fontFamily: "plusjakarta-regular",
+                          fontFamily: "urbanist-regular",
                         }}
                       >
                         {review.result}
@@ -702,8 +726,8 @@ const handleIconPress = (id: number) => {
                     </View>
                   ))}
                 </View>
-                <TouchableOpacity style={styles.startBtn}>
-                  <Text style={styles.startText}>Apply filter</Text>
+                <TouchableOpacity style={styles.activeBtn}>
+                  <Text style={styles.activeButton}>Apply filter</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -725,14 +749,14 @@ const styles = StyleSheet.create({
   inputbox: {
     width: responsiveScreenWidth(33),
     backgroundColor: "transparent",
-    fontFamily: "outfit-light",
+    fontFamily: "urbanist-regular",
     fontSize: RFValue(14),
     paddingVertical: RFValue(5),
     paddingLeft: RFValue(15),
   },
   eyeIcon: {
     position: "absolute",
-    top: 23,
+    top: Platform.OS === "android" ? 20 : 16,
     left: 5,
     zIndex: 1,
   },
@@ -748,4 +772,20 @@ const styles = StyleSheet.create({
     fontFamily: "outfit-medium",
     textAlign: "center",
   },
-})
+  activeButton: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.background,
+    fontSize: RFValue(14),
+  },
+  activeBtn: {
+    backgroundColor: colors.primary,
+    marginTop: RFValue(20),
+    marginBottom: RFValue(20),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
+  },
+});

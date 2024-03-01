@@ -1,4 +1,4 @@
-import { StyleSheet, Animated, Platform } from "react-native";
+import { StyleSheet, Animated, Platform, Dimensions } from "react-native";
 import React, { useEffect, useRef, useState, memo } from "react";
 import { Link, Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -7,6 +7,8 @@ import SearchBarComponent from "../../components/homeScreens/searchBarComponent"
 import PropertyListItem from "../../components/homeScreens/propertyListItem";
 import HeaderButtons from "../../components/homeScreens/headerButtons";
 import HomeIcons from "../../components/homeScreens/HomeIcons";
+import colors from "../../constants/Colors";
+const { width, height } = Dimensions.get("window");
 
 const Index = () => {
   const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
@@ -72,8 +74,10 @@ export default Index;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: RFValue(15),
-    paddingVertical: RFValue(30),
+    width: width,
+    backgroundColor:colors.background,
+    paddingHorizontal: Platform.OS === "ios" ? RFValue(10) : RFValue(15),
+    paddingVertical: RFValue(20),
   },
   inputbox: {
     width: RFValue(230),

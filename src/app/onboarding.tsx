@@ -22,12 +22,12 @@ import { OnboardingData } from "../Data/onBoardingData";
 const { width, height } = Dimensions.get("window");
 import { Image } from "expo-image";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
+import colors from "../constants/Colors";
 
 interface OnboardingItem {
   id: number;
   title: string;
   description: string;
-  subdescription: string;
   img: any;
 }
 
@@ -81,7 +81,7 @@ const Onboarding = () => {
             style={[
               styles.indicator,
               {
-                backgroundColor: index === screenIndex ? "#06782F" : "#d9d9d9",
+                backgroundColor: index === screenIndex ? colors.primary : colors.indicator,
               },
             ]}
           />
@@ -132,11 +132,11 @@ const Onboarding = () => {
               style={{
                 marginTop: RFValue(-90),
                 paddingHorizontal: RFValue(15),
+                height:RFValue(120)
               }}
             >
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.description}>{item.description}</Text>
-              <Text style={styles.subdescription}>{item.subdescription}</Text>
             </Animated.View>
           </Animated.View>
         )}
@@ -160,7 +160,7 @@ const Onboarding = () => {
             <Text style={styles.skipText}>Skip</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.nextBtn} onPress={goToNextSlide}>
-            <AntDesign name="arrowright" size={24} color="#06782F" />
+            <AntDesign name="arrowright" size={24} color={colors.primary} />
           </TouchableOpacity>
         </View>
       )}
@@ -174,15 +174,9 @@ const styles = StyleSheet.create({
   indicator: {
     height: RFValue(2.5),
     width: RFValue(70),
-    backgroundColor: "#d9d9d9",
+    backgroundColor: "#D9D9D9",
     marginHorizontal: RFValue(3),
     marginTop: RFValue(20),
-  },
-  spiral: {
-    top: RFValue(70),
-    right: RFValue(0),
-    position: "absolute",
-    width: "100%",
   },
   indicatorContainer: {
     flexDirection: "row",
@@ -196,59 +190,52 @@ const styles = StyleSheet.create({
     width: responsiveScreenWidth(100),
     height: RFValue(520),
   },
-  cloudyEffect: {
-    bottom: RFValue(0),
-    right: RFValue(0),
-    left: RFValue(0),
-    position: "absolute",
-    width: "100%",
-  },
   title: {
     fontSize: RFValue(32),
     fontFamily: "outfit-semibold",
-    marginBottom: RFValue(3),
+    marginBottom: RFValue(5),
+    color:colors.dark
   },
   description: {
-    fontSize: RFValue(12),
-    fontFamily: "plusjakarta-regular",
-    color: "#6C727F",
+    fontSize: RFValue(13),
+    fontFamily: "urbanist-medium",
+    color: colors.onboardingText,
   },
   subdescription: {
-    fontSize: RFValue(12),
-    fontFamily: "plusjakarta-regular",
-    color: "#6C727F",
+    fontSize: RFValue(13),
+    fontFamily: "urbanist-medium",
+    color: colors.onboardingText,
   },
   skipBtn: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: RFValue(50),
     paddingHorizontal: RFValue(15),
   },
   skipText: {
     fontSize: RFValue(14),
-    fontFamily: "plusjakarta-semibold",
-    color: "#06782F",
+    fontFamily: "urbanist-bold",
+    color: colors.primary,
   },
   nextBtn: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: 1, height: 1 },
     shadowRadius: 20,
-    shadowOpacity: 1.0,
+    shadowOpacity: 0.1,
     elevation: 5,
-    shadowColor: Platform.OS === "ios" ? "#caf7b7" : "green",
+    shadowColor: Platform.OS === "ios" ? "#000" : "green",
     width: RFValue(50),
     height: RFValue(50),
     borderRadius: RFValue(30),
   },
   startBtn: {
-    backgroundColor: "#06782F",
+    backgroundColor: colors.primary,
     padding: Platform.OS === "ios" ? 13 : 12,
     borderRadius: 10,
-    marginTop: RFValue(60),
+    marginTop: RFValue(10),
   },
   startText: {
     fontSize: RFValue(14),

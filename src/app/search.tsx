@@ -4,11 +4,11 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Image,
   Animated,
   FlatList,
   Modal,
   Platform,
+  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
 import { Link,router, SearchParams, useSearchParams } from "expo-router";
@@ -18,6 +18,10 @@ import { PropertiesData } from "../Data/propertiesData";
 import ModalPicker from "../components/common/modalPicker";
 import FilterModal from "../components/common/modals/filterModal";
 import Carousel from "pinar";
+import colors from "../constants/Colors";
+import { Image } from "expo-image";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
+const { width, height } = Dimensions.get("window");
 
 interface SearchItem {
   id: number;
@@ -103,14 +107,14 @@ export default function Search() {
               justifyContent: "center",
               alignItems: "center",
               borderWidth: 1,
-              borderColor: "#E6E6E6",
+              borderColor: colors.border2,
               width: 56,
               height: 56,
-              borderRadius: 12,
+              borderRadius: 30,
             }}
           >
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../assets/images/arrow-left.png")}
               style={{
                 height: RFValue(28),
@@ -123,14 +127,14 @@ export default function Search() {
           style={{
             borderRadius: 10,
             borderWidth: 1,
-            borderColor: "#E4E4E7",
+            borderColor: colors.border2,
             padding: RFValue(6),
-            backgroundColor: "#Fdfdfd",
+            backgroundColor: colors.background,
           }}
         >
           <TouchableOpacity style={styles.eyeIcon}>
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../assets/images/search-normal.png")}
               style={{
                 height: RFValue(23),
@@ -141,7 +145,7 @@ export default function Search() {
           <TextInput
             placeholder="Any property or location"
             style={styles.inputbox}
-            placeholderTextColor="#5f5f5f"
+            placeholderTextColor={colors.onboardingText}
             onChangeText={handleSearch}
             value={searchQuery}
           />
@@ -183,13 +187,13 @@ export default function Search() {
               <Text
                 style={{
                   fontSize: RFValue(13),
-                  fontFamily: "plusjakarta-regular",
+                  fontFamily: "urbanist-regular",
                 }}
               >
                 {chooseData}
               </Text>
               <Image
-                resizeMode="contain"
+              contentFit="contain"
                 source={require("../assets/images/arrow-down.png")}
                 style={{
                   height: RFValue(23),
@@ -209,28 +213,28 @@ export default function Search() {
               />
             </Modal>
           </View>
-            <TouchableOpacity
-              onPress={openModal}
+          <TouchableOpacity
+            onPress={openModal}
+            style={{
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: 1,
+              borderColor: colors.border2,
+              width: 56,
+              height: 56,
+              borderRadius: 12,
+            }}
+          >
+            <Image
+              contentFit="contain"
+              source={require("../assets/images/filter-edit.png")}
               style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                borderWidth: 1,
-                borderColor: "#E6E6E6",
-                width: 56,
-                height: 56,
-                borderRadius: 12,
+                height: RFValue(28),
+                width: RFValue(28),
               }}
-            >
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/filter-edit.png")}
-                style={{
-                  height: RFValue(28),
-                  width: RFValue(28),
-                }}
-              />
-            </TouchableOpacity>
+            />
+          </TouchableOpacity>
         </View>
       )}
       <View
@@ -248,7 +252,7 @@ export default function Search() {
               <TouchableOpacity
                 onPress={() => locationSelectedHandler(search.search)}
                 style={{
-                  backgroundColor: "#f8fffb",
+                  backgroundColor: colors.warm,
                   paddingHorizontal: RFValue(13),
                   paddingVertical: RFValue(10),
                   borderRadius: 25,
@@ -260,7 +264,7 @@ export default function Search() {
                     fontSize: RFValue(14),
                     fontFamily: "outfit-bold",
                     lineHeight: RFValue(20.16),
-                    color: "#06782F",
+                    color: colors.green,
                   }}
                 >
                   {search.search}
@@ -275,9 +279,12 @@ export default function Search() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{}}
         renderItem={({ item }) => (
-          <Animated.View
+          <View
             style={{
-              marginBottom: RFValue(20),
+              width: responsiveScreenWidth(100),
+              marginBottom: RFValue(40),
+              position: "relative",
+              overflow: "hidden",
             }}
           >
             <View
@@ -302,19 +309,19 @@ export default function Search() {
                     style={{
                       fontSize: RFValue(13),
                       fontFamily: "outfit-bold",
-                      color: "#06782F",
+                      color: colors.green,
                     }}
                   >
                     {item.name}
                   </Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={toggleHeart}>
+              <TouchableOpacity onPress={() => toggleHeart()}>
                 <View
                   style={{
                     position: "absolute",
                     top: RFValue(24),
-                    right: RFValue(20),
+                    right: RFValue(40),
                     paddingVertical: RFValue(8),
                     paddingHorizontal: RFValue(10),
                     backgroundColor: "#ECFFF452",
@@ -322,7 +329,7 @@ export default function Search() {
                   }}
                 >
                   <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={
                       isHeartClicked
                         ? require("../assets/images/heartclicked.png")
@@ -339,9 +346,12 @@ export default function Search() {
                 showsControls={false}
                 dotStyle={styles.dot}
                 activeDotStyle={styles.activeDot}
+                autoplay={true}
+                autoplayInterval={3000}
                 style={{
-                  height: RFValue(260),
-                  marginBottom: RFValue(5),
+                  height: RFValue(270),
+                  width: width,
+                  marginBottom: RFValue(15),
                   zIndex: -999,
                 }}
               >
@@ -355,100 +365,106 @@ export default function Search() {
                   item.img6,
                 ].map((img, index) => (
                   <Image
+                    contentFit="cover"
                     key={index}
                     source={img}
                     style={{
-                      width:
-                        Platform.OS === "ios" ? RFValue(310) : RFValue(300),
+                      width: width,
+                      maxWidth:
+                        Platform.OS === "ios" ? RFValue(315) : RFValue(301),
                       height: RFValue(260),
                       borderRadius: 15,
                     }}
                   />
                 ))}
               </Carousel>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: RFValue(18),
-                  fontFamily: "outfit-bold",
-                }}
-              >
-                {item.description}
-              </Text>
               <TouchableOpacity
-                style={{
-                  paddingVertical: RFValue(7),
-                  paddingHorizontal: RFValue(20),
-                  borderRadius: RFValue(5),
-                  backgroundColor: "#ECFFF4",
-                  marginTop: RFValue(10),
-                }}
+                onPress={() => router.push("/property-details")}
               >
-                <Text
+                <View
                   style={{
-                    fontSize: RFValue(14),
-                    fontFamily: "outfit-medium",
-                    color: "#06782F",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: RFValue(0),
                   }}
                 >
-                  {item.type}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: RFValue(18),
+                      fontFamily: "outfit-bold",
+                    }}
+                  >
+                    {item.description}
+                  </Text>
+                  <TouchableOpacity
+                    style={{
+                      paddingVertical: RFValue(7),
+                      paddingHorizontal: RFValue(20),
+                      marginRight: RFValue(25),
+                      borderRadius: RFValue(10),
+                      backgroundColor: colors.warm,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        fontFamily: "outfit-medium",
+                        color: colors.green,
+                      }}
+                    >
+                      {item.type}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: RFValue(18),
+                      fontFamily: "outfit-bold",
+                      color: colors.green,
+                    }}
+                  >
+                    {item.price}{" "}
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        fontFamily: "plusjakarta-regular",
+                        color: "#414141",
+                      }}
+                    >
+                      {item.type === "Rental" ? item.rent : ""}
+                    </Text>
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: RFValue(3),
+                  }}
+                >
+                  <Image
+                    contentFit="contain"
+                    source={require("../assets/images/location.png")}
+                    style={{
+                      width: RFValue(20),
+                      height: RFValue(20),
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: RFValue(13),
+                      fontFamily: "plusjakarta-regular",
+                      color: "#414141",
+                    }}
+                  >
+                    {item.location}
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: RFValue(18),
-                  fontFamily: "outfit-bold",
-                  color: "#06782F",
-                }}
-              >
-                {item.price}{" "}
-                <Text
-                  style={{
-                    fontSize: RFValue(14),
-                    fontFamily: "plusjakarta-regular",
-                    color: "#414141",
-                  }}
-                >
-                  {item.type === "Rental" ? item.rent : ""}
-                </Text>
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 5,
-                alignItems: "center",
-                marginTop: RFValue(3),
-              }}
-            >
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/location.png")}
-                style={{
-                  width: RFValue(20),
-                  height: RFValue(20),
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: RFValue(13),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#414141",
-                }}
-              >
-                {item.location}
-              </Text>
-            </View>
-          </Animated.View>
+          </View>
         )}
       />
       <FilterModal modalVisible={isModalVisible} closeModal={closeModal} />
@@ -464,11 +480,11 @@ const styles = StyleSheet.create({
   inputbox: {
     width: RFValue(230),
     backgroundColor: "transparent",
-    fontFamily: "outfit-light",
     fontSize: RFValue(14),
-    paddingVertical: Platform.OS === "android" ? RFValue(3) :RFValue(7),
+    paddingVertical: Platform.OS === "android" ? RFValue(3) : RFValue(7),
     paddingLeft: RFValue(32),
     paddingRight: RFValue(15),
+    fontFamily: "urbanist-regular",
   },
   selectbox: {
     backgroundColor: "transparent",
@@ -538,7 +554,7 @@ const styles = StyleSheet.create({
     width: RFValue(18),
     height: RFValue(4),
     borderRadius: 30,
-    backgroundColor: "#06782F",
+    backgroundColor: colors.green,
     marginHorizontal: RFValue(2),
   },
 });

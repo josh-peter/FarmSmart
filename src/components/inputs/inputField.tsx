@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize';
 import ErrorMsg from '../Auth/errors/errorMsg';
+import colors from '../../constants/Colors';
 
 interface InputProps {
     label: string;
@@ -17,13 +18,15 @@ interface InputProps {
 
 const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, onChangeText, onBlur, errorMessage, placeholderTextColor }: InputProps) => {
     return (
-        <View>
+        <View style={{
+            marginTop:RFValue(10)
+        }}>
             <Text
                 style={{
                     fontFamily: "outfit-bold",
                     fontSize: RFValue(14),
                     marginTop: RFValue(15),
-                    color: "#5f5f5f",
+                    color: colors.dark,
                 }}
             >
                 {label}
@@ -32,7 +35,7 @@ const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, on
                 style={{
                     borderRadius: 10,
                     borderWidth: 1,
-                    borderColor: "#E4E4E7",
+                    borderColor: colors.button,
                     padding: RFValue(8),
                     marginTop: RFValue(10),
                 }}
@@ -42,7 +45,7 @@ const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, on
                     value={value}
                     style={styles.inputbox}
                     onChangeText={onChangeText}
-                    placeholderTextColor="#5f5f5f"
+                    placeholderTextColor={colors.onboardingText}
                     keyboardType={keyboardType}
                     returnKeyType={returnKeyType}
                     onBlur={onBlur}

@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { MaterialIcons } from "@expo/vector-icons";
+import colors from "../../constants/Colors";
 
 const ModalPicker = (props: any) => {
     const [activeItem, setActiveItem] = useState("All location");
@@ -100,9 +101,9 @@ const ModalPicker = (props: any) => {
             style={{
               borderRadius: 10,
               borderWidth: 1,
-              borderColor: "#E4E4E7",
-              padding: RFValue(6),
-              backgroundColor: "#Fdfdfd",
+              borderColor:colors.border2,
+              padding: RFValue(10),
+              backgroundColor: colors.background,
               marginHorizontal: RFValue(15),
               marginVertical: RFValue(8),
             }}
@@ -120,7 +121,7 @@ const ModalPicker = (props: any) => {
             <TextInput
               placeholder="location"
               style={styles.inputbox}
-              placeholderTextColor="#5f5f5f"
+              placeholderTextColor={colors.onboardingText}
             />
           </View>
           {option}
@@ -151,15 +152,17 @@ const styles = StyleSheet.create({
     shadowRadius: 9.66 / 2,
     elevation: 12,
     overflow: "hidden",
+    borderWidth: 1,
+    borderColor: colors.border2,
   },
   text: {
     fontSize: RFValue(17),
-    fontFamily: "plusjakarta-regular",
+    fontFamily: "urbanist-regular",
     backgroundColor: "#F8FFFB",
     minWidth: RFValue(288),
     padding: RFValue(15),
     borderWidth: 1,
-    borderColor: "#06782F",
+    borderColor: colors.green,
     borderRadius: 8,
   },
   option: {
@@ -172,7 +175,7 @@ const styles = StyleSheet.create({
     width: RFValue(230),
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
-    fontSize: RFValue(14),
+    fontSize: RFValue(17),
     paddingVertical: RFValue(3),
     paddingLeft: RFValue(32),
     paddingRight: RFValue(15),

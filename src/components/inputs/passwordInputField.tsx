@@ -4,6 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { Ionicons } from '@expo/vector-icons';
 import ErrorMsg from '../Auth/errors/errorMsg';
 import { Link } from 'expo-router';
+import colors from '../../constants/Colors';
 
 
 
@@ -44,16 +45,16 @@ const PasswordInputField = ({
           fontFamily: "outfit-bold",
           fontSize: RFValue(14),
           marginTop: RFValue(15),
-          color: "#5f5f5f",
+          color: colors.dark,
         }}
       >
-       {label}
+        {label}
       </Text>
       <View
         style={{
           borderRadius: 10,
           borderWidth: 1,
-          borderColor: "#E4E4E7",
+          borderColor: colors.button,
           padding: RFValue(8),
           marginTop: RFValue(10),
         }}
@@ -63,7 +64,7 @@ const PasswordInputField = ({
           value={value}
           style={styles.inputbox}
           onChangeText={onChangeText}
-          placeholderTextColor="#5f5f5f"
+          placeholderTextColor={colors.onboardingText}
           secureTextEntry={passwordVisible}
           onBlur={onBlur}
         />
@@ -73,8 +74,8 @@ const PasswordInputField = ({
         >
           <Ionicons
             name={passwordVisible ? "eye-outline" : "eye-off-outline"}
-            size={34}
-            color="#5f5f5f"
+            size={28}
+            color={colors.dark}
           />
         </TouchableOpacity>
       </View>
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: "absolute",
-    top: 10,
+    top: 15,
     right: 19,
     zIndex: 1,
   },

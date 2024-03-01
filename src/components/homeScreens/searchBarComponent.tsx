@@ -11,6 +11,7 @@ import { Link, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import colors from "../../constants/Colors";
 
 interface SearchBarProps {
   onSearch: (value: string) => void;
@@ -38,7 +39,7 @@ const SearchBarComponent: React.FC<SearchBarProps> = ({ onSearch }: any) => {
       >
         <Text
           style={{
-            fontSize: RFValue(22),
+            fontSize: RFValue(20),
             fontFamily: "outfit-bold",
             lineHeight: RFValue(30),
           }}
@@ -53,10 +54,10 @@ const SearchBarComponent: React.FC<SearchBarProps> = ({ onSearch }: any) => {
             position: "relative",
             overflow: "hidden",
             borderWidth: 1,
-            borderColor: "#E6E6E6",
+            borderColor: colors.border2,
             width: RFValue(46),
             height: RFValue(46),
-            borderRadius: 12,
+            borderRadius: 50,
           }}
         >
           <View
@@ -71,7 +72,11 @@ const SearchBarComponent: React.FC<SearchBarProps> = ({ onSearch }: any) => {
               zIndex: 999,
             }}
           />
-          <Ionicons name="notifications-outline" size={32} color="black" />
+          <Ionicons
+            name="notifications-outline"
+            size={32}
+            color={colors.onboardingText}
+          />
         </TouchableOpacity>
       </View>
       <View
@@ -79,21 +84,21 @@ const SearchBarComponent: React.FC<SearchBarProps> = ({ onSearch }: any) => {
           flexDirection: "row",
           gap: Platform.OS === "android" ? 13 : 24,
           alignItems: "center",
-          marginTop: RFValue(23),
+          marginTop: RFValue(20),
         }}
       >
         <View
           style={{
             borderRadius: 10,
             borderWidth: 1,
-            borderColor: "#E4E4E7",
+            borderColor: colors.border2,
             padding: RFValue(6),
-            backgroundColor: "#Fdfdfd",
+            backgroundColor: colors.background,
           }}
         >
           <TouchableOpacity style={styles.eyeIcon}>
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../../assets/images/search-normal.png")}
               style={{
                 height: RFValue(23),
@@ -110,30 +115,28 @@ const SearchBarComponent: React.FC<SearchBarProps> = ({ onSearch }: any) => {
             defaultValue={text}
           />
         </View>
-
-        <Link href={"/search"} asChild>
-          <TouchableOpacity
+        <TouchableOpacity
+          onPress={()=> router.push("/search")}
             style={{
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
               borderWidth: 1,
-              borderColor: "#E6E6E6",
-              width: RFValue(46),
-              height: RFValue(50),
-              borderRadius: 12,
+              borderColor: colors.border2,
+            padding:RFValue(10),
+              borderRadius: 50,
             }}
           >
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../../assets/images/filter-edit.png")}
               style={{
-                height: RFValue(28),
-                width: RFValue(28),
+                height: RFValue(25),
+                width: RFValue(25),
               }}
             />
           </TouchableOpacity>
-        </Link>
+        
       </View>
     </View>
   );

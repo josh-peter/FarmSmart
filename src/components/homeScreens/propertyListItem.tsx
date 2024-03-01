@@ -6,12 +6,17 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  Dimensions,
+  Platform,
 } from "react-native";
 import { Link, Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import Carousel from "pinar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
+import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
+import colors from "../../constants/Colors";
+const { width, height } = Dimensions.get("window");
 
 interface PropertyListProps {
   selectedType: "Rental" | "Sales";
@@ -60,10 +65,11 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
     );
     
     const renderPropertyItem = ({ item }: { item: any }) => (
-      <TouchableOpacity onPress={() => router.push("/property-details")}>
+      <View >
         <View
           style={{
-            marginBottom: RFValue(20),
+            width: responsiveScreenWidth(100),
+            marginBottom: RFValue(40),
             position: "relative",
             overflow: "hidden",
           }}
@@ -90,7 +96,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                   style={{
                     fontSize: RFValue(13),
                     fontFamily: "outfit-bold",
-                    color: "#06782F",
+                    color: colors.green,
                   }}
                 >
                   {item.name}
@@ -102,7 +108,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                 style={{
                   position: "absolute",
                   top: RFValue(24),
-                  right: RFValue(20),
+                  right: RFValue(40),
                   paddingVertical: RFValue(8),
                   paddingHorizontal: RFValue(10),
                   backgroundColor: "#ECFFF452",
@@ -130,7 +136,8 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
               autoplay={true}
               autoplayInterval={3000}
               style={{
-                height: RFValue(260),
+                height: RFValue(270),
+                width: width,
                 marginBottom: RFValue(15),
                 zIndex: -999,
               }}
@@ -145,83 +152,111 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                 item.img6,
               ].map((img, index) => (
                 <Image
+                  contentFit="cover"
                   key={index}
                   source={img}
                   style={{
-                    width: RFValue(310),
+                    width: width,
+                    maxWidth:
+                      Platform.OS === "ios" ? RFValue(320) : RFValue(301),
                     height: RFValue(260),
                     borderRadius: 15,
                   }}
                 />
               ))}
             </Carousel>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: RFValue(20),
-            }}
-          >
-            <Text
-              style={{
-                fontSize: RFValue(18),
-                fontFamily: "outfit-bold",
-              }}
-            >
-              {item.description}
-            </Text>
-            <TouchableOpacity
-              style={{
-                paddingVertical: RFValue(7),
-                paddingHorizontal: RFValue(20),
-                borderRadius: RFValue(5),
-                backgroundColor: "#ECFFF4",
-              }}
-            >
-              <Text
+            <TouchableOpacity onPress={() => router.push("/property-details")}>
+              <View
                 style={{
-                  fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
-                  color: "#06782F",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: RFValue(0),
                 }}
               >
-                {item.type}
-              </Text>
+                <Text
+                  style={{
+                    fontSize: RFValue(18),
+                    fontFamily: "outfit-bold",
+                  }}
+                >
+                  {item.description}
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: RFValue(7),
+                    paddingHorizontal: RFValue(20),
+                    marginRight: RFValue(25),
+                    borderRadius: RFValue(10),
+                    backgroundColor: colors.warm,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: RFValue(14),
+                      fontFamily: "outfit-medium",
+                      color: colors.green,
+                    }}
+                  >
+                    {item.type}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: RFValue(18),
+                    fontFamily: "outfit-bold",
+                    color: colors.green,
+                  }}
+                >
+                  {item.price}{" "}
+                  <Text
+                    style={{
+                      fontSize: RFValue(14),
+                      fontFamily: "plusjakarta-regular",
+                      color: "#414141",
+                    }}
+                  >
+                    {item.type === "Rental" ? item.rent : ""}
+                  </Text>
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: RFValue(3),
+                }}
+              >
+                <Image
+                  contentFit="contain"
+                  source={require("../../assets/images/location.png")}
+                  style={{
+                    width: RFValue(20),
+                    height: RFValue(20),
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: RFValue(13),
+                    fontFamily: "plusjakarta-regular",
+                    color: "#414141",
+                  }}
+                >
+                  {item.location}
+                </Text>
+              </View>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: RFValue(3),
-            }}
-          >
-            <Image
-              contentFit="contain"
-              source={require("../../assets/images/location.png")}
-              style={{
-                width: RFValue(20),
-                height: RFValue(20),
-              }}
-            />
-            <Text
-              style={{
-                fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
-              }}
-            >
-              {item.location}
-            </Text>
-          </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
 
   return (
-    <View>
+    <View
+     style={{flex:1, height:height, marginBottom:RFValue(-20)}}
+    >
       <FlatList
         showsVerticalScrollIndicator={false}
         data={filteredData}
@@ -249,7 +284,22 @@ const styles = StyleSheet.create({
     width: RFValue(18),
     height: RFValue(4),
     borderRadius: 30,
-    backgroundColor: "#06782F",
+    backgroundColor: colors.green,
     marginHorizontal: RFValue(2),
+  },
+  activeButton: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.background,
+    fontSize: RFValue(14),
+  },
+  activeBtn: {
+    backgroundColor: colors.primary,
+    marginTop: RFValue(10),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
   },
 });

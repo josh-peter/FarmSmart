@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import colors from "../../constants/Colors";
 
 interface HeaderButtonsProps {
   selectedType: "Rental" | "Sales";
@@ -35,9 +36,11 @@ const HeaderButtons: React.FC<HeaderButtonsProps> = ({
             flexDirection: "row",
             gap: 5,
             alignItems: "center",
-            backgroundColor: "#E4E4E7",
-            padding: RFValue(3),
+            backgroundColor: colors.btnbackground,
+            padding: RFValue(2),
             borderRadius: RFValue(7),
+            borderWidth: 2,
+            borderColor: "#E4E4E7",
           }}
         >
           <TouchableOpacity
@@ -46,13 +49,16 @@ const HeaderButtons: React.FC<HeaderButtonsProps> = ({
               paddingVertical: RFValue(7),
               paddingHorizontal: RFValue(20),
               borderRadius: RFValue(5),
-              backgroundColor: selectedType === "Rental" ? "#fff" : "#E4E4E7",
+              backgroundColor:
+                selectedType === "Rental"
+                  ? colors.background
+                  : colors.btnbackground,
             }}
           >
             <Text
               style={{
                 fontSize: RFValue(12),
-                fontFamily: "plusjakarta-regular",
+                fontFamily: "urbanist-regular",
               }}
             >
               Rent
@@ -64,13 +70,16 @@ const HeaderButtons: React.FC<HeaderButtonsProps> = ({
               paddingVertical: RFValue(7),
               paddingHorizontal: RFValue(20),
               borderRadius: RFValue(5),
-              backgroundColor: selectedType === "Sales" ? "#fff" : "#E4E4E7",
+              backgroundColor:
+                selectedType === "Sales"
+                  ? colors.background
+                  : colors.btnbackground,
             }}
           >
             <Text
               style={{
                 fontSize: RFValue(12),
-                fontFamily: "plusjakarta-regular",
+                fontFamily: "urbanist-regular",
               }}
             >
               Buy

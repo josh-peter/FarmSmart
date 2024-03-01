@@ -288,7 +288,6 @@ const Wishlist = () => {
                 {item.location}
               </Text>
             </View>
-
           </Animated.View>
         )}
       />

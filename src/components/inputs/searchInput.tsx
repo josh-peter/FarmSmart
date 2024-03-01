@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-
 import { RFValue } from "react-native-responsive-fontsize";
 import SearchDropDown from "../searchDropDown";
 import BankListPicker from "../common/modals/bankListPicker";

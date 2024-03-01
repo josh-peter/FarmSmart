@@ -2,13 +2,13 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TextInput,
   TouchableOpacity,
   Platform,
   ScrollView,
   Alert,
   Animated,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
@@ -22,6 +22,9 @@ import PasswordInputField from "../inputs/passwordInputField";
 import PhoneInput from "react-native-phone-number-input";
 import ErrorMsg from "./errors/errorMsg";
 import { CheckBox } from "@rneui/themed";
+import { Image } from "expo-image";
+import colors from "../../constants/Colors";
+const { width, height } = Dimensions.get("window");
 
 export default function SignUpComp() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -65,7 +68,7 @@ export default function SignUpComp() {
       <StatusBar style="dark" />
       <Animated.ScrollView
         showsHorizontalScrollIndicator={false}
-        style={styles.container}
+        contentContainerStyle={styles.container}
       >
         <Formik
           initialValues={{
@@ -123,11 +126,12 @@ export default function SignUpComp() {
                 ],
               }}
             >
+              <Image
+                contentFit="contain"
+                source={require("../../assets/images/icon2.png")}
+                style={styles.logo}
+              />
               <Text style={styles.title}>Create Account</Text>
-              <Text style={styles.subtitle}>
-                Fill in your details to create account or sign up with your
-                social account
-              </Text>
               <View>
                 <InputField
                   label={"Full name"}
@@ -256,17 +260,34 @@ export default function SignUpComp() {
                   iconType="material-community"
                   checkedIcon="checkbox-marked"
                   uncheckedIcon="checkbox-blank-outline"
-                  checkedColor="#06782f"
+                  checkedColor={colors.primary}
                   size={30}
+                  style={{
+                    borderRadius: RFValue(45),
+                  }}
                 />
                 <Text style={styles.TStext}>
                   I agree to the company{" "}
                   <Link href={"/auth/login"} asChild>
-                    <Text style={{ color: "#06782f" }}>Term of Service</Text>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        fontFamily: "urbanist-bold",
+                      }}
+                    >
+                      Term of Service
+                    </Text>
                   </Link>{" "}
                   and{" "}
                   <Link href={"/auth/login"} asChild>
-                    <Text style={{ color: "#06782f" }}>Privacy Policy</Text>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        fontFamily: "urbanist-bold",
+                      }}
+                    >
+                      Privacy Policy
+                    </Text>
                   </Link>
                 </Text>
               </View>
@@ -281,18 +302,15 @@ export default function SignUpComp() {
                 errors.password ||
                 errors.confirmPassword ||
                 errors.checkBox ? (
-                  <TouchableOpacity
-                    onPress={() => router.push("/auth/login")}
-                    style={styles.activeBtn}
-                  >
+                  <TouchableOpacity style={styles.disableBtn}>
                     <Text style={styles.button}>Sign in</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => router.push("/auth/login")}
+                    onPress={() => handleSubmit()}
                     style={styles.activeBtn}
                   >
-                    <Text style={styles.button}>Sign in</Text>
+                    <Text style={styles.activeButton}>Sign in</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -310,51 +328,65 @@ export default function SignUpComp() {
               </View>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginTop: RFValue(20),
+                  marginBottom: RFValue(100),
                 }}
               >
-                <TouchableOpacity style={styles.appleLogoBtn}>
-                  <Image
-                    resizeMode="contain"
-                    source={require("../../assets/images/apple.png")}
-                    style={styles.appleLogo}
-                  />
-                  <Text
-                    style={{
-                      fontSize: RFValue(13),
-                      fontWeight: "500",
-                      fontFamily: "plusjakarta-regular",
-                    }}
-                  >
-                    Apple
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.googleLogoBtn}>
-                  <Image
-                    resizeMode="contain"
-                    source={require("../../assets/images/google.png")}
-                    style={styles.googleLogo}
-                  />
-                  <Text
-                    style={{
-                      fontSize: RFValue(13),
-                      fontWeight: "500",
-                      fontFamily: "plusjakarta-regular",
-                    }}
-                  >
-                    Google
-                  </Text>
-                </TouchableOpacity>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginTop: RFValue(20),
+                  }}
+                >
+                  <TouchableOpacity style={styles.appleLogoBtn}>
+                    <Image
+                      contentFit="contain"
+                      source={require("../../assets/images/apple.png")}
+                      style={styles.appleLogo}
+                    />
+                    <Text
+                      style={{
+                        fontSize: RFValue(13),
+                        fontWeight: "500",
+                        fontFamily: "plusjakarta-regular",
+                      }}
+                    >
+                      Apple
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.googleLogoBtn}>
+                    <Image
+                      contentFit="contain"
+                      source={require("../../assets/images/google.png")}
+                      style={styles.googleLogo}
+                    />
+                    <Text
+                      style={{
+                        fontSize: RFValue(13),
+                        fontWeight: "500",
+                        fontFamily: "plusjakarta-regular",
+                      }}
+                    >
+                      Google
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.smallText}>
+                  Don't have an account?
+                  <Link href={"/auth/login"} asChild>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        fontFamily: "urbanist-bold",
+                      }}
+                    >
+                      {" "}
+                      Sign In
+                    </Text>
+                  </Link>
+                </Text>
               </View>
-              <Text style={styles.smallText}>
-                Don't have an account?
-                <Link href={"/auth/login"} asChild>
-                  <Text style={{ color: "#06782f" }}> Sign In</Text>
-                </Link>
-              </Text>
             </Animated.View>
           )}
         </Formik>
@@ -365,22 +397,23 @@ export default function SignUpComp() {
 
 const styles = StyleSheet.create({
   container: {
+    width: width,
     marginTop: RFValue(40),
     marginBottom: RFValue(40),
     paddingHorizontal: RFValue(20),
   },
   logo: {
-    height: RFValue(70),
-    width: RFValue(70),
+    height: RFValue(40),
+    width: RFValue(150),
     alignSelf: "center",
     marginTop: RFValue(30),
   },
   title: {
     textAlign: "center",
-    fontSize: RFValue(20),
+    fontSize: RFValue(17),
     fontFamily: "outfit-bold",
     color: "#32264D",
-    marginTop: 9,
+    marginTop: RFValue(10),
   },
   subtitle: {
     textAlign: "center",
@@ -417,24 +450,31 @@ const styles = StyleSheet.create({
   button: {
     fontFamily: "outfit-medium",
     textAlign: "center",
-    color: "#fff",
+    color: colors.buttontext,
+    fontSize: RFValue(14),
+  },
+  activeButton: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.background,
     fontSize: RFValue(14),
   },
   disableBtn: {
-    backgroundColor: "#06782f",
+    backgroundColor: colors.button,
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),
-    borderRadius: Platform.OS == "android" ? 15 : 15,
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
     justifyContent: "center",
-    opacity: 0.2,
   },
   activeBtn: {
-    backgroundColor: "#06782f",
-    marginTop: RFValue(20),
+    backgroundColor: colors.primary,
+    marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),
-    borderRadius: Platform.OS == "android" ? 15 : 15,
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   line: {
@@ -458,10 +498,11 @@ const styles = StyleSheet.create({
     width: RFValue(30),
   },
   smallText: {
-    marginTop: RFValue(20),
-    fontSize: RFValue(14),
-    fontFamily: "plusjakarta-regular",
+    marginTop: RFValue(15),
+    fontSize: RFValue(15),
+    fontFamily: "urbanist-medium",
     textAlign: "center",
+    color: colors.header,
   },
   appleLogoBtn: {
     flexDirection: "row",
@@ -506,7 +547,8 @@ const styles = StyleSheet.create({
   },
   TStext: {
     fontSize: RFValue(13),
-    fontFamily: "plusjakarta-regular",
+    fontFamily: "urbanist-regular",
     marginLeft: RFValue(-10),
+    color: colors.onboardingText,
   },
 });

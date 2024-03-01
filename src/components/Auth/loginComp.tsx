@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TextInput,
   TouchableOpacity,
   Platform,
@@ -17,6 +16,8 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import InputField from "../inputs/inputField";
 import PasswordInputField from "../inputs/passwordInputField";
+import { Image } from "expo-image";
+import colors from "../../constants/Colors";
 
 
 export default function LoginComp() {
@@ -94,15 +95,11 @@ export default function LoginComp() {
               }}
             >
               <Image
-                resizeMode="contain"
-                source={require("../../assets/images/logo.png")}
+                contentFit="contain"
+                source={require("../../assets/images/icon2.png")}
                 style={styles.logo}
               />
-              <Text style={styles.title}>Welcome back</Text>
-              <Text style={styles.subtitle}>
-                Please sign in your account by filling in your login details
-              </Text>
-
+              <Text style={styles.title}>Sign In</Text>
               <InputField
                 label={"Email/Phone"}
                 value={values.email}
@@ -112,7 +109,7 @@ export default function LoginComp() {
                 returnKeyType="done"
                 keyboardType="email-address"
                 errorMessage={errors.email}
-                placeholderTextColor={"#5f5f5f"}
+                placeholderTextColor={colors.onboardingText}
               />
 
               <PasswordInputField
@@ -125,7 +122,7 @@ export default function LoginComp() {
                 returnKeyType="done"
                 keyboardType="password"
                 secureTextEntry={passwordVisible}
-                placeholderTextColor={"#5f5f5f"}
+                placeholderTextColor={colors.onboardingText}
               />
 
               <Link href={"/auth/otpverification"} asChild>
@@ -139,12 +136,11 @@ export default function LoginComp() {
                     <Text style={styles.button}>Sign in</Text>
                   </TouchableOpacity>
                 ) : (
-                  // <Link href={"/auth/otpverification"} asChild>
                   <TouchableOpacity
                     onPress={() => handleSubmit()}
                     style={styles.activeBtn}
                   >
-                    <Text style={styles.button}>Sign in</Text>
+                    <Text style={styles.activeButton}>Sign in</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -175,22 +171,21 @@ export default function LoginComp() {
                     justifyContent: "center",
                     gap: 2,
                     borderWidth: 1,
-                    borderColor: "#f2f2f2",
+                    borderColor: colors.button,
                     paddingVertical: RFValue(5),
                     width: RFValue(140),
                     borderRadius: RFValue(5),
                   }}
                 >
                   <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("../../assets/images/apple.png")}
                     style={styles.appleLogo}
                   />
                   <Text
                     style={{
                       fontSize: RFValue(13),
-                      fontWeight: "500",
-                      fontFamily: "plusjakarta-regular",
+                      fontFamily: "urbanist-medium",
                     }}
                   >
                     Apple
@@ -203,22 +198,21 @@ export default function LoginComp() {
                     justifyContent: "center",
                     gap: 2,
                     borderWidth: 1,
-                    borderColor: "#f2f2f2",
+                    borderColor: colors.button,
                     paddingVertical: RFValue(5),
                     width: RFValue(140),
                     borderRadius: RFValue(5),
                   }}
                 >
                   <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("../../assets/images/google.png")}
                     style={styles.googleLogo}
                   />
                   <Text
                     style={{
                       fontSize: RFValue(13),
-                      fontWeight: "500",
-                      fontFamily: "plusjakarta-regular",
+                      fontFamily: "urbanist-medium",
                     }}
                   >
                     Google
@@ -228,7 +222,7 @@ export default function LoginComp() {
               <Text style={styles.smallText}>
                 Don't have an account?
                 <Link href={"/auth/signup"} asChild>
-                  <Text style={{ color: "#06782f" }}> Sign Up</Text>
+                  <Text style={{ color: colors.primary, fontFamily:"urbanist-bold" }}> Sign Up</Text>
                 </Link>
               </Text>
             </Animated.View>
@@ -242,19 +236,20 @@ export default function LoginComp() {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: RFValue(20),
+    backgroundColor:colors.background
   },
   logo: {
-    height: RFValue(70),
-    width: RFValue(70),
+    height: RFValue(40),
+    width: RFValue(150),
     alignSelf: "center",
     marginTop: RFValue(30),
   },
   title: {
     textAlign: "center",
-    fontSize: RFValue(20),
+    fontSize: RFValue(17),
     fontFamily: "outfit-bold",
     color: "#32264D",
-    marginTop: 9,
+    marginTop: RFValue(10),
   },
   subtitle: {
     textAlign: "center",
@@ -284,43 +279,50 @@ const styles = StyleSheet.create({
   passText: {
     fontSize: RFValue(15),
     fontWeight: "normal",
-    fontFamily: "outfit-regular",
-    color: "#06782f",
+    fontFamily: "outfit-medium",
+    color: colors.primary,
     marginVertical: RFValue(13),
   },
   button: {
     fontFamily: "outfit-medium",
     textAlign: "center",
-    color: "#fff",
+    color: colors.buttontext,
+    fontSize: RFValue(14),
+  },
+  activeButton: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.background,
     fontSize: RFValue(14),
   },
   disableBtn: {
-    backgroundColor: "#06782f",
+    backgroundColor: colors.button,
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),
-    borderRadius: Platform.OS == "android" ? 15 : 15,
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
     justifyContent: "center",
-    opacity: 0.2,
   },
   activeBtn: {
-    backgroundColor: "#06782f",
+    backgroundColor: colors.primary,
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),
-    borderRadius: Platform.OS == "android" ? 15 : 15,
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   line: {
     height: RFValue(1.2),
     width: Platform.OS === "ios" ? RFValue(110) : RFValue(104),
-    backgroundColor: "#C0C0C0",
+    backgroundColor: colors.line,
   },
   signupText: {
-    color: "#C0C0C0",
+color: colors.onboardingText,
     fontSize: RFValue(11),
     fontWeight: "normal",
-    fontFamily: "outfit-regular",
+    fontFamily: "urbanist-regular",
     marginHorizontal: RFValue(4),
   },
   appleLogo: {
@@ -332,9 +334,10 @@ const styles = StyleSheet.create({
     width: RFValue(30),
   },
   smallText: {
-    marginTop: RFValue(20),
-    fontSize: RFValue(14),
-    fontFamily: "plusjakarta-regular",
-    textAlign:"center"
+    marginTop: RFValue(15),
+    fontSize: RFValue(15),
+    fontFamily: "urbanist-medium",
+    textAlign: "center",
+    color:colors.header
   },
 });
