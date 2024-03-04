@@ -65,7 +65,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
     );
     
     const renderPropertyItem = ({ item }: { item: any }) => (
-      <View >
+      <View>
         <View
           style={{
             width: responsiveScreenWidth(100),
@@ -108,7 +108,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                 style={{
                   position: "absolute",
                   top: RFValue(24),
-                  right: RFValue(40),
+                  right: RFValue(50),
                   paddingVertical: RFValue(8),
                   paddingHorizontal: RFValue(10),
                   backgroundColor: "#ECFFF452",
@@ -137,8 +137,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
               autoplayInterval={3000}
               style={{
                 height: RFValue(270),
-                width: width,
-                marginBottom: RFValue(15),
+                marginBottom: RFValue(5),
                 zIndex: -999,
               }}
             >
@@ -158,9 +157,9 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                   style={{
                     width: width,
                     maxWidth:
-                      Platform.OS === "ios" ? RFValue(320) : RFValue(301),
-                    height: RFValue(260),
-                    borderRadius: 15,
+                      Platform.OS === "ios" ? RFValue(325) : RFValue(301),
+                    height: RFValue(270),
+                    borderRadius:  Platform.OS === "ios" ? 15 :10,
                   }}
                 />
               ))}
@@ -227,6 +226,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                   flexDirection: "row",
                   alignItems: "center",
                   marginTop: RFValue(3),
+                  gap: 5,
                 }}
               >
                 <Image
@@ -241,7 +241,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                   style={{
                     fontSize: RFValue(13),
                     fontFamily: "plusjakarta-regular",
-                    color: "#414141",
+                    color: colors.onboardingText,
                   }}
                 >
                   {item.location}
