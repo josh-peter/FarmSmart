@@ -18,6 +18,7 @@ import {
 } from "react-native-responsive-dimensions";
 import { Link } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
+import colors from "../../../constants/Colors";
 
 interface Props {
   isVisible: boolean;
@@ -55,7 +56,7 @@ export default function GrantAccessLocations({
         }}
       >
         <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
-          <MaterialIcons name="clear" size={24} color="black" />
+          <MaterialIcons name="clear" size={24} color={colors.primary} />
         </TouchableOpacity>
         <Text
           style={{
@@ -64,16 +65,18 @@ export default function GrantAccessLocations({
             textAlign: "center",
             lineHeight: RFValue(30.25),
             marginTop: RFValue(20),
+            color: colors.primary,
           }}
         >
           Grant Location Access
         </Text>
         <Text
           style={{
-            fontSize: RFValue(12),
-            fontFamily: "plusjakarta-regular",
+            fontSize: 15,
+            fontFamily: "urbanist-regular",
             color: "#5F5F5F",
             textAlign: "center",
+            marginTop: 5,
           }}
         >
           This will help us suggest nearby properties
@@ -85,7 +88,7 @@ export default function GrantAccessLocations({
           <Text style={styles.startText}>Allow location access</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.rejectBtn}>
-          <Text style={styles.rejectText}>No, thanks</Text>
+          <Text style={styles.rejectText}>Do it later</Text>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -125,10 +128,13 @@ const styles = StyleSheet.create({
     fontSize: responsiveScreenFontSize(2),
   },
   startBtn: {
-    backgroundColor: "#06782F",
-    padding: Platform.OS === "ios" ? 18 : 17,
+    backgroundColor: colors.primary,
+    marginTop: RFValue(20),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
     borderRadius: 10,
-    marginTop: RFValue(25),
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
   },
   startText: {
     fontSize: RFValue(14),
@@ -137,14 +143,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   rejectBtn: {
-    backgroundColor: "#ECFFF4",
-    padding: Platform.OS === "ios" ? 18 : 17,
+    backgroundColor: colors.warmBtn,
+    marginTop: RFValue(10),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
     borderRadius: 10,
-    marginTop: RFValue(20),
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
   },
   rejectText: {
     fontSize: RFValue(14),
-    color: "#06782F",
+    color:colors.primary,
     fontFamily: "outfit-medium",
     textAlign: "center",
   },

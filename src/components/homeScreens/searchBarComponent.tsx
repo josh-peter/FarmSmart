@@ -47,6 +47,7 @@ const SearchBarComponent: React.FC<SearchBarProps> = ({ onSearch }: any) => {
           Welcome, Daniel
         </Text>
         <TouchableOpacity
+          onPress={()=> router.push("/notification")}
           style={{
             flexDirection: "column",
             justifyContent: "center",

@@ -51,6 +51,7 @@ const handlePress = () => {
           />
         </ImageBackground>
       </TouchableOpacity>
+      
     </Marker>
   );
 }

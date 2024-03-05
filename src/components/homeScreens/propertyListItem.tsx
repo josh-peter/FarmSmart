@@ -213,7 +213,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                   <Text
                     style={{
                       fontSize: RFValue(14),
-                      fontFamily: "plusjakarta-regular",
+                      fontFamily: "urbanist-regular",
                       color: "#414141",
                     }}
                   >

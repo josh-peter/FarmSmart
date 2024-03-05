@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Image,
   ScrollView,
   Platform,
 } from "react-native";
@@ -20,6 +19,8 @@ import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
 import Carousel from "pinar";
 import { PropertyListedData } from "../../../Data/propertyListed";
+import { Image } from "expo-image";
+import colors from "../../../constants/Colors";
 
 interface Props {
   modalVisible: boolean;
@@ -54,7 +55,7 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
       >
         <View
           style={{
-            backgroundColor: "#fff",
+        backgroundColor: colors.background,
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(70),
             paddingHorizontal: RFValue(15),
@@ -65,7 +66,7 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fff",
+              backgroundColor: colors.background,
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(6),
             }}
@@ -86,8 +87,8 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
             </Text>
             <Text
               style={{
-                fontSize: RFValue(14),
-                fontFamily: "plusjakarta-regular",
+                fontSize: RFValue(13),
+                fontFamily: "urbanist-regular",
                 color: "#414141",
                 marginBottom: RFValue(10),
               }}
@@ -123,6 +124,7 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
                       style={{
                         fontSize: RFValue(16),
                         fontFamily: "outfit-bold",
+                        color:colors.dark
                       }}
                     >
                       {apartment.description}
@@ -132,14 +134,14 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
                         paddingVertical: RFValue(7),
                         paddingHorizontal: RFValue(20),
                         borderRadius: RFValue(5),
-                        backgroundColor: "#ECFFF4",
+                        backgroundColor: colors.warm,
                       }}
                     >
                       <Text
                         style={{
-                          fontSize: RFValue(12),
+                          fontSize: RFValue(13),
                           fontFamily: "outfit-medium",
-                          color: "#06782F",
+                          color: colors.green,
                         }}
                       >
                         {apartment.type}
@@ -149,17 +151,17 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(16),
+                        fontSize: RFValue(17),
                         fontFamily: "outfit-bold",
-                        color: "#06782F",
+                        color: colors.green,
                       }}
                     >
                       {apartment.price}{" "}
                       <Text
                         style={{
-                          fontSize: RFValue(12),
-                          fontFamily: "plusjakarta-regular",
-                          color: "#414141",
+                          fontSize: RFValue(13),
+                          fontFamily: "urbanist-regular",
+                          color: colors.onboardingText,
                         }}
                       >
                         {apartment.rent}
@@ -175,7 +177,7 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
                     }}
                   >
                     <Image
-                      resizeMode="contain"
+                      contentFit="contain"
                       source={require("../../../assets/images/location.png")}
                       style={{
                         width: RFValue(18),
@@ -184,9 +186,9 @@ export default function PropertyListed({ modalVisible, closeModal }: Readonly<Pr
                     />
                     <Text
                       style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "plusjakarta-regular",
-                        color: "#414141",
+                        fontSize: RFValue(13),
+                        fontFamily: "urbanist-regular",
+                        color: colors.onboardingText,
                       }}
                     >
                       {apartment.location}
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
     width: RFValue(18),
     height: RFValue(4),
     borderRadius: 30,
-    backgroundColor: "#06782F",
+    backgroundColor: colors.green,
     marginHorizontal: RFValue(2),
   },
 });

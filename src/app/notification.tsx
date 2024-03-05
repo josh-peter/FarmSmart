@@ -17,22 +17,16 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
-import {
-  AntDesign,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import NotificationComponents from "../components/notificationsComps/notification";
 import MessagesComp from "../components/notificationsComps/messagesComp";
+import colors from "../constants/Colors";
+import { StatusBar } from "expo-status-bar";
 const { width, height } = Dimensions.get("window");
 
 export default function Notification() {
   const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(0);
-  const [isLoading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState(false);
 
   const animation = () => {
     Animated.timing(fade, {
@@ -48,6 +42,9 @@ export default function Notification() {
 
   return (
     <>
+      <StatusBar
+        style="dark"
+      />
       <Stack.Screen
         options={{
           title: "Notification",
@@ -58,9 +55,9 @@ export default function Notification() {
       <Animated.View
         style={{
           flex: 1,
-          width: width,
-          backgroundColor: "#fff",
+          backgroundColor: colors.background,
           position: "relative",
+
           opacity: fade,
           transform: [
             {
@@ -74,8 +71,8 @@ export default function Notification() {
       >
         <View
           style={{
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
+            backgroundColor: colors.background,
+            width: width,
             height: responsiveScreenHeight(10),
           }}
         >
@@ -84,23 +81,24 @@ export default function Notification() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
-              width: responsiveScreenWidth(100),
-
+              backgroundColor: colors.background,
+              width: width,
               marginTop: RFValue(25),
             }}
           >
             <Text
               style={{
-                fontSize: RFValue(16),
+                fontSize: RFValue(21),
                 fontFamily: "outfit-bold",
-                textTransform: "uppercase",
                 lineHeight: RFValue(30),
               }}
             >
               Notification
             </Text>
-            <TouchableOpacity style={styles.clearIcon} onPress={()=>router.push("/home/")}>
+            <TouchableOpacity
+              style={styles.clearIcon}
+              onPress={() => router.push("/home/")}
+            >
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/arrow-left.png")}
@@ -119,9 +117,10 @@ export default function Notification() {
             backgroundColor: "white",
             borderBottomWidth: 1,
             borderBottomColor: "#DBDBDB",
+            marginHorizontal: RFValue(15),
           }}
           indicatorStyle={{
-            backgroundColor: "#06782F",
+            backgroundColor: colors.primary,
             height: 3,
           }}
           variant="default"
@@ -129,44 +128,63 @@ export default function Notification() {
           <Tab.Item
             title="Notifications"
             titleStyle={{
-              fontSize: 15,
-              color: index === 0 ? "#06782F" : "black",
+              fontSize: 16,
+              fontFamily: "urbanist-regular",
+              color: index === 0 ? colors.primary : colors.tabColor,
             }}
+            iconPosition="right"
             icon={
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/notify.png")}
+              <View
                 style={{
-                  height: RFValue(7),
-                  width: RFValue(7),
-                  position: "absolute",
-                  left: RFValue(37),
-                  top: RFValue(14),
-                  zIndex: 999,
+                  backgroundColor:
+                    index === 0 ? colors.primary : colors.warm,
+                  borderRadius: 5,
                 }}
-              />
+              >
+                <Text
+                  style={{
+                    color: index === 0 ? "white" : colors.tabColor,
+                    fontFamily: "outfit-bold",
+                    paddingHorizontal: 5,
+                    paddingVertical: 2,
+                  }}
+                >
+                  02
+                </Text>
+              </View>
             }
+            onPress={() => setIndex(0)}
           />
 
           <Tab.Item
             title="Messages"
             titleStyle={{
-              fontSize: 15,
-              color: index === 1 ? "#06782F" : "black",
+              fontSize: 16,
+              fontFamily: "urbanist-regular",
+              color: index === 1 ? colors.primary : colors.tabColor,
             }}
+            iconPosition="right"
             icon={
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/notify.png")}
+              <View
                 style={{
-                  height: RFValue(7),
-                  width: RFValue(7),
-                  position: "absolute",
-                  right: RFValue(45),
-                  top: RFValue(15),
+                  backgroundColor:
+                    index === 1 ? colors.primary : colors.warm,
+                  borderRadius: 5,
                 }}
-              />
+              >
+                <Text
+                  style={{
+                    color: index === 1 ? "white" : colors.tabColor,
+                    fontFamily: "outfit-bold",
+                    paddingHorizontal: 5,
+                    paddingVertical: 2,
+                  }}
+                >
+                  04
+                </Text>
+              </View>
             }
+            onPress={() => setIndex(1)}
           />
         </Tab>
         <TabView value={index} onChange={setIndex} animationType="spring">
@@ -260,13 +278,13 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14),
   },
   clearIcon: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     padding: RFValue(10),
-    borderRadius:10,
+    borderRadius:50,
     position: "absolute",
       left: RFValue(15),
       borderWidth: 1,
-    borderColor:"#e5e5e5"
+    borderColor:colors.border2
   },
 
 });

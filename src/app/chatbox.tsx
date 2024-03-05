@@ -16,6 +16,7 @@ import {
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import { StatusBar } from "expo-status-bar";
+import colors from "../constants/Colors";
 const { width, height } = Dimensions.get("window");
 
 export default function ChatBox() {
@@ -35,7 +36,7 @@ export default function ChatBox() {
 
   return (
     <>
-      <StatusBar style="dark"/>
+      <StatusBar style="dark" />
       <Stack.Screen
         options={{
           title: "Chatbox",
@@ -47,7 +48,7 @@ export default function ChatBox() {
         style={{
           flex: 1,
           width: width,
-          backgroundColor: "#fff",
+          backgroundColor: colors.background,
           position: "relative",
           opacity: fade,
           transform: [
@@ -62,7 +63,7 @@ export default function ChatBox() {
       >
         <View
           style={{
-            backgroundColor: "#fafafa",
+            backgroundColor: colors.background,
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(10),
           }}
@@ -72,13 +73,16 @@ export default function ChatBox() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              backgroundColor: "#fafafa",
+              backgroundColor: colors.background,
               paddingHorizontal: RFValue(15),
               marginTop: RFValue(25),
               paddingBottom: RFValue(10),
             }}
           >
-            <TouchableOpacity style={styles.clearIcon} onPress={()=> router.push("/notification")}>
+            <TouchableOpacity
+              style={styles.clearIcon}
+              onPress={() => router.push("/notification")}
+            >
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/arrow-left.png")}
@@ -126,11 +130,13 @@ export default function ChatBox() {
             gap: 10,
             paddingHorizontal: RFValue(10),
             paddingVertical: RFValue(10),
-            backgroundColor: "#fafafa",
+            backgroundColor: colors.background,
             borderRadius: RFValue(10),
             marginHorizontal: RFValue(20),
             marginTop: RFValue(20),
             marginBottom: RFValue(10),
+            borderWidth: 1,
+            borderColor: colors.border,
           }}
         >
           <Image
@@ -168,9 +174,9 @@ export default function ChatBox() {
               />
               <Text
                 style={{
-                  fontSize: RFValue(11),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#414141",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-regular",
+                  color: colors.onboardingText,
                 }}
               >
                 Lekki phase 1, Lagos, Nigeria
@@ -181,16 +187,16 @@ export default function ChatBox() {
                 paddingVertical: RFValue(5),
                 paddingHorizontal: RFValue(12),
                 borderRadius: RFValue(5),
-                backgroundColor: "#ECFFF4",
+                backgroundColor: colors.warm,
                 width: RFValue(60),
                 marginTop: RFValue(3),
               }}
             >
               <Text
                 style={{
-                  fontSize: RFValue(11),
+                  fontSize: RFValue(12),
                   fontFamily: "outfit-medium",
-                  color: "#06782F",
+                  color: colors.green,
                 }}
               >
                 Rental
@@ -205,14 +211,14 @@ export default function ChatBox() {
                 style={{
                   fontSize: RFValue(14),
                   fontFamily: "outfit-bold",
-                  color: "#06782F",
+                  color: colors.green,
                 }}
               >
                 ₦1,500,000{" "}
                 <Text
                   style={{
-                    fontSize: RFValue(9),
-                    fontFamily: "plusjakarta-regular",
+                    fontSize: RFValue(10),
+                    fontFamily: "urbanist-regular",
                     color: "#414141",
                   }}
                 >
@@ -229,8 +235,8 @@ export default function ChatBox() {
         >
           <Text
             style={{
-              fontSize: RFValue(12),
-              fontFamily: "plusjakarta-regular",
+              fontSize: RFValue(13),
+              fontFamily: "urbanist-regular",
               color: "#414141",
               textAlign: "center",
             }}
@@ -247,7 +253,7 @@ export default function ChatBox() {
           >
             <View
               style={{
-                backgroundColor: "#06782F",
+                backgroundColor: colors.primary,
                 paddingHorizontal: RFValue(20),
                 paddingVertical: RFValue(10),
                 flexDirection: "column",
@@ -260,8 +266,8 @@ export default function ChatBox() {
             >
               <Text
                 style={{
-                  fontSize: RFValue(10),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-regular",
                   color: "#fff",
                 }}
               >
@@ -269,8 +275,8 @@ export default function ChatBox() {
               </Text>
               <Text
                 style={{
-                  fontSize: RFValue(10),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-regular",
                   color: "#fff",
                 }}
               >
@@ -280,8 +286,8 @@ export default function ChatBox() {
             <Text
               style={{
                 fontSize: RFValue(11),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
                 alignItems: "flex-end",
               }}
             >
@@ -301,7 +307,7 @@ export default function ChatBox() {
           >
             <View
               style={{
-                backgroundColor: "#06782F",
+                backgroundColor: colors.primary,
                 paddingHorizontal: RFValue(20),
                 paddingVertical: RFValue(10),
                 flexDirection: "column",
@@ -314,9 +320,9 @@ export default function ChatBox() {
             >
               <Text
                 style={{
-                  fontSize: RFValue(10),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#fff",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-regular",
+                  color: colors.background,
                 }}
               >
                 I will like to make reservation now, but I have some other
@@ -326,8 +332,8 @@ export default function ChatBox() {
             <Text
               style={{
                 fontSize: RFValue(11),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
                 alignItems: "flex-end",
               }}
             >
@@ -338,9 +344,9 @@ export default function ChatBox() {
             </Text>
             <Text
               style={{
-                fontSize: RFValue(10),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontSize: RFValue(12),
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
                 alignItems: "flex-end",
               }}
             >
@@ -370,9 +376,9 @@ export default function ChatBox() {
             >
               <Text
                 style={{
-                  fontSize: RFValue(10),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#1A1A1A",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-regular",
+                  color: colors.onboardingText,
                 }}
               >
                 Okay then
@@ -380,8 +386,8 @@ export default function ChatBox() {
             </View>
             <Text
               style={{
-                fontSize: RFValue(11),
-                fontFamily: "plusjakarta-regular",
+                fontSize: RFValue(12),
+                fontFamily: "urbanist-regular",
                 color: "#414141",
                 alignItems: "flex-end",
               }}
@@ -399,8 +405,8 @@ export default function ChatBox() {
           >
             <Text
               style={{
-                fontSize: RFValue(12),
-                fontFamily: "plusjakarta-regular",
+                fontSize: RFValue(13),
+                fontFamily: "urbanist-regular",
                 color: "#414141",
                 textAlign: "center",
               }}
@@ -417,7 +423,7 @@ export default function ChatBox() {
             >
               <View
                 style={{
-                  backgroundColor: "#06782F",
+                  backgroundColor: colors.primary,
                   paddingHorizontal: RFValue(20),
                   paddingVertical: RFValue(10),
                   flexDirection: "column",
@@ -430,8 +436,8 @@ export default function ChatBox() {
               >
                 <Text
                   style={{
-                    fontSize: RFValue(10),
-                    fontFamily: "plusjakarta-regular",
+                    fontSize: RFValue(12),
+                    fontFamily: "urbanist-regular",
                     color: "#fff",
                   }}
                 >
@@ -441,8 +447,8 @@ export default function ChatBox() {
               <Text
                 style={{
                   fontSize: RFValue(11),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#414141",
+                  fontFamily: "urbanist-regular",
+                  color: colors.onboardingText,
                   alignItems: "flex-end",
                 }}
               >
@@ -456,7 +462,7 @@ export default function ChatBox() {
         </View>
         <View
           style={{
-            backgroundColor: "#fafafa",
+            backgroundColor: "#FCFCFC",
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(10),
             position: "absolute",
@@ -477,21 +483,21 @@ export default function ChatBox() {
                 flex: 1,
                 borderRadius: 10,
                 borderWidth: 1,
-                borderColor: "#E4E4E7",
+                borderColor: colors.warmBtn,
                 padding: RFValue(6),
-                backgroundColor: "#Fdfdfd",
+                backgroundColor: colors.background,
               }}
             >
               <TextInput
                 placeholder="Type here"
                 style={styles.inputbox}
-                placeholderTextColor="#C6C6C6"
+                placeholderTextColor={colors.onboardingText}
               />
             </View>
             <TouchableOpacity>
               <Image
                 resizeMode="contain"
-                source={require("../assets/images/button.png")}
+                source={require("../assets/images/chatBtn.png")}
                 style={{
                   height: RFValue(35),
                   width: RFValue(35),

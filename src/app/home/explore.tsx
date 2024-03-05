@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import MapView, { Callout } from 'react-native-maps';
-import { StyleSheet, View, Image, Text, TextInput, Platform } from "react-native";
+import { StyleSheet, View, Text, TextInput, Platform } from "react-native";
 import { Stack } from "expo-router";
 import apartments from "../../Data/apartments.json"
 import { RFValue } from "react-native-responsive-fontsize";
@@ -8,6 +8,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import CustomMarker from "../../components/mapProps/customMarker";
 import ApartmentsListItem from "../../components/mapProps/ApartmentsListItem";
 import GrantAccessLocations from "../../components/common/modals/grantLocationAccess";
+import colors from "../../constants/Colors";
+import { Image } from "expo-image";
 
 export default function Explore() {
   const [selectedApartment, setSelectedApartment] = useState<any>(null)
@@ -36,10 +38,10 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
         style={styles.map}
         provider="google"
         initialRegion={{
-          latitude: 9.05785,
-          longitude: 7.49508,
-          latitudeDelta: 10.0,
-          longitudeDelta: 10.0,
+          latitude: 6.5244, 
+          longitude: 3.3792, 
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
         }}
       >
         {apartments?.map((apartment) => (
@@ -78,8 +80,11 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
             style={{
               flex: 1,
               borderRadius: 10,
-              borderWidth: 1,
-              borderColor: "#E4E4E7",
+              elevation: 5,
+              shadowColor: "#000",
+              shadowOpacity: 0.8,
+              shadowOffset: { width: 4, height: 4 },
+              shadowRadius: 6,
               padding: RFValue(6),
               backgroundColor: "#Fdfdfd",
               position: "relative",
@@ -88,7 +93,7 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
           >
             <TouchableOpacity style={styles.eyeIcon}>
               <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={require("../../assets/images/search-normal.png")}
                 style={{
                   height: RFValue(23),
@@ -99,7 +104,7 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
             <TextInput
               placeholder="Search location"
               style={styles.inputbox}
-              placeholderTextColor="#5f5f5f"
+              placeholderTextColor={colors.onboardingText}
             />
           </View>
           <TouchableOpacity
@@ -109,15 +114,16 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 1,
-              borderColor: "#E6E6E6",
+              elevation: 5,
+              shadowOffset: { width: 2, height: 2 },
+              shadowRadius: 6,
               width: 56,
               height: 56,
               borderRadius: 12,
             }}
           >
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../../assets/images/filter-edit.png")}
               style={{
                 height: RFValue(28),

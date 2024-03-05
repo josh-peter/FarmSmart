@@ -1,11 +1,16 @@
 import { Link } from 'expo-router';
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Dimensions } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import colors from '../../constants/Colors';
+const { width, height } = Dimensions.get("window");
 
 export default function MessagesComp() {
   return (
-    <View>
+    <View style={{
+      flex: 1, 
+      width:width
+    }}>
       <View
         style={{
           paddingHorizontal: RFValue(15),
@@ -24,9 +29,9 @@ export default function MessagesComp() {
               flex: 1,
               borderRadius: 10,
               borderWidth: 1,
-              borderColor: "#E4E4E7",
+              borderColor: colors.border2,
               padding: RFValue(6),
-              backgroundColor: "#Fdfdfd",
+              backgroundColor: colors.background,
               position: "relative",
               overflow: "hidden",
             }}
@@ -73,7 +78,7 @@ export default function MessagesComp() {
               style={{
                 fontSize: RFValue(15),
                 fontFamily: "outfit-bold",
-                color: "#414141",
+                color: colors.onboardingText,
               }}
             >
               Abigail Williams
@@ -98,8 +103,8 @@ export default function MessagesComp() {
                 ellipsizeMode="tail"
                 style={{
                   fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#414141",
+                  fontFamily: "urbanist-regular",
+                  color: colors.onboardingText,
                   width: RFValue(190),
                 }}
               >
@@ -110,8 +115,8 @@ export default function MessagesComp() {
           <Text
             style={{
               fontSize: RFValue(12),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
               marginRight: RFValue(7),
             }}
           >
@@ -142,7 +147,7 @@ export default function MessagesComp() {
             style={{
               fontSize: RFValue(15),
               fontFamily: "outfit-bold",
-              color: "#414141",
+              color: colors.onboardingText,
             }}
           >
             Abigail Williams
@@ -167,8 +172,8 @@ export default function MessagesComp() {
               ellipsizeMode="tail"
               style={{
                 fontSize: RFValue(12),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
                 width: RFValue(160),
               }}
             >
@@ -179,8 +184,8 @@ export default function MessagesComp() {
         <Text
           style={{
             fontSize: RFValue(12),
-            fontFamily: "plusjakarta-regular",
-            color: "#414141",
+            fontFamily: "urbanist-regular",
+            color: colors.onboardingText,
           }}
         >
           Yesterday
@@ -209,7 +214,7 @@ export default function MessagesComp() {
             style={{
               fontSize: RFValue(15),
               fontFamily: "outfit-bold",
-              color: "#414141",
+              color: colors.onboardingText,
             }}
           >
             Abigail Williams
@@ -220,7 +225,7 @@ export default function MessagesComp() {
             style={{
               fontSize: RFValue(12),
               fontFamily: "outfit-bold",
-              color: "#06782F",
+              color: colors.green,
               width: RFValue(185),
             }}
           >
@@ -230,8 +235,8 @@ export default function MessagesComp() {
         <Text
           style={{
             fontSize: RFValue(12),
-            fontFamily: "plusjakarta-regular",
-            color: "#414141",
+            fontFamily: "urbanist-regular",
+            color: colors.onboardingText,
           }}
         >
           Monday
@@ -260,7 +265,7 @@ export default function MessagesComp() {
             style={{
               fontSize: RFValue(15),
               fontFamily: "outfit-bold",
-              color: "#414141",
+              color: colors.onboardingText,
             }}
           >
             Abigail Williams
@@ -270,8 +275,8 @@ export default function MessagesComp() {
             ellipsizeMode="tail"
             style={{
               fontSize: RFValue(12),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
               width: RFValue(165),
             }}
           >
@@ -281,8 +286,8 @@ export default function MessagesComp() {
         <Text
           style={{
             fontSize: RFValue(12),
-            fontFamily: "plusjakarta-regular",
-            color: "#414141",
+            fontFamily: "urbanist-regular",
+            color: colors.onboardingText,
           }}
         >
           28/03/2023

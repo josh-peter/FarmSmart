@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import colors from '../../constants/Colors';
 
 export default function NotificationComponents () {
   return (
@@ -17,7 +18,7 @@ export default function NotificationComponents () {
         <Text
           style={{
             fontSize: RFValue(13),
-            fontFamily: "plusjakarta-regular",
+            fontFamily: "urbanist-regular",
           }}
         >
           Today
@@ -35,8 +36,8 @@ export default function NotificationComponents () {
           <Text
             style={{
               fontSize: RFValue(13),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
             }}
           >
             New card has been added!
@@ -60,7 +61,7 @@ export default function NotificationComponents () {
             <Text
               style={{
                 fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
+                fontFamily: "urbanist-regular",
                 color: "#414141",
               }}
             >
@@ -70,7 +71,7 @@ export default function NotificationComponents () {
         </View>
         <View
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: colors.background,
             padding: RFValue(12),
             marginTop: RFValue(10),
             borderRadius: 5,
@@ -81,13 +82,13 @@ export default function NotificationComponents () {
           <Text
             style={{
               fontSize: RFValue(13),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
             }}
           >
             You <Text style={{ color: "#FB382C" }}>cancelled</Text> your
             appointment with{" "}
-            <Text style={{ fontFamily: "plusjakarta-semibold" }}>
+            <Text style={{ fontFamily: "urbanist-semibold" }}>
               Beatrice James
             </Text>
           </Text>
@@ -110,8 +111,8 @@ export default function NotificationComponents () {
             <Text
               style={{
                 fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
               }}
             >
               6:30 PM
@@ -131,7 +132,7 @@ export default function NotificationComponents () {
         <Text
           style={{
             fontSize: RFValue(13),
-            fontFamily: "plusjakarta-regular",
+            fontFamily: "urbanist-regular",
           }}
         >
           Yesterday
@@ -149,13 +150,11 @@ export default function NotificationComponents () {
           <Text
             style={{
               fontSize: RFValue(13),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
             }}
           >
-            <Text style={{ fontFamily: "plusjakarta-semibold" }}>
-              John Okafor
-            </Text>{" "}
+            <Text style={{ fontFamily: "urbanist-semibold" }}>John Okafor</Text>{" "}
             is on the call now
           </Text>
           <View
@@ -177,8 +176,8 @@ export default function NotificationComponents () {
             <Text
               style={{
                 fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
               }}
             >
               6:30 PM
@@ -198,14 +197,12 @@ export default function NotificationComponents () {
           <Text
             style={{
               fontSize: RFValue(13),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
             }}
           >
             Your appointment with{" "}
-            <Text style={{ fontFamily: "plusjakarta-semibold" }}>
-              John Okafor
-            </Text>{" "}
+            <Text style={{ fontFamily: "urbanist-semibold" }}>John Okafor</Text>{" "}
             is in 30 minutes
           </Text>
           <View
@@ -227,7 +224,7 @@ export default function NotificationComponents () {
             <Text
               style={{
                 fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
+                fontFamily: "urbanist-regular",
                 color: "#414141",
               }}
             >
@@ -237,7 +234,7 @@ export default function NotificationComponents () {
         </View>
         <View
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: colors.background,
             padding: RFValue(12),
             marginTop: RFValue(10),
             borderRadius: 5,
@@ -248,13 +245,13 @@ export default function NotificationComponents () {
           <Text
             style={{
               fontSize: RFValue(13),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
             }}
           >
-            You <Text style={{ color: "#FB382C" }}>cancelled</Text> your
+            You <Text style={{ color: colors.danger }}>cancelled</Text> your
             appointment with{" "}
-            <Text style={{ fontFamily: "plusjakarta-semibold" }}>
+            <Text style={{ fontFamily: "urbanist-semibold" }}>
               Beatrice James
             </Text>
           </Text>
@@ -277,8 +274,8 @@ export default function NotificationComponents () {
             <Text
               style={{
                 fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
               }}
             >
               6:30 PM
@@ -298,7 +295,7 @@ export default function NotificationComponents () {
         <Text
           style={{
             fontSize: RFValue(13),
-            fontFamily: "plusjakarta-regular",
+            fontFamily: "urbanist-regular",
           }}
         >
           11 Apr 2023
@@ -316,13 +313,13 @@ export default function NotificationComponents () {
           <Text
             style={{
               fontSize: RFValue(13),
-              fontFamily: "plusjakarta-regular",
+              fontFamily: "urbanist-regular",
               color: "#414141",
             }}
           >
-            You <Text style={{ color: "#06782F" }}>Successfully</Text> booked
+            You <Text style={{ color: colors.green }}>Successfully</Text> booked
             appointment with{" "}
-            <Text style={{ fontFamily: "plusjakarta-semibold" }}>
+            <Text style={{ fontFamily: "urbanist-semibold" }}>
               Beatrice James
             </Text>
           </Text>
@@ -345,7 +342,7 @@ export default function NotificationComponents () {
             <Text
               style={{
                 fontSize: RFValue(13),
-                fontFamily: "plusjakarta-regular",
+                fontFamily: "urbanist-regular",
                 color: "#414141",
               }}
             >

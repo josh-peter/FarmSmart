@@ -6,6 +6,7 @@ const colors = {
   header: "#5F5F5F",
   button: "#E8E8E8",
   buttontext: "#B3B3B3",
+  warmBtn: "#F0F4FF",
   btnbackground: "#F3F3F3",
   line: "#C0C0C0",
   link: "#06782F",
@@ -24,6 +25,7 @@ const colors = {
   filterbg: "#FAFAFA",
   warm: "#F5F5F5",
   bottomTab: "#BABABA",
+  tabColor: "#1A1A1AB2",
 };
 
 export default colors;

@@ -1,8 +1,10 @@
-import { View, Text,StyleSheet, Image, TouchableOpacity, Platform } from 'react-native'
+import { View, Text,StyleSheet, TouchableOpacity, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize';
 import { MaterialIcons } from '@expo/vector-icons';
 import PropertyListed from '../common/modals/propertyListedModal';
+import colors from '../../constants/Colors';
+import { Image } from 'expo-image';
 
 const ApartmentsListapartment = ({
   apartment,
@@ -45,15 +47,15 @@ const ApartmentsListapartment = ({
             style={{
               paddingVertical: RFValue(7),
               paddingHorizontal: RFValue(20),
-              borderRadius: RFValue(5),
-              backgroundColor: "#ECFFF4",
+              borderRadius: RFValue(10),
+              backgroundColor: colors.warm,
             }}
           >
             <Text
               style={{
-                fontSize: RFValue(12),
+                fontSize: RFValue(13),
                 fontFamily: "outfit-medium",
-                color: "#06782F",
+                color: colors.green,
               }}
             >
               {apartment.type}
@@ -63,16 +65,16 @@ const ApartmentsListapartment = ({
         <View>
           <Text
             style={{
-              fontSize: RFValue(16),
+              fontSize: RFValue(18),
               fontFamily: "outfit-bold",
-              color: "#06782F",
+              color: colors.green,
             }}
           >
             {apartment.price}{" "}
             <Text
               style={{
                 fontSize: RFValue(12),
-                fontFamily: "plusjakarta-regular",
+                fontFamily: "urbanist-regular",
                 color: "#414141",
               }}
             >
@@ -89,7 +91,7 @@ const ApartmentsListapartment = ({
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/location.png")}
             style={{
               width: RFValue(18),
@@ -98,9 +100,9 @@ const ApartmentsListapartment = ({
           />
           <Text
             style={{
-              fontSize: RFValue(11),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontSize: RFValue(13),
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
             }}
           >
             {apartment.location}
@@ -113,21 +115,8 @@ const ApartmentsListapartment = ({
       >
         <MaterialIcons name="clear" size={24} color="black" />
       </TouchableOpacity>
-      {/* <TouchableOpacity
-        style={{
-          backgroundColor: "#fff",
-          position: "absolute",
-          bottom: RFValue(-5),
-          right:
-            Platform.OS == "android"
-              ? responsiveScreenWidth(45)
-              : responsiveScreenWidth(45),
-          width: responsiveScreenWidth(6),
-          height: responsiveScreenHeight(2),
-          transform: [{ rotate: "45deg" }],
-        }}
-      /> */}
-      <PropertyListed modalVisible={modalVisible} closeModal={closeModal}/>
+     
+      <PropertyListed modalVisible={modalVisible} closeModal={closeModal} />
     </TouchableOpacity>
   );
 };
