@@ -9,7 +9,7 @@ export default function MessagesComp() {
   return (
     <View style={{
       flex: 1, 
-      width:width
+      width:width,
     }}>
       <View
         style={{
@@ -49,7 +49,7 @@ export default function MessagesComp() {
             <TextInput
               placeholder="Search"
               style={styles.inputbox}
-              placeholderTextColor="#C6C6C6"
+              placeholderTextColor={colors.onboardingText}
             />
           </View>
         </View>
