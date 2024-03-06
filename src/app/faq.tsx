@@ -69,7 +69,7 @@ export default function Faq() {
           >
             <TouchableOpacity
               onPress={() => {
-                router.push("/home/account");
+                router.push("/help-center");
               }}
             >
               <Image
