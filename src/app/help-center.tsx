@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Platform} from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Platform, Animated, Dimensions} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import InputField from "../components/inputs/inputField";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 import colors from "../constants/Colors";
+
+
+const { width, height } = Dimensions.get("window");
 
 export default function Helpcenter() {
     const socialIcons = [
@@ -42,10 +45,41 @@ export default function Helpcenter() {
     console.log("Message submitted:", message);
   };
 
+  const fade = useRef(new Animated.Value(0)).current;
+
+  const animation = () => {
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  useEffect(() => {
+    animation();
+  }, []);
+
   return (
     <>
       <StatusBar style="dark" />
-      <View style={{ flex: 1, paddingHorizontal: RFValue(20) }}>
+      <Animated.View
+        style={{
+          flex: 1,
+          width: width,
+          backgroundColor: "#fff",
+          position: "relative",
+          opacity: fade,
+          transform: [
+            {
+              translateY: fade.interpolate({
+                inputRange: [0, 1],
+                outputRange: [150, 0],
+              }),
+            },
+          ],
+        }}
+      >
+        <View style={{ flex: 1, paddingHorizontal: RFValue(20) }}>
         <View>
           <View
             style={{
@@ -230,6 +264,7 @@ export default function Helpcenter() {
           </View>
         </View>
       </View>
+      </Animated.View>
     </>
   );
 }
