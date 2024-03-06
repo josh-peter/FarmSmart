@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Platform} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import InputField from "../components/inputs/inputField";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
+import colors from "../constants/Colors";
 
 export default function Helpcenter() {
     const socialIcons = [
@@ -28,6 +29,19 @@ export default function Helpcenter() {
         img: require("../assets/images/discord.png"),
       },
     ];
+
+  const [message, setMessage] = useState("");
+
+  // Function to handle input change
+  const handleInputChange = (text: string) => {
+    setMessage(text);
+  };
+
+  // Function to handle submit
+  const handleSubmit = () => {
+    console.log("Message submitted:", message);
+  };
+
   return (
     <>
       <StatusBar style="dark" />
@@ -139,6 +153,7 @@ export default function Helpcenter() {
               multiline
               numberOfLines={7}
               returnKeyType="done"
+              onChangeText={handleInputChange}
             />
             <Text
               style={{
@@ -164,9 +179,20 @@ export default function Helpcenter() {
               PS: All follow ups will be via your registered email
             </Text>
           </View>
-          <TouchableOpacity style={styles.startBtn}>
-            <Text style={styles.startText}>Delete</Text>
-          </TouchableOpacity>
+          <View>
+                {message.length < 1 ? (
+                  <TouchableOpacity style={styles.disableBtn}>
+                    <Text style={styles.button}>Send</Text>
+                  </TouchableOpacity>
+                ) : (
+                  
+          <TouchableOpacity 
+          onPress={() => handleSubmit()}
+          style={styles.startBtn}>
+          <Text style={styles.startText}>Send</Text>
+        </TouchableOpacity>
+                )}
+              </View>
           <View
             style={{
               marginTop: RFValue(20),
@@ -230,11 +256,26 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E7E7E7",
     marginBottom: RFValue(10),
   },
+  button: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.buttontext,
+    fontSize: RFValue(14),
+  },
   startBtn: {
-    backgroundColor: "#06782F",
+    backgroundColor: colors.primary,
     padding: Platform.OS === "ios" ? 18 : 17,
     borderRadius: 10,
     marginTop: RFValue(10),
+  },
+  disableBtn: {
+    backgroundColor: colors.button,
+    marginTop: RFValue(10),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
   },
   startText: {
     fontSize: RFValue(14),
