@@ -13,21 +13,14 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import {
-  responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
-import AccountNameModal from "../components/accountInformation/acccountNameModal";
-import EmailAddressModal from "../components/accountInformation/EmailAddressModal";
-import UpdatePhoneModal from "../components/accountInformation/updatePhoneModal";
-import EditDateOfBirth from "../components/accountInformation/editDateOfBirth";
-import NotificationSettingsModal from "../components/common/modals/notificationSettingsModal";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Ionicons } from "@expo/vector-icons";
 import ErrorMsg from "../components/Auth/errors/errorMsg";
-import PasswordInputField from "../components/inputs/passwordInputField";
 import DeleteAccountFlow from "../components/accountInformation/deleteAccountFlow";
+import colors from "../constants/Colors";
 
 const { width, height } = Dimensions.get("window");
 
@@ -35,6 +28,7 @@ export default function Security() {
   const fade = useRef(new Animated.Value(0)).current;
   const [modalCancelVisible, setModalCancelVisible] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
+  const [showUpdatePasswordForm, setShowUpdatePasswordForm] = useState(false)
 
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -48,6 +42,10 @@ export default function Security() {
 
   const closeCancelModal = () => {
     setModalCancelVisible(false);
+  };
+
+  const handleShowUpdatePasswordForm = () => {
+    setShowUpdatePasswordForm(!showUpdatePasswordForm)
   };
 
 
@@ -133,7 +131,7 @@ export default function Security() {
               lineHeight: RFValue(30),
             }}
           >
-            Account information
+            Security settings
           </Text>
           <TouchableOpacity
             onPress={() => router.push("/home/account")}
@@ -205,26 +203,33 @@ export default function Security() {
                 Last updated 13 months ago
               </Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={handleShowUpdatePasswordForm}
+            >
               <Text
                 style={{
                   fontSize: RFValue(14),
                   fontFamily: "outfit-medium",
                   lineHeight: RFValue(40),
-                  color: "#06782F",
+                  color: colors.primary,
+                  textDecorationLine: "underline"
                 }}
               >
                 Update
               </Text>
             </TouchableOpacity>
           </View>
-          <Formik
+          {showUpdatePasswordForm && (
+            <Formik
             initialValues={{
               confirmPassword: "",
               password: "",
             }}
             validationSchema={Yup.object({
-              password: Yup.string()
+              currentPassword: Yup.string()
+                .required("Password is required")
+                .min(5, "Your password is too short."),
+                newPassword: Yup.string()
                 .required("Password is required")
                 .min(5, "Your password is too short."),
               confirmPassword: Yup.string().oneOf(
@@ -276,16 +281,16 @@ export default function Security() {
                       >
                         <TextInput
                           placeholder="**********"
-                          value={values.password}
+                          value={values.currentPassword}
                           style={styles.inputbox}
-                          onChangeText={handleChange("password")}
-                          onBlur={handleBlur("password")}
+                          onChangeText={handleChange("currentPassword")}
+                          onBlur={handleBlur("currentPassword")}
                           placeholderTextColor="#5f5f5f"
                           secureTextEntry={passwordVisible}
                         />
                       </View>
-                      {errors.password && (
-                        <ErrorMsg message={`${errors.password}`} />
+                      {errors.currentPassword && (
+                        <ErrorMsg message={`${errors.currentPassword}`} />
                       )}
                       <Link href={"/auth/otpverification"} asChild>
                         <TouchableOpacity>
@@ -315,17 +320,17 @@ export default function Security() {
                       >
                         <TextInput
                           placeholder="**********"
-                          value={values.password}
+                          value={values.newPassword}
                           style={styles.inputbox}
-                          onChangeText={handleChange("password")}
-                          onBlur={handleBlur("password")}
+                          onChangeText={handleChange("newPassword")}
+                          onBlur={handleBlur("newPassword")}
                           placeholderTextColor="#5f5f5f"
                           secureTextEntry={passwordVisible}
                         />
                       </View>
 
-                      {errors.password && (
-                        <ErrorMsg message={`${errors.password}`} />
+                      {errors.newPassword && (
+                        <ErrorMsg message={`${errors.newPassword}`} />
                       )}
                     </View>
                     <View>
@@ -369,10 +374,11 @@ export default function Security() {
                     }}
                   >
                     {isSubmitting ||
-                    errors.password ||
+                    errors.currentPassword ||
+                    errors.newPassword ||
                     errors.confirmPassword ? (
                       <TouchableOpacity style={styles.disableBtn}>
-                        <Text style={styles.button}>Update Password</Text>
+                        <Text style={styles.disableBtnText}>Update Password</Text>
                       </TouchableOpacity>
                     ) : (
                       <TouchableOpacity
@@ -387,6 +393,7 @@ export default function Security() {
               </View>
             )}
           </Formik>
+          )}
           <View
             style={{
               marginTop: RFValue(35),
@@ -482,7 +489,8 @@ export default function Security() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-medium",
                   lineHeight: RFValue(40),
-                  color: "#06782F",
+                  color: colors.primary,
+                  textDecorationLine: "underline"
                 }}
               >
                 Logout
@@ -550,7 +558,8 @@ export default function Security() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-medium",
                   lineHeight: RFValue(40),
-                  color: "#06782F",
+                  color: colors.primary,
+                  textDecorationLine: "underline"
                 }}
               >
                 Logout
@@ -618,7 +627,8 @@ export default function Security() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-medium",
                   lineHeight: RFValue(40),
-                  color: "#06782F",
+                  color: colors.primary,
+                  textDecorationLine: "underline"
                 }}
               >
                 Logout
@@ -650,26 +660,29 @@ export default function Security() {
               Delete account
             </Text>
             <TouchableOpacity
-              onPress={openCancelModal}
+              onPress={() => router.push("/delete-account")}
               style={{
-                backgroundColor: "#FFF8F8",
+                backgroundColor: "#FDFDFD",
                 marginTop: RFValue(15),
                 paddingHorizontal: RFValue(14),
                 paddingVertical: RFValue(12),
                 borderRadius: Platform.OS == "android" ? 15 : 15,
+                borderBottomRightRadius: 0,
+                borderWidth: RFValue(1),
+                borderColor: "#F0F4FF",
                 justifyContent: "center",
                 marginBottom: RFValue(30),
               }}
             >
               <Text
                 style={{
-                  fontFamily: "satoshi-bold",
+                  fontFamily: "outfit-medium",
                   textAlign: "center",
                   color: "#FA5C47",
                   fontSize: RFValue(14),
                 }}
               >
-                Delete
+                Delete Account
               </Text>
             </TouchableOpacity>
           </View>
@@ -743,17 +756,22 @@ const styles = StyleSheet.create({
     fontFamily: "satoshi-medium",
     color: "#fff",
   },
-
   button: {
-    fontFamily: "satoshi-bold",
+    fontFamily: "outfit-medium",
     textAlign: "center",
     color: "#fff",
+    fontSize: RFValue(14),
+  },
+  disableBtnText: {
+    fontFamily: "outfit-medium",
+    textAlign: "center",
+    color: colors.buttontext,
     fontSize: RFValue(14),
   },
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),
-    borderRadius: 10,
+    borderRadius: 50,
     position: "absolute",
     left: RFValue(15),
     borderWidth: 1,
@@ -779,7 +797,7 @@ const styles = StyleSheet.create({
     marginVertical: RFValue(5),
   },
   disableBtn: {
-    backgroundColor: "#06782f",
+    backgroundColor: colors.button,
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),
@@ -788,7 +806,7 @@ const styles = StyleSheet.create({
     opacity: 0.2,
   },
   activeBtn: {
-    backgroundColor: "#06782f",
+    backgroundColor: colors.primary,
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),

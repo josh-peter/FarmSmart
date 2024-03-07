@@ -112,7 +112,8 @@ const SearchBarComponent: React.FC<SearchBarProps> = ({ onSearch }: any) => {
             style={styles.inputbox}
             placeholderTextColor="#5f5f5f"
             value=""
-            onChangeText={(newText: string) => searchHandler(newText)}
+            onFocus={()=> router.push("/search")}
+            // onChangeText={(newText: string) => searchHandler(newText)}
             defaultValue={text}
           />
         </View>
