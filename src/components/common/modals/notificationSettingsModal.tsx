@@ -10,7 +10,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Modal from "react-native-modal";
 import { RFValue } from "react-native-responsive-fontsize";
 import {
@@ -22,6 +22,7 @@ import { Link, router } from "expo-router";
 import AddNewCard from "./addNewCard";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Switch } from "react-native-switch";
+import colors from "../../../constants/Colors";
 
 interface Props {
   modalPayVisible: boolean;
@@ -36,6 +37,22 @@ export default function NotificationSettingsModal({
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  const [emailNotification, setEmailNotification] = useState(true);
+  const [pushNotification, setPushNotification] = useState(true);
+  const [smsNotification, setSmsNotification] = useState(true);
+
+  const toggleEmailNotification = useCallback(() => {
+    setEmailNotification((prev) => !prev);
+  }, []);
+
+  const togglePushNotification = useCallback(() => {
+    setPushNotification((prev) => !prev);
+  }, []);
+
+  const toggleSmsNotification = useCallback(() => {
+    setSmsNotification((prev) => !prev);
+  }, []);
 
   const handleUserLogin = (values: any, setSubmitting: any) => {
     router.push("/home/");
@@ -100,7 +117,7 @@ export default function NotificationSettingsModal({
           >
             Account activity
           </Text>
-          <TouchableOpacity style={styles.clearIcon}>
+          <TouchableOpacity style={styles.clearIcon} onPress={closePayModal}>
             <MaterialIcons name="clear" size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -145,9 +162,9 @@ export default function NotificationSettingsModal({
                 </Text>
                 <TouchableOpacity>
                   <Switch
-                    value={true}
-                    onValueChange={(val) => console.warn(val)}
-                    backgroundActive={"green"}
+                    value={emailNotification}
+                    onValueChange={toggleEmailNotification}
+                    backgroundActive={colors.primary}
                     backgroundInactive={"gray"}
                     activeText={""}
                     inActiveText={""}
@@ -173,9 +190,9 @@ export default function NotificationSettingsModal({
                 </Text>
                 <TouchableOpacity>
                   <Switch
-                    value={true}
-                    onValueChange={(val) => console.warn(val)}
-                    backgroundActive={"green"}
+                    value={pushNotification}
+                    onValueChange={togglePushNotification}
+                    backgroundActive={colors.primary}
                     backgroundInactive={"gray"}
                     activeText={""}
                     inActiveText={""}
@@ -201,9 +218,9 @@ export default function NotificationSettingsModal({
                 </Text>
                 <TouchableOpacity>
                   <Switch
-                    value={true}
-                    onValueChange={(val) => console.warn(val)}
-                    backgroundActive={"green"}
+                    value={smsNotification}
+                    onValueChange={toggleSmsNotification}
+                    backgroundActive={colors.primary}
                     backgroundInactive={"gray"}
                     activeText={""}
                     inActiveText={""}

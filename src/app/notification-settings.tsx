@@ -19,6 +19,7 @@ import EmailAddressModal from "../components/accountInformation/EmailAddressModa
 import UpdatePhoneModal from "../components/accountInformation/updatePhoneModal";
 import EditDateOfBirth from "../components/accountInformation/editDateOfBirth";
 import NotificationSettingsModal from "../components/common/modals/notificationSettingsModal";
+import colors from "../constants/Colors";
 
 const { width, height } = Dimensions.get("window");
 
@@ -111,7 +112,7 @@ export default function NotificationSettings() {
     <>
       <Stack.Screen
         options={{
-          title: "Account Information",
+          title: "Notification settings",
           headerShown: false,
           gestureEnabled: false,
         }}
@@ -150,7 +151,7 @@ export default function NotificationSettings() {
               lineHeight: RFValue(30),
             }}
           >
-            Account information
+            Notification settings
           </Text>
           <TouchableOpacity onPress={()=> router.back()} style={styles.clearIcon}>
             <Image
@@ -244,7 +245,8 @@ export default function NotificationSettings() {
                       fontSize: RFValue(14),
                       fontFamily: "outfit-bold",
                       lineHeight: RFValue(40),
-                      color: "#06782F",
+                      color: colors.primary,
+                      textDecorationLine: "underline"
                     }}
                   >
                     Edit
@@ -335,7 +337,8 @@ export default function NotificationSettings() {
                       fontSize: RFValue(14),
                       fontFamily: "outfit-bold",
                       lineHeight: RFValue(40),
-                      color: "#06782F",
+                      color: colors.primary,
+                      textDecorationLine: "underline"
                     }}
                   >
                     Edit
