@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     position: "absolute",
       left: RFValue(15),
       borderWidth: 1,
-    borderColor:colors.border2
+    borderColor:colors.border2,
   },
 
 });

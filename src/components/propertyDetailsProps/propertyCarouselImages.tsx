@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   ScrollView,
   FlatList,
@@ -15,6 +14,7 @@ import {
 const { width, height } = Dimensions.get("window");
 import { RFValue } from "react-native-responsive-fontsize";
 import { dataImages } from "../../Data/dataImages";
+import { Image } from "expo-image";
 
 export default function PropertyCarouselImages() {
   const [selectIndex, setSelectIndex] = useState(0);
@@ -83,7 +83,7 @@ export default function PropertyCarouselImages() {
           renderItem={({ item, index }) => {
             return (
               <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={item.image}
                 style={{
                   height: RFValue(290),
@@ -127,7 +127,7 @@ export default function PropertyCarouselImages() {
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/arrow-left-icon.png")}
             style={{
               height: RFValue(40),
@@ -146,7 +146,7 @@ export default function PropertyCarouselImages() {
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/download.png")}
             style={{
               height: RFValue(40),
@@ -165,7 +165,7 @@ export default function PropertyCarouselImages() {
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/like.png")}
             style={{
               height: RFValue(40),
@@ -202,7 +202,7 @@ export default function PropertyCarouselImages() {
             }}
           >
             <Image
-              resizeMode="cover"
+              contentFit="cover"
               source={item.image}
               style={{
                 height: RFValue(80),

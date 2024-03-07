@@ -1,7 +1,9 @@
-import { Platform, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import colors from '../../constants/Colors';
+import { Image } from 'expo-image';
 
 const AppointmentUpcoming = () => {
   return (
@@ -15,8 +17,6 @@ const AppointmentUpcoming = () => {
           marginHorizontal: RFValue(15),
           marginVertical: RFValue(5),
           overflow: "hidden",
-          borderWidth: 1,
-          borderColor: "#E6E6E6",
           borderRadius: 10,
         }}
       >
@@ -26,54 +26,76 @@ const AppointmentUpcoming = () => {
             gap: 10,
           }}
         >
-          <View>
+          <View
+            style={{
+              backgroundColor: colors.filterbg,
+              paddingHorizontal: RFValue(20),
+              paddingVertical: RFValue(10),
+            }}
+          >
             <Image
-              resizeMode="contain"
-              source={require("../../assets/images/agentprofile.png")}
+              contentFit="contain"
+              source={require("../../assets/images/agentpro.png")}
               style={{
-                height: RFValue(45),
-                width: RFValue(45),
+                height: RFValue(65),
+                width: RFValue(65),
               }}
             />
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/tag.png")}
+            <Text
               style={{
-                height: RFValue(35),
-                width: RFValue(35),
-                position: "absolute",
-                top: 30,
-                left: 5,
-                right: 0,
+                fontSize: RFValue(11),
+                fontFamily: "outfit-medium",
+                backgroundColor: colors.background,
+                padding: RFValue(6),
+                borderWidth: 1,
+                borderColor: colors.warmBtn,
+                borderRadius: 7,
+                marginTop: RFValue(8),
               }}
-            />
+            >
+              View property
+            </Text>
           </View>
           <View>
             <Text
               style={{
                 fontSize: RFValue(11),
-                fontFamily: "outfit-bold",
+                fontFamily: "outfit-medium",
+                backgroundColor: colors.warm,
+                padding: RFValue(4),
+                borderWidth: 1,
+                borderColor: colors.warmBtn,
+                borderRadius: 20,
+                color: colors.green,
+                width: RFValue(80),
               }}
             >
-              Beatrice James
+              Verified agent
             </Text>
             <Text
               style={{
-                fontSize: RFValue(11),
+                fontSize: RFValue(13),
                 fontFamily: "outfit-medium",
-                lineHeight: RFValue(20),
+                lineHeight: RFValue(25),
               }}
             >
-              Appointment Details
+              Declan Ubong
             </Text>
             <View
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                flexDirection: "column",
                 gap: 7,
                 marginTop: RFValue(2),
               }}
             >
+              <Text
+                style={{
+                  fontSize: RFValue(13),
+                  fontFamily: "outfit-regular",
+                }}
+              >
+                Schedule
+              </Text>
               <View
                 style={{
                   flexDirection: "row",
@@ -81,7 +103,7 @@ const AppointmentUpcoming = () => {
                 }}
               >
                 <Image
-                  resizeMode="contain"
+                  contentFit="contain"
                   source={require("../../assets/images/calendar.png")}
                   style={{
                     height: RFValue(13),
@@ -104,7 +126,7 @@ const AppointmentUpcoming = () => {
                 }}
               >
                 <Image
-                  resizeMode="contain"
+                  contentFit="contain"
                   source={require("../../assets/images/clock.png")}
                   style={{
                     height: RFValue(15),
@@ -121,182 +143,28 @@ const AppointmentUpcoming = () => {
                 </Text>
               </View>
             </View>
-            <Text
-              style={{
-                fontSize: RFValue(11),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(20),
-                color: "#06782F",
-              }}
-            >
-              See property
-            </Text>
           </View>
         </View>
         <TouchableOpacity
+          onPress={() => {
+            router.push("/incomingcall")
+          }}
           style={{
-            backgroundColor: "#FFF8F8",
+            backgroundColor: colors.primary,
             padding: Platform.OS === "ios" ? 16 : 15,
             borderRadius: 10,
-            marginTop: RFValue(15),
+            marginTop: RFValue(10),
           }}
         >
           <Text
             style={{
               fontSize: RFValue(14),
-              color: "#FA5C47",
+              color: colors.background,
               fontFamily: "outfit-medium",
               textAlign: "center",
             }}
           >
-            Cancel
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flexDirection: "column",
-          gap: 4,
-          paddingHorizontal: RFValue(10),
-          paddingVertical: RFValue(14),
-          marginHorizontal: RFValue(15),
-          marginVertical: RFValue(25),
-          overflow: "hidden",
-          borderWidth: 1,
-          borderColor: "#E6E6E6",
-          borderRadius: 10,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 10,
-          }}
-        >
-          <View>
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/agentprofile.png")}
-              style={{
-                height: RFValue(45),
-                width: RFValue(45),
-              }}
-            />
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/tag.png")}
-              style={{
-                height: RFValue(35),
-                width: RFValue(35),
-                position: "absolute",
-                top: 30,
-                left: 5,
-                right: 0,
-              }}
-            />
-          </View>
-          <View>
-            <Text
-              style={{
-                fontSize: RFValue(11),
-                fontFamily: "outfit-bold",
-              }}
-            >
-              Beatrice James
-            </Text>
-            <Text
-              style={{
-                fontSize: RFValue(11),
-                fontFamily: "outfit-medium",
-                lineHeight: RFValue(20),
-              }}
-            >
-              Appointment Details
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 7,
-                marginTop: RFValue(2),
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 4,
-                }}
-              >
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/calendar.png")}
-                  style={{
-                    height: RFValue(13),
-                    width: RFValue(13),
-                  }}
-                />
-                <Text
-                  style={{
-                    fontSize: RFValue(11),
-                    fontFamily: "outfit-regular",
-                  }}
-                >
-                  Aug 23, 2023
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 4,
-                }}
-              >
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/clock.png")}
-                  style={{
-                    height: RFValue(15),
-                    width: RFValue(15),
-                  }}
-                />
-                <Text
-                  style={{
-                    fontSize: RFValue(11),
-                    fontFamily: "outfit-regular",
-                  }}
-                >
-                  2:00 PM - 6:30 PM
-                </Text>
-              </View>
-            </View>
-            <Text
-              style={{
-                fontSize: RFValue(11),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(20),
-                color: "#06782F",
-              }}
-            >
-              See property
-            </Text>
-          </View>
-        </View>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#FFF8F8",
-            padding: Platform.OS === "ios" ? 16 : 15,
-            borderRadius: 10,
-            marginTop: RFValue(15),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(14),
-              color: "#FA5C47",
-              fontFamily: "outfit-medium",
-              textAlign: "center",
-            }}
-          >
-            Cancel
+            Join call
           </Text>
         </TouchableOpacity>
       </View>
@@ -309,8 +177,7 @@ const AppointmentUpcoming = () => {
           marginHorizontal: RFValue(15),
           marginVertical: RFValue(10),
           overflow: "hidden",
-          borderWidth: 1,
-          borderColor: "#E6E6E6",
+
           borderRadius: 10,
         }}
       >
@@ -320,98 +187,146 @@ const AppointmentUpcoming = () => {
             gap: 10,
           }}
         >
-          <View>
+          <View
+            style={{
+              backgroundColor: colors.filterbg,
+              paddingHorizontal: RFValue(20),
+              paddingVertical: RFValue(10),
+            }}
+          >
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../../assets/images/agentprofile.png")}
               style={{
-                height: RFValue(45),
-                width: RFValue(45),
+                height: RFValue(65),
+                width: RFValue(65),
               }}
             />
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/tag.png")}
+            <Text
               style={{
-                height: RFValue(35),
-                width: RFValue(35),
-                position: "absolute",
-                top: 30,
-                left: 5,
-                right: 0,
+                fontSize: RFValue(11),
+                fontFamily: "outfit-medium",
+                backgroundColor: colors.background,
+                padding: RFValue(6),
+                borderWidth: 1,
+                borderColor: colors.warmBtn,
+                borderRadius: 7,
+                marginTop: RFValue(8),
               }}
-            />
+            >
+              View property
+            </Text>
           </View>
           <View>
             <Text
               style={{
                 fontSize: RFValue(11),
-                fontFamily: "outfit-bold",
+                fontFamily: "outfit-medium",
+                backgroundColor: colors.warm,
+                padding: RFValue(4),
+                borderWidth: 1,
+                borderColor: colors.warmBtn,
+                borderRadius: 20,
+                color: colors.green,
+                width: RFValue(80),
+              }}
+            >
+              Verified agent
+            </Text>
+            <Text
+              style={{
+                fontSize: RFValue(13),
+                fontFamily: "outfit-medium",
+                lineHeight: RFValue(25),
               }}
             >
               Beatrice James
             </Text>
-            <Text
-              style={{
-                fontSize: RFValue(11),
-                fontFamily: "outfit-medium",
-                lineHeight: RFValue(20),
-              }}
-            >
-              Appointment Details
-            </Text>
             <View
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                flexDirection: "column",
                 gap: 7,
                 marginTop: RFValue(2),
               }}
             >
               <Text
                 style={{
-                  fontSize: RFValue(11),
-                  fontFamily: "outfit-medium",
-                  lineHeight: RFValue(20),
-                  color: "#FA5C47",
+                  fontSize: RFValue(13),
+                  fontFamily: "outfit-regular",
                 }}
               >
-                NOW
+                Schedule
               </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 4,
+                }}
+              >
+                <Image
+                  contentFit="contain"
+                  source={require("../../assets/images/calendar.png")}
+                  style={{
+                    height: RFValue(13),
+                    width: RFValue(13),
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: RFValue(11),
+                    fontFamily: "outfit-regular",
+                  }}
+                >
+                  Aug 23, 2023
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 4,
+                }}
+              >
+                <Image
+                  contentFit="contain"
+                  source={require("../../assets/images/clock.png")}
+                  style={{
+                    height: RFValue(15),
+                    width: RFValue(15),
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: RFValue(11),
+                    fontFamily: "outfit-regular",
+                  }}
+                >
+                  2:00 PM - 6:30 PM
+                </Text>
+              </View>
             </View>
-            <Text
-              style={{
-                fontSize: RFValue(11),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(20),
-                color: "#06782F",
-              }}
-            >
-              See property
-            </Text>
           </View>
         </View>
-        <Link href={"/incomingcall"} asChild>
-          <TouchableOpacity
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.warm,
+            padding: Platform.OS === "ios" ? 16 : 15,
+            borderRadius: 10,
+            marginTop: RFValue(15),
+            borderWidth: 2,
+            borderColor:colors.border2
+          }}
+        >
+          <Text
             style={{
-              backgroundColor: "#06782F",
-              padding: Platform.OS === "ios" ? 16 : 15,
-              borderRadius: 10,
-              marginTop: RFValue(15),
+              fontSize: RFValue(14),
+              color: "#FA5C47",
+              fontFamily: "outfit-medium",
+              textAlign: "center",
             }}
           >
-            <Text
-              style={{
-                fontSize: RFValue(14),
-                color: "#fff",
-                fontFamily: "outfit-medium",
-                textAlign: "center",
-              }}
-            >
-              Join Call
-            </Text>
-          </TouchableOpacity>
-        </Link>
+            Cancel appointment
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

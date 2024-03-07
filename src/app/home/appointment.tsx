@@ -3,7 +3,6 @@ import {
   Text,
   Animated,
   Dimensions,
-  Image,
   TouchableOpacity,
   StyleSheet,
   Platform,
@@ -13,38 +12,45 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
 import { Link, Stack } from "expo-router";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import {
-  AntDesign,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
 import { Switch } from "react-native-switch";
 import AppointmentUpcoming from "../../components/appointmentComps/appointmentUpcoming";
+import colors from "../../constants/Colors";
+import { Image } from "expo-image";
+import Appointmentsync from "../../components/common/modals/appointmentSync";
 
 export default function Appointment() {
-  const fade = useRef(new Animated.Value(0)).current;
-  const [index, setIndex] = useState(0);
-  const [isLoading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState(false);
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
+  const [index, setIndex] = useState(0);
+
+
+  const fade = useRef(new Animated.Value(0)).current;
+const [animationTriggered, setAnimationTriggered] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  
+  const openModal = () => {
+    setModalVisible(true);
   };
 
-  useEffect(() => {
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+const animation = () => {
+  Animated.timing(fade, {
+    toValue: 1,
+    duration: 800,
+    useNativeDriver: true,
+  }).start();
+};
+
+useEffect(() => {
+  if (!animationTriggered) {
+    setAnimationTriggered(true);
     animation();
-  }, []);
+  }
+}, [animationTriggered]);
 
   return (
     <>
@@ -59,7 +65,7 @@ export default function Appointment() {
         style={{
           flex: 1,
           width: width,
-          backgroundColor: "#fff",
+          backgroundColor: colors.background,
           position: "relative",
           opacity: fade,
           transform: [
@@ -72,37 +78,68 @@ export default function Appointment() {
           ],
         }}
       >
+        <TouchableOpacity
+          onPress={openModal}
+          style={{
+            marginTop: RFValue(40),
+            alignSelf: "flex-end",
+            marginBottom: RFValue(-10),
+          }}
+        >
+          <Image
+            contentFit="contain"
+            source={require("../../assets/images/calendarsync.png")}
+            style={{
+              height: RFValue(55),
+              width: RFValue(55),
+            }}
+          />
+        </TouchableOpacity>
         <Tab
           value={index}
           onChange={(e) => setIndex(e)}
           style={{
-            backgroundColor: "#E4E4E7",
-            marginTop: RFValue(50),
-            paddingHorizontal: RFValue(3),
-            paddingVertical: RFValue(3),
-            marginHorizontal: Platform.OS === "ios" ? RFValue(7) : RFValue(12),
-            borderRadius: 10,
+            marginHorizontal: RFValue(15),
+          }}
+          indicatorStyle={{
+            backgroundColor: colors.primary,
+            height: 3,
           }}
           variant="default"
-          disableIndicator
-          buttonStyle={(active) => ({
-            backgroundColor: active ? "#fff" : undefined,
-            borderRadius: 10,
-          })}
         >
           <Tab.Item
             title="Upcoming"
             titleStyle={{
               fontSize: 13,
-              color: index === 0 ? "black" : "#1A1A1AB2",
+              color: index === 0 ? colors.primary : colors.tabColor,
               borderRadius: 10,
             }}
+            iconPosition="right"
+            icon={
+              <View
+                style={{
+                  backgroundColor: index === 0 ? colors.primary : colors.warm,
+                  borderRadius: 5,
+                }}
+              >
+                <Text
+                  style={{
+                    color: index === 0 ? "white" : colors.tabColor,
+                    fontFamily: "outfit-bold",
+                    paddingHorizontal: 5,
+                    paddingVertical: 2,
+                  }}
+                >
+                  02
+                </Text>
+              </View>
+            }
           />
           <Tab.Item
             title="Completed"
             titleStyle={{
               fontSize: 13,
-              color: index === 1 ? "black" : "#1A1A1AB2",
+              color: index === 1 ? colors.primary : colors.tabColor,
               borderRadius: 10,
             }}
           />
@@ -110,7 +147,7 @@ export default function Appointment() {
             title="Cancelled"
             titleStyle={{
               fontSize: 13,
-              color: index === 2 ? "black" : "#1A1A1AB2",
+              color: index === 2 ? colors.primary : colors.tabColor,
               borderRadius: 10,
             }}
           />
@@ -120,35 +157,6 @@ export default function Appointment() {
             style={{ backgroundColor: "white", width: "100%", height: "100%" }}
           >
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 18,
-                  backgroundColor: "#FAFAFA",
-                  padding: RFValue(20),
-                  margin: RFValue(15),
-                  overflow: "hidden",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: RFValue(12),
-                    fontFamily: "plusjakarta-regular",
-                    color: "#1A1A1A",
-                    maxWidth: RFValue(210),
-                  }}
-                >
-                  Auto-synchronize my upcoming booking with my phone’s calender
-                  to remind me of all coming booking day & time.
-                </Text>
-                <Switch
-                  value={true}
-                  activeText={""}
-                  inActiveText={""}
-                  circleSize={25}
-                />
-              </View>
               <AppointmentUpcoming />
             </ScrollView>
           </TabView.Item>
@@ -161,10 +169,8 @@ export default function Appointment() {
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(14),
                   marginHorizontal: RFValue(15),
-                  marginVertical: RFValue(15),
+                  marginVertical: RFValue(5),
                   overflow: "hidden",
-                  borderWidth: 1,
-                  borderColor: "#E6E6E6",
                   borderRadius: 10,
                 }}
               >
@@ -174,54 +180,76 @@ export default function Appointment() {
                     gap: 10,
                   }}
                 >
-                  <View>
+                  <View
+                    style={{
+                      backgroundColor: colors.filterbg,
+                      paddingHorizontal: RFValue(20),
+                      paddingVertical: RFValue(10),
+                    }}
+                  >
                     <Image
                       resizeMode="contain"
-                      source={require("../../assets/images/agentprofile.png")}
+                      source={require("../../assets/images/agentpro.png")}
                       style={{
-                        height: RFValue(45),
-                        width: RFValue(45),
+                        height: RFValue(65),
+                        width: RFValue(65),
                       }}
                     />
-                    <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/tag.png")}
+                    <Text
                       style={{
-                        height: RFValue(35),
-                        width: RFValue(35),
-                        position: "absolute",
-                        top: 30,
-                        left: 5,
-                        right: 0,
+                        fontSize: RFValue(11),
+                        fontFamily: "outfit-medium",
+                        backgroundColor: colors.background,
+                        padding: RFValue(6),
+                        borderWidth: 1,
+                        borderColor: colors.warmBtn,
+                        borderRadius: 7,
+                        marginTop: RFValue(8),
                       }}
-                    />
+                    >
+                      View property
+                    </Text>
                   </View>
                   <View>
                     <Text
                       style={{
                         fontSize: RFValue(11),
-                        fontFamily: "outfit-bold",
+                        fontFamily: "outfit-medium",
+                        backgroundColor: colors.warm,
+                        padding: RFValue(4),
+                        borderWidth: 1,
+                        borderColor: colors.warmBtn,
+                        borderRadius: 20,
+                        color: colors.green,
+                        width: RFValue(80),
                       }}
                     >
-                      Beatrice James
+                      Verified agent
                     </Text>
                     <Text
                       style={{
-                        fontSize: RFValue(11),
+                        fontSize: RFValue(13),
                         fontFamily: "outfit-medium",
-                        lineHeight: RFValue(20),
+                        lineHeight: RFValue(25),
                       }}
                     >
-                      Appointment Details
+                      Declan Ubong
                     </Text>
                     <View
                       style={{
-                        flexDirection: "row",
-                        alignItems: "center",
+                        flexDirection: "column",
                         gap: 7,
                         marginTop: RFValue(2),
                       }}
                     >
+                      <Text
+                        style={{
+                          fontSize: RFValue(13),
+                          fontFamily: "outfit-regular",
+                        }}
+                      >
+                        Schedule
+                      </Text>
                       <View
                         style={{
                           flexDirection: "row",
@@ -229,8 +257,8 @@ export default function Appointment() {
                         }}
                       >
                         <Image
-                          resizeMode="contain"
-                          source={require("../../assets/images/calendar-red.png")}
+                          contentFit="contain"
+                          source={require("../../assets/images/calendar.png")}
                           style={{
                             height: RFValue(13),
                             width: RFValue(13),
@@ -240,7 +268,6 @@ export default function Appointment() {
                           style={{
                             fontSize: RFValue(11),
                             fontFamily: "outfit-regular",
-                            color: "#FA5C47",
                           }}
                         >
                           Aug 23, 2023
@@ -253,8 +280,8 @@ export default function Appointment() {
                         }}
                       >
                         <Image
-                          resizeMode="contain"
-                          source={require("../../assets/images/clock-red.png")}
+                          contentFit="contain"
+                          source={require("../../assets/images/clock.png")}
                           style={{
                             height: RFValue(15),
                             width: RFValue(15),
@@ -264,37 +291,26 @@ export default function Appointment() {
                           style={{
                             fontSize: RFValue(11),
                             fontFamily: "outfit-regular",
-                            color: "#FA5C47",
                           }}
                         >
                           2:00 PM - 6:30 PM
                         </Text>
                       </View>
                     </View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-bold",
-                        lineHeight: RFValue(20),
-                        color: "#06782F",
-                      }}
-                    >
-                      See property
-                    </Text>
                   </View>
                 </View>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: "#06782F",
+                    backgroundColor: colors.primary,
                     padding: Platform.OS === "ios" ? 16 : 15,
                     borderRadius: 10,
-                    marginTop: RFValue(15),
+                    marginTop: RFValue(10),
                   }}
                 >
                   <Text
                     style={{
                       fontSize: RFValue(14),
-                      color: "#fff",
+                      color: colors.background,
                       fontFamily: "outfit-medium",
                       textAlign: "center",
                     }}
@@ -314,10 +330,8 @@ export default function Appointment() {
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(14),
                   marginHorizontal: RFValue(15),
-                  marginVertical: RFValue(15),
+                  marginVertical: RFValue(5),
                   overflow: "hidden",
-                  borderWidth: 1,
-                  borderColor: "#E6E6E6",
                   borderRadius: 10,
                 }}
               >
@@ -327,54 +341,76 @@ export default function Appointment() {
                     gap: 10,
                   }}
                 >
-                  <View>
+                  <View
+                    style={{
+                      backgroundColor: colors.filterbg,
+                      paddingHorizontal: RFValue(20),
+                      paddingVertical: RFValue(10),
+                    }}
+                  >
                     <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/agentprofile.png")}
+                      contentFit="contain"
+                      source={require("../../assets/images/agentpro.png")}
                       style={{
-                        height: RFValue(45),
-                        width: RFValue(45),
+                        height: RFValue(65),
+                        width: RFValue(65),
                       }}
                     />
-                    <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/tag.png")}
+                    <Text
                       style={{
-                        height: RFValue(35),
-                        width: RFValue(35),
-                        position: "absolute",
-                        top: 30,
-                        left: 5,
-                        right: 0,
+                        fontSize: RFValue(11),
+                        fontFamily: "outfit-medium",
+                        backgroundColor: colors.background,
+                        padding: RFValue(6),
+                        borderWidth: 1,
+                        borderColor: colors.warmBtn,
+                        borderRadius: 7,
+                        marginTop: RFValue(8),
                       }}
-                    />
+                    >
+                      View property
+                    </Text>
                   </View>
                   <View>
                     <Text
                       style={{
                         fontSize: RFValue(11),
-                        fontFamily: "outfit-bold",
+                        fontFamily: "outfit-medium",
+                        backgroundColor: colors.warm,
+                        padding: RFValue(4),
+                        borderWidth: 1,
+                        borderColor: colors.warmBtn,
+                        borderRadius: 20,
+                        color: colors.green,
+                        width: RFValue(80),
                       }}
                     >
-                      Beatrice James
+                      Verified agent
                     </Text>
                     <Text
                       style={{
-                        fontSize: RFValue(11),
+                        fontSize: RFValue(13),
                         fontFamily: "outfit-medium",
-                        lineHeight: RFValue(20),
+                        lineHeight: RFValue(25),
                       }}
                     >
-                      Appointment Details
+                      Declan Ubong
                     </Text>
                     <View
                       style={{
-                        flexDirection: "row",
-                        alignItems: "center",
+                        flexDirection: "column",
                         gap: 7,
                         marginTop: RFValue(2),
                       }}
                     >
+                      <Text
+                        style={{
+                          fontSize: RFValue(13),
+                          fontFamily: "outfit-regular",
+                        }}
+                      >
+                        Schedule
+                      </Text>
                       <View
                         style={{
                           flexDirection: "row",
@@ -382,8 +418,8 @@ export default function Appointment() {
                         }}
                       >
                         <Image
-                          resizeMode="contain"
-                          source={require("../../assets/images/calendar-red.png")}
+                          contentFit="contain"
+                          source={require("../../assets/images/calendar.png")}
                           style={{
                             height: RFValue(13),
                             width: RFValue(13),
@@ -393,7 +429,6 @@ export default function Appointment() {
                           style={{
                             fontSize: RFValue(11),
                             fontFamily: "outfit-regular",
-                            color: "#FA5C47",
                           }}
                         >
                           Aug 23, 2023
@@ -406,8 +441,8 @@ export default function Appointment() {
                         }}
                       >
                         <Image
-                          resizeMode="contain"
-                          source={require("../../assets/images/clock-red.png")}
+                          contentFit="contain"
+                          source={require("../../assets/images/clock.png")}
                           style={{
                             height: RFValue(15),
                             width: RFValue(15),
@@ -417,37 +452,26 @@ export default function Appointment() {
                           style={{
                             fontSize: RFValue(11),
                             fontFamily: "outfit-regular",
-                            color: "#FA5C47",
                           }}
                         >
                           2:00 PM - 6:30 PM
                         </Text>
                       </View>
                     </View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-bold",
-                        lineHeight: RFValue(20),
-                        color: "#06782F",
-                      }}
-                    >
-                      See property
-                    </Text>
                   </View>
                 </View>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: "#06782F",
+                    backgroundColor: colors.primary,
                     padding: Platform.OS === "ios" ? 16 : 15,
                     borderRadius: 10,
-                    marginTop: RFValue(15),
+                    marginTop: RFValue(10),
                   }}
                 >
                   <Text
                     style={{
                       fontSize: RFValue(14),
-                      color: "#fff",
+                      color: colors.background,
                       fontFamily: "outfit-medium",
                       textAlign: "center",
                     }}
@@ -456,10 +480,150 @@ export default function Appointment() {
                   </Text>
                 </TouchableOpacity>
               </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  gap: 4,
+                  paddingHorizontal: RFValue(10),
+                  paddingVertical: RFValue(14),
+                  marginHorizontal: RFValue(15),
+                  marginVertical: RFValue(10),
+                  overflow: "hidden",
+
+                  borderRadius: 10,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      backgroundColor: colors.filterbg,
+                      paddingHorizontal: RFValue(20),
+                      paddingVertical: RFValue(10),
+                    }}
+                  >
+                    <Image
+                      contentFit="contain"
+                      source={require("../../assets/images/agentpro.png")}
+                      style={{
+                        height: RFValue(65),
+                        width: RFValue(65),
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: RFValue(11),
+                        fontFamily: "outfit-medium",
+                        backgroundColor: colors.background,
+                        padding: RFValue(6),
+                        borderWidth: 1,
+                        borderColor: colors.warmBtn,
+                        borderRadius: 7,
+                        marginTop: RFValue(8),
+                      }}
+                    >
+                      View property
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: RFValue(11),
+                        fontFamily: "outfit-medium",
+                        backgroundColor: colors.warm,
+                        padding: RFValue(4),
+                        borderWidth: 1,
+                        borderColor: colors.warmBtn,
+                        borderRadius: 20,
+                        color: colors.green,
+                        width: RFValue(80),
+                      }}
+                    >
+                      Verified agent
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: RFValue(13),
+                        fontFamily: "outfit-medium",
+                        lineHeight: RFValue(25),
+                      }}
+                    >
+                      Declan Ubong
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        gap: 7,
+                        marginTop: RFValue(2),
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: RFValue(13),
+                          fontFamily: "outfit-regular",
+                        }}
+                      >
+                        Schedule
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          gap: 4,
+                        }}
+                      >
+                        <Image
+                          contentFit="contain"
+                          source={require("../../assets/images/calendar.png")}
+                          style={{
+                            height: RFValue(13),
+                            width: RFValue(13),
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: RFValue(11),
+                            fontFamily: "outfit-regular",
+                          }}
+                        >
+                          Aug 23, 2023
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          gap: 4,
+                        }}
+                      >
+                        <Image
+                          contentFit="contain"
+                          source={require("../../assets/images/clock.png")}
+                          style={{
+                            height: RFValue(15),
+                            width: RFValue(15),
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: RFValue(11),
+                            fontFamily: "outfit-regular",
+                          }}
+                        >
+                          2:00 PM - 6:30 PM
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
             </ScrollView>
           </TabView.Item>
         </TabView>
       </Animated.View>
+      <Appointmentsync modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );
 }
