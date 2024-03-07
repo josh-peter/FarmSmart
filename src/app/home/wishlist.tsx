@@ -261,7 +261,6 @@ const Wishlist = () => {
           placeholder="Search wishlist"
           style={styles.inputbox}
           placeholderTextColor="#5f5f5f"
-          value=""
         />
       </View>
 
