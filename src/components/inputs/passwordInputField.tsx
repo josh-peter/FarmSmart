@@ -13,7 +13,7 @@ interface PasswordInputProps {
   value: any; //value is optional because it can be a read only input
   onChangeText: (text: string) => void;
   errorMessage: any; //the message to show if there is an error in this field`
-  onBlur: any;
+  onBlur?: any;
   placeholder: string;
   returnKeyType: any;
   keyboardType: any;
