@@ -147,12 +147,14 @@ const AppointmentUpcoming = () => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            router.push("/incomingcall")
+            router.push("/incomingcall");
           }}
           style={{
             backgroundColor: colors.primary,
             padding: Platform.OS === "ios" ? 16 : 15,
-            borderRadius: 10,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            borderBottomLeftRadius: 10,
             marginTop: RFValue(10),
           }}
         >
@@ -313,7 +315,7 @@ const AppointmentUpcoming = () => {
             borderRadius: 10,
             marginTop: RFValue(15),
             borderWidth: 2,
-            borderColor:colors.border2
+            borderColor: colors.border2,
           }}
         >
           <Text

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, Platform, Pressable } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, Platform, Pressable } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import AboutPropertyModal from '../common/modals/aboutPropertyModal';
 import { router } from 'expo-router';
@@ -9,6 +9,8 @@ import CustomMarker from "../../components/mapProps/customMarker";
 import ApartmentsListItem from "../../components/mapProps/ApartmentsListItem";
 import SingleApartment from "../../Data/singleApartment.json"; 
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
+import colors from '../../constants/Colors';
+import { Image } from 'expo-image';
 
 export default function AboutProperty() {
       const [modalVisible, setModalVisible] = useState(false);
@@ -37,7 +39,7 @@ export default function AboutProperty() {
           fontFamily: "outfit-bold",
           color: "#161917",
           lineHeight: RFValue(40),
-          marginTop: RFValue(40),
+          marginTop: RFValue(80),
         }}
       >
         About apartment
@@ -46,7 +48,7 @@ export default function AboutProperty() {
         style={{
           fontSize: RFValue(14),
           fontFamily: "outfit-regular",
-          color: "#414141",
+          color: colors.onboardingText,
         }}
       >
         Welcome to this charming two-bedroom apartment nestled in a peaceful
@@ -57,9 +59,10 @@ export default function AboutProperty() {
         <Text
           style={{
             fontSize: RFValue(16),
-            fontFamily: "outfit-regular",
-            color: "#06782F",
-            lineHeight: RFValue(40),
+            fontFamily: "outfit-bold",
+            color: colors.primary,
+            textDecorationLine: "underline",
+            marginTop: RFValue(10),
           }}
         >
           See all details
@@ -72,7 +75,7 @@ export default function AboutProperty() {
             fontFamily: "outfit-bold",
             color: "#161917",
             lineHeight: RFValue(30),
-            marginTop: RFValue(20),
+            marginTop: RFValue(40),
           }}
         >
           Apartment Rules
@@ -81,7 +84,7 @@ export default function AboutProperty() {
           style={{
             fontSize: RFValue(14),
             fontFamily: "outfit-regular",
-            color: "#414141",
+            color: colors.onboardingText,
             lineHeight: RFValue(20),
           }}
         >
@@ -91,7 +94,7 @@ export default function AboutProperty() {
           style={{
             fontSize: RFValue(14),
             fontFamily: "outfit-regular",
-            color: "#414141",
+            color: colors.onboardingText,
           }}
         >
           Check-out before: 9am
@@ -100,9 +103,10 @@ export default function AboutProperty() {
           <Text
             style={{
               fontSize: RFValue(16),
-              fontFamily: "outfit-regular",
-              color: "#06782F",
-              lineHeight: RFValue(40),
+              fontFamily: "outfit-bold",
+              color: colors.primary,
+              textDecorationLine: "underline",
+              marginTop: RFValue(5),
             }}
           >
             See all rules
@@ -112,11 +116,11 @@ export default function AboutProperty() {
       <View style={{}}>
         <Text
           style={{
-            fontSize: RFValue(16),
+            fontSize: RFValue(17),
             fontFamily: "outfit-bold",
-            color: "#161917",
+            color: colors.primary,
             lineHeight: RFValue(30),
-            marginTop: RFValue(20),
+            marginTop: RFValue(40),
           }}
         >
           Location
@@ -124,8 +128,6 @@ export default function AboutProperty() {
 
         <View
           style={{
-            borderWidth: 1,
-            borderColor: "#E6E6E6",
             padding: 20,
             borderRadius: 20,
           }}
@@ -141,7 +143,7 @@ export default function AboutProperty() {
               }}
             >
               <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={require("../../assets/images/location.png")}
                 style={{
                   width: RFValue(20),
@@ -151,8 +153,8 @@ export default function AboutProperty() {
               <Text
                 style={{
                   fontSize: RFValue(13),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#414141",
+                  fontFamily: "urbanist-regular",
+                  color: colors.onboardingText,
                 }}
               >
                 Lekki phase 1, Lagos, Nigeria
@@ -161,14 +163,17 @@ export default function AboutProperty() {
             <MapView
               style={{
                 width: "100%",
-                height: RFValue(150),
+                height: RFValue(170),
+                marginTop: RFValue(10),
+                overflow: "hidden",
+                borderRadius: 20,
               }}
               provider="google"
               initialRegion={{
-                latitude: 9.05785,
-                longitude: 7.49508,
-                latitudeDelta: 10.0,
-                longitudeDelta: 10.0,
+                latitude: 6.5244,
+                longitude: 3.3792,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
               }}
             >
               {SingleApartment.map((apartment) => (
@@ -186,25 +191,27 @@ export default function AboutProperty() {
               justifyContent: "center",
               alignItems: "center",
               gap: 10,
-              backgroundColor: "#ECFFF4",
+              backgroundColor: colors.warm,
               padding: Platform.OS === "ios" ? 18 : 17,
               borderRadius: 10,
               marginTop: RFValue(10),
+              borderWidth: 1,
+              borderColor:colors.border2
             }}
           >
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../../assets/images/direction.png")}
               style={{
-                width: RFValue(20),
-                height: RFValue(20),
+                width: RFValue(25),
+                height: RFValue(25),
               }}
             />
             <Text
               style={{
                 fontSize: RFValue(16),
-                fontFamily: "outfit-regular",
-                color: "#06782F",
+                fontFamily: "outfit-medium",
+                color: colors.primary,
               }}
             >
               Get Direction
@@ -215,18 +222,22 @@ export default function AboutProperty() {
       <View style={{ marginTop: responsiveScreenHeight(2) }}>
         <Text
           style={{
-            fontSize: RFValue(16),
+            fontSize: RFValue(17),
             fontFamily: "outfit-bold",
-            color: "#161917",
+            color:colors.primary,
             lineHeight: RFValue(30),
-            marginTop: RFValue(20),
+            marginTop: RFValue(15),
           }}
         >
           About Host
         </Text>
-        <TouchableOpacity onPress={()=>{router.push("/agent-profile")}}>
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/agent-profile");
+          }}
+        >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/agentprofile.png")}
             style={{
               height: RFValue(75),
@@ -234,7 +245,7 @@ export default function AboutProperty() {
             }}
           />
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/tag.png")}
             style={{
               height: RFValue(45),
@@ -255,7 +266,7 @@ export default function AboutProperty() {
         >
           <Text
             style={{
-              fontSize: RFValue(13),
+              fontSize: RFValue(16),
               fontFamily: "outfit-bold",
               color: "#161917",
               lineHeight: RFValue(30),
@@ -272,7 +283,7 @@ export default function AboutProperty() {
             }}
           >
             <Image
-              resizeMode="contain"
+              contentFit="contain"
               source={require("../../assets/images/icon-star.png")}
               style={{
                 height: RFValue(20),
@@ -283,7 +294,7 @@ export default function AboutProperty() {
               style={{
                 fontSize: RFValue(12),
                 fontFamily: "outfit-regular",
-                color: "#414141",
+                color: colors.onboardingText,
               }}
             >
               5.0
@@ -294,7 +305,7 @@ export default function AboutProperty() {
           style={{
             fontSize: RFValue(14),
             fontFamily: "outfit-regular",
-            color: "#414141",
+            color: colors.onboardingText,
           }}
         >
           I am a realtor with over 2 years in real estates, I have sold over
@@ -311,7 +322,7 @@ export default function AboutProperty() {
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/square.png")}
             style={{
               height: RFValue(20),
@@ -322,7 +333,7 @@ export default function AboutProperty() {
             style={{
               fontSize: RFValue(14),
               fontFamily: "outfit-regular",
-              color: "#414141",
+              color: colors.onboardingText,
             }}
           >
             English, Yoruba and Ibibio
@@ -337,7 +348,7 @@ export default function AboutProperty() {
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/location.png")}
             style={{
               height: RFValue(20),
@@ -348,7 +359,7 @@ export default function AboutProperty() {
             style={{
               fontSize: RFValue(14),
               fontFamily: "outfit-regular",
-              color: "#414141",
+              color: colors.onboardingText,
             }}
           >
             Lagos, Nigeria
@@ -357,7 +368,7 @@ export default function AboutProperty() {
         <Pressable
           onPress={() => router.push("/book-appointment")}
           style={{
-            backgroundColor: "#ECFFF4",
+            backgroundColor: colors.warm,
             padding: Platform.OS === "ios" ? 18 : 17,
             borderRadius: 10,
             marginTop: RFValue(15),
@@ -366,8 +377,8 @@ export default function AboutProperty() {
           <Text
             style={{
               fontSize: RFValue(16),
-              fontFamily: "outfit-regular",
-              color: "#06782F",
+              fontFamily: "outfit-bold",
+              color: colors.primary,
               textAlign: "center",
             }}
           >

@@ -61,568 +61,570 @@ useEffect(() => {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: colors.background,
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <TouchableOpacity
-          onPress={openModal}
+      {animationTriggered && (
+        <Animated.View
           style={{
-            marginTop: RFValue(40),
-            alignSelf: "flex-end",
-            marginBottom: RFValue(-10),
+            flex: 1,
+            width: width,
+            backgroundColor: colors.background,
+            position: "relative",
+            opacity: fade,
+            transform: [
+              {
+                translateY: fade.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [150, 0],
+                }),
+              },
+            ],
           }}
         >
-          <Image
-            contentFit="contain"
-            source={require("../../assets/images/calendarsync.png")}
+          <TouchableOpacity
+            onPress={openModal}
             style={{
-              height: RFValue(55),
-              width: RFValue(55),
+              marginTop: RFValue(40),
+              alignSelf: "flex-end",
+              marginBottom: RFValue(-10),
             }}
-          />
-        </TouchableOpacity>
-        <Tab
-          value={index}
-          onChange={(e) => setIndex(e)}
-          style={{
-            marginHorizontal: RFValue(15),
-          }}
-          indicatorStyle={{
-            backgroundColor: colors.primary,
-            height: 3,
-          }}
-          variant="default"
-        >
-          <Tab.Item
-            title="Upcoming"
-            titleStyle={{
-              fontSize: 13,
-              color: index === 0 ? colors.primary : colors.tabColor,
-              borderRadius: 10,
-            }}
-            iconPosition="right"
-            icon={
-              <View
-                style={{
-                  backgroundColor: index === 0 ? colors.primary : colors.warm,
-                  borderRadius: 5,
-                }}
-              >
-                <Text
-                  style={{
-                    color: index === 0 ? "white" : colors.tabColor,
-                    fontFamily: "outfit-bold",
-                    paddingHorizontal: 5,
-                    paddingVertical: 2,
-                  }}
-                >
-                  02
-                </Text>
-              </View>
-            }
-          />
-          <Tab.Item
-            title="Completed"
-            titleStyle={{
-              fontSize: 13,
-              color: index === 1 ? colors.primary : colors.tabColor,
-              borderRadius: 10,
-            }}
-          />
-          <Tab.Item
-            title="Cancelled"
-            titleStyle={{
-              fontSize: 13,
-              color: index === 2 ? colors.primary : colors.tabColor,
-              borderRadius: 10,
-            }}
-          />
-        </Tab>
-        <TabView value={index} onChange={setIndex} animationType="spring">
-          <TabView.Item
-            style={{ backgroundColor: "white", width: "100%", height: "100%" }}
           >
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <AppointmentUpcoming />
-            </ScrollView>
-          </TabView.Item>
-          <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  gap: 4,
-                  paddingHorizontal: RFValue(10),
-                  paddingVertical: RFValue(14),
-                  marginHorizontal: RFValue(15),
-                  marginVertical: RFValue(5),
-                  overflow: "hidden",
-                  borderRadius: 10,
-                }}
-              >
+            <Image
+              contentFit="contain"
+              source={require("../../assets/images/calendarsync.png")}
+              style={{
+                height: RFValue(55),
+                width: RFValue(55),
+              }}
+            />
+          </TouchableOpacity>
+          <Tab
+            value={index}
+            onChange={(e) => setIndex(e)}
+            style={{
+              marginHorizontal: RFValue(15),
+            }}
+            indicatorStyle={{
+              backgroundColor: colors.primary,
+              height: 3,
+            }}
+            variant="default"
+          >
+            <Tab.Item
+              title="Upcoming"
+              titleStyle={{
+                fontSize: 13,
+                color: index === 0 ? colors.primary : colors.tabColor,
+                borderRadius: 10,
+              }}
+              iconPosition="right"
+              icon={
                 <View
                   style={{
-                    flexDirection: "row",
-                    gap: 10,
-                  }}
-                >
-                  <View
-                    style={{
-                      backgroundColor: colors.filterbg,
-                      paddingHorizontal: RFValue(20),
-                      paddingVertical: RFValue(10),
-                    }}
-                  >
-                    <Image
-                      resizeMode="contain"
-                      source={require("../../assets/images/agentpro.png")}
-                      style={{
-                        height: RFValue(65),
-                        width: RFValue(65),
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-medium",
-                        backgroundColor: colors.background,
-                        padding: RFValue(6),
-                        borderWidth: 1,
-                        borderColor: colors.warmBtn,
-                        borderRadius: 7,
-                        marginTop: RFValue(8),
-                      }}
-                    >
-                      View property
-                    </Text>
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-medium",
-                        backgroundColor: colors.warm,
-                        padding: RFValue(4),
-                        borderWidth: 1,
-                        borderColor: colors.warmBtn,
-                        borderRadius: 20,
-                        color: colors.green,
-                        width: RFValue(80),
-                      }}
-                    >
-                      Verified agent
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: RFValue(13),
-                        fontFamily: "outfit-medium",
-                        lineHeight: RFValue(25),
-                      }}
-                    >
-                      Declan Ubong
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: "column",
-                        gap: 7,
-                        marginTop: RFValue(2),
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: RFValue(13),
-                          fontFamily: "outfit-regular",
-                        }}
-                      >
-                        Schedule
-                      </Text>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          gap: 4,
-                        }}
-                      >
-                        <Image
-                          contentFit="contain"
-                          source={require("../../assets/images/calendar.png")}
-                          style={{
-                            height: RFValue(13),
-                            width: RFValue(13),
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: RFValue(11),
-                            fontFamily: "outfit-regular",
-                          }}
-                        >
-                          Aug 23, 2023
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          gap: 4,
-                        }}
-                      >
-                        <Image
-                          contentFit="contain"
-                          source={require("../../assets/images/clock.png")}
-                          style={{
-                            height: RFValue(15),
-                            width: RFValue(15),
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: RFValue(11),
-                            fontFamily: "outfit-regular",
-                          }}
-                        >
-                          2:00 PM - 6:30 PM
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: colors.primary,
-                    padding: Platform.OS === "ios" ? 16 : 15,
-                    borderRadius: 10,
-                    marginTop: RFValue(10),
+                    backgroundColor: index === 0 ? colors.primary : colors.warm,
+                    borderRadius: 5,
                   }}
                 >
                   <Text
                     style={{
-                      fontSize: RFValue(14),
-                      color: colors.background,
-                      fontFamily: "outfit-medium",
-                      textAlign: "center",
+                      color: index === 0 ? "white" : colors.tabColor,
+                      fontFamily: "outfit-bold",
+                      paddingHorizontal: 5,
+                      paddingVertical: 2,
                     }}
                   >
-                    Follow up with chat
+                    02
                   </Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
-          </TabView.Item>
-          <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  gap: 4,
-                  paddingHorizontal: RFValue(10),
-                  paddingVertical: RFValue(14),
-                  marginHorizontal: RFValue(15),
-                  marginVertical: RFValue(5),
-                  overflow: "hidden",
-                  borderRadius: 10,
-                }}
-              >
+                </View>
+              }
+            />
+            <Tab.Item
+              title="Completed"
+              titleStyle={{
+                fontSize: 13,
+                color: index === 1 ? colors.primary : colors.tabColor,
+                borderRadius: 10,
+              }}
+            />
+            <Tab.Item
+              title="Cancelled"
+              titleStyle={{
+                fontSize: 13,
+                color: index === 2 ? colors.primary : colors.tabColor,
+                borderRadius: 10,
+              }}
+            />
+          </Tab>
+          <TabView value={index} onChange={setIndex} animationType="spring">
+            <TabView.Item
+              style={{ backgroundColor: "white", width: "100%", height: "100%" }}
+            >
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <AppointmentUpcoming />
+              </ScrollView>
+            </TabView.Item>
+            <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
+              <ScrollView showsVerticalScrollIndicator={false}>
                 <View
                   style={{
-                    flexDirection: "row",
-                    gap: 10,
+                    flexDirection: "column",
+                    gap: 4,
+                    paddingHorizontal: RFValue(10),
+                    paddingVertical: RFValue(14),
+                    marginHorizontal: RFValue(15),
+                    marginVertical: RFValue(5),
+                    overflow: "hidden",
+                    borderRadius: 10,
                   }}
                 >
                   <View
                     style={{
-                      backgroundColor: colors.filterbg,
-                      paddingHorizontal: RFValue(20),
-                      paddingVertical: RFValue(10),
+                      flexDirection: "row",
+                      gap: 10,
                     }}
                   >
-                    <Image
-                      contentFit="contain"
-                      source={require("../../assets/images/agentpro.png")}
-                      style={{
-                        height: RFValue(65),
-                        width: RFValue(65),
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-medium",
-                        backgroundColor: colors.background,
-                        padding: RFValue(6),
-                        borderWidth: 1,
-                        borderColor: colors.warmBtn,
-                        borderRadius: 7,
-                        marginTop: RFValue(8),
-                      }}
-                    >
-                      View property
-                    </Text>
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-medium",
-                        backgroundColor: colors.warm,
-                        padding: RFValue(4),
-                        borderWidth: 1,
-                        borderColor: colors.warmBtn,
-                        borderRadius: 20,
-                        color: colors.green,
-                        width: RFValue(80),
-                      }}
-                    >
-                      Verified agent
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: RFValue(13),
-                        fontFamily: "outfit-medium",
-                        lineHeight: RFValue(25),
-                      }}
-                    >
-                      Declan Ubong
-                    </Text>
                     <View
                       style={{
-                        flexDirection: "column",
-                        gap: 7,
-                        marginTop: RFValue(2),
+                        backgroundColor: colors.filterbg,
+                        paddingHorizontal: RFValue(20),
+                        paddingVertical: RFValue(10),
                       }}
                     >
+                      <Image
+                        resizeMode="contain"
+                        source={require("../../assets/images/agentpro.png")}
+                        style={{
+                          height: RFValue(65),
+                          width: RFValue(65),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(11),
+                          fontFamily: "outfit-medium",
+                          backgroundColor: colors.background,
+                          padding: RFValue(6),
+                          borderWidth: 1,
+                          borderColor: colors.warmBtn,
+                          borderRadius: 7,
+                          marginTop: RFValue(8),
+                        }}
+                      >
+                        View property
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: RFValue(11),
+                          fontFamily: "outfit-medium",
+                          backgroundColor: colors.warm,
+                          padding: RFValue(4),
+                          borderWidth: 1,
+                          borderColor: colors.warmBtn,
+                          borderRadius: 20,
+                          color: colors.green,
+                          width: RFValue(80),
+                        }}
+                      >
+                        Verified agent
+                      </Text>
                       <Text
                         style={{
                           fontSize: RFValue(13),
-                          fontFamily: "outfit-regular",
+                          fontFamily: "outfit-medium",
+                          lineHeight: RFValue(25),
                         }}
                       >
-                        Schedule
+                        Declan Ubong
                       </Text>
                       <View
                         style={{
-                          flexDirection: "row",
-                          gap: 4,
+                          flexDirection: "column",
+                          gap: 7,
+                          marginTop: RFValue(2),
                         }}
                       >
-                        <Image
-                          contentFit="contain"
-                          source={require("../../assets/images/calendar.png")}
-                          style={{
-                            height: RFValue(13),
-                            width: RFValue(13),
-                          }}
-                        />
                         <Text
                           style={{
-                            fontSize: RFValue(11),
+                            fontSize: RFValue(13),
                             fontFamily: "outfit-regular",
                           }}
                         >
-                          Aug 23, 2023
+                          Schedule
                         </Text>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          gap: 4,
-                        }}
-                      >
-                        <Image
-                          contentFit="contain"
-                          source={require("../../assets/images/clock.png")}
+                        <View
                           style={{
-                            height: RFValue(15),
-                            width: RFValue(15),
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: RFValue(11),
-                            fontFamily: "outfit-regular",
+                            flexDirection: "row",
+                            gap: 4,
                           }}
                         >
-                          2:00 PM - 6:30 PM
-                        </Text>
+                          <Image
+                            contentFit="contain"
+                            source={require("../../assets/images/calendar.png")}
+                            style={{
+                              height: RFValue(13),
+                              width: RFValue(13),
+                            }}
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(11),
+                              fontFamily: "outfit-regular",
+                            }}
+                          >
+                            Aug 23, 2023
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            gap: 4,
+                          }}
+                        >
+                          <Image
+                            contentFit="contain"
+                            source={require("../../assets/images/clock.png")}
+                            style={{
+                              height: RFValue(15),
+                              width: RFValue(15),
+                            }}
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(11),
+                              fontFamily: "outfit-regular",
+                            }}
+                          >
+                            2:00 PM - 6:30 PM
+                          </Text>
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: colors.primary,
-                    padding: Platform.OS === "ios" ? 16 : 15,
-                    borderRadius: 10,
-                    marginTop: RFValue(10),
-                  }}
-                >
-                  <Text
+                  <TouchableOpacity
                     style={{
-                      fontSize: RFValue(14),
-                      color: colors.background,
-                      fontFamily: "outfit-medium",
-                      textAlign: "center",
+                      backgroundColor: colors.primary,
+                      padding: Platform.OS === "ios" ? 16 : 15,
+                      borderRadius: 10,
+                      marginTop: RFValue(10),
                     }}
                   >
-                    Reschedule
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  gap: 4,
-                  paddingHorizontal: RFValue(10),
-                  paddingVertical: RFValue(14),
-                  marginHorizontal: RFValue(15),
-                  marginVertical: RFValue(10),
-                  overflow: "hidden",
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        color: colors.background,
+                        fontFamily: "outfit-medium",
+                        textAlign: "center",
+                      }}
+                    >
+                      Follow up with chat
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
+            </TabView.Item>
+            <TabView.Item style={{ backgroundColor: "white", width: "100%" }}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    gap: 4,
+                    paddingHorizontal: RFValue(10),
+                    paddingVertical: RFValue(14),
+                    marginHorizontal: RFValue(15),
+                    marginVertical: RFValue(5),
+                    overflow: "hidden",
+                    borderRadius: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: 10,
+                    }}
+                  >
+                    <View
+                      style={{
+                        backgroundColor: colors.filterbg,
+                        paddingHorizontal: RFValue(20),
+                        paddingVertical: RFValue(10),
+                      }}
+                    >
+                      <Image
+                        contentFit="contain"
+                        source={require("../../assets/images/agentpro.png")}
+                        style={{
+                          height: RFValue(65),
+                          width: RFValue(65),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(11),
+                          fontFamily: "outfit-medium",
+                          backgroundColor: colors.background,
+                          padding: RFValue(6),
+                          borderWidth: 1,
+                          borderColor: colors.warmBtn,
+                          borderRadius: 7,
+                          marginTop: RFValue(8),
+                        }}
+                      >
+                        View property
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: RFValue(11),
+                          fontFamily: "outfit-medium",
+                          backgroundColor: colors.warm,
+                          padding: RFValue(4),
+                          borderWidth: 1,
+                          borderColor: colors.warmBtn,
+                          borderRadius: 20,
+                          color: colors.green,
+                          width: RFValue(80),
+                        }}
+                      >
+                        Verified agent
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: RFValue(13),
+                          fontFamily: "outfit-medium",
+                          lineHeight: RFValue(25),
+                        }}
+                      >
+                        Declan Ubong
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "column",
+                          gap: 7,
+                          marginTop: RFValue(2),
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: RFValue(13),
+                            fontFamily: "outfit-regular",
+                          }}
+                        >
+                          Schedule
+                        </Text>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            gap: 4,
+                          }}
+                        >
+                          <Image
+                            contentFit="contain"
+                            source={require("../../assets/images/calendar.png")}
+                            style={{
+                              height: RFValue(13),
+                              width: RFValue(13),
+                            }}
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(11),
+                              fontFamily: "outfit-regular",
+                            }}
+                          >
+                            Aug 23, 2023
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            gap: 4,
+                          }}
+                        >
+                          <Image
+                            contentFit="contain"
+                            source={require("../../assets/images/clock.png")}
+                            style={{
+                              height: RFValue(15),
+                              width: RFValue(15),
+                            }}
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(11),
+                              fontFamily: "outfit-regular",
+                            }}
+                          >
+                            2:00 PM - 6:30 PM
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: colors.primary,
+                      padding: Platform.OS === "ios" ? 16 : 15,
+                      borderRadius: 10,
+                      marginTop: RFValue(10),
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        color: colors.background,
+                        fontFamily: "outfit-medium",
+                        textAlign: "center",
+                      }}
+                    >
+                      Reschedule
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    gap: 4,
+                    paddingHorizontal: RFValue(10),
+                    paddingVertical: RFValue(14),
+                    marginHorizontal: RFValue(15),
+                    marginVertical: RFValue(10),
+                    overflow: "hidden",
 
-                  borderRadius: 10,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 10,
+                    borderRadius: 10,
                   }}
                 >
                   <View
                     style={{
-                      backgroundColor: colors.filterbg,
-                      paddingHorizontal: RFValue(20),
-                      paddingVertical: RFValue(10),
+                      flexDirection: "row",
+                      gap: 10,
                     }}
                   >
-                    <Image
-                      contentFit="contain"
-                      source={require("../../assets/images/agentpro.png")}
-                      style={{
-                        height: RFValue(65),
-                        width: RFValue(65),
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-medium",
-                        backgroundColor: colors.background,
-                        padding: RFValue(6),
-                        borderWidth: 1,
-                        borderColor: colors.warmBtn,
-                        borderRadius: 7,
-                        marginTop: RFValue(8),
-                      }}
-                    >
-                      View property
-                    </Text>
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(11),
-                        fontFamily: "outfit-medium",
-                        backgroundColor: colors.warm,
-                        padding: RFValue(4),
-                        borderWidth: 1,
-                        borderColor: colors.warmBtn,
-                        borderRadius: 20,
-                        color: colors.green,
-                        width: RFValue(80),
-                      }}
-                    >
-                      Verified agent
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: RFValue(13),
-                        fontFamily: "outfit-medium",
-                        lineHeight: RFValue(25),
-                      }}
-                    >
-                      Declan Ubong
-                    </Text>
                     <View
                       style={{
-                        flexDirection: "column",
-                        gap: 7,
-                        marginTop: RFValue(2),
+                        backgroundColor: colors.filterbg,
+                        paddingHorizontal: RFValue(20),
+                        paddingVertical: RFValue(10),
                       }}
                     >
+                      <Image
+                        contentFit="contain"
+                        source={require("../../assets/images/agentpro.png")}
+                        style={{
+                          height: RFValue(65),
+                          width: RFValue(65),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(11),
+                          fontFamily: "outfit-medium",
+                          backgroundColor: colors.background,
+                          padding: RFValue(6),
+                          borderWidth: 1,
+                          borderColor: colors.warmBtn,
+                          borderRadius: 7,
+                          marginTop: RFValue(8),
+                        }}
+                      >
+                        View property
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: RFValue(11),
+                          fontFamily: "outfit-medium",
+                          backgroundColor: colors.warm,
+                          padding: RFValue(4),
+                          borderWidth: 1,
+                          borderColor: colors.warmBtn,
+                          borderRadius: 20,
+                          color: colors.green,
+                          width: RFValue(80),
+                        }}
+                      >
+                        Verified agent
+                      </Text>
                       <Text
                         style={{
                           fontSize: RFValue(13),
-                          fontFamily: "outfit-regular",
+                          fontFamily: "outfit-medium",
+                          lineHeight: RFValue(25),
                         }}
                       >
-                        Schedule
+                        Declan Ubong
                       </Text>
                       <View
                         style={{
-                          flexDirection: "row",
-                          gap: 4,
+                          flexDirection: "column",
+                          gap: 7,
+                          marginTop: RFValue(2),
                         }}
                       >
-                        <Image
-                          contentFit="contain"
-                          source={require("../../assets/images/calendar.png")}
-                          style={{
-                            height: RFValue(13),
-                            width: RFValue(13),
-                          }}
-                        />
                         <Text
                           style={{
-                            fontSize: RFValue(11),
+                            fontSize: RFValue(13),
                             fontFamily: "outfit-regular",
                           }}
                         >
-                          Aug 23, 2023
+                          Schedule
                         </Text>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          gap: 4,
-                        }}
-                      >
-                        <Image
-                          contentFit="contain"
-                          source={require("../../assets/images/clock.png")}
+                        <View
                           style={{
-                            height: RFValue(15),
-                            width: RFValue(15),
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: RFValue(11),
-                            fontFamily: "outfit-regular",
+                            flexDirection: "row",
+                            gap: 4,
                           }}
                         >
-                          2:00 PM - 6:30 PM
-                        </Text>
+                          <Image
+                            contentFit="contain"
+                            source={require("../../assets/images/calendar.png")}
+                            style={{
+                              height: RFValue(13),
+                              width: RFValue(13),
+                            }}
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(11),
+                              fontFamily: "outfit-regular",
+                            }}
+                          >
+                            Aug 23, 2023
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            gap: 4,
+                          }}
+                        >
+                          <Image
+                            contentFit="contain"
+                            source={require("../../assets/images/clock.png")}
+                            style={{
+                              height: RFValue(15),
+                              width: RFValue(15),
+                            }}
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(11),
+                              fontFamily: "outfit-regular",
+                            }}
+                          >
+                            2:00 PM - 6:30 PM
+                          </Text>
+                        </View>
                       </View>
                     </View>
                   </View>
                 </View>
-              </View>
-            </ScrollView>
-          </TabView.Item>
-        </TabView>
-      </Animated.View>
+              </ScrollView>
+            </TabView.Item>
+          </TabView>
+        </Animated.View>
+      )}
       <Appointmentsync modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );

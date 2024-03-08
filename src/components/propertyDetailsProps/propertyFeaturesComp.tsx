@@ -5,7 +5,6 @@ import {
   Text,
   Animated,
   Dimensions,
-  Image,
   TouchableOpacity,
   ScrollView,
   Platform,
@@ -19,21 +18,21 @@ import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
 import FeaturesAndAmenities from "../common/modals/featuresAndAmenities";
 import PropertyVideoPlay from "../common/modals/propertyVideoPlay";
 import ThreeDTourModal from "../common/modals/ThirddTourModal";
+import { Image } from "expo-image";
+import colors from "../../constants/Colors";
 const image1 = require("../../assets/images/videobg.png");
 const image2 = require("../../assets/images/videobg.png");
 const image3 = require("../../assets/images/videobg.png");
 const image4 = require("../../assets/images/videobg.png");
-const image5 = require("../../assets/images/videobg.png");
-const image6 = require("../../assets/images/videobg.png");
-const image7 = require("../../assets/images/videobg.png");
-const image8 = require("../../assets/images/videobg.png");
 
 export default function PropertyFeatureComp() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(1);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectIndex, setSelectIndex] = useState(0);
+
+    const [modalVideoVisible, setModalVideoVisible] = useState(false);
+    const [modalTourVisible, setModalTourVisible] = useState(false);
   const totalNumberOfPages = 4;
   const roomOptions = [
     "Sitting room",
@@ -59,8 +58,7 @@ export default function PropertyFeatureComp() {
     setModalVisible(false);
   };
 
-  const [modalVideoVisible, setModalVideoVisible] = useState(false);
-  const [modalTourVisible, setModalTourVisible] = useState(false);
+
 
   const openVideoModal = () => {
     setModalVideoVisible(true);
@@ -78,17 +76,7 @@ export default function PropertyFeatureComp() {
     setModalTourVisible(false);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
 
-  useEffect(() => {
-    animation();
-  }, []);
 
   const amenities = [
     {
@@ -134,7 +122,7 @@ export default function PropertyFeatureComp() {
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/trusted.png")}
             style={{
               height: RFValue(40),
@@ -145,15 +133,15 @@ export default function PropertyFeatureComp() {
             style={{
               paddingVertical: RFValue(7),
               paddingHorizontal: RFValue(20),
-              borderRadius: RFValue(5),
-              backgroundColor: "#ECFFF4",
+              borderRadius: RFValue(8),
+              backgroundColor: colors.warm,
             }}
           >
             <Text
               style={{
                 fontSize: RFValue(14),
                 fontFamily: "outfit-medium",
-                color: "#06782F",
+                color: colors.green,
               }}
             >
               Rental
@@ -173,15 +161,15 @@ export default function PropertyFeatureComp() {
             style={{
               fontSize: RFValue(18),
               fontFamily: "outfit-bold",
-              color: "#06782F",
+              color: colors.green,
             }}
           >
             ₦30,000{" "}
             <Text
               style={{
                 fontSize: RFValue(14),
-                fontFamily: "plusjakarta-regular",
-                color: "#414141",
+                fontFamily: "urbanist-regular",
+                color: colors.onboardingText,
               }}
             >
               /night
@@ -197,7 +185,7 @@ export default function PropertyFeatureComp() {
           }}
         >
           <Image
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/images/location.png")}
             style={{
               width: RFValue(20),
@@ -207,8 +195,8 @@ export default function PropertyFeatureComp() {
           <Text
             style={{
               fontSize: RFValue(13),
-              fontFamily: "plusjakarta-regular",
-              color: "#414141",
+              fontFamily: "urbanist-regular",
+              color: colors.onboardingText,
             }}
           >
             Lekki phase 1, Lagos, Nigeria
@@ -223,7 +211,8 @@ export default function PropertyFeatureComp() {
             style={{
               fontSize: RFValue(16),
               fontFamily: "outfit-bold",
-              color: "#161917",
+              color: colors.dark,
+              marginBottom: RFValue(5),
             }}
           >
             Features & amenities
@@ -243,20 +232,20 @@ export default function PropertyFeatureComp() {
                 style={{
                   flexDirection: "column",
                   justifyContent: "center",
-                  backgroundColor: "#F5F5F5",
-                  width: RFValue(120),
-                  paddingHorizontal: RFValue(20),
+                  backgroundColor: colors.warm,
+                  width: RFValue(100),
+                  paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(15),
                   borderRadius: 10,
                   marginTop: 10,
-                  marginBottom: 5,
+                  marginBottom: 9,
                 }}
               >
                 <Text
                   style={{
-                    fontSize: RFValue(13),
+                    fontSize: RFValue(11),
                     fontFamily: "outfit-bold",
-                    color: "#161917",
+                    color: colors.onboardingText,
                     textAlign: "center",
                   }}
                 >
@@ -266,7 +255,7 @@ export default function PropertyFeatureComp() {
                   style={{
                     fontSize: RFValue(13),
                     fontFamily: "outfit-bold",
-                    color: "#161917",
+                    color: colors.onboardingText,
                     textAlign: "center",
                   }}
                 >
@@ -280,10 +269,11 @@ export default function PropertyFeatureComp() {
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-bold",
-                color: "#06782F",
+                color: colors.primary,
+                textDecorationLine: "underline",
               }}
             >
-              See all 8 features & amenities
+              See amenities
             </Text>
           </TouchableOpacity>
         </View>
@@ -295,10 +285,10 @@ export default function PropertyFeatureComp() {
           backgroundColor: "white",
           borderBottomWidth: 1,
           borderBottomColor: "#DBDBDB",
-          marginHorizontal: RFValue(20),
+          marginTop: RFValue(30),
         }}
         indicatorStyle={{
-          backgroundColor: "#06782F",
+          backgroundColor: colors.primary,
           height: 3,
         }}
         variant="default"
@@ -307,7 +297,7 @@ export default function PropertyFeatureComp() {
           title="Video"
           titleStyle={{
             fontSize: 15,
-            color: index === 1 ? "#06782F" : "black",
+            color: index === 0 ? colors.primary : colors.tabColor,
           }}
         />
 
@@ -315,7 +305,7 @@ export default function PropertyFeatureComp() {
           title="3D Tour"
           titleStyle={{
             fontSize: 15,
-            color: index === 2 ? "#06782F" : "black",
+            color: index === 1 ? colors.primary : colors.tabColor,
           }}
         />
       </Tab>
@@ -325,18 +315,18 @@ export default function PropertyFeatureComp() {
             backgroundColor: "white",
             width: "100%",
             height: "100%",
-            paddingHorizontal: RFValue(20),
-            marginTop: RFValue(10),
+            paddingHorizontal: RFValue(16),
+            marginTop: RFValue(15),
           }}
         >
           <View style={{}}>
             <View>
               <Image
-                resizeMode="cover"
+                contentFit="cover"
                 source={require("../../assets/images/videobg.png")}
                 style={{
                   width: "100%",
-                  height: RFValue(230),
+                  height: RFValue(240),
                   borderRadius: 20,
                 }}
               />
@@ -350,7 +340,7 @@ export default function PropertyFeatureComp() {
                 }}
               >
                 <Image
-                  resizeMode="contain"
+                  contentFit="contain"
                   source={require("../../assets/images/play.png")}
                   style={{
                     width: RFValue(50),
@@ -359,11 +349,11 @@ export default function PropertyFeatureComp() {
                 />
               </TouchableOpacity>
               <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={require("../../assets/images/fullview.png")}
                 style={{
-                  width: RFValue(50),
-                  height: RFValue(50),
+                  width: RFValue(35),
+                  height: RFValue(35),
                   position: "absolute",
                   top: RFValue(15),
                   right: 10,
@@ -376,7 +366,7 @@ export default function PropertyFeatureComp() {
           <View>
             <View
               style={{
-                marginTop: RFValue(15),
+                marginTop: RFValue(5),
               }}
             >
               <View
@@ -395,7 +385,7 @@ export default function PropertyFeatureComp() {
                     style={{
                       fontSize: RFValue(16),
                       fontFamily: "outfit-regular",
-                      color: "#414141",
+                      color: colors.onboardingText,
                       lineHeight: RFValue(25),
                     }}
                   >
@@ -405,7 +395,7 @@ export default function PropertyFeatureComp() {
                     style={{
                       fontSize: RFValue(16),
                       fontFamily: "outfit-regular",
-                      color: "#414141",
+                      color: colors.onboardingText,
                       lineHeight: RFValue(25),
                     }}
                   >
@@ -426,7 +416,7 @@ export default function PropertyFeatureComp() {
                         styles.indicator,
                         {
                           backgroundColor:
-                            selectIndex === index ? "#06782F" : "#D9D9D9",
+                            selectIndex === index ? colors.primary : colors.indicator,
                         },
                       ]}
                     />
@@ -436,7 +426,7 @@ export default function PropertyFeatureComp() {
                   style={{
                     fontSize: RFValue(16),
                     fontFamily: "outfit-bold",
-                    color: "#161917",
+                    color: colors.primary,
                     lineHeight: RFValue(40),
                   }}
                 >
@@ -445,10 +435,7 @@ export default function PropertyFeatureComp() {
               </View>
 
               <View
-                style={{
-                  height: 270,
-                  width: width,
-                }}
+                
               >
                 <FlatList
                   horizontal
@@ -466,11 +453,11 @@ export default function PropertyFeatureComp() {
                     return (
                       <View>
                         <Image
-                          resizeMode="contain"
+                          contentFit="contain"
                           source={item}
                           style={{
-                            width: width,
-                            height: RFValue(200),
+                        width: width,
+                            height: RFValue(210),
                           }}
                         />
                         <TouchableOpacity
@@ -483,7 +470,7 @@ export default function PropertyFeatureComp() {
                           }}
                         >
                           <Image
-                            resizeMode="contain"
+                            contentFit="contain"
                             source={require("../../assets/images/play.png")}
                             style={{
                               width: RFValue(50),
@@ -526,7 +513,7 @@ const styles = StyleSheet.create({
   indicator: {
     height: RFValue(3),
     width: RFValue(68),
-    backgroundColor: "#d9d9d9",
+    backgroundColor: colors.primary,
     marginHorizontal: RFValue(2),
     marginTop: RFValue(0),
   },

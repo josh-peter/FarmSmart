@@ -21,6 +21,7 @@ import PasswordInputField from "../../inputs/passwordInputField";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import Checkbox from "expo-checkbox";
+import colors from "../../../constants/Colors";
 
 interface Props {
   modalVisible: boolean;
@@ -31,41 +32,7 @@ export default function AboutPropertyModal({
   modalVisible,
   closeModal,
 }: Props) {
-  const featuresData = [
-    {
-      id: 1,
-      features: "1 master bedroom",
-      amenities: "Extra amenities:",
-      explanation: "Fully air-conditioned with king sized mattress",
-    },
-    {
-      id: 2,
-      features: "2 Bathroom",
-      amenities: "Extra amenities:",
-      explanation: "Water heater available",
-    },
-    {
-      id: 3,
-      features: "1 Sitting room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition and 60 inchs TV",
-    },
-    {
-      id: 4,
-      features: "1 Sitting room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition, 60 inches TV and complete set of luxury sofas",
-    },
-    {
-      id: 5,
-      features: "1 Dining room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition, 60 inches TV and complete set of luxury sofas",
-    },
-  ];
+
 
   return (
     <View>
@@ -92,9 +59,9 @@ export default function AboutPropertyModal({
       >
         <View
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: colors.background,
             width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(50),
+            height: responsiveScreenHeight(60),
           }}
         >
           <View
@@ -102,9 +69,11 @@ export default function AboutPropertyModal({
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
+              backgroundColor: colors.background,
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(10),
+              borderBottomWidth: 1,
+              borderBottomColor: colors.border
             }}
           >
             <Text
@@ -131,9 +100,9 @@ export default function AboutPropertyModal({
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-bold",
                   lineHeight: RFValue(15),
-                  color: "#06782F",
+                  color: colors.primary,
                   marginBottom: RFValue(3),
                 }}
               >
@@ -142,9 +111,9 @@ export default function AboutPropertyModal({
 
               <Text
                 style={{
-                  fontSize: RFValue(14),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#414141",
+                  fontSize: RFValue(13),
+                  fontFamily: "urbanist-regular",
+                  color: colors.onboardingText,
                 }}
               >
                 Welcome to this charming two-bedroom apartment nestled in a

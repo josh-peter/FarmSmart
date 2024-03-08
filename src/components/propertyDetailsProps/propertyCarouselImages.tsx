@@ -15,6 +15,7 @@ const { width, height } = Dimensions.get("window");
 import { RFValue } from "react-native-responsive-fontsize";
 import { dataImages } from "../../Data/dataImages";
 import { Image } from "expo-image";
+import colors from "../../constants/Colors";
 
 export default function PropertyCarouselImages() {
   const [selectIndex, setSelectIndex] = useState(0);
@@ -67,7 +68,6 @@ export default function PropertyCarouselImages() {
     <SafeAreaView style={{ flex: 1 }}>
       <View>
         <StatusBar style="dark" />
-
         <FlatList
           ref={flatListRef1}
           snapToAlignment="start"
@@ -100,8 +100,8 @@ export default function PropertyCarouselImages() {
             top: RFValue(30),
             right: RFValue(12),
             paddingVertical: RFValue(8),
-            paddingHorizontal: RFValue(22),
-            backgroundColor: "#ECFFF452",
+            paddingHorizontal: RFValue(20),
+            backgroundColor: colors.background,
             borderRadius: 12,
           }}
         >
@@ -109,7 +109,7 @@ export default function PropertyCarouselImages() {
             style={{
               fontSize: RFValue(13),
               fontFamily: "outfit-bold",
-              color: "#06782F",
+              color: colors.green,
             }}
           >
             Apartment
@@ -130,8 +130,8 @@ export default function PropertyCarouselImages() {
             contentFit="contain"
             source={require("../../assets/images/arrow-left-icon.png")}
             style={{
-              height: RFValue(40),
-              width: RFValue(40),
+              height: RFValue(35),
+              width: RFValue(35),
             }}
           />
         </TouchableOpacity>
@@ -141,7 +141,7 @@ export default function PropertyCarouselImages() {
             bottom: RFValue(30),
             right: RFValue(45),
             paddingVertical: RFValue(8),
-            paddingHorizontal: RFValue(22),
+            paddingHorizontal: RFValue(10),
             borderRadius: 12,
           }}
         >
@@ -149,8 +149,8 @@ export default function PropertyCarouselImages() {
             contentFit="contain"
             source={require("../../assets/images/download.png")}
             style={{
-              height: RFValue(40),
-              width: RFValue(40),
+              height: RFValue(35),
+              width: RFValue(35),
             }}
           />
         </TouchableOpacity>
@@ -168,8 +168,8 @@ export default function PropertyCarouselImages() {
             contentFit="contain"
             source={require("../../assets/images/like.png")}
             style={{
-              height: RFValue(40),
-              width: RFValue(40),
+              height: RFValue(35),
+              width: RFValue(35),
             }}
           />
         </TouchableOpacity>
@@ -189,8 +189,8 @@ export default function PropertyCarouselImages() {
           <TouchableOpacity
             key={index}
             onPress={() => {
-              paginatorToIndex(index); 
-              scrollImageToIndex(index); 
+              paginatorToIndex(index);
+              scrollImageToIndex(index);
             }}
             style={{
               gap: 15,
@@ -205,8 +205,8 @@ export default function PropertyCarouselImages() {
               contentFit="cover"
               source={item.image}
               style={{
-                height: RFValue(80),
-                width: RFValue(130),
+                height: RFValue(70),
+                width: RFValue(110),
                 borderRadius: 15,
               }}
             />
@@ -224,7 +224,7 @@ export default function PropertyCarouselImages() {
           top: RFValue(310),
           right: RFValue(10),
           borderRadius: 50,
-          backgroundColor: "#ECFFF452",
+          backgroundColor: "#414141",
           zIndex: 999,
           width: RFValue(40),
           height: RFValue(40),

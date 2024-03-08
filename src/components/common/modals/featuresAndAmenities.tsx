@@ -17,10 +17,8 @@ import {
 } from "react-native-responsive-dimensions";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import PasswordInputField from "../../inputs/passwordInputField";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import Checkbox from "expo-checkbox";
+import { featuresData } from "../../../Data/featuresData";
+import colors from "../../../constants/Colors";
 
 interface Props {
   modalVisible: boolean;
@@ -31,41 +29,7 @@ export default function FeaturesAndAmenities({
   modalVisible,
   closeModal,
 }: Props) {
-  const featuresData = [
-    {
-      id: 1,
-      features: "1 master bedroom",
-      amenities: "Extra amenities:",
-      explanation: "Fully air-conditioned with king sized mattress",
-    },
-    {
-      id: 2,
-      features: "2 Bathroom",
-      amenities: "Extra amenities:",
-      explanation: "Water heater available",
-    },
-    {
-      id: 3,
-      features: "1 Sitting room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition and 60 inchs TV",
-    },
-    {
-      id: 4,
-      features: "1 Sitting room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition, 60 inches TV and complete set of luxury sofas",
-    },
-    {
-      id: 5,
-      features: "1 Dining room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition, 60 inches TV and complete set of luxury sofas",
-    },
-  ];
+ 
 
   return (
     <View>
@@ -94,7 +58,7 @@ export default function FeaturesAndAmenities({
           style={{
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(70),
+            height: responsiveScreenHeight(50),
           }}
         >
           <View
@@ -102,9 +66,11 @@ export default function FeaturesAndAmenities({
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
+              backgroundColor: colors.background,
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(10),
+              borderBottomWidth: 1,
+              borderBottomColor: colors.border2,
             }}
           >
             <Text
@@ -114,7 +80,7 @@ export default function FeaturesAndAmenities({
                 lineHeight: RFValue(30),
               }}
             >
-              Features & amenities
+              Amenities
             </Text>
             <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
               <MaterialIcons name="clear" size={24} color="black" />
@@ -125,6 +91,7 @@ export default function FeaturesAndAmenities({
             contentContainerStyle={{
               paddingHorizontal: RFValue(15),
               paddingVertical: RFValue(20),
+              backgroundColor: colors.background,
             }}
           >
             <View
@@ -134,14 +101,23 @@ export default function FeaturesAndAmenities({
               }}
             >
               {featuresData?.map((feature) => (
-                <View key={feature.id}>
+                <View
+                  key={feature.id}
+                  style={{
+                    paddingHorizontal: RFValue(10),
+                    paddingVertical: RFValue(15),
+                    borderWidth: 1,
+                    borderColor: colors.border2,
+                    borderRadius: 10,
+                  }}
+                >
                   <Text
                     style={{
                       fontSize: RFValue(15),
-                      fontFamily: "outfit-medium",
+                      fontFamily: "outfit-bold",
                       lineHeight: RFValue(15),
-                      color: "#06782F",
-                      marginBottom: RFValue(3),
+                      color: colors.primary,
+                      marginBottom: RFValue(6),
                     }}
                   >
                     {feature.features}
@@ -156,21 +132,11 @@ export default function FeaturesAndAmenities({
                     <Text
                       style={{
                         fontSize: RFValue(13),
-                        fontFamily: "plusjakarta-regular",
-                        color: "#414141",
+                        fontFamily: "urbanist-regular",
+                        color: colors.onboardingText,
                       }}
                     >
                       {feature.amenities}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: RFValue(13),
-                        fontFamily: "plusjakarta-regular",
-                        color: "#414141",
-                        flexShrink: 1,
-                      }}
-                    >
-                      {feature.explanation}
                     </Text>
                   </View>
                 </View>

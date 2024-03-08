@@ -4,8 +4,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
-  Image,
     Dimensions,
   ScrollView
 } from "react-native";
@@ -13,6 +11,8 @@ import { RFValue } from "react-native-responsive-fontsize";
 import AgentReviews from "../common/modals/agentRviews";
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 const { width, height } = Dimensions.get("window");
+import { Image } from "expo-image";
+import colors from "../../constants/Colors";
 
 export default function HostReviews() {
       const [modalVisible, setModalVisible] = useState(false);
@@ -26,19 +26,24 @@ export default function HostReviews() {
 
   
   return (
-    <View style={{marginTop:responsiveScreenHeight(25)}}>
+    <View style={{ marginTop: responsiveScreenHeight(35) }}>
       <View
         style={{
-          paddingHorizontal: RFValue(20),
+          paddingHorizontal: RFValue(10),
+          paddingVertical: RFValue(10),
+          borderWidth: 1,
+          borderColor: colors.warmBtn,
+          marginHorizontal: RFValue(20),
+          marginTop: RFValue(50),
+          borderRadius: 15,
         }}
       >
         <Text
           style={{
-            fontSize: RFValue(16),
+            fontSize: RFValue(17),
             fontFamily: "outfit-bold",
-            color: "#161917",
+            color: colors.primary,
             lineHeight: RFValue(30),
-            marginTop: RFValue(20),
           }}
         >
           Host review (40)
@@ -49,14 +54,20 @@ export default function HostReviews() {
           contentContainerStyle={{
             flexDirection: "row",
             gap: 30,
-            alignItems: "center",
+            marginTop: RFValue(10),
           }}
         >
           {reviewsData?.map((review) => (
             <View
               key={review.id}
               style={{
-                width: width * 0.7,
+                width: "auto",
+                maxWidth: width * 0.7,
+                borderWidth: 1,
+                borderColor: colors.warmBtn,
+                paddingHorizontal: RFValue(10),
+                marginBottom: RFValue(20),
+                borderRadius: 10,
               }}
             >
               <View
@@ -69,7 +80,7 @@ export default function HostReviews() {
                 }}
               >
                 <Image
-                  resizeMode="contain"
+                  contentFit="contain"
                   source={require("../../assets/images/calendar.png")}
                   style={{
                     height: RFValue(20),
@@ -80,7 +91,7 @@ export default function HostReviews() {
                   style={{
                     fontSize: RFValue(14),
                     fontFamily: "outfit-regular",
-                    color: "#414141",
+                    color: colors.onboardingText,
                   }}
                 >
                   {review.date}
@@ -88,7 +99,7 @@ export default function HostReviews() {
               </View>
               <View>
                 <Image
-                  resizeMode="contain"
+                  contentFit="contain"
                   source={review.image}
                   style={{
                     height: RFValue(55),
@@ -122,7 +133,7 @@ export default function HostReviews() {
                   }}
                 >
                   <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("../../assets/images/icon-star.png")}
                     style={{
                       height: RFValue(20),
@@ -131,9 +142,9 @@ export default function HostReviews() {
                   />
                   <Text
                     style={{
-                      fontSize: RFValue(12),
-                      fontFamily: "outfit-regular",
-                      color: "#414141",
+                      fontSize: RFValue(13),
+                      fontFamily: "outfit-bold",
+                      color: colors.onboardingText,
                     }}
                   >
                     {review.rating}
@@ -142,9 +153,9 @@ export default function HostReviews() {
               </View>
               <Text
                 style={{
-                  fontSize: RFValue(14),
+                  fontSize: RFValue(13),
                   fontFamily: "outfit-regular",
-                  color: "#414141",
+                  color: colors.onboardingText,
                   textAlign: "justify",
                 }}
               >
@@ -153,18 +164,35 @@ export default function HostReviews() {
             </View>
           ))}
         </ScrollView>
-        <TouchableOpacity onPress={openModal}>
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-regular",
-              color: "#06782F",
-              lineHeight: RFValue(30),
-            }}
-          >
-            See all 40 reviews
-          </Text>
-        </TouchableOpacity>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom:RFValue(7)
+        }}>
+          <TouchableOpacity onPress={openModal}>
+            <Text
+              style={{
+                fontSize: RFValue(16),
+                fontFamily: "outfit-bold",
+                color: colors.primary,
+                textDecorationLine: "underline",
+              }}
+            >
+              See all 40 reviews
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              contentFit="contain"
+              source={require("../../assets/images/arrow-right.png")}
+              style={{
+                height: RFValue(25),
+                width: RFValue(25),
+              }}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       <AgentReviews modalVisible={modalVisible} closeModal={closeModal} />
     </View>
