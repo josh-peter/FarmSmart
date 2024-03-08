@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Platform, Animated, Dimensions} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
-import InputField from "../components/inputs/inputField";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 import colors from "../constants/Colors";
+import AppBar from "../components/appBar";
 
 
 const { width, height } = Dimensions.get("window");
@@ -61,7 +61,8 @@ export default function Helpcenter() {
 
   return (
     <>
-      <StatusBar style="dark" />
+    <StatusBar style="dark" />
+      <AppBar title="Help & support" returnRoute={"/home/account"}/>
       <Animated.View
         style={{
           flex: 1,
@@ -81,36 +82,6 @@ export default function Helpcenter() {
       >
         <View style={{ flex: 1, paddingHorizontal: RFValue(20) }}>
         <View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: RFValue(15),
-              marginTop: RFValue(20),
-            }}
-          >
-                      <TouchableOpacity onPress={() => {
-                          router.push("/home/account")
-            }}>
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/bigArrow.png")}
-                style={{
-                  height: RFValue(40),
-                  width: RFValue(40),
-                }}
-              />
-            </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(30),
-              }}
-            >
-              Help & support
-            </Text>
-          </View>
           <TouchableOpacity
             onPress={() => {
               router.push("/faq")
@@ -317,5 +288,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "outfit-medium",
     textAlign: "center",
+  },
+  clearIcon: {
+    backgroundColor: "#fff",
+    padding: RFValue(10),
+    borderRadius: 50,
+    position: "absolute",
+    left: RFValue(15),
+    borderWidth: 1,
+    borderColor: "#e5e5e5",
   },
 });
