@@ -63,7 +63,7 @@ export default function Helpcenter() {
     <>
     <StatusBar style="dark" />
       <AppBar title="Help & support" returnRoute={"/home/account"}/>
-      <Animated.View
+      <Animated.ScrollView
         style={{
           flex: 1,
           width: width,
@@ -235,7 +235,7 @@ export default function Helpcenter() {
           </View>
         </View>
       </View>
-      </Animated.View>
+      </Animated.ScrollView>
     </>
   );
 }
