@@ -3,73 +3,40 @@ import {
   Text,
   Animated,
   Dimensions,
-  Image,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Link, Stack, router } from "expo-router";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+import { Stack } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
-import AccountNameModal from "../components/accountInformation/acccountNameModal";
-import EmailAddressModal from "../components/accountInformation/EmailAddressModal";
-import UpdatePhoneModal from "../components/accountInformation/updatePhoneModal";
-import EditDateOfBirth from "../components/accountInformation/editDateOfBirth";
-import NotificationSettingsModal from "../components/common/modals/notificationSettingsModal";
+import AccountActivityModal from "../components/common/modals/accountActivityModal";
+import ListingActivityModal from "../components/common/modals/listingActivityModal";
 import colors from "../constants/Colors";
+import AppBar from "../components/appBar";
 
 const { width, height } = Dimensions.get("window");
 
 export default function NotificationSettings() {
   const fade = useRef(new Animated.Value(0)).current;
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalEmailVisible, setModalEmailVisible] = useState(false);
-  const [modalPhoneVisible, setModalPhoneVisible] = useState(false);
-  const [modalDOBVisible, setModalDOBVisible] = useState(false);
-  const [modalPayVisible, setModalPayVisible] = useState(false);
+  const [accountActivityModalVisible, setAccountActivityModalVisible] = useState(false);
+  const [listingActivityModalodalVisible, setListingActivityModalVisible] = useState(false);
 
-  const openModal = () => {
-    setModalVisible(true);
+  const openAccountActivityModal = () => {
+    setAccountActivityModalVisible(true);
   };
 
-  const closeModal = () => {
-    setModalVisible(false);
+  const closeAccountActivityModal = () => {
+    setAccountActivityModalVisible(false);
   };
 
-  const openEmailModal = () => {
-    setModalEmailVisible(true);
+  const openListingActivityModal = () => {
+    setListingActivityModalVisible(true);
   };
 
-  const closeEmailModal = () => {
-    setModalEmailVisible(false);
+  const closeListingActivityModal = () => {
+    setListingActivityModalVisible(false);
   };
 
-  const openPhoneModal = () => {
-    setModalPhoneVisible(true);
-  };
-
-  const closePhoneModal = () => {
-    setModalPhoneVisible(false);
-  };
-
-  const openDOBModal = () => {
-    setModalDOBVisible(true);
-  };
-
-  const closeDOBModal = () => {
-    setModalDOBVisible(false);
-  };
-
-    const openPayModal = () => {
-      setModalPayVisible(true);
-    };
-
-    const closePayModal = () => {
-      setModalPayVisible(false);
-    };
   const animation = () => {
     Animated.timing(fade, {
       toValue: 1,
@@ -117,6 +84,7 @@ export default function NotificationSettings() {
           gestureEnabled: false,
         }}
       />
+      <AppBar title="Notification settings" returnRoute={"/home/account"} />
       <Animated.View
         style={{
           flex: 1,
@@ -134,36 +102,6 @@ export default function NotificationSettings() {
           ],
         }}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenWidth(20),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            Notification settings
-          </Text>
-          <TouchableOpacity onPress={()=> router.back()} style={styles.clearIcon}>
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
         <View
           style={{
             paddingHorizontal: RFValue(15),
@@ -230,13 +168,9 @@ export default function NotificationSettings() {
                 <TouchableOpacity
                   onPress={
                     item.id === 1
-                      ? openModal
+                      ? openAccountActivityModal
                       : item.id === 2
-                      ? openEmailModal
-                      : item.id === 3
-                      ? openPhoneModal
-                      : item.id === 4
-                      ? openDOBModal
+                      ? openListingActivityModal
                       : undefined
                   }
                 >
@@ -322,14 +256,10 @@ export default function NotificationSettings() {
                 <TouchableOpacity
                   onPress={
                     item.id === 1
-                      ? openPayModal
-                      : item.id === 2
-                      ? openEmailModal
-                      : item.id === 3
-                      ? openPhoneModal
-                      : item.id === 4
-                      ? openDOBModal
-                      : undefined
+                    ? openAccountActivityModal
+                    : item.id === 2
+                    ? openListingActivityModal
+                    : undefined
                   }
                 >
                   <Text
@@ -348,20 +278,8 @@ export default function NotificationSettings() {
             ))}
           </View>
         </View>
-        <AccountNameModal modalVisible={modalVisible} closeModal={closeModal} />
-        <EmailAddressModal
-          modalEmailVisible={modalEmailVisible}
-          closeEmailModal={closeEmailModal}
-        />
-        <UpdatePhoneModal
-          modalPhoneVisible={modalPhoneVisible}
-          closePhoneModal={closePhoneModal}
-        />
-        <EditDateOfBirth
-          modalDOBVisible={modalDOBVisible}
-          closeDOBModal={closeDOBModal}
-        />
-        <NotificationSettingsModal modalPayVisible={modalPayVisible} closePayModal={closePayModal}/>
+        <AccountActivityModal modalVisible={accountActivityModalVisible} closeModal={closeAccountActivityModal}/>
+        <ListingActivityModal modalVisible={listingActivityModalodalVisible} closeModal={closeListingActivityModal}/>
       </Animated.View>
     </>
   );
@@ -435,7 +353,7 @@ const styles = StyleSheet.create({
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),
-    borderRadius: 10,
+    borderRadius: 50,
     position: "absolute",
     left: RFValue(15),
     borderWidth: 1,
