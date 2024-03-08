@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOpacity: 0.16,
     elevation: 14,
-    shadowColor: "#E3E3E3",
+    shadowColor: "#d5d0dd",
     width: responsiveScreenWidth(100),
     height: responsiveScreenWidth(20),
     }

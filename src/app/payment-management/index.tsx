@@ -8,20 +8,12 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Link, Stack, router } from "expo-router";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+import { Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
-import AccountNameModal from "../components/accountInformation/acccountNameModal";
-import EmailAddressModal from "../components/accountInformation/EmailAddressModal";
-import UpdatePhoneModal from "../components/accountInformation/updatePhoneModal";
-import EditDateOfBirth from "../components/accountInformation/editDateOfBirth";
-import { additionalData } from "../Data/additionalData";
-import PaymentHistoryModal from "../components/accountInformation/paymenthistoryModal";
-import CardPayment from "../components/accountInformation/cardPayment";
+import PaymentHistoryModal from "../../components/accountInformation/paymenthistoryModal";
+import CardPayment from "../../components/accountInformation/cardPayment";
 import { StatusBar } from "expo-status-bar";
+import AppBar from "../../components/appBar";
 const { width, height } = Dimensions.get("window");
 
 export default function PaymentManagement() {
@@ -65,11 +57,12 @@ export default function PaymentManagement() {
       <StatusBar style="dark"/>
       <Stack.Screen
         options={{
-          title: "Account Information",
+          title: "Payment management",
           headerShown: false,
           gestureEnabled: false,
         }}
       />
+      <AppBar title="Payment management" returnRoute={"/home/account"}/>
       <Animated.View
         style={{
           flex: 1,
@@ -89,36 +82,6 @@ export default function PaymentManagement() {
       >
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenWidth(20),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            Account information
-          </Text>
-          <TouchableOpacity onPress={()=> router.push("/home/account")} style={styles.clearIcon}>
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
             paddingHorizontal: RFValue(15),
             marginTop: RFValue(15),
           }}
@@ -130,14 +93,22 @@ export default function PaymentManagement() {
               }}
             >
               <TouchableOpacity
-                onPress={openModal}
+                onPress={() => router.push("/payment-management/payment-history")}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  backgroundColor: "#f9fafa",
                   padding: RFValue(10),
-                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#f3f4f6",
+                  backgroundColor: "#fff",
+                  borderRadius: RFValue(10),
+                  marginTop: RFValue(10),
+                  marginBottom: RFValue(12),
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
                 }}
               >
                 <View
@@ -149,17 +120,17 @@ export default function PaymentManagement() {
                 >
                   <Image
                     resizeMode="contain"
-                    source={require("../assets/images/paymenthistory.png")}
+                    source={require("../assets/images/payment-history.png")}
                     style={{
-                      height: RFValue(60),
-                      width: RFValue(50),
+                      height: RFValue(52),
+                      width: RFValue(52),
                     }}
                   />
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(12),
-                        fontFamily: "plusjakarta-semibold",
+                        fontSize: RFValue(16),
+                        fontFamily: "outfit-medium",
                         lineHeight: RFValue(20),
                         color: "#1A1A1A",
                       }}
@@ -184,14 +155,20 @@ export default function PaymentManagement() {
               }}
             >
               <TouchableOpacity
-                onPress={openPayModal}
+                onPress={() => router.push("/payment-management/card-payment")}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  backgroundColor: "#f9fafa",
                   padding: RFValue(10),
-                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#f3f4f6",
+                  backgroundColor: "#fff",
+                  borderRadius: RFValue(10),
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
                 }}
               >
                 <View
@@ -203,17 +180,17 @@ export default function PaymentManagement() {
                 >
                   <Image
                     resizeMode="contain"
-                    source={require("../assets/images/cardpayment.png")}
+                    source={require("../assets/images/card-payment.png")}
                     style={{
-                      height: RFValue(60),
-                      width: RFValue(50),
+                      height: RFValue(52),
+                      width: RFValue(52),
                     }}
                   />
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(12),
-                        fontFamily: "plusjakarta-semibold",
+                        fontSize: RFValue(16),
+                        fontFamily: "outfit-medium",
                         lineHeight: RFValue(20),
                         color: "#1A1A1A",
                       }}
