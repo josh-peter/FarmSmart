@@ -1,4 +1,4 @@
-import React, { useCallback , useEffect} from "react";
+import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, Platform, BackHandler} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import {
@@ -23,31 +23,7 @@ export default function AppBar({title, returnRoute}: Props) {
 
   return (
     <>
-        <View
-          style={{
-            flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-    marginBottom: RFValue(10),
-    ...Platform.select({
-      ios: {
-        shadowColor: "#E3E3E3",
-        shadowOffset: {
-          width: 0,
-          height: 4,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 14, 
-      },
-      android: {
-        elevation: 4,
-      },
-    }),
-    width: responsiveScreenWidth(100),
-    height: responsiveScreenWidth(20),
-          }}
-        >
+        <View style={styles.appBar}>
           <Text
             style={{
               fontSize: RFValue(16),
@@ -82,4 +58,19 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: "#e5e5e5",
     },
+
+    appBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    marginBottom: RFValue(15),
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 20,
+    shadowOpacity: 0.16,
+    elevation: 14,
+    shadowColor: "#E3E3E3",
+    width: responsiveScreenWidth(100),
+    height: responsiveScreenWidth(20),
+    }
   });
