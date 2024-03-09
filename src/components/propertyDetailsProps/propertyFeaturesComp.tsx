@@ -10,6 +10,7 @@ import {
   Platform,
   StyleSheet,
   FlatList,
+  SafeAreaView,
 } from "react-native";
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -102,7 +103,7 @@ export default function PropertyFeatureComp() {
   ];
 
   return (
-    <View
+    <SafeAreaView
       style={{
         height: RFValue(570),
         marginTop: RFValue(-110),
@@ -499,7 +500,7 @@ export default function PropertyFeatureComp() {
         modalTourVisible={modalTourVisible}
         closeTourModal={closeTourModal}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

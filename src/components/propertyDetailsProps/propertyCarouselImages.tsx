@@ -65,7 +65,7 @@ export default function PropertyCarouselImages() {
   // }, [dataImages]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView >
       <View>
         <StatusBar style="dark" />
         <FlatList

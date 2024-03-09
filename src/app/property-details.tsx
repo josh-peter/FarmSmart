@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -59,24 +60,14 @@ export default function PropertyDetails() {
           gestureEnabled: false,
         }}
       />
-      {animationTriggered && (
-        <Animated.ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{
+        <View
+          
+       style={{
             flex: 1,
             height: height,
             width: width,
             backgroundColor: "#fff",
-            position: "relative",
-            opacity: fade,
-            transform: [
-              {
-                translateY: fade.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [150, 0],
-                }),
-              },
-            ],
+           
           }}
         >
           <PropertyCarouselImages />
@@ -115,8 +106,7 @@ export default function PropertyDetails() {
               </Text>
             </TouchableOpacity>
           </View>
-        </Animated.ScrollView>
-      )}
+        </View>
       <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );
