@@ -159,8 +159,8 @@ import { TextInput } from "react-native-paper";
                     resizeMode="contain"
                     source={
                       showCardImage
-                        ? require("../assets/images/Mastercard.png")
-                        : require("../assets/images/card.png")
+                        ? require("../../assets/images/Mastercard.png")
+                        : require("../../assets/images/card.png")
                     }
                     style={{
                       width: RFValue(30),
@@ -172,7 +172,7 @@ import { TextInput } from "react-native-paper";
                   <TouchableOpacity style={styles.arrowIcon}>
                     <Image
                       resizeMode="contain"
-                      source={require("../assets/images/regularright.png")}
+                      source={require("../../assets/images/regularright.png")}
                       style={{
                         width: RFValue(20),
                         height: RFValue(20),

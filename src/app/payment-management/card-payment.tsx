@@ -99,7 +99,7 @@ import colors from "../../constants/Colors";
                 >
                   <Image
                     resizeMode="contain"
-                    source={require("../assets/images/Mastercard.png")}
+                    source={require("../../assets/images/Mastercard.png")}
                     style={{
                       width: RFValue(30),
                       height: RFValue(30),
@@ -143,7 +143,7 @@ import colors from "../../constants/Colors";
                 >
                   <Image
                     resizeMode="contain"
-                    source={require("../assets/images/Mastercard.png")}
+                    source={require("../../assets/images/Mastercard.png")}
                     style={{
                       width: RFValue(30),
                       height: RFValue(30),

@@ -142,7 +142,7 @@ import {
                     <View style={{}}>
                       <Image
                         resizeMode="contain"
-                        source={require("../assets/images/bedroom.png")}
+                        source={require("../../assets/images/bedroom.png")}
                         style={{
                           height: RFValue(80),
                           width: RFValue(80),
@@ -190,7 +190,7 @@ import {
                       >
                         <Image
                           resizeMode="contain"
-                          source={require("../assets/images/location.png")}
+                          source={require("../../assets/images/location.png")}
                           style={{
                             width: RFValue(15),
                             height: RFValue(15),
@@ -279,7 +279,7 @@ import {
                     <View style={{}}>
                       <Image
                         resizeMode="contain"
-                        source={require("../assets/images/bedroom.png")}
+                        source={require("../../assets/images/bedroom.png")}
                         style={{
                           height: RFValue(80),
                           width: RFValue(80),
@@ -327,7 +327,7 @@ import {
                       >
                         <Image
                           resizeMode="contain"
-                          source={require("../assets/images/location.png")}
+                          source={require("../../assets/images/location.png")}
                           style={{
                             width: RFValue(15),
                             height: RFValue(15),
@@ -416,7 +416,7 @@ import {
                     <View style={{}}>
                       <Image
                         resizeMode="contain"
-                        source={require("../assets/images/bedroom.png")}
+                        source={require("../../assets/images/bedroom.png")}
                         style={{
                           height: RFValue(80),
                           width: RFValue(80),
@@ -464,7 +464,7 @@ import {
                       >
                         <Image
                           resizeMode="contain"
-                          source={require("../assets/images/location.png")}
+                          source={require("../../assets/images/location.png")}
                           style={{
                             width: RFValue(15),
                             height: RFValue(15),
@@ -562,7 +562,7 @@ import {
                     <View style={{ position: "relative" }}>
                       <Image
                         resizeMode="contain"
-                        source={require("../assets/images/bedroom.png")}
+                        source={require("../../assets/images/bedroom.png")}
                         style={{
                           height: RFValue(80),
                           width: RFValue(80),
@@ -612,7 +612,7 @@ import {
                       >
                         <Image
                           resizeMode="contain"
-                          source={require("../assets/images/location.png")}
+                          source={require("../../assets/images/location.png")}
                           style={{
                             width: RFValue(15),
                             height: RFValue(15),
@@ -701,7 +701,7 @@ import {
                     <View style={{ position: "relative" }}>
                       <Image
                         resizeMode="contain"
-                        source={require("../assets/images/bedroom.png")}
+                        source={require("../../assets/images/bedroom.png")}
                         style={{
                           height: RFValue(80),
                           width: RFValue(80),
@@ -750,7 +750,7 @@ import {
                       >
                         <Image
                           resizeMode="contain"
-                          source={require("../assets/images/location.png")}
+                          source={require("../../assets/images/location.png")}
                           style={{
                             width: RFValue(15),
                             height: RFValue(15),

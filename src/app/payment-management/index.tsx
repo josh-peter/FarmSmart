@@ -120,7 +120,7 @@ export default function PaymentManagement() {
                 >
                   <Image
                     resizeMode="contain"
-                    source={require("../assets/images/payment-history.png")}
+                    source={require("../../assets/images/payment-history.png")}
                     style={{
                       height: RFValue(52),
                       width: RFValue(52),
@@ -141,7 +141,7 @@ export default function PaymentManagement() {
                 </View>
                 <Image
                   resizeMode="contain"
-                  source={require("../assets/images/arrow-right.png")}
+                  source={require("../../assets/images/arrow-right.png")}
                   style={{
                     height: RFValue(22),
                     width: RFValue(22),
@@ -180,7 +180,7 @@ export default function PaymentManagement() {
                 >
                   <Image
                     resizeMode="contain"
-                    source={require("../assets/images/card-payment.png")}
+                    source={require("../../assets/images/card-payment.png")}
                     style={{
                       height: RFValue(52),
                       width: RFValue(52),
@@ -201,7 +201,7 @@ export default function PaymentManagement() {
                 </View>
                 <Image
                   resizeMode="contain"
-                  source={require("../assets/images/arrow-right.png")}
+                  source={require("../../assets/images/arrow-right.png")}
                   style={{
                     height: RFValue(22),
                     width: RFValue(22),
