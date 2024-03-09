@@ -17,19 +17,20 @@ import {
 } from "react-native-responsive-dimensions";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import { featuresData } from "../../../Data/featuresData";
 import colors from "../../../constants/Colors";
+import { Switch } from "react-native-switch";
 
 interface Props {
   modalVisible: boolean;
   closeModal: () => void;
 }
 
-export default function FeaturesAndAmenities({
+export default function Appointmentsync({
   modalVisible,
   closeModal,
 }: Props) {
- 
+   const [isEnabled, setIsEnabled] = useState(false);
+   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (
     <View>
@@ -58,7 +59,7 @@ export default function FeaturesAndAmenities({
           style={{
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(50),
+            height: responsiveScreenHeight(20),
           }}
         >
           <View
@@ -68,81 +69,42 @@ export default function FeaturesAndAmenities({
               justifyContent: "center",
               backgroundColor: colors.background,
               width: responsiveScreenWidth(100),
-              height: responsiveScreenHeight(10),
-              borderBottomWidth: 1,
-              borderBottomColor: colors.border2,
+              marginTop:RFValue(50)
+            }}
+          >
+           
+            <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
+              <MaterialIcons name="clear" size={23} color={colors.onboardingText} />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 18,
+              padding: RFValue(20),
+              overflow: "hidden",
             }}
           >
             <Text
               style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(30),
+                fontSize: RFValue(12),
+                fontFamily: "urbanist-regular",
+                color: "#1A1A1A",
+                maxWidth: RFValue(220),
               }}
             >
-              Amenities
+              Auto-synchronize my upcoming booking with my phone’s calender to
+              remind me of all coming booking day & time.
             </Text>
-            <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={24} color="black" />
-            </TouchableOpacity>
+            <Switch
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+              activeText={""}
+              inActiveText={""}
+              circleSize={25}
+            />
           </View>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingHorizontal: RFValue(15),
-              paddingVertical: RFValue(20),
-              backgroundColor: colors.background,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "column",
-                gap: 20,
-              }}
-            >
-              {featuresData?.map((feature) => (
-                <View
-                  key={feature.id}
-                  style={{
-                    paddingHorizontal: RFValue(10),
-                    paddingVertical: RFValue(15),
-                    borderWidth: 1,
-                    borderColor: colors.border2,
-                    borderRadius: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: RFValue(15),
-                      fontFamily: "outfit-bold",
-                      lineHeight: RFValue(15),
-                      color: colors.primary,
-                      marginBottom: RFValue(6),
-                    }}
-                  >
-                    {feature.features}
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 3,
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: RFValue(13),
-                        fontFamily: "urbanist-regular",
-                        color: colors.onboardingText,
-                      }}
-                    >
-                      {feature.amenities}
-                    </Text>
-                  </View>
-                </View>
-              ))}
-            </View>
-          </ScrollView>
         </View>
       </Modal>
     </View>
@@ -152,10 +114,13 @@ export default function FeaturesAndAmenities({
 const styles = StyleSheet.create({
   clearIcon: {
     backgroundColor: "#fff",
-    padding: RFValue(10),
+    padding: RFValue(5),
     borderRadius: 50,
     position: "absolute",
-    right: RFValue(15),
+        right: RFValue(25),
+        bottom: RFValue(7),
+        borderWidth: 1,
+    borderColor:colors.border2
   },
   inputbox: {
     width: responsiveScreenWidth(33),

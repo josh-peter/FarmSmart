@@ -4,18 +4,16 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
-  ScrollView,
   Platform,
   Dimensions,
   Button,
+  Animated,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-native-modal";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -27,6 +25,9 @@ import {
   VideoFullscreenUpdateEvent,
   ResizeMode,
 } from "expo-av";
+import colors from "../../../constants/Colors";
+import { Image } from "expo-image";
+import * as Progress from "react-native-progress";
 
 interface Props {
   modalVideoVisible: boolean;
@@ -40,10 +41,13 @@ export default function PropertyVideoPlay({
   const [isMute, setIsMute] = useState(false);
   const refVideo2 = useRef<any>(null);
   const [inFullscreen, setInFullsreen] = useState(false);
+  const [click, setClick] = useState(false);
 
   const videoContainerStyles = inFullscreen
     ? styles.fullscreenContainer
     : styles.videoContainer;
+
+
   return (
     <View>
       <Modal
@@ -69,7 +73,7 @@ export default function PropertyVideoPlay({
       >
         <View
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: colors.background,
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(100),
           }}
@@ -79,9 +83,11 @@ export default function PropertyVideoPlay({
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
+              backgroundColor: colors.background,
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(12),
+              borderBottomWidth: 1,
+              borderBottomColor: colors.border,
             }}
           >
             <TouchableOpacity
@@ -89,7 +95,7 @@ export default function PropertyVideoPlay({
               style={styles.clearIcon}
             >
               <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={require("../../../assets/images/arrow-left.png")}
                 style={{
                   height: RFValue(22),
@@ -98,11 +104,17 @@ export default function PropertyVideoPlay({
               />
             </TouchableOpacity>
           </View>
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              setClick(true);
+            }}
             style={{
-              position: "absolute",
-              bottom: RFValue(0),
-              top: RFValue(220),
+              flex: 1,
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              position: "relative",
             }}
           >
             <VideoPlayer
@@ -114,56 +126,48 @@ export default function PropertyVideoPlay({
                 },
                 isMuted: isMute,
               }}
-              // playbackCallback={status => setStatus(() => status)}
-              // defaultControlsVisible={true}
-              mute={{
-                enterMute: () => setIsMute(!isMute),
-                exitMute: () => setIsMute(!isMute),
-                isMute,
-              }}
-              fullscreen={{
-                inFullscreen: inFullscreen,
-                enterFullscreen: async () => {
-                  setStatusBarHidden(true, "fade");
-                  setInFullsreen(!inFullscreen);
-                  //   await ScreenOrientation.lockAsync(
-                  //     ScreenOrientation.OrientationLock.LANDSCAPE
-                  //   );
-                  refVideo2.current.setStatusAsync({
-                    shouldPlay: true,
-                  });
-                },
-                exitFullscreen: async () => {
-                  setStatusBarHidden(false, "fade");
-                  setInFullsreen(!inFullscreen);
-                  //   await ScreenOrientation.lockAsync(
-                  //     ScreenOrientation.OrientationLock.DEFAULT
-                  //   );
-                },
-              }}
-              //   icon={{
-              //     play: (
-              //       <Image
-              //         resizeMode="contain"
-              //         source={require("@/assets/images/play.png")}
-              //         style={{
-              //           width: RFValue(60),
-              //         }}
-              //       />
-              //     ),
-              //     pause: (
-              //       <Image
-              //         resizeMode="contain"
-              //         source={require("@/assets/images/pause.png")}
-              //         style={{
-              //           width: RFValue(60),
-              //         }}
-              //       />
-              //     ),
-              //   }}
+              defaultControlsVisible={false}
               style={videoContainerStyles}
             />
-          </View>
+            {/* {click && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 5,
+                  zIndex:999,
+                }}
+              >
+                <Image
+                  contentFit="contain"
+                  source={require("../../../assets/images/vidvolume.png")}
+                  style={{
+                    height: RFValue(20),
+                    width: RFValue(20),
+                  }}
+                />
+                <View>
+                  <Progress.Bar progress={0.3} width={200} />
+                </View>
+                <Text>1:06 / 4:21</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    // Handle custom play/pause action here
+                  }}
+                >
+                  <Image
+                    contentFit="contain"
+                    source={require("../../../assets/images/vidplay.png")}
+                    style={{
+                      height: RFValue(20),
+                      width: RFValue(20),
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )} */}
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>
@@ -174,10 +178,12 @@ const styles = StyleSheet.create({
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),
-    borderRadius: 10,
+    borderRadius: 30,
     position: "absolute",
     left: RFValue(15),
     top: RFValue(35),
+    borderWidth: 1,
+    borderColor: colors.border2,
   },
   inputbox: {
     width: responsiveScreenWidth(33),
@@ -248,5 +254,10 @@ const styles = StyleSheet.create({
     fontFamily: "satoshi-regular",
     fontSize: RFValue(14),
     paddingTop: 10,
+  },
+  bar: {
+    height: 20,
+    backgroundColor: "#333",
+    borderRadius: 10,
   },
 });

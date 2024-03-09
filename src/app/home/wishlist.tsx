@@ -39,8 +39,27 @@ const Wishlist = () => {
       setWishlist([...wishlist, property]);
       await AsyncStorage.setItem("@wishlist", JSON.stringify(wishlist));
   };
+
+     const [animationTriggered, setAnimationTriggered] = useState(false);
+     const [fade] = useState(new Animated.Value(0));
+
+     const animation = () => {
+       Animated.timing(fade, {
+         toValue: 1,
+         duration: 800,
+         useNativeDriver: true,
+       }).start();
+     };
+
+     useEffect(() => {
+       if (!animationTriggered) {
+         setAnimationTriggered(true);
+         animation();
+       }
+     }, [animationTriggered]);
   
   const renderPropertyItem = ({ item }: { item: any }) => (
+    
     <Animated.View
       style={{
         width: responsiveScreenWidth(100),

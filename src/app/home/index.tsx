@@ -24,47 +24,53 @@ const Index = () => {
     });
   };
 
-  const fade = useRef(new Animated.Value(0)).current;
+   const [animationTriggered, setAnimationTriggered] = useState(false);
+   const [fade] = useState(new Animated.Value(0));
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
+   const animation = () => {
+     Animated.timing(fade, {
+       toValue: 1,
+       duration: 800,
+       useNativeDriver: true,
+     }).start();
+   };
 
-  useEffect(() => {
-    animation();
-  }, []);
+   useEffect(() => {
+     if (!animationTriggered) {
+       setAnimationTriggered(true);
+       animation();
+     }
+   }, [animationTriggered]);
 
   return (
     <>
       <Header />
-      <Animated.View
-        style={[
-          styles.container,
-          {
-            opacity: fade,
-            transform: [
-              {
-                translateY: fade.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [150, 0],
-                }),
-              },
-            ],
-          },
-        ]}
-      >
-        <SearchBarComponent onSearch={searchHandler} />
-        <HeaderButtons
-          selectedType={selectedType}
-          setSelectedType={setSelectedType}
-        />
-        <HomeIcons />
-        <PropertyListItem selectedType={selectedType} />
-      </Animated.View>
+      {animationTriggered && (
+        <Animated.View
+          style={[
+            styles.container,
+            {
+              opacity: fade,
+              transform: [
+                {
+                  translateY: fade.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [150, 0],
+                  }),
+                },
+              ],
+            },
+          ]}
+        >
+          <SearchBarComponent onSearch={searchHandler} />
+          <HeaderButtons
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+          />
+          <HomeIcons />
+          <PropertyListItem selectedType={selectedType} />
+        </Animated.View>
+      )}
     </>
   );
 };

@@ -1,31 +1,31 @@
-import Morelist from "../components/propertyDetailsProps/moreListing";
-import HostReviews from "../components/propertyDetailsProps/hostReviewComp";
-import PropertyCarouselImages from "../components/propertyDetailsProps/propertyCarouselImages";
-import PropertyFeatureComp from "../components/propertyDetailsProps/propertyFeaturesComp";
-import { BlurView } from "expo-blur";
-import { Stack } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Animated,
   Dimensions,
-  Image,
   TouchableOpacity,
-  ScrollView,
   Platform,
   StyleSheet,
 } from "react-native";
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
-import Similarlisting from "../components/propertyDetailsProps/similarListing";
+import PropertyFeatureComp from "../components/propertyDetailsProps/propertyFeaturesComp";
 import AboutProperty from "../components/propertyDetailsProps/aboutProperty";
+import HostReviews from "../components/propertyDetailsProps/hostReviewComp";
+import Morelist from "../components/propertyDetailsProps/moreListing";
+import Similarlisting from "../components/propertyDetailsProps/similarListing";
+import PropertyCarouselImages from "../components/propertyDetailsProps/propertyCarouselImages";
 import SelectBookingDate from "../components/common/modals/selectBookingDate";
+import { Stack } from "expo-router";
+import colors from "../constants/Colors";
+
 const { width, height } = Dimensions.get("window");
 
 export default function PropertyDetails() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [modalVisible, setModalVisible] = useState(false);
+  const [animationTriggered, setAnimationTriggered] = useState(false);
+  const [fade] = useState(new Animated.Value(0));
 
   const openModal = () => {
     setModalVisible(true);
@@ -44,8 +44,11 @@ export default function PropertyDetails() {
   };
 
   useEffect(() => {
-    animation();
-  }, []);
+    if (!animationTriggered) {
+      setAnimationTriggered(true);
+      animation();
+    }
+  }, [animationTriggered]);
 
   return (
     <>
@@ -56,81 +59,65 @@ export default function PropertyDetails() {
           gestureEnabled: false,
         }}
       />
-      <Animated.ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          flex: 1,
-          height: height,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <PropertyCarouselImages />
-        <View>
+      {animationTriggered && (
+        <Animated.ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{
+            flex: 1,
+            height: height,
+            width: width,
+            backgroundColor: "#fff",
+            position: "relative",
+            opacity: fade,
+            transform: [
+              {
+                translateY: fade.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [150, 0],
+                }),
+              },
+            ],
+          }}
+        >
+          <PropertyCarouselImages />
           <PropertyFeatureComp />
-        </View>
-        <AboutProperty />
-        <View>
+          <AboutProperty />
           <HostReviews />
-        </View>
-        <View
-          style={{
-            paddingHorizontal: RFValue(20),
-          }}
-        >
           <Morelist />
-        </View>
-        <View>
           <Similarlisting />
-        </View>
-        <View
-          style={{
-            height: RFValue(100),
-            paddingHorizontal: RFValue(20),
-            marginTop: 50,
-          }}
-        >
-          <TouchableOpacity
-            onPress={openModal}
+          <View
             style={{
-              backgroundColor: "#06782F",
-              padding: Platform.OS === "ios" ? 18 : 17,
-              borderRadius: 10,
-              marginTop: RFValue(15),
+              height: RFValue(100),
+              paddingHorizontal: RFValue(20),
+              marginTop: 50,
             }}
           >
-            <Text
+            <TouchableOpacity
+              onPress={openModal}
               style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-regular",
-                color: "#fff",
-                textAlign: "center",
+                backgroundColor: colors.primary,
+                padding: Platform.OS === "ios" ? 18 : 17,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                borderBottomLeftRadius: 10,
+                marginTop: RFValue(15),
               }}
             >
-              Rent apartment
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </Animated.ScrollView>
+              <Text
+                style={{
+                  fontSize: RFValue(16),
+                  fontFamily: "outfit-regular",
+                  color: colors.background,
+                  textAlign: "center",
+                }}
+              >
+                Rent apartment
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.ScrollView>
+      )}
       <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: height,
-    width: width,
-  },
-});

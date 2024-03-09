@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(15),
     fontWeight: "normal",
     fontFamily: "outfit-regular",
-    color: "#06782f",
+    color: colors.primary,
     marginVertical: RFValue(13),
   },
   button: {

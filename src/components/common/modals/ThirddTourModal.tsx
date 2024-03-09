@@ -20,6 +20,7 @@ import {
 } from "react-native-responsive-dimensions";
 const { width, height } = Dimensions.get("window");
 import { RFValue } from "react-native-responsive-fontsize";
+import colors from "../../../constants/Colors";
 const image1 = require("../../../assets/images/full-frame.png");
 const image2 = require("../../../assets/images/full-frame.png");
 const image3 = require("../../../assets/images/full-frame.png");
@@ -78,7 +79,7 @@ export default function ThreeDTourModal({
       >
         <View
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: colors.background,
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(100),
           }}
@@ -88,9 +89,11 @@ export default function ThreeDTourModal({
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
+              backgroundColor: colors.background,
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(12),
+              borderBottomWidth: 1,
+              borderBottomColor:colors.border
             }}
           >
             <TouchableOpacity onPress={closeTourModal} style={styles.clearIcon}>
@@ -122,7 +125,7 @@ export default function ThreeDTourModal({
                   style={{
                     fontSize: RFValue(16),
                     fontFamily: "outfit-regular",
-                    color: "#414141",
+                    color: colors.onboardingText,
                     lineHeight: RFValue(25),
                   }}
                 >
@@ -132,7 +135,7 @@ export default function ThreeDTourModal({
                   style={{
                     fontSize: RFValue(16),
                     fontFamily: "outfit-regular",
-                    color: "#414141",
+                    color: colors.onboardingText,
                     lineHeight: RFValue(25),
                   }}
                 >
@@ -153,7 +156,7 @@ export default function ThreeDTourModal({
                       styles.indicator,
                       {
                         backgroundColor:
-                          selectIndex === index ? "#06782F" : "#D9D9D9",
+                          selectIndex === index ? colors.primary : colors.indicator,
                       },
                     ]}
                   />
@@ -164,7 +167,7 @@ export default function ThreeDTourModal({
                 style={{
                   fontSize: RFValue(16),
                   fontFamily: "outfit-bold",
-                  color: "#161917",
+                  color: colors.primary,
                   lineHeight: RFValue(60),
                 }}
               >
@@ -204,12 +207,14 @@ export default function ThreeDTourModal({
 
 const styles = StyleSheet.create({
   clearIcon: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     padding: RFValue(10),
-    borderRadius: 10,
+    borderRadius: 30,
     position: "absolute",
     left: RFValue(15),
     top: RFValue(35),
+    borderWidth: 1,
+    borderColor:colors.border2
   },
   inputbox: {
     width: responsiveScreenWidth(33),

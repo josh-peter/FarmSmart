@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -17,7 +17,8 @@ import { Switch } from "react-native-switch";
 const { width, height } = Dimensions.get("window");
 
 export default function Account() {
-  const fade = useRef(new Animated.Value(0)).current;
+   const [animationTriggered, setAnimationTriggered] = useState(false);
+   const [fade] = useState(new Animated.Value(0));
 
   const animation = () => {
     Animated.timing(fade, {
@@ -28,8 +29,11 @@ export default function Account() {
   };
 
   useEffect(() => {
-    animation();
-  }, []);
+    if (!animationTriggered) {
+      setAnimationTriggered(true);
+      animation();
+    }
+  }, [animationTriggered]);
 
   return (
     <>
@@ -40,390 +44,392 @@ export default function Account() {
           gestureEnabled: false,
         }}
       />
-      <Animated.ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          paddingVertical: RFValue(40),
-          paddingHorizontal: RFValue(15),
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              fontSize: RFValue(15),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(40),
-              color: "#BABBBC",
-            }}
-          >
-            Profile
-          </Text>
-          <TouchableOpacity
-            onPress={() => router.push("/client-profile")}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: "#f9fafa",
-              padding: RFValue(10),
-              borderRadius: 10,
-            }}
-          >
-            <View
+      {animationTriggered && (
+        <Animated.ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{
+            flex: 1,
+            width: width,
+            backgroundColor: "#fff",
+            position: "relative",
+            opacity: fade,
+            paddingVertical: RFValue(40),
+            paddingHorizontal: RFValue(15),
+            transform: [
+              {
+                translateY: fade.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [150, 0],
+                }),
+              },
+            ],
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                fontSize: RFValue(15),
+                fontFamily: "outfit-bold",
+                lineHeight: RFValue(40),
+                color: "#BABBBC",
+              }}
+            >
+              Profile
+            </Text>
+            <TouchableOpacity
+              onPress={() => router.push("/client-profile")}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                gap: RFValue(8),
+                justifyContent: "space-between",
+                backgroundColor: "#f9fafa",
+                padding: RFValue(10),
+                borderRadius: 10,
               }}
             >
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/userProfile.png")}
-                style={{
-                  height: RFValue(60),
-                  width: RFValue(50),
-                }}
-              />
-              <View>
-                <Text
-                  style={{
-                    fontSize: RFValue(14),
-                    fontFamily: "plusjakarta-semibold",
-                    lineHeight: RFValue(20),
-                    color: "#1A1A1A",
-                  }}
-                >
-                  Daniel Israel
-                </Text>
-                <Text
-                  style={{
-                    fontSize: RFValue(12),
-                    fontFamily: "plusjakarta-regular",
-                    lineHeight: RFValue(20),
-                    color: "#1A1A1A",
-                  }}
-                >
-                  Show profile
-                </Text>
-              </View>
-            </View>
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/arrow-right.png")}
-              style={{
-                height: RFValue(22),
-                width: RFValue(22),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View>
-          {accountData?.map((item) => (
-            <View
-              key={item.id}
-              style={{
-                marginTop: RFValue(10),
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: RFValue(15),
-                  fontFamily: "outfit-bold",
-                  lineHeight: RFValue(40),
-                  color: "#BABBBC",
-                }}
-              >
-                {item.name}
-              </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  item.id === 1
-                    ? router.push("/account-information")
-                    : item.id === 2
-                    ? router.push("/booking")
-                    : item.id === 3
-                    ? router.push("/payment-management")
-                    : item.id === 4
-                    ? router.push("/notification-settings")
-                    : item.id === 5
-                    ? router.push("/security")
-                    : item.id === 6
-                    ? router.push("/help-center")
-                    : undefined
-                }
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  backgroundColor: "#f9fafa",
-                  padding: RFValue(10),
-                  borderRadius: 10,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(8),
-                  }}
-                >
-                  <Image
-                    resizeMode="contain"
-                    source={item.img}
-                    style={{
-                      height: RFValue(60),
-                      width: RFValue(50),
-                    }}
-                  />
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(12),
-                        fontFamily: "plusjakarta-semibold",
-                        lineHeight: RFValue(20),
-                        color: "#1A1A1A",
-                      }}
-                    >
-                      {item.info}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: RFValue(10),
-                        fontFamily: "plusjakarta-regular",
-                        lineHeight: RFValue(20),
-                        color: "#1A1A1A",
-                      }}
-                    >
-                      {item.entails}
-                    </Text>
-                  </View>
-                </View>
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/arrow-right.png")}
-                  style={{
-                    height: RFValue(22),
-                    width: RFValue(22),
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-        <View>
-          <Text
-            style={{
-              fontSize: RFValue(15),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(40),
-              color: "#BABBBC",
-            }}
-          >
-            Location
-          </Text>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#f9fafa",
-              padding: RFValue(10),
-              borderRadius: 10,
-            }}
-          >
-            <View>
-              <Text
-                style={{
-                  fontSize: RFValue(13),
-                  fontFamily: "plusjakarta-regular",
-                  lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
-                Give location to get nearby property suggestion
-              </Text>
               <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  gap: RFValue(8),
+                }}
+              >
+                <Image
+                  resizeMode="contain"
+                  source={require("../../assets/images/userProfile.png")}
+                  style={{
+                    height: RFValue(60),
+                    width: RFValue(50),
+                  }}
+                />
+                <View>
+                  <Text
+                    style={{
+                      fontSize: RFValue(14),
+                      fontFamily: "plusjakarta-semibold",
+                      lineHeight: RFValue(20),
+                      color: "#1A1A1A",
+                    }}
+                  >
+                    Daniel Israel
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: RFValue(12),
+                      fontFamily: "plusjakarta-regular",
+                      lineHeight: RFValue(20),
+                      color: "#1A1A1A",
+                    }}
+                  >
+                    Show profile
+                  </Text>
+                </View>
+              </View>
+              <Image
+                resizeMode="contain"
+                source={require("../../assets/images/arrow-right.png")}
+                style={{
+                  height: RFValue(22),
+                  width: RFValue(22),
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            {accountData?.map((item) => (
+              <View
+                key={item.id}
+                style={{
                   marginTop: RFValue(10),
                 }}
               >
                 <Text
                   style={{
-                    fontSize: RFValue(12),
+                    fontSize: RFValue(15),
+                    fontFamily: "outfit-bold",
+                    lineHeight: RFValue(40),
+                    color: "#BABBBC",
+                  }}
+                >
+                  {item.name}
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    item.id === 1
+                      ? router.push("/account-information")
+                      : item.id === 2
+                        ? router.push("/booking")
+                        : item.id === 3
+                          ? router.push("/payment-management")
+                          : item.id === 4
+                            ? router.push("/notification-settings")
+                            : item.id === 5
+                              ? router.push("/security")
+                              : item.id === 6
+                                ? router.push("/help-center")
+                                : undefined
+                  }
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    backgroundColor: "#f9fafa",
+                    padding: RFValue(10),
+                    borderRadius: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: RFValue(8),
+                    }}
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={item.img}
+                      style={{
+                        height: RFValue(60),
+                        width: RFValue(50),
+                      }}
+                    />
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: RFValue(12),
+                          fontFamily: "plusjakarta-semibold",
+                          lineHeight: RFValue(20),
+                          color: "#1A1A1A",
+                        }}
+                      >
+                        {item.info}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: RFValue(10),
+                          fontFamily: "plusjakarta-regular",
+                          lineHeight: RFValue(20),
+                          color: "#1A1A1A",
+                        }}
+                      >
+                        {item.entails}
+                      </Text>
+                    </View>
+                  </View>
+                  <Image
+                    resizeMode="contain"
+                    source={require("../../assets/images/arrow-right.png")}
+                    style={{
+                      height: RFValue(22),
+                      width: RFValue(22),
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: RFValue(15),
+                fontFamily: "outfit-bold",
+                lineHeight: RFValue(40),
+                color: "#BABBBC",
+              }}
+            >
+              Location
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#f9fafa",
+                padding: RFValue(10),
+                borderRadius: 10,
+              }}
+            >
+              <View>
+                <Text
+                  style={{
+                    fontSize: RFValue(13),
                     fontFamily: "plusjakarta-regular",
                     lineHeight: RFValue(20),
                     color: "#1A1A1A",
                   }}
                 >
-                  Grant location access
+                  Give location to get nearby property suggestion
                 </Text>
-                <Switch
-                  value={true}
-                  onValueChange={(val) => console.warn(val)}
-                  backgroundActive={"green"}
-                  backgroundInactive={"gray"}
-                  activeText={""}
-                  inActiveText={""}
-                  circleSize={25}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View>
-          {additionalData?.map((item) => (
-            <View
-              key={item.id}
-              style={{
-                marginTop: RFValue(20),
-              }}
-            >
-              <TouchableOpacity
-                onPress={() =>
-                  item.id === 1
-                    ? router.push("/help-center")
-                    : item.id === 2
-                    ? router.push("/")
-                    : undefined
-                }
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  backgroundColor: "#f9fafa",
-                  padding: RFValue(10),
-                  borderRadius: 10,
-                }}
-              >
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: RFValue(8),
+                    justifyContent: "space-between",
+                    marginTop: RFValue(10),
                   }}
                 >
+                  <Text
+                    style={{
+                      fontSize: RFValue(12),
+                      fontFamily: "plusjakarta-regular",
+                      lineHeight: RFValue(20),
+                      color: "#1A1A1A",
+                    }}
+                  >
+                    Grant location access
+                  </Text>
+                  <Switch
+                    value={true}
+                    onValueChange={(val) => console.warn(val)}
+                    backgroundActive={"green"}
+                    backgroundInactive={"gray"}
+                    activeText={""}
+                    inActiveText={""}
+                    circleSize={25}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View>
+            {additionalData?.map((item) => (
+              <View
+                key={item.id}
+                style={{
+                  marginTop: RFValue(20),
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() =>
+                    item.id === 1
+                      ? router.push("/help-center")
+                      : item.id === 2
+                        ? router.push("/")
+                        : undefined
+                  }
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    backgroundColor: "#f9fafa",
+                    padding: RFValue(10),
+                    borderRadius: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: RFValue(8),
+                    }}
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={item.img}
+                      style={{
+                        height: RFValue(60),
+                        width: RFValue(50),
+                      }}
+                    />
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: RFValue(12),
+                          fontFamily: "plusjakarta-semibold",
+                          lineHeight: RFValue(20),
+                          color: "#1A1A1A",
+                        }}
+                      >
+                        {item.info}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: RFValue(10),
+                          fontFamily: "plusjakarta-regular",
+                          lineHeight: RFValue(20),
+                          color: "#1A1A1A",
+                        }}
+                      >
+                        {item.entails}
+                      </Text>
+                    </View>
+                  </View>
                   <Image
                     resizeMode="contain"
-                    source={item.img}
+                    source={require("../../assets/images/arrow-right.png")}
                     style={{
-                      height: RFValue(60),
-                      width: RFValue(50),
+                      height: RFValue(22),
+                      width: RFValue(22),
                     }}
                   />
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: RFValue(12),
-                        fontFamily: "plusjakarta-semibold",
-                        lineHeight: RFValue(20),
-                        color: "#1A1A1A",
-                      }}
-                    >
-                      {item.info}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: RFValue(10),
-                        fontFamily: "plusjakarta-regular",
-                        lineHeight: RFValue(20),
-                        color: "#1A1A1A",
-                      }}
-                    >
-                      {item.entails}
-                    </Text>
-                  </View>
-                </View>
-                <Image
-                  resizeMode="contain"
-                  source={require("../../assets/images/arrow-right.png")}
-                  style={{
-                    height: RFValue(22),
-                    width: RFValue(22),
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-        <View
-          style={{
-            marginTop: RFValue(20),
-          }}
-        >
-          <TouchableOpacity
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+          <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: "#f9fafa",
-              padding: RFValue(10),
-              borderRadius: 10,
+              marginTop: RFValue(20),
             }}
           >
-            <View
+            <TouchableOpacity
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                gap: RFValue(8),
+                justifyContent: "space-between",
+                backgroundColor: "#f9fafa",
+                padding: RFValue(10),
+                borderRadius: 10,
               }}
             >
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/logout.png")}
+              <View
                 style={{
-                  height: RFValue(60),
-                  width: RFValue(50),
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: RFValue(8),
                 }}
-              />
-              <View>
-                <Text
+              >
+                <Image
+                  resizeMode="contain"
+                  source={require("../../assets/images/logout.png")}
                   style={{
-                    fontSize: RFValue(15),
-                    fontFamily: "plusjakarta-regular",
-                    lineHeight: RFValue(20),
-                    color: "#1A1A1A",
+                    height: RFValue(60),
+                    width: RFValue(50),
                   }}
-                >
-                  Logout
-                </Text>
+                />
+                <View>
+                  <Text
+                    style={{
+                      fontSize: RFValue(15),
+                      fontFamily: "plusjakarta-regular",
+                      lineHeight: RFValue(20),
+                      color: "#1A1A1A",
+                    }}
+                  >
+                    Logout
+                  </Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#ECFFF4",
-            padding: Platform.OS === "ios" ? 18 : 17,
-            borderRadius: 10,
-            marginTop: RFValue(35),
-            marginBottom: RFValue(105),
-          }}
-        >
-          <Text
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
             style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-regular",
-              color: "#06782F",
-              textAlign: "center",
+              backgroundColor: "#ECFFF4",
+              padding: Platform.OS === "ios" ? 18 : 17,
+              borderRadius: 10,
+              marginTop: RFValue(35),
+              marginBottom: RFValue(105),
             }}
           >
-            Switch to agent account mode
-          </Text>
-        </TouchableOpacity>
-      </Animated.ScrollView>
+            <Text
+              style={{
+                fontSize: RFValue(16),
+                fontFamily: "outfit-regular",
+                color: "#06782F",
+                textAlign: "center",
+              }}
+            >
+              Switch to agent account mode
+            </Text>
+          </TouchableOpacity>
+        </Animated.ScrollView>
+      )}
     </>
   );
 }

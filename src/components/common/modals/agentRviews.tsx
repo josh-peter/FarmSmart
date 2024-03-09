@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
   ScrollView,
   Platform,
   Dimensions,
@@ -23,7 +22,9 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import Checkbox from "expo-checkbox";
 import { reviewsData } from "../../../Data/reviewsData";
+import colors from "../../../constants/Colors";
 const { width, height } = Dimensions.get("window");
+import { Image } from "expo-image";
 
 interface Props {
   modalVisible: boolean;
@@ -35,41 +36,7 @@ export default function AgentReviews({
   closeModal,
 }: Props) {
 
-  const featuresData = [
-    {
-      id: 1,
-      features: "1 master bedroom",
-      amenities: "Extra amenities:",
-      explanation: "Fully air-conditioned with king sized mattress",
-    },
-    {
-      id: 2,
-      features: "2 Bathroom",
-      amenities: "Extra amenities:",
-      explanation: "Water heater available",
-    },
-    {
-      id: 3,
-      features: "1 Sitting room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition and 60 inchs TV",
-    },
-    {
-      id: 4,
-      features: "1 Sitting room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition, 60 inches TV and complete set of luxury sofas",
-    },
-    {
-      id: 5,
-      features: "1 Dining room",
-      amenities: "Extra amenities:",
-      explanation:
-        "Fully furnished sitting room, with air condition, 60 inches TV and complete set of luxury sofas",
-    },
-  ];
+
 
   return (
     <View>
@@ -96,7 +63,7 @@ export default function AgentReviews({
       >
         <View
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: colors.background,
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(90),
           }}
@@ -106,9 +73,11 @@ export default function AgentReviews({
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
+              backgroundColor: colors.background,
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(10),
+              borderBottomWidth: 1,
+              borderBottomColor: colors.border,
             }}
           >
             <Text
@@ -135,7 +104,7 @@ export default function AgentReviews({
                 fontSize: RFValue(14),
                 fontFamily: "outfit-bold",
                 lineHeight: RFValue(35),
-                color: "#06782F",
+                color: colors.primary,
                 marginTop: RFValue(13),
               }}
             >
@@ -143,7 +112,7 @@ export default function AgentReviews({
             </Text>
             <TouchableOpacity
               style={{
-                backgroundColor: "#ECFFF4",
+                backgroundColor: colors.primary,
                 padding: Platform.OS === "ios" ? 18 : 17,
                 borderRadius: 10,
                 marginTop: RFValue(15),
@@ -154,7 +123,7 @@ export default function AgentReviews({
                 style={{
                   fontSize: RFValue(16),
                   fontFamily: "outfit-medium",
-                  color: "#06782F",
+                  color: colors.background,
                   textAlign: "center",
                 }}
               >
@@ -162,20 +131,19 @@ export default function AgentReviews({
               </Text>
             </TouchableOpacity>
           </View>
-          <ScrollView
-            contentContainerStyle={{
-              flexDirection: "column",
-              gap: 25,
-              alignItems: "center",
-              marginBottom: RFValue(15),
-            }}
-          >
+          <ScrollView contentContainerStyle={{
+            margin:20
+          }}>
             {reviewsData?.map((review) => (
               <View
                 key={review.id}
                 style={{
-                  width: width,
                   paddingHorizontal: RFValue(20),
+                  borderWidth: 1,
+                  borderColor: colors.warmBtn,
+                  borderRadius: 10,
+                  marginBottom: RFValue(25),
+                 
                 }}
               >
                 <View
@@ -188,7 +156,7 @@ export default function AgentReviews({
                   }}
                 >
                   <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={require("../../../assets/images/calendar.png")}
                     style={{
                       height: RFValue(20),
@@ -207,7 +175,7 @@ export default function AgentReviews({
                 </View>
                 <View>
                   <Image
-                    resizeMode="contain"
+                    contentFit="contain"
                     source={review.image}
                     style={{
                       height: RFValue(55),
@@ -240,7 +208,7 @@ export default function AgentReviews({
                     }}
                   >
                     <Image
-                      resizeMode="contain"
+                      contentFit="contain"
                       source={require("../../../assets/images/icon-star.png")}
                       style={{
                         height: RFValue(20),
