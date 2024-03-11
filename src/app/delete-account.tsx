@@ -19,6 +19,7 @@ const { width, height } = Dimensions.get("window");
 import AccountDeletedModal from "../components/common/modals/accountDeletedModal";
 import PasswordInputField from "../components/inputs/passwordInputField";
 import colors from "../constants/Colors";
+import AppBar from "../components/appBar";
 
 export default function Refund() {
     const navigation = useNavigation();
@@ -69,6 +70,7 @@ export default function Refund() {
           gestureEnabled: false,
         }}
       />
+      <AppBar title="Delete account" returnRoute={"security"}/>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         style={{
@@ -89,46 +91,15 @@ export default function Refund() {
         }}
       >
         <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenWidth(22),
-          }}
-        >
-          <Text
-              style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(30),
-              }}
-            >
-              Delete account
-            </Text>
-          <TouchableOpacity onPress={handleBackBtn} style={styles.clearIcon}>
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View
             style={{
               padding: RFValue(9),
-              marginTop: RFValue(25),
             }}
           >
             <Text
               style={{
-                color: "#5F5F5F",
-                fontSize: RFValue(12),
-                fontFamily: "plusjakarta-regular",
+                color: "#000000",
+                fontSize: RFValue(13),
+                fontFamily: "urbanist-medium",
                 marginTop: RFValue(10),
               }}
             >
@@ -178,7 +149,7 @@ const styles = StyleSheet.create({
     borderColor: "#e5e5e5",
   },
   button: {
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
     color: colors.buttontext,
     fontSize: RFValue(14),
@@ -206,7 +177,7 @@ const styles = StyleSheet.create({
   deleteText: {
     fontSize: RFValue(14),
     color: "#FA5C47",
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
   },
 });
