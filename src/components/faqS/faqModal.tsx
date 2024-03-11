@@ -48,15 +48,16 @@ export default function FaqModal({
           bottom: 0,
           position: "absolute",
           margin: 0,
-        }}
-      >
+        }}>
         <View
           style={{
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(40),
-          }}
-        >
+            borderRadius: 15,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+          }}>
           <View
             style={{
               flexDirection: "row",
@@ -65,19 +66,20 @@ export default function FaqModal({
               backgroundColor: "#fff",
               width: responsiveScreenWidth(100),
               height: responsiveScreenHeight(10),
-            }}
-          >
+              borderRadius: 15,
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+            }}>
             <Text
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-bold",
                 lineHeight: RFValue(30),
-              }}
-            >
+              }}>
               Question 1 placeholder
             </Text>
             <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={24} color="black" />
+              <MaterialIcons name="clear" size={18} color="#1A1A1A" />
             </TouchableOpacity>
           </View>
           <ScrollView
@@ -85,8 +87,7 @@ export default function FaqModal({
             contentContainerStyle={{
               paddingHorizontal: RFValue(15),
               paddingVertical: RFValue(20),
-            }}
-          >
+            }}>
             <View>
               <Text
                 style={{
@@ -95,8 +96,7 @@ export default function FaqModal({
                   lineHeight: RFValue(15),
                   color: "#000",
                   marginBottom: RFValue(7),
-                }}
-              >
+                }}>
                 Header for Q1 answers
               </Text>
 
@@ -105,8 +105,7 @@ export default function FaqModal({
                   fontSize: RFValue(13),
                   fontFamily: "plusjakarta-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 Placeholder for question 1 answers, Placeholder for question 1
                 answers, Placeholder for question 1 answers,Placeholder for
                 question 1 answers, Placeholder for question 1 answers,
@@ -125,12 +124,12 @@ export default function FaqModal({
 const styles = StyleSheet.create({
   clearIcon: {
     backgroundColor: "#fff",
-    padding: RFValue(3),
+    padding: RFValue(6),
     borderRadius: 50,
     position: "absolute",
-        right: RFValue(15),
-        borderWidth: 1,
-    borderColor:"#d0d5dd"
+    right: RFValue(15),
+    borderWidth: 1,
+    borderColor: "#e5e5e5",
   },
   inputbox: {
     width: responsiveScreenWidth(33),
