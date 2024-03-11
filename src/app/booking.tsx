@@ -28,6 +28,8 @@ const { width, height } = Dimensions.get("window");
 import { Switch } from "react-native-switch";
 import BookingDetails from "../components/accountInformation/bookingDetails";
 import CancelBooking from "../components/accountInformation/cancelBooking";
+import colors from "../constants/Colors";
+import AppBar from "../components/appBar";
 
 export default function Booking() {
   const fade = useRef(new Animated.Value(0)).current;
@@ -43,13 +45,13 @@ export default function Booking() {
     setModalBookVisible(false);
   };
 
-    const openCancelModal = () => {
-      setModalCancelVisible(true);
-    };
+  const openCancelModal = () => {
+    setModalCancelVisible(true);
+  };
 
-    const closeCancelModal = () => {
-      setModalCancelVisible(false);
-    };
+  const closeCancelModal = () => {
+    setModalCancelVisible(false);
+  };
 
   const animation = () => {
     Animated.timing(fade, {
@@ -67,11 +69,12 @@ export default function Booking() {
     <>
       <Stack.Screen
         options={{
-          title: "Notification",
+          title: "Booking",
           headerShown: false,
           gestureEnabled: false,
         }}
       />
+      <AppBar title="Booking" returnRoute={"/home/account"} />
       <Animated.View
         style={{
           flex: 1,
@@ -87,47 +90,14 @@ export default function Booking() {
               }),
             },
           ],
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenWidth(20),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-           Booking
-          </Text>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.clearIcon}
-          >
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+        }}>
         <Tab
           value={index}
           onChange={(e) => setIndex(e)}
           style={{
             backgroundColor: "#E4E4E7",
             marginTop: RFValue(15),
+            marginBottom: RFValue(12),
             paddingHorizontal: RFValue(3),
             paddingVertical: RFValue(3),
             marginHorizontal: RFValue(7),
@@ -138,8 +108,7 @@ export default function Booking() {
           buttonStyle={(active) => ({
             backgroundColor: active ? "#fff" : undefined,
             borderRadius: 10,
-          })}
-        >
+          })}>
           <Tab.Item
             title="Pending"
             titleStyle={{
@@ -167,62 +136,75 @@ export default function Booking() {
         </Tab>
         <TabView value={index} onChange={setIndex} animationType="spring">
           <TabView.Item
-            style={{ backgroundColor: "white", width: "100%", height: "100%" }}
-          >
+            style={{ backgroundColor: "white", width: "100%", height: "100%" }}>
             <ScrollView
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{
                 paddingHorizontal: RFValue(7),
-              }}
-            >
+              }}>
               <View
                 style={{
+                  position: "relative",
                   borderWidth: 1,
-                  borderColor: "#d5d0dd",
+                  borderColor: "#f3f4f6",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
                   borderRadius: RFValue(10),
-                  marginTop: RFValue(5),
+                  marginTop: RFValue(20),
                   marginBottom: RFValue(10),
-                }}
-              >
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
+                }}>
+                <View
+                  style={{
+                    zIndex: 20,
+                    paddingVertical: RFValue(5),
+                    paddingHorizontal: RFValue(12),
+                    borderRadius: RFValue(12),
+                    backgroundColor: "#FDFBF7",
+                    width: RFValue(115),
+                    height: RFValue(28),
+                    position: "absolute",
+                    top: RFValue(-14),
+                    left: RFValue(0),
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(10),
+                      fontFamily: "outfit-semibold",
+                      color: "#E8AE2E",
+                    }}>
+                    Pending approval
+                  </Text>
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 10,
-                  }}
-                >
-                  <View style={{ position: "relative" }}>
+                  }}>
+                  <View>
                     <Image
                       resizeMode="contain"
                       source={require("../assets/images/bedroom.png")}
                       style={{
-                        height: RFValue(80),
-                        width: RFValue(80),
-                      }}
-                    />
-                    <Image
-                      resizeMode="contain"
-                      source={require("../assets/images/approval.png")}
-                      style={{
-                        height: RFValue(90),
+                        height: RFValue(95),
                         width: RFValue(90),
-                        position: "absolute",
-                        bottom: RFValue(40),
-                        left: RFValue(-5),
-                        right: RFValue(0),
+                        marginTop: RFValue(-7),
                       }}
                     />
                   </View>
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(14),
+                        fontSize: RFValue(16),
                         fontFamily: "outfit-bold",
-                      }}
-                    >
+                      }}>
                       One bedroom flat
                     </Text>
                     <View
@@ -231,8 +213,7 @@ export default function Booking() {
                         gap: 5,
                         alignItems: "center",
                         marginTop: RFValue(3),
-                      }}
-                    >
+                      }}>
                       <Image
                         resizeMode="contain"
                         source={require("../assets/images/location.png")}
@@ -243,11 +224,10 @@ export default function Booking() {
                       />
                       <Text
                         style={{
-                          fontSize: RFValue(11),
-                          fontFamily: "plusjakarta-regular",
+                          fontSize: RFValue(13),
                           color: "#414141",
-                        }}
-                      >
+                          fontFamily: "urbanist-medium",
+                        }}>
                         Lekki phase 1, Lagos, Nigeria
                       </Text>
                     </View>
@@ -256,41 +236,36 @@ export default function Booking() {
                         paddingVertical: RFValue(5),
                         paddingHorizontal: RFValue(12),
                         borderRadius: RFValue(5),
-                        backgroundColor: "#ECFFF4",
-                        width: RFValue(79),
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        backgroundColor: "#F5F5F5",
+                        width: RFValue(82),
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(11),
-                          fontFamily: "outfit-medium",
-                          color: "#06782F",
-                        }}
-                      >
+                          fontFamily: "outfit-semibold",
+                          color: "#00AE31",
+                        }}>
                         Apartment
                       </Text>
                     </TouchableOpacity>
                     <View
                       style={{
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(14),
                           fontFamily: "outfit-bold",
-                          color: "#06782F",
-                        }}
-                      >
+                          color: "#00AE31",
+                        }}>
                         ₦60,000{" "}
                         <Text
                           style={{
-                            fontSize: RFValue(9),
-                            fontFamily: "plusjakarta-regular",
+                            fontSize: RFValue(11),
                             color: "#414141",
-                          }}
-                        >
+                            fontFamily: "urbanist-medium",
+                          }}>
                           /2 night
                         </Text>
                       </Text>
@@ -300,48 +275,130 @@ export default function Booking() {
                 <View
                   style={{
                     flexDirection: "row",
+                    gap: 18,
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    marginTop: RFValue(5),
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={openCancelModal}
+                    marginTop: RFValue(6),
+                  }}>
+                  <View
                     style={{
-                      backgroundColor: "#FFF8F8",
-                      padding: Platform.OS === "ios" ? 14 : 12,
-                      borderRadius: 10,
-                      width: responsiveScreenWidth(43),
-                    }}
-                  >
+                      marginTop: RFValue(3),
+                    }}>
                     <Text
                       style={{
-                        fontSize: RFValue(14),
-                        color: "#FA5C47",
-                        fontFamily: "outfit-medium",
-                        textAlign: "center",
-                      }}
-                    >
-                      Cancel booking
+                        fontSize: RFValue(12),
+                        color: "#414141",
+                        fontFamily: "urbanist-medium",
+                      }}>
+                      Check-in date
                     </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        gap: 5,
+                        alignItems: "center",
+                        marginTop: RFValue(8),
+                      }}>
+                      <Image
+                        resizeMode="contain"
+                        source={require("../assets/images/calendar.png")}
+                        style={{
+                          width: RFValue(20),
+                          height: RFValue(20),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(12),
+                          color: "#414141",
+                          fontFamily: "urbanist-medium",
+                        }}>
+                        Wed, Aug 23, 2023
+                      </Text>
+                    </View>
+                  </View>
+                  <View
                     style={{
-                      backgroundColor: "#06782F",
+                      marginTop: RFValue(3),
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: RFValue(12),
+                        color: "#414141",
+                        fontFamily: "urbanist-medium",
+                      }}>
+                      Check-out date
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        gap: 5,
+                        alignItems: "center",
+                        marginTop: RFValue(8),
+                      }}>
+                      <Image
+                        resizeMode="contain"
+                        source={require("../assets/images/calendar.png")}
+                        style={{
+                          width: RFValue(20),
+                          height: RFValue(20),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(12),
+                          color: "#414141",
+                          fontFamily: "urbanist-medium",
+                        }}>
+                        Fri, Aug 26, 2023
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginTop: RFValue(10),
+                  }}>
+                  <TouchableOpacity
+                    onPress={openBookModal}
+                    style={{
+                      backgroundColor: colors.primary,
                       padding: Platform.OS === "ios" ? 14 : 12,
                       borderRadius: 10,
+                      borderBottomRightRadius: 0,
                       width: responsiveScreenWidth(43),
-                    }}
-                  >
+                    }}>
                     <Text
                       style={{
                         fontSize: RFValue(14),
                         color: "#fff",
-                        fontFamily: "outfit-medium",
+                        fontFamily: "outfit-semibold",
                         textAlign: "center",
-                      }}
-                    >
+                      }}>
                       View details
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={openCancelModal}
+                    style={{
+                      backgroundColor: "#FDFDFD",
+                      padding: Platform.OS === "ios" ? 14 : 12,
+                      borderRadius: 10,
+                      borderBottomRightRadius: 0,
+                      borderWidth: RFValue(1),
+                      borderColor: "#F0F4FF",
+                      width: responsiveScreenWidth(43),
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        color: "#FA5C47",
+                        fontFamily: "outfit-semibold",
+                        textAlign: "center",
+                      }}>
+                      Cancel
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -357,56 +414,68 @@ export default function Booking() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{
                 paddingHorizontal: RFValue(7),
-              }}
-            >
+              }}>
               <View
                 style={{
+                  position: "relative",
                   borderWidth: 1,
-                  borderColor: "#d5d0dd",
+                  borderColor: "#f3f4f6",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
                   borderRadius: RFValue(10),
-                  marginTop: RFValue(5),
+                  marginTop: RFValue(20),
                   marginBottom: RFValue(10),
-                }}
-              >
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
+                }}>
+                <View
+                  style={{
+                    zIndex: 20,
+                    paddingVertical: RFValue(5),
+                    paddingHorizontal: RFValue(12),
+                    borderRadius: RFValue(12),
+                    backgroundColor: "#ECFFF4",
+                    width: RFValue(115),
+                    height: RFValue(28),
+                    position: "absolute",
+                    top: RFValue(-14),
+                    left: RFValue(0),
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(10),
+                      fontFamily: "outfit-semibold",
+                      color: "#00AE31",
+                    }}>
+                    Approved by host
+                  </Text>
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 10,
-                  }}
-                >
-                  <View style={{ position: "relative" }}>
-                    <Image
-                      resizeMode="contain"
-                      source={require("../assets/images/bedroom.png")}
-                      style={{
-                        height: RFValue(80),
-                        width: RFValue(80),
-                      }}
-                    />
-                    <Image
-                      resizeMode="contain"
-                      source={require("../assets/images/approved.png")}
-                      style={{
-                        height: RFValue(90),
-                        width: RFValue(90),
-                        position: "absolute",
-                        bottom: RFValue(40),
-                        left: RFValue(-5),
-                        right: RFValue(0),
-                      }}
-                    />
-                  </View>
+                  }}>
+                  <Image
+                    resizeMode="contain"
+                    source={require("../assets/images/bedroom.png")}
+                    style={{
+                      height: RFValue(95),
+                      width: RFValue(90),
+                      marginTop: RFValue(-7),
+                    }}
+                  />
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(14),
+                        fontSize: RFValue(16),
                         fontFamily: "outfit-bold",
-                      }}
-                    >
+                      }}>
                       One bedroom flat
                     </Text>
                     <View
@@ -415,8 +484,7 @@ export default function Booking() {
                         gap: 5,
                         alignItems: "center",
                         marginTop: RFValue(3),
-                      }}
-                    >
+                      }}>
                       <Image
                         resizeMode="contain"
                         source={require("../assets/images/location.png")}
@@ -427,11 +495,10 @@ export default function Booking() {
                       />
                       <Text
                         style={{
-                          fontSize: RFValue(11),
-                          fontFamily: "plusjakarta-regular",
+                          fontSize: RFValue(13),
                           color: "#414141",
-                        }}
-                      >
+                          fontFamily: "urbanist-medium",
+                        }}>
                         Lekki phase 1, Lagos, Nigeria
                       </Text>
                     </View>
@@ -440,41 +507,36 @@ export default function Booking() {
                         paddingVertical: RFValue(5),
                         paddingHorizontal: RFValue(12),
                         borderRadius: RFValue(5),
-                        backgroundColor: "#ECFFF4",
-                        width: RFValue(79),
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        backgroundColor: "#F5F5F5",
+                        width: RFValue(82),
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(11),
-                          fontFamily: "outfit-medium",
-                          color: "#06782F",
-                        }}
-                      >
+                          fontFamily: "outfit-semibold",
+                          color: "#00AE31",
+                        }}>
                         Apartment
                       </Text>
                     </TouchableOpacity>
                     <View
                       style={{
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(14),
                           fontFamily: "outfit-bold",
-                          color: "#06782F",
-                        }}
-                      >
+                          color: "#00AE31",
+                        }}>
                         ₦60,000{" "}
                         <Text
                           style={{
-                            fontSize: RFValue(9),
-                            fontFamily: "plusjakarta-regular",
+                            fontSize: RFValue(11),
                             color: "#414141",
-                          }}
-                        >
+                            fontFamily: "urbanist-medium",
+                          }}>
                           /2 night
                         </Text>
                       </Text>
@@ -484,47 +546,129 @@ export default function Booking() {
                 <View
                   style={{
                     flexDirection: "row",
+                    gap: 18,
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    marginTop: RFValue(5),
-                  }}
-                >
-                  <TouchableOpacity
+                    marginTop: RFValue(6),
+                  }}>
+                  <View
                     style={{
-                      backgroundColor: "#ECFFF4",
-                      padding: Platform.OS === "ios" ? 14 : 12,
-                      borderRadius: 10,
-                      width: responsiveScreenWidth(43),
-                    }}
-                  >
+                      marginTop: RFValue(3),
+                    }}>
                     <Text
                       style={{
-                        fontSize: RFValue(14),
-                        color: "#06782F",
-                        fontFamily: "outfit-medium",
-                        textAlign: "center",
-                      }}
-                    >
-                      Manage host
+                        fontSize: RFValue(12),
+                        color: "#414141",
+                        fontFamily: "urbanist-medium",
+                      }}>
+                      Check-in date
                     </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        gap: 5,
+                        alignItems: "center",
+                        marginTop: RFValue(8),
+                      }}>
+                      <Image
+                        resizeMode="contain"
+                        source={require("../assets/images/calendar.png")}
+                        style={{
+                          width: RFValue(20),
+                          height: RFValue(20),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(12),
+                          color: "#414141",
+                          fontFamily: "urbanist-medium",
+                        }}>
+                        Wed, Aug 23, 2023
+                      </Text>
+                    </View>
+                  </View>
+                  <View
                     style={{
-                      backgroundColor: "#06782F",
+                      marginTop: RFValue(3),
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: RFValue(12),
+                        color: "#414141",
+                        fontFamily: "urbanist-medium",
+                      }}>
+                      Check-out date
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        gap: 5,
+                        alignItems: "center",
+                        marginTop: RFValue(8),
+                      }}>
+                      <Image
+                        resizeMode="contain"
+                        source={require("../assets/images/calendar.png")}
+                        style={{
+                          width: RFValue(20),
+                          height: RFValue(20),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(12),
+                          color: "#414141",
+                          fontFamily: "urbanist-medium",
+                        }}>
+                        Fri, Aug 26, 2023
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginTop: RFValue(10),
+                  }}>
+                  <TouchableOpacity
+                    onPress={openBookModal}
+                    style={{
+                      backgroundColor: colors.primary,
                       padding: Platform.OS === "ios" ? 14 : 12,
                       borderRadius: 10,
+                      borderBottomRightRadius: 0,
                       width: responsiveScreenWidth(43),
-                    }}
-                  >
+                    }}>
                     <Text
                       style={{
                         fontSize: RFValue(14),
                         color: "#fff",
-                        fontFamily: "outfit-medium",
+                        fontFamily: "outfit-semibold",
                         textAlign: "center",
-                      }}
-                    >
+                      }}>
                       View details
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: "#FDFDFD",
+                      padding: Platform.OS === "ios" ? 14 : 12,
+                      borderRadius: 10,
+                      borderBottomRightRadius: 0,
+                      borderWidth: RFValue(1),
+                      borderColor: "#F0F4FF",
+                      width: responsiveScreenWidth(43),
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        color: colors.primary,
+                        fontFamily: "outfit-semibold",
+                        textAlign: "center",
+                      }}>
+                      Chat host
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -536,8 +680,7 @@ export default function Booking() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{
                 paddingHorizontal: RFValue(7),
-              }}
-            >
+              }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -547,11 +690,10 @@ export default function Booking() {
                   backgroundColor: "#F1F5FF",
                   paddingHorizontal: RFValue(12),
                   paddingVertical: RFValue(10),
-                  marginTop: RFValue(20),
+                  marginTop: RFValue(8),
                   marginBottom: RFValue(30),
                   borderRadius: RFValue(8),
-                }}
-              >
+                }}>
                 <Image
                   resizeMode="contain"
                   source={require("../assets/images/danger.png")}
@@ -562,12 +704,11 @@ export default function Booking() {
                 />
                 <Text
                   style={{
-                    fontSize: RFValue(12),
-                    fontFamily: "plusjakarta-regular",
-                    color: "#306AFF",
+                    fontSize: RFValue(14),
+                    fontFamily: "urbanist-medium",
+                    color: "#000000",
                     flexShrink: 1,
-                  }}
-                >
+                  }}>
                   Full refund is only available for users who cancelled within
                   24hrs after booking or users whose host declined or did not
                   approve their booking request within 24hrs! Otherwise you may
@@ -577,52 +718,67 @@ export default function Booking() {
               </View>
               <View
                 style={{
+                  position: "relative",
                   borderWidth: 1,
-                  borderColor: "#d5d0dd",
+                  borderColor: "#f3f4f6",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
                   borderRadius: RFValue(10),
                   marginTop: RFValue(5),
                   marginBottom: RFValue(10),
-                }}
-              >
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
+                }}>
+                <View
+                  style={{
+                    zIndex: 20,
+                    paddingVertical: RFValue(5),
+                    paddingHorizontal: RFValue(12),
+                    borderRadius: RFValue(12),
+                    backgroundColor: "#F5F5F5",
+                    width: RFValue(82),
+                    height: RFValue(28),
+                    position: "absolute",
+                    top: RFValue(-14),
+                    left: RFValue(0),
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(10),
+                      fontFamily: "outfit-semibold",
+                      color: "#FA5C47",
+                    }}>
+                    Cancelled
+                  </Text>
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 10,
-                  }}
-                >
-                  <View style={{ position: "relative" }}>
+                  }}>
+                  <View>
                     <Image
                       resizeMode="contain"
                       source={require("../assets/images/bedroom.png")}
                       style={{
-                        height: RFValue(80),
-                        width: RFValue(80),
-                      }}
-                    />
-                    <Image
-                      resizeMode="contain"
-                      source={require("../assets/images/cancelled.png")}
-                      style={{
-                        height: RFValue(80),
-                        width: RFValue(70),
-                        position: "absolute",
-                        bottom: RFValue(50),
-                        left: RFValue(-5),
-                        right: RFValue(0),
+                        height: RFValue(95),
+                        width: RFValue(90),
+                        marginTop: RFValue(-7),
                       }}
                     />
                   </View>
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(14),
+                        fontSize: RFValue(16),
                         fontFamily: "outfit-bold",
-                      }}
-                    >
+                      }}>
                       One bedroom flat
                     </Text>
                     <View
@@ -631,8 +787,7 @@ export default function Booking() {
                         gap: 5,
                         alignItems: "center",
                         marginTop: RFValue(3),
-                      }}
-                    >
+                      }}>
                       <Image
                         resizeMode="contain"
                         source={require("../assets/images/location.png")}
@@ -643,11 +798,10 @@ export default function Booking() {
                       />
                       <Text
                         style={{
-                          fontSize: RFValue(11),
-                          fontFamily: "plusjakarta-regular",
+                          fontSize: RFValue(13),
                           color: "#414141",
-                        }}
-                      >
+                          fontFamily: "urbanist-medium",
+                        }}>
                         Lekki phase 1, Lagos, Nigeria
                       </Text>
                     </View>
@@ -656,41 +810,36 @@ export default function Booking() {
                         paddingVertical: RFValue(5),
                         paddingHorizontal: RFValue(12),
                         borderRadius: RFValue(5),
-                        backgroundColor: "#ECFFF4",
-                        width: RFValue(79),
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        backgroundColor: "#F5F5F5",
+                        width: RFValue(82),
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(11),
-                          fontFamily: "outfit-medium",
-                          color: "#06782F",
-                        }}
-                      >
+                          fontFamily: "outfit-semibold",
+                          color: "#00AE31",
+                        }}>
                         Apartment
                       </Text>
                     </TouchableOpacity>
                     <View
                       style={{
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(14),
                           fontFamily: "outfit-bold",
-                          color: "#06782F",
-                        }}
-                      >
+                          color: "#00AE31",
+                        }}>
                         ₦60,000{" "}
                         <Text
                           style={{
-                            fontSize: RFValue(9),
-                            fontFamily: "plusjakarta-regular",
+                            fontSize: RFValue(11),
                             color: "#414141",
-                          }}
-                        >
+                            fontFamily: "urbanist-medium",
+                          }}>
                           /2 night
                         </Text>
                       </Text>
@@ -702,97 +851,113 @@ export default function Booking() {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    marginTop: RFValue(5),
-                  }}
-                >
+                    marginTop: RFValue(10),
+                  }}>
                   <TouchableOpacity
+                    onPress={openBookModal}
                     style={{
-                      backgroundColor: "#ECFFF4",
+                      backgroundColor: colors.primary,
                       padding: Platform.OS === "ios" ? 14 : 12,
                       borderRadius: 10,
+                      borderBottomRightRadius: 0,
                       width: responsiveScreenWidth(43),
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: RFValue(14),
-                        color: "#06782F",
-                        fontFamily: "outfit-medium",
-                        textAlign: "center",
-                      }}
-                    >
-                      Request refund
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#06782F",
-                      padding: Platform.OS === "ios" ? 14 : 12,
-                      borderRadius: 10,
-                      width: responsiveScreenWidth(43),
-                    }}
-                  >
+                    }}>
                     <Text
                       style={{
                         fontSize: RFValue(14),
                         color: "#fff",
-                        fontFamily: "outfit-medium",
+                        fontFamily: "outfit-semibold",
                         textAlign: "center",
-                      }}
-                    >
+                      }}>
                       View details
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: "#FDFDFD",
+                      padding: Platform.OS === "ios" ? 14 : 12,
+                      borderRadius: 10,
+                      borderBottomRightRadius: 0,
+                      borderWidth: RFValue(1),
+                      borderColor: "#F0F4FF",
+                      width: responsiveScreenWidth(43),
+                    }}>
+                    <Text
+                      onPress={() => router.push("/refund")}
+                      style={{
+                        fontSize: RFValue(14),
+                        color: colors.primary,
+                        fontFamily: "outfit-semibold",
+                        textAlign: "center",
+                      }}>
+                      Refund
                     </Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <View
                 style={{
+                  position: "relative",
                   borderWidth: 1,
-                  borderColor: "#d5d0dd",
+                  borderColor: "#f3f4f6",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
                   borderRadius: RFValue(10),
                   marginTop: RFValue(20),
                   marginBottom: RFValue(10),
-                }}
-              >
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
+                }}>
+                <View
+                  style={{
+                    zIndex: 20,
+                    paddingVertical: RFValue(5),
+                    paddingHorizontal: RFValue(12),
+                    borderRadius: RFValue(12),
+                    backgroundColor: "#F5F5F5",
+                    width: RFValue(82),
+                    height: RFValue(28),
+                    position: "absolute",
+                    top: RFValue(-14),
+                    left: RFValue(0),
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(10),
+                      fontFamily: "outfit-semibold",
+                      color: "#FA5C47",
+                    }}>
+                    Cancelled
+                  </Text>
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 10,
-                  }}
-                >
-                  <View style={{ position: "relative" }}>
+                  }}>
+                  <View>
                     <Image
                       resizeMode="contain"
                       source={require("../assets/images/bedroom.png")}
                       style={{
-                        height: RFValue(80),
-                        width: RFValue(80),
-                      }}
-                    />
-                    <Image
-                      resizeMode="contain"
-                      source={require("../assets/images/cancelled.png")}
-                      style={{
-                        height: RFValue(80),
-                        width: RFValue(70),
-                        position: "absolute",
-                        bottom: RFValue(50),
-                        left: RFValue(-5),
-                        right: RFValue(0),
+                        height: RFValue(95),
+                        width: RFValue(90),
+                        marginTop: RFValue(-7),
                       }}
                     />
                   </View>
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(14),
+                        fontSize: RFValue(16),
                         fontFamily: "outfit-bold",
-                      }}
-                    >
+                      }}>
                       One bedroom flat
                     </Text>
                     <View
@@ -801,8 +966,7 @@ export default function Booking() {
                         gap: 5,
                         alignItems: "center",
                         marginTop: RFValue(3),
-                      }}
-                    >
+                      }}>
                       <Image
                         resizeMode="contain"
                         source={require("../assets/images/location.png")}
@@ -813,11 +977,10 @@ export default function Booking() {
                       />
                       <Text
                         style={{
-                          fontSize: RFValue(11),
-                          fontFamily: "plusjakarta-regular",
+                          fontSize: RFValue(13),
                           color: "#414141",
-                        }}
-                      >
+                          fontFamily: "urbanist-medium",
+                        }}>
                         Lekki phase 1, Lagos, Nigeria
                       </Text>
                     </View>
@@ -826,41 +989,36 @@ export default function Booking() {
                         paddingVertical: RFValue(5),
                         paddingHorizontal: RFValue(12),
                         borderRadius: RFValue(5),
-                        backgroundColor: "#ECFFF4",
-                        width: RFValue(79),
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        backgroundColor: "#F5F5F5",
+                        width: RFValue(82),
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(11),
-                          fontFamily: "outfit-medium",
-                          color: "#06782F",
-                        }}
-                      >
+                          fontFamily: "outfit-semibold",
+                          color: "#00AE31",
+                        }}>
                         Apartment
                       </Text>
                     </TouchableOpacity>
                     <View
                       style={{
-                        marginTop: RFValue(3),
-                      }}
-                    >
+                        marginTop: RFValue(5),
+                      }}>
                       <Text
                         style={{
                           fontSize: RFValue(14),
                           fontFamily: "outfit-bold",
-                          color: "#06782F",
-                        }}
-                      >
+                          color: "#00AE31",
+                        }}>
                         ₦60,000{" "}
                         <Text
                           style={{
-                            fontSize: RFValue(9),
-                            fontFamily: "plusjakarta-regular",
+                            fontSize: RFValue(11),
                             color: "#414141",
-                          }}
-                        >
+                            fontFamily: "urbanist-medium",
+                          }}>
                           /2 night
                         </Text>
                       </Text>
@@ -872,46 +1030,225 @@ export default function Booking() {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    marginTop: RFValue(5),
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#ECFFF4",
-                      padding: Platform.OS === "ios" ? 14 : 12,
-                      borderRadius: 10,
-                      width: responsiveScreenWidth(43),
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: RFValue(14),
-                        color: "#06782F",
-                        fontFamily: "outfit-medium",
-                        textAlign: "center",
-                      }}
-                    >
-                      Request refund
-                    </Text>
-                  </TouchableOpacity>
+                    marginTop: RFValue(10),
+                  }}>
                   <TouchableOpacity
                     onPress={openBookModal}
                     style={{
-                      backgroundColor: "#06782F",
+                      backgroundColor: colors.primary,
                       padding: Platform.OS === "ios" ? 14 : 12,
                       borderRadius: 10,
+                      borderBottomRightRadius: 0,
                       width: responsiveScreenWidth(43),
-                    }}
-                  >
+                    }}>
                     <Text
                       style={{
                         fontSize: RFValue(14),
                         color: "#fff",
-                        fontFamily: "outfit-medium",
+                        fontFamily: "outfit-semibold",
                         textAlign: "center",
-                      }}
-                    >
+                      }}>
                       View details
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: "#FDFDFD",
+                      padding: Platform.OS === "ios" ? 14 : 12,
+                      borderRadius: 10,
+                      borderBottomRightRadius: 0,
+                      borderWidth: RFValue(1),
+                      borderColor: "#F0F4FF",
+                      width: responsiveScreenWidth(43),
+                    }}>
+                    <Text
+                      onPress={() => router.push("/refund")}
+                      style={{
+                        fontSize: RFValue(14),
+                        color: colors.primary,
+                        fontFamily: "outfit-semibold",
+                        textAlign: "center",
+                      }}>
+                      Refund
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View
+                style={{
+                  position: "relative",
+                  borderWidth: 1,
+                  borderColor: "#f3f4f6",
+                  paddingHorizontal: RFValue(10),
+                  paddingVertical: RFValue(10),
+                  backgroundColor: "#fff",
+                  borderRadius: RFValue(10),
+                  marginTop: RFValue(20),
+                  marginBottom: RFValue(10),
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
+                }}>
+                <View
+                  style={{
+                    zIndex: 20,
+                    paddingVertical: RFValue(5),
+                    paddingHorizontal: RFValue(12),
+                    borderRadius: RFValue(12),
+                    backgroundColor: "#F5F5F5",
+                    width: RFValue(82),
+                    height: RFValue(28),
+                    position: "absolute",
+                    top: RFValue(-14),
+                    left: RFValue(0),
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(10),
+                      fontFamily: "outfit-semibold",
+                      color: "#FA5C47",
+                    }}>
+                    Cancelled
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}>
+                  <View>
+                    <Image
+                      resizeMode="contain"
+                      source={require("../assets/images/bedroom.png")}
+                      style={{
+                        height: RFValue(95),
+                        width: RFValue(90),
+                        marginTop: RFValue(-7),
+                      }}
+                    />
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: RFValue(16),
+                        fontFamily: "outfit-bold",
+                      }}>
+                      One bedroom flat
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        gap: 5,
+                        alignItems: "center",
+                        marginTop: RFValue(3),
+                      }}>
+                      <Image
+                        resizeMode="contain"
+                        source={require("../assets/images/location.png")}
+                        style={{
+                          width: RFValue(15),
+                          height: RFValue(15),
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: RFValue(13),
+                          color: "#414141",
+                          fontFamily: "urbanist-medium",
+                        }}>
+                        Lekki phase 1, Lagos, Nigeria
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      style={{
+                        paddingVertical: RFValue(5),
+                        paddingHorizontal: RFValue(12),
+                        borderRadius: RFValue(5),
+                        backgroundColor: "#F5F5F5",
+                        width: RFValue(82),
+                        marginTop: RFValue(5),
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: RFValue(11),
+                          fontFamily: "outfit-semibold",
+                          color: "#00AE31",
+                        }}>
+                        Apartment
+                      </Text>
+                    </TouchableOpacity>
+                    <View
+                      style={{
+                        marginTop: RFValue(5),
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: RFValue(14),
+                          fontFamily: "outfit-bold",
+                          color: "#00AE31",
+                        }}>
+                        ₦60,000{" "}
+                        <Text
+                          style={{
+                            fontSize: RFValue(11),
+                            color: "#414141",
+                            fontFamily: "urbanist-medium",
+                          }}>
+                          /2 night
+                        </Text>
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginTop: RFValue(10),
+                  }}>
+                  <TouchableOpacity
+                    onPress={openBookModal}
+                    style={{
+                      backgroundColor: colors.primary,
+                      padding: Platform.OS === "ios" ? 14 : 12,
+                      borderRadius: 10,
+                      borderBottomRightRadius: 0,
+                      width: responsiveScreenWidth(43),
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: RFValue(14),
+                        color: "#fff",
+                        fontFamily: "outfit-semibold",
+                        textAlign: "center",
+                      }}>
+                      View details
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: "#FDFDFD",
+                      padding: Platform.OS === "ios" ? 14 : 12,
+                      borderRadius: 10,
+                      borderBottomRightRadius: 0,
+                      borderWidth: RFValue(1),
+                      borderColor: "#F0F4FF",
+                      width: responsiveScreenWidth(43),
+                    }}>
+                    <Text
+                      onPress={() => router.push("/refund")}
+                      style={{
+                        fontSize: RFValue(14),
+                        color: colors.primary,
+                        fontFamily: "outfit-semibold",
+                        textAlign: "center",
+                      }}>
+                      Refund
                     </Text>
                   </TouchableOpacity>
                 </View>
