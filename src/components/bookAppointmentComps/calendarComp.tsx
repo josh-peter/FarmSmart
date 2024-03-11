@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import DatePicker from "react-native-modern-datepicker";
+import colors from '../../constants/Colors';
 
 
 export default function CalendarComponent({ setAppointmentDate }:any) {
   const [selectedDate, setSelectedDate] = useState("");
   return (
     <View>
-      <View
-      >
+      <View>
+        
         <Text
           style={{
             fontSize: RFValue(18),
@@ -24,13 +25,13 @@ export default function CalendarComponent({ setAppointmentDate }:any) {
           onSelectedChange={(date: any) => setAppointmentDate(date)}
           mode="calendar"
           options={{
-            locale: "en-US",
-            format: "MMM DD YYYY HH:mm A",
-            backgroundColor: "#fafafa",
-            mainColor: "#06782F",
+            backgroundColor: colors.background,
+            mainColor: colors.primary,
           }}
           style={{
             borderRadius: 10,
+            borderWidth: 1,
+            borderColor: colors.border2,
           }}
         />
       </View>

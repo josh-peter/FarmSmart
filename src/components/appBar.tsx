@@ -5,47 +5,41 @@ import {
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { router } from "expo-router";
+import colors from "../constants/Colors";
 // import { useNavigation } from '@react-navigation/native';
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
 type Props = {
-    title: string,
-    returnRoute: any
-}
+  title: string;
+  onPress: any;
+};
 
-export default function AppBar({title, returnRoute}: Props) {
-    // const navigation = useNavigation();    
-
-    // const handleBackBtn = () => {
-    //     navigation.goBack();
-    // };
+export default function AppBar({ title, onPress}: Readonly<Props>) {
 
   return (
-    <>
-        <View style={styles.appBar}>
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            {title}
-          </Text>
-          <TouchableOpacity onPress={() => router.push(returnRoute)} style={styles.clearIcon}>
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-    </>
-  )
+    <View style={styles.appBar}>
+      <Text
+        style={{
+          fontSize: RFValue(16),
+          fontFamily: "outfit-bold",
+          lineHeight: RFValue(30),
+        }}
+      >
+        {title}
+      </Text>
+      <TouchableOpacity onPress={onPress} style={styles.clearIcon}>
+        <Image
+          resizeMode="contain"
+          source={require("../assets/images/arrow-left.png")}
+          style={{
+            height: RFValue(15),
+            width: RFValue(15),
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -63,8 +57,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-    marginBottom: RFValue(15),
+    backgroundColor: colors.background,
+    marginBottom: RFValue(5),
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 20,
     shadowOpacity: 0.16,

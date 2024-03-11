@@ -42,6 +42,8 @@ export default function PropertyVideoPlay({
   const refVideo2 = useRef<any>(null);
   const [inFullscreen, setInFullsreen] = useState(false);
   const [click, setClick] = useState(false);
+   const video = React.useRef<any>(null);
+   const [status, setStatus] = useState<any>({});
 
   const videoContainerStyles = inFullscreen
     ? styles.fullscreenContainer
@@ -104,69 +106,28 @@ export default function PropertyVideoPlay({
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              setClick(true);
-            }}
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-              position: "relative",
-            }}
-          >
-            <VideoPlayer
-              videoProps={{
-                shouldPlay: false,
-                resizeMode: ResizeMode.COVER,
-                source: {
-                  uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-                },
-                isMuted: isMute,
+          <TouchableOpacity style={{}}>
+            <Video
+              ref={video}
+              style={styles.video}
+              source={{
+                uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
               }}
-              defaultControlsVisible={false}
-              style={videoContainerStyles}
+              useNativeControls
+              resizeMode={ResizeMode.CONTAIN}
+              isLooping
+              onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             />
-            {/* {click && (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 5,
-                  zIndex:999,
-                }}
-              >
-                <Image
-                  contentFit="contain"
-                  source={require("../../../assets/images/vidvolume.png")}
-                  style={{
-                    height: RFValue(20),
-                    width: RFValue(20),
-                  }}
-                />
-                <View>
-                  <Progress.Bar progress={0.3} width={200} />
-                </View>
-                <Text>1:06 / 4:21</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    // Handle custom play/pause action here
-                  }}
-                >
-                  <Image
-                    contentFit="contain"
-                    source={require("../../../assets/images/vidplay.png")}
-                    style={{
-                      height: RFValue(20),
-                      width: RFValue(20),
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
-            )} */}
+            <View style={styles.buttons}>
+              <Button
+                title={status.isPlaying ? "Pause" : "Play"}
+                onPress={() =>
+                  status.isPlaying
+                    ? video.current.pauseAsync()
+                    : video.current.playAsync()
+                }
+              />
+            </View>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -211,8 +172,8 @@ const styles = StyleSheet.create({
     fontFamily: "outfit-medium",
     textAlign: "center",
   },
-  videoSize: {
-    height: "100%",
+  video: {
+    height: 200,
     width: "100%",
   },
   fullscreenContainer: {

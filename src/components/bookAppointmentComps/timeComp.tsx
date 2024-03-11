@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { timeData } from '../../Data/timeData';
+import colors from '../../constants/Colors';
+import { Image } from 'expo-image';
 
 export default function TimeComp({ setAppointmentTime }:any) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -11,50 +13,58 @@ export default function TimeComp({ setAppointmentTime }:any) {
   return (
     <View>
       <View>
-        <Text
+      
+        <View
           style={{
-            fontSize: RFValue(18),
-            fontFamily: "outfit-bold",
-            color: "#161917",
-            lineHeight: RFValue(40),
+            marginTop: RFValue(20),
           }}
         >
-          Choose time
-        </Text>
-        <View>
-          <View
+          <Text
             style={{
-              flexDirection: "row",
-              gap: RFValue(5),
-              alignItems: "center",
-              flexWrap: "wrap",
+              fontSize: RFValue(18),
+              fontFamily: "outfit-bold",
+              color: "#161917",
+              lineHeight: RFValue(40),
             }}
           >
-            {timeData?.map((time) => (
-              <TouchableOpacity
-                    onPress={() => {
-                        handleIconPress(time.id)
-                        setAppointmentTime(time.value)
-                    }}
-                key={time.id}
-                style={{
-                  backgroundColor:
-                    activeIndex === time.id ? "#06782F" : "#ECFFF4",
-                  padding: RFValue(10),
-                  borderRadius: 20,
-                }}
-              >
-                <Text
+            Choose time
+          </Text>
+          <View>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: RFValue(5),
+                alignItems: "center",
+                flexWrap: "wrap",
+                marginTop: RFValue(10),
+              }}
+            >
+              {timeData?.map((time) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleIconPress(time.id);
+                    setAppointmentTime(time.value);
+                  }}
+                  key={time.id}
                   style={{
-                    fontSize: RFValue(11),
-                    fontFamily: "outfit-medium",
-                    color: activeIndex === time.id ? "#fff" : "#06782F",
+                    backgroundColor:
+                      activeIndex === time.id ? colors.primary : colors.warm,
+                    padding: RFValue(10),
+                    borderRadius: 20,
                   }}
                 >
-                  {time.value}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  <Text
+                    style={{
+                      fontSize: RFValue(11),
+                      fontFamily: "outfit-medium",
+                      color: activeIndex === time.id ? colors.background : colors.primary,
+                    }}
+                  >
+                    {time.value}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         </View>
       </View>

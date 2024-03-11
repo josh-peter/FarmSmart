@@ -198,7 +198,6 @@ export default function PropertyCarouselImages() {
               marginBottom: RFValue(-40),
               paddingHorizontal: RFValue(5),
               height: RFValue(220),
-              overflow: "hidden",
             }}
           >
             <Image

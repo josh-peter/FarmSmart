@@ -9,7 +9,6 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import PropertyFeatureComp from "../components/propertyDetailsProps/propertyFeaturesComp";
 import AboutProperty from "../components/propertyDetailsProps/aboutProperty";
@@ -60,14 +59,10 @@ export default function PropertyDetails() {
           gestureEnabled: false,
         }}
       />
-        <View
-          
-       style={{
-            flex: 1,
-            height: height,
+        <Animated.ScrollView
+       contentContainerStyle={{
             width: width,
             backgroundColor: "#fff",
-           
           }}
         >
           <PropertyCarouselImages />
@@ -106,7 +101,7 @@ export default function PropertyDetails() {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.ScrollView>
       <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );

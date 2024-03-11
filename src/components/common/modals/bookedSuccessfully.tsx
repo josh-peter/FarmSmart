@@ -19,6 +19,8 @@ import {
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import { router } from "expo-router";
+import colors from "../../../constants/Colors";
+import CustomButton from "../customButton";
 
 interface Props {
   modalPopVisible: boolean;
@@ -57,7 +59,7 @@ export default function BookedSuccessfully({
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#fff",
+            backgroundColor: colors.background,
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(100),
           }}
@@ -81,7 +83,7 @@ export default function BookedSuccessfully({
               style={{
                 fontSize: RFValue(24),
                 fontFamily: "outfit-bold",
-                color: "#161917",
+                color: colors.primary,
                 lineHeight: RFValue(40),
               }}
             >
@@ -91,9 +93,10 @@ export default function BookedSuccessfully({
               style={{
                 fontSize: RFValue(14),
                 fontFamily: "outfit-regular",
-                color: "#161917",
+                color: colors.primary,
                 lineHeight: RFValue(15),
                 textAlign: "center",
+                marginTop: RFValue(5),
               }}
             >
               Your appointment with{" "}
@@ -104,42 +107,25 @@ export default function BookedSuccessfully({
             </Text>
             <View
               style={{
-                marginHorizontal: RFValue(20),
-                marginTop: RFValue(15),
+                width: responsiveScreenWidth(90),
               }}
             >
-              <TouchableOpacity
+              <CustomButton
+                buttonText={"Go to appointment page"}
+                buttonColor={colors.primary}
+                buttonTextColor={colors.background}
                 onPress={() => router.back()}
-                style={{
-                  backgroundColor: "#06782F",
-                  padding: Platform.OS === "ios" ? 15 : 14,
-                  borderRadius: 10,
-                  width: responsiveScreenWidth(90),
-                }}
-              >
-                <Text style={styles.startText}>Go to appointment page</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => router.push("/home/")}
-                style={{
-                  backgroundColor: "#ECFFF4",
-                  padding: Platform.OS === "ios" ? 15 : 14,
-                  borderRadius: 10,
-                  width: responsiveScreenWidth(90),
-                  marginTop: RFValue(15),
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: RFValue(14),
-                    color: "#06782F",
-                    fontFamily: "outfit-medium",
-                    textAlign: "center",
-                  }}
-                >
-                  Go to Home
-                </Text>
-              </TouchableOpacity>
+                disabled={false}
+                marginTop={RFValue(20)}
+              />
+              <CustomButton
+                buttonText={"Home"}
+                buttonColor={colors.warm}
+                buttonTextColor={colors.primary}
+                onPress={() => router.back()}
+                disabled={false}
+                marginTop={RFValue(-20)}
+              />
             </View>
           </View>
         </View>
