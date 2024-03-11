@@ -135,7 +135,7 @@ export default function Security() {
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
                   textDecorationLine: "underline",
@@ -400,7 +400,7 @@ export default function Security() {
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
                   textDecorationLine: "underline",
@@ -466,7 +466,7 @@ export default function Security() {
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
                   textDecorationLine: "underline",
@@ -532,7 +532,7 @@ export default function Security() {
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
                   textDecorationLine: "underline",
