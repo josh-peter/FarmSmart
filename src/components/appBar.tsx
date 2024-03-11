@@ -26,7 +26,7 @@ export default function AppBar({title, returnRoute}: Props) {
         <View style={styles.appBar}>
           <Text
             style={{
-              fontSize: RFValue(16),
+              fontSize: RFValue(18),
               fontFamily: "outfit-bold",
               lineHeight: RFValue(30),
             }}
