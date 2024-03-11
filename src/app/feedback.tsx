@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(10),
   },
   button: {
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
     color: colors.buttontext,
     fontSize: RFValue(14),
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   startText: {
     fontSize: RFValue(14),
     color: "#fff",
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
   },
 });

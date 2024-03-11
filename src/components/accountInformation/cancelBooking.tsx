@@ -1,54 +1,76 @@
 import {
   Text,
+  TextInput,
   View,
-  useColorScheme,
   StyleSheet,
-  ImageBackground,
   Image,
   TouchableOpacity,
-  Platform,
-  ScrollView,
   SafeAreaView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-native-modal";
 import { RFValue } from "react-native-responsive-fontsize";
 import {
-  responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
-import { Link, router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import PasswordInputField from "../inputs/passwordInputField";
-import { Formik, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import Checkbox from "expo-checkbox";
-import OtherReason from "./otherReason";
 import BookingCancelledSuccessfully from "../common/modals/bookingCancelledSuccessfully";
+import colors from "../../constants/Colors";
 
 interface Props {
   modalCancelVisible: any;
   closeCancelModal: () => void;
 }
 
+const checkboxes = [
+  { id: 1, label: "I changed my mind about the apartment" },
+  { id: 2, label: "Something else came up" },
+  { id: 3, label: "Host asked me to cancel" },
+  { id: 4, label: "I am no longer available" },
+];
+
 export default function EditPasswordAccess({
   modalCancelVisible,
   closeCancelModal,
 }: Readonly<Props>) {
-  const [isChecked, setIsChecked] = useState(false);
-  const [modalOtherVisible, setModalOtherVisible] = useState(false);
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [otherReason, setOtherReason] = useState("");
+  const [otherReasonClick, setOtherReasonClick] = useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [modalPopVisible, setModalPopVisible] = useState(false);
 
-
-  const openOtherModal = () => {
-    setModalOtherVisible(true);
+  const openPopModal = () => {
+    setModalPopVisible(true);
   };
 
-  const closeOtherModal = () => {
-    setModalOtherVisible(false);
+  const closePopModal = () => {
+    setModalPopVisible(false);
   };
 
+  const handleOtherReasonClick = () => {
+    setOtherReasonClick(!otherReasonClick);
+    setCheckedItems([]);
+  };
 
+  const handleCheckboxChange = (label: string) => {
+    if (checkedItems.includes(label)) {
+      setCheckedItems(checkedItems.filter((item) => item !== label));
+    } else {
+      setCheckedItems([...checkedItems, label]);
+    }
+  };
+
+  const handleInputChange = (text: string) => {
+    setOtherReason(text);
+    setIsButtonEnabled(text.trim().length > 0);
+    console.log(text);
+  };
+
+  useEffect(() => {
+    setOtherReasonClick(false);
+  }, [closeCancelModal]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,235 +93,206 @@ export default function EditPasswordAccess({
           bottom: 0,
           position: "absolute",
           margin: 0,
-        }}
-      >
+        }}>
         <View
           style={{
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(75),
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
+              backgroundColor: "#FFFFFF",
+              marginBottom: RFValue(15),
+              shadowOffset: { width: 0, height: 4 },
+              shadowRadius: 20,
+              shadowOpacity: 0.16,
+              elevation: 14,
+              shadowColor: "#d5d0dd",
               width: responsiveScreenWidth(100),
-              height: responsiveScreenWidth(22),
-            }}
-          >
+              height: responsiveScreenWidth(20),
+            }}>
             <Text
               style={{
-                fontSize: RFValue(16),
+                fontSize: RFValue(18),
                 fontFamily: "outfit-bold",
                 lineHeight: RFValue(30),
-              }}
-            >
+              }}>
               Cancel booking
             </Text>
             <TouchableOpacity
               onPress={closeCancelModal}
-              style={styles.clearIcon}
-            >
-              <MaterialIcons name="clear" size={24} color="black" />
+              style={styles.clearIcon}>
+              <MaterialIcons name="clear" size={18} color="#1A1A1A" />
             </TouchableOpacity>
           </View>
           <View
             style={{
               paddingHorizontal: RFValue(15),
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                overflow: "hidden",
-                gap: RFValue(6),
-                backgroundColor: "#F1F5FF",
-                paddingHorizontal: RFValue(12),
-                paddingVertical: RFValue(10),
-                marginTop: RFValue(20),
-                marginBottom: RFValue(20),
-                borderRadius: RFValue(8),
-              }}
-            >
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/danger.png")}
-                style={{
-                  width: RFValue(20),
-                  height: RFValue(20),
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: RFValue(12),
-                  fontFamily: "plusjakarta-regular",
-                  color: "#306AFF",
-                  flexShrink: 1,
-                }}
-              >
-                If you are cancelling within 24hrs of booking you will receive
-                total refund of your payment, otherwise you may get a partial
-                refund. If the cancellation is on the check in date you will
-                receive no refund!
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: RFValue(14),
-                  fontFamily: "outfit-bold",
-                  color: "#06782F",
-                }}
-              >
-                Why do you want to cancel your booking?
-              </Text>
-              <View
-                style={{
-                  flexDirection: "column",
-                  gap: RFValue(25),
-                  marginTop: RFValue(10),
-                }}
-              >
+              paddingBottom: RFValue(25),
+            }}>
+            {!otherReasonClick ? (
+              <>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: RFValue(5),
-                  }}
-                >
-                  <Checkbox
-                    style={{
-                      borderRadius: RFValue(4),
-                    }}
-                    value={isChecked}
-                    onValueChange={setIsChecked}
-                    color={isChecked ? "#06782F" : "#e1e1e1"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: RFValue(13),
-                      fontFamily: "plusjakarta-regular",
-                    }}
-                  >
-                    I changed my mind about the apartment
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(5),
-                  }}
-                >
-                  <Checkbox
-                    style={{
-                      borderRadius: RFValue(4),
-                    }}
-                    value={isChecked}
-                    onValueChange={setIsChecked}
-                    color={isChecked ? "#06782F" : "#e1e1e1"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: RFValue(13),
-                      fontFamily: "plusjakarta-regular",
-                    }}
-                  >
-                    Something else came up
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(5),
-                  }}
-                >
-                  <Checkbox
-                    style={{
-                      borderRadius: RFValue(4),
-                    }}
-                    value={isChecked}
-                    onValueChange={setIsChecked}
-                    color={isChecked ? "#06782F" : "#e1e1e1"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: RFValue(13),
-                      fontFamily: "plusjakarta-regular",
-                    }}
-                  >
-                    Host asks me to cancel
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: RFValue(5),
-                  }}
-                >
-                  <Checkbox
-                    style={{
-                      borderRadius: RFValue(4),
-                    }}
-                    value={isChecked}
-                    onValueChange={setIsChecked}
-                    color={isChecked ? "#06782F" : "#e1e1e1"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: RFValue(13),
-                      fontFamily: "plusjakarta-regular",
-                    }}
-                  >
-                    I am no longer available
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  onPress={openOtherModal}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: RFValue(10),
-                    borderRadius: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: RFValue(12),
-                      fontFamily: "plusjakarta-regular",
-                      lineHeight: RFValue(20),
-                      color: "#1A1A1A",
-                    }}
-                  >
-                    Other reason
-                  </Text>
+                    overflow: "hidden",
+                    gap: RFValue(6),
+                    backgroundColor: "#F1F5FF",
+                    paddingHorizontal: RFValue(12),
+                    paddingVertical: RFValue(10),
+                    marginTop: RFValue(20),
+                    marginBottom: RFValue(20),
+                    borderRadius: RFValue(8),
+                  }}>
                   <Image
                     resizeMode="contain"
-                    source={require("../../assets/images/arrow-right.png")}
+                    source={require("../../assets/images/danger.png")}
                     style={{
-                      height: RFValue(22),
-                      width: RFValue(22),
+                      width: RFValue(20),
+                      height: RFValue(20),
                     }}
                   />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <TouchableOpacity style={styles.startBtn}>
-              <Text style={styles.startText}>Done</Text>
-            </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontSize: RFValue(14),
+                      fontFamily: "urbanist-medium",
+                      color: "#000000",
+                      flexShrink: 1,
+                    }}>
+                    If you are cancelling within 24hrs of booking you will
+                    receive total refund of your payment, otherwise you may get
+                    a partial refund. If the cancellation is on the check in
+                    date you will receive no refund!
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: RFValue(15),
+                      fontFamily: "outfit-semibold",
+                      color: "#000000",
+                    }}>
+                    Why do you want to cancel your booking?
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "column",
+                      gap: RFValue(25),
+                      marginTop: RFValue(10),
+                    }}>
+                    {checkboxes.map((checkbox, index) => (
+                      <View
+                        key={index}
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: RFValue(8),
+                        }}>
+                        <Checkbox
+                          style={{
+                            borderRadius: RFValue(4),
+                          }}
+                          value={checkedItems.includes(checkbox.label)}
+                          onValueChange={() =>
+                            handleCheckboxChange(checkbox.label)
+                          }
+                          color={
+                            checkedItems.includes(checkbox.label)
+                              ? colors.primary
+                              : "#e1e1e1"
+                          }
+                        />
+                        <Text
+                          style={{
+                            fontSize: RFValue(13),
+                            fontFamily: "urbanist-medium",
+                          }}>
+                          {checkbox.label}
+                        </Text>
+                      </View>
+                    ))}
+                    <TouchableOpacity
+                      onPress={handleOtherReasonClick}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: RFValue(10),
+                        borderRadius: 10,
+                      }}>
+                      <Text
+                        style={{
+                          lineHeight: RFValue(20),
+                          fontSize: RFValue(13),
+                          fontFamily: "urbanist-medium",
+                        }}>
+                        Other reason
+                      </Text>
+                      <Image
+                        resizeMode="contain"
+                        source={require("../../assets/images/arrow-right.png")}
+                        style={{
+                          height: RFValue(22),
+                          width: RFValue(22),
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </>
+            ) : (
+              <>
+                <View
+                  style={{
+                    padding: RFValue(10),
+                    borderRadius: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(15),
+                      fontFamily: "outfit-semibold",
+                      color: "#000000",
+                      lineHeight: RFValue(20),
+                    }}>
+                    Other reason
+                  </Text>
+                  <View
+                    style={{
+                      marginTop: RFValue(10),
+                    }}>
+                    <TextInput
+                      placeholder="Send us a message describing your challenge on the app."
+                      style={[styles.inputbox, { textAlignVertical: "top" }]}
+                      placeholderTextColor="#999999"
+                      keyboardType="default"
+                      multiline
+                      numberOfLines={1}
+                      returnKeyType="done"
+                      value={otherReason}
+                      onChangeText={handleInputChange}
+                    />
+                  </View>
+                </View>
+              </>
+            )}
+            {isButtonEnabled || checkedItems.length > 0 ? (
+              <TouchableOpacity onPress={openPopModal} style={styles.startBtn}>
+                <Text style={styles.startText}>Cancel</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={styles.disableBtn}>
+                <Text style={styles.button}>Cancel</Text>
+              </TouchableOpacity>
+            )}
           </View>
-          <OtherReason
-            modalOtherVisible={modalOtherVisible}
-            closeOtherModal={closeOtherModal}
+          <BookingCancelledSuccessfully
+            modalPopVisible={modalPopVisible}
+            closePopModal={closePopModal}
           />
-         
         </View>
       </Modal>
     </SafeAreaView>
@@ -335,24 +328,50 @@ const styles = StyleSheet.create({
     marginTop: responsiveScreenFontSize(1.5),
     textAlign: "center",
   },
+  button: {
+    fontFamily: "outfit-semibold",
+    textAlign: "center",
+    color: colors.buttontext,
+    fontSize: RFValue(14),
+  },
   startBtn: {
-    backgroundColor: "#06782F",
-    padding: Platform.OS === "ios" ? 18 : 17,
+    backgroundColor: colors.primary,
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
     borderRadius: 10,
-    marginTop: RFValue(25),
+    borderBottomRightRadius: 0,
+    marginTop: RFValue(40),
+  },
+  disableBtn: {
+    backgroundColor: colors.button,
+    marginTop: RFValue(40),
+    paddingHorizontal: RFValue(14),
+    paddingVertical: RFValue(12),
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
   },
   startText: {
     fontSize: RFValue(14),
     color: "#fff",
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
   },
   clearIcon: {
     backgroundColor: "#fff",
-    padding: RFValue(10),
+    padding: RFValue(6),
     borderRadius: 50,
     position: "absolute",
-    top: RFValue(20),
-    right: RFValue(20),
+    right: RFValue(15),
+    borderWidth: 1,
+    borderColor: "#e5e5e5",
+  },
+  inputbox: {
+    backgroundColor: "#F5F5F5",
+    fontFamily: "urbanist-medium",
+    fontSize: RFValue(14),
+    paddingVertical: RFValue(20),
+    paddingHorizontal: RFValue(10),
+    borderRadius: 10,
   },
 });

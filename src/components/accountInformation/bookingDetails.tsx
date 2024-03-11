@@ -1,7 +1,6 @@
 import {
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Image,
@@ -14,14 +13,10 @@ import Modal from "react-native-modal";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Formik, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { router } from "expo-router";
-import InputField from "../inputs/inputField";
-import Checkbox from "expo-checkbox";
+import { MaterialIcons } from "@expo/vector-icons";
+import colors from "../../constants/Colors";
 
 interface Props {
   modalBookVisible: boolean;
@@ -32,8 +27,6 @@ export default function BookingDetails({
   modalBookVisible,
   closeBookModal,
 }: Readonly<Props>) {
-
-
   return (
     <SafeAreaView style={styles.container}>
       <Modal
@@ -55,43 +48,38 @@ export default function BookingDetails({
           bottom: 0,
           position: "absolute",
           margin: 0,
-        }}
-      >
+        }}>
         <View
           style={{
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(90),
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: "#fafafa",
+              backgroundColor: "#FFFFFF",
+              marginBottom: RFValue(15),
+              shadowOffset: { width: 0, height: 4 },
+              shadowRadius: 20,
+              shadowOpacity: 0.16,
+              elevation: 14,
+              shadowColor: "#d5d0dd",
               width: responsiveScreenWidth(100),
-              height: responsiveScreenWidth(22),
-            }}
-          >
+              height: responsiveScreenWidth(20),
+            }}>
             <Text
               style={{
-                fontSize: RFValue(16),
+                fontSize: RFValue(18),
                 fontFamily: "outfit-bold",
                 lineHeight: RFValue(30),
-              }}
-            >
+              }}>
               Booking details
             </Text>
             <TouchableOpacity onPress={closeBookModal} style={styles.clearIcon}>
-              <Image
-                resizeMode="contain"
-                source={require("../../assets/images/arrow-left.png")}
-                style={{
-                  height: RFValue(15),
-                  width: RFValue(15),
-                }}
-              />
+              <MaterialIcons name="clear" size={18} color="#1A1A1A" />
             </TouchableOpacity>
           </View>
           <ScrollView
@@ -99,28 +87,38 @@ export default function BookingDetails({
             contentContainerStyle={{
               paddingHorizontal: RFValue(15),
               paddingVertical: RFValue(10),
-            }}
-          >
-            <Image
-              resizeMode="contain"
-              source={require("../../assets/images/approval.png")}
+            }}>
+            <View
               style={{
-                height: RFValue(30),
-                width: RFValue(100),
-              }}
-            />
-            <TouchableOpacity
+                zIndex: 20,
+                paddingVertical: RFValue(5),
+                paddingHorizontal: RFValue(12),
+                borderRadius: RFValue(12),
+                backgroundColor: "#FDFBF7",
+                width: RFValue(115),
+                height: RFValue(28),
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+              <Text
+                style={{
+                  fontSize: RFValue(11),
+                  fontFamily: "outfit-semibold",
+                  color: "#E8AE2E",
+                }}>
+                Pending approval
+              </Text>
+            </View>
+            <View
               style={{
                 marginBottom: RFValue(20),
-              }}
-            >
+              }}>
               <View
                 style={{
                   position: "relative",
                   overflow: "hidden",
                   marginTop: RFValue(10),
-                }}
-              >
+                }}>
                 <Image
                   source={require("../../assets/images/flat.png")}
                   style={{
@@ -131,12 +129,11 @@ export default function BookingDetails({
                 />
                 <View
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     left: 20,
                     top: 20,
-                    elevation:10,
-                  }}
-                >
+                    elevation: 10,
+                  }}>
                   <Image
                     resizeMode="contain"
                     source={require("../../assets/images/agentprofile.png")}
@@ -144,8 +141,8 @@ export default function BookingDetails({
                       height: RFValue(55),
                       width: RFValue(55),
                       borderWidth: 1,
-                      borderColor: '#fff',
-                      borderRadius:RFValue(50)
+                      borderColor: "#fff",
+                      borderRadius: RFValue(50),
                     }}
                   />
                   <Image
@@ -169,8 +166,7 @@ export default function BookingDetails({
                     position: "absolute",
                     top: RFValue(170),
                     left: RFValue(48),
-                  }}
-                >
+                  }}>
                   <View
                     style={{
                       width: RFValue(18),
@@ -259,50 +255,44 @@ export default function BookingDetails({
                     fontSize: RFValue(18),
                     fontFamily: "outfit-bold",
                     lineHeight: RFValue(40),
-                  }}
-                >
+                  }}>
                   One bedroom flat
                 </Text>
                 <TouchableOpacity
                   style={{
                     paddingVertical: RFValue(5),
                     paddingHorizontal: RFValue(12),
-                    borderRadius: RFValue(5),
-                    backgroundColor: "#ECFFF4",
+                    borderRadius: RFValue(10),
+                    backgroundColor: "#F5F5F5",
                     width: RFValue(95),
                     marginTop: RFValue(3),
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       fontSize: RFValue(14),
                       fontFamily: "outfit-medium",
-                      color: "#06782F",
-                    }}
-                  >
+                      color: "#00AE31",
+                    }}>
                     Apartment
                   </Text>
                 </TouchableOpacity>
                 <View
                   style={{
                     marginTop: RFValue(10),
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       fontSize: RFValue(18),
                       fontFamily: "outfit-bold",
-                      color: "#06782F",
-                    }}
-                  >
-                    ₦60,000{" "}
+                      color: "#00AE31",
+                    }}>
+                    ₦30,000{" "}
                     <Text
                       style={{
                         fontSize: RFValue(11),
                         fontFamily: "plusjakarta-regular",
                         color: "#414141",
-                      }}
-                    >
+                      }}>
                       / night
                     </Text>
                   </Text>
@@ -313,8 +303,7 @@ export default function BookingDetails({
                     gap: 5,
                     alignItems: "center",
                     marginTop: RFValue(7),
-                  }}
-                >
+                  }}>
                   <Image
                     resizeMode="contain"
                     source={require("../../assets/images/location.png")}
@@ -326,10 +315,9 @@ export default function BookingDetails({
                   <Text
                     style={{
                       fontSize: RFValue(14),
-                      fontFamily: "plusjakarta-regular",
-                      color: "#414141",
-                    }}
-                  >
+                      fontFamily: "urbanist-medium",
+                      color: "#000000",
+                    }}>
                     Lekki phase 1, Lagos, Nigeria
                   </Text>
                 </View>
@@ -339,20 +327,16 @@ export default function BookingDetails({
                       flexDirection: "row",
                       alignItems: "center",
                       justifyContent: "space-between",
-                    }}
-                  >
-                    <View
-                      style={{
-                        marginTop: RFValue(10),
-                      }}
-                    >
+                      marginTop: RFValue(10),
+                    }}>
+                    <View>
                       <Text
                         style={{
-                          fontSize: RFValue(14),
-                          fontFamily: "outfit-medium",
+                          fontSize: RFValue(13),
+                          fontFamily: "urbanist-medium",
                           lineHeight: RFValue(30),
-                        }}
-                      >
+                          color: "#414141",
+                        }}>
                         Check-in details
                       </Text>
                       <View
@@ -360,8 +344,7 @@ export default function BookingDetails({
                           flexDirection: "row",
                           alignItems: "center",
                           justifyContent: "space-between",
-                        }}
-                      >
+                        }}>
                         <View
                           style={{
                             flexDirection: "row",
@@ -369,55 +352,7 @@ export default function BookingDetails({
                             gap: 8,
 
                             marginBottom: RFValue(8),
-                          }}
-                        >
-                          <Image
-                            resizeMode="contain"
-                            source={require("../../assets/images/calendar.png")}
-                            style={{
-                              height: RFValue(18),
-                              width: RFValue(18),
-                            }}
-                          />
-                          <Text
-                            style={{
-                              fontSize: RFValue(13),
-                              fontFamily: "outfit-regular",
-                              color: "#414141",
-                            }}
-                          >
-                            Wed, Aug 23, 2023
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: RFValue(13),
-                          fontFamily: "outfit-medium",
-                          lineHeight: RFValue(30),
-                        }}
-                      >
-                        Check-out details
-                      </Text>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 8,
-
-                            marginBottom: RFValue(8),
-                          }}
-                        >
+                          }}>
                           <Image
                             resizeMode="contain"
                             source={require("../../assets/images/calendar.png")}
@@ -429,10 +364,52 @@ export default function BookingDetails({
                           <Text
                             style={{
                               fontSize: RFValue(14),
-                              fontFamily: "outfit-regular",
-                              color: "#414141",
+                              fontFamily: "urbanist-medium",
+                              color: "#000000",
+                            }}>
+                            Wed, Aug 23, 2023
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: RFValue(13),
+                          fontFamily: "urbanist-medium",
+                          lineHeight: RFValue(30),
+                          color: "#414141",
+                        }}>
+                        Check-out details
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 8,
+                            marginBottom: RFValue(8),
+                          }}>
+                          <Image
+                            resizeMode="contain"
+                            source={require("../../assets/images/calendar.png")}
+                            style={{
+                              height: RFValue(18),
+                              width: RFValue(18),
                             }}
-                          >
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(14),
+                              fontFamily: "urbanist-medium",
+                              color: "#000000",
+                            }}>
                             Wed, Aug 23, 2023
                           </Text>
                         </View>
@@ -443,33 +420,37 @@ export default function BookingDetails({
                     <Text
                       style={{
                         fontSize: RFValue(16),
-                        fontFamily: "outfit-regular",
-                        color: "#06782F",
-                        lineHeight: RFValue(20),
-                      }}
-                    >
-                      See all rules
+                        fontFamily: "outfit-semibold",
+                        lineHeight: RFValue(40),
+                        color: colors.primary,
+                        textDecorationLine: "underline",
+                      }}>
+                      Property details
                     </Text>
                   </TouchableOpacity>
                 </View>
                 <View
                   style={{
                     marginTop: RFValue(10),
-                    backgroundColor: "#FEFEFE",
+                    backgroundColor: "#FFFFFF",
                     padding: RFValue(10),
+                    position: "relative",
                     borderWidth: 1,
-                    borderColor: "#E6E6E6",
-                    borderRadius: 10,
-                  }}
-                >
+                    borderColor: "#f3f4f6",
+                    borderRadius: RFValue(10),
+                    marginBottom: RFValue(10),
+                    shadowOffset: { width: 2, height: 2 },
+                    shadowRadius: 20,
+                    elevation: 2,
+                    shadowColor: "#d1d5db",
+                  }}>
                   <Text
                     style={{
                       fontSize: RFValue(15),
                       fontFamily: "outfit-bold",
                       color: "#161917",
                       lineHeight: RFValue(30),
-                    }}
-                  >
+                    }}>
                     Apartment Rules
                   </Text>
                   <Text
@@ -478,8 +459,7 @@ export default function BookingDetails({
                       fontFamily: "outfit-regular",
                       color: "#414141",
                       lineHeight: RFValue(30),
-                    }}
-                  >
+                    }}>
                     Check-In From: 9am-10pm
                   </Text>
                   <Text
@@ -487,19 +467,18 @@ export default function BookingDetails({
                       fontSize: RFValue(14),
                       fontFamily: "outfit-regular",
                       color: "#414141",
-                    }}
-                  >
+                    }}>
                     Check-out before: 9am
                   </Text>
                   <TouchableOpacity>
                     <Text
                       style={{
                         fontSize: RFValue(16),
-                        fontFamily: "outfit-regular",
-                        color: "#06782F",
+                        fontFamily: "outfit-semibold",
                         lineHeight: RFValue(40),
-                      }}
-                    >
+                        color: colors.primary,
+                        textDecorationLine: "underline",
+                      }}>
                       See all rules
                     </Text>
                   </TouchableOpacity>
@@ -508,30 +487,27 @@ export default function BookingDetails({
               <View
                 style={{
                   marginTop: RFValue(15),
-                }}
-              >
+                }}>
                 <Text
                   style={{
-                    fontSize: RFValue(13),
+                    fontSize: RFValue(15),
                     fontFamily: "outfit-bold",
                     color: "#161917",
                     lineHeight: RFValue(20),
-                  }}
-                >
+                  }}>
                   Total paid (2 nights)
                 </Text>
                 <Text
                   style={{
-                    fontSize: RFValue(13),
+                    fontSize: RFValue(18),
                     fontFamily: "outfit-bold",
-                    color: "#06782f",
-                    lineHeight: RFValue(20),
-                  }}
-                >
+                    color: "#00AE31",
+                    lineHeight: RFValue(30),
+                  }}>
                   ₦60,000
                 </Text>
               </View>
-            </TouchableOpacity>
+            </View>
           </ScrollView>
         </View>
       </Modal>
@@ -545,10 +521,10 @@ const styles = StyleSheet.create({
   },
   clearIcon: {
     backgroundColor: "#fff",
-    padding: RFValue(10),
-    borderRadius: 10,
+    padding: RFValue(6),
+    borderRadius: 50,
     position: "absolute",
-    left: RFValue(15),
+    right: RFValue(15),
     borderWidth: 1,
     borderColor: "#e5e5e5",
   },

@@ -19,6 +19,7 @@ import {
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import { router } from "expo-router";
+import colors from "../../../constants/Colors";
 
 interface Props {
   modalPopVisible: boolean;
@@ -28,7 +29,7 @@ interface Props {
 export default function BookingCancelledSuccessfully({
   modalPopVisible,
   closePopModal,
-}:Props) {
+}: Props) {
   return (
     <View>
       <Modal
@@ -50,8 +51,7 @@ export default function BookingCancelledSuccessfully({
           bottom: 0,
           position: "absolute",
           margin: 0,
-        }}
-      >
+        }}>
         <View
           style={{
             flexDirection: "column",
@@ -60,15 +60,13 @@ export default function BookingCancelledSuccessfully({
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(100),
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-            }}
-          >
+            }}>
             <Image
               resizeMode="contain"
               source={require("../../../assets/images/success.png")}
@@ -83,57 +81,55 @@ export default function BookingCancelledSuccessfully({
                 fontFamily: "outfit-bold",
                 color: "#161917",
                 lineHeight: RFValue(40),
-              }}
-            >
+              }}>
               Successful
             </Text>
             <Text
               style={{
                 fontSize: RFValue(14),
-                fontFamily: "outfit-regular",
+                fontFamily: "urbanist-medium",
                 color: "#161917",
                 lineHeight: RFValue(15),
                 textAlign: "center",
-              }}
-            >
+              }}>
               Your booking has been cancelled{" "}
-              <Text style={{ color: "#FA5C47" }}>cancelled</Text>{" "}
+              <Text style={{ color: "#FA5C47", fontFamily: "outfit-semibold" }}>cancelled</Text>{" "}
             </Text>
             <View
               style={{
                 marginHorizontal: RFValue(20),
                 marginTop: RFValue(15),
-              }}
-            >
+              }}>
               <TouchableOpacity
                 onPress={() => router.push("/refund")}
                 style={{
-                  backgroundColor: "#06782F",
+                  backgroundColor: colors.primary,
                   padding: Platform.OS === "ios" ? 15 : 14,
                   borderRadius: 10,
+                  borderBottomRightRadius: 0,
                   width: responsiveScreenWidth(90),
-                }}
-              >
-                <Text style={styles.startText}>Begin refund process</Text>
+                }}>
+                <Text style={styles.startText}>Request refund</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => router.back()}
                 style={{
-                  backgroundColor: "#ECFFF4",
-                  padding: Platform.OS === "ios" ? 15 : 14,
+                  backgroundColor: "#FDFDFD",
                   borderRadius: 10,
+                  borderBottomRightRadius: 0,
+                  borderWidth: RFValue(1),
+                  borderColor: "#F0F4FF",
+                  padding: Platform.OS === "ios" ? 15 : 14,
                   width: responsiveScreenWidth(90),
                   marginTop: RFValue(15),
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(14),
-                    color: "#06782F",
-                    fontFamily: "outfit-medium",
+                    color: colors.primary,
+                    fontFamily: "outfit-semibold",
                     textAlign: "center",
-                  }}
-                >
+                  }}>
                   Do it later
                 </Text>
               </TouchableOpacity>
@@ -177,7 +173,7 @@ const styles = StyleSheet.create({
   startText: {
     fontSize: RFValue(14),
     color: "#fff",
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
   },
   videoSize: {

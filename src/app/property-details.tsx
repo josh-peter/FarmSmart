@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   View,
   Text,
@@ -25,7 +25,7 @@ const { width, height } = Dimensions.get("window");
 export default function PropertyDetails() {
   const [modalVisible, setModalVisible] = useState(false);
   const [animationTriggered, setAnimationTriggered] = useState(false);
-  const [fade] = useState(new Animated.Value(0));
+  const fade = React.useMemo(() => new Animated.Value(0), []);
 
   const openModal = () => {
     setModalVisible(true);

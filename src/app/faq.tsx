@@ -13,17 +13,22 @@ import InputField from "../components/inputs/inputField";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 import FaqModal from "../components/faqS/faqModal";
+import { MaterialIcons } from "@expo/vector-icons";
+import {
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+} from "react-native-responsive-dimensions";
 
 export default function Faq() {
-    const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
-    const openModal = () => {
-        setModalVisible(true)
-    }
+  const openModal = () => {
+    setModalVisible(true);
+  };
 
-        const closeModal = () => {
-          setModalVisible(false);
-        };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   const faqData = [
     {
       id: 1,
@@ -57,49 +62,48 @@ export default function Faq() {
   return (
     <>
       <StatusBar style="dark" />
-      <View style={{ flex: 1, paddingHorizontal: RFValue(20) }}>
-        <View>
-          <View
+      <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              gap: RFValue(15),
-              marginTop: RFValue(20),
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                router.push("/help-center");
-              }}
-            >
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/bigArrow.png")}
-                style={{
-                  height: RFValue(40),
-                  width: RFValue(40),
-                }}
-              />
-            </TouchableOpacity>
+              justifyContent: "center",
+              backgroundColor: "#FFFFFF",
+              shadowOffset: { width: 0, height: 4 },
+              shadowRadius: 20,
+              shadowOpacity: 0.16,
+              elevation: 14,
+              shadowColor: "#d5d0dd",
+              width: responsiveScreenWidth(100),
+              height: responsiveScreenWidth(20),
+            }}>
             <Text
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-bold",
                 lineHeight: RFValue(30),
-              }}
-            >
+              }}>
               Frequently asked questions
             </Text>
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/help-center");
+              }}
+              style={styles.clearIcon}>
+              <MaterialIcons name="clear" size={18} color="#1A1A1A" />
+            </TouchableOpacity>
           </View>
-                  <View style={{
-                      flexDirection: "column",
-                      gap: RFValue(10),
-                      marginTop:RFValue(40)
-          }}>
+      <View style={{ flex: 1, paddingHorizontal: RFValue(20) }}>
+        <View>
+          <View
+            style={{
+              flexDirection: "column",
+              gap: RFValue(10),
+              marginTop: RFValue(40),
+            }}>
             {faqData?.map((faq) => (
-                <TouchableOpacity
-                    onPress={openModal}
-                    key={faq.id}
+              <TouchableOpacity
+                onPress={openModal}
+                key={faq.id}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -108,26 +112,26 @@ export default function Faq() {
                   padding: RFValue(10),
                   borderRadius: 15,
                   borderWidth: 1,
-                  borderColor: "#f9fafa",
-                 
-                }}
-              >
+                  borderColor: "#f3f4f6",
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 2,
+                  shadowColor: "#d1d5db",
+                }}>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     gap: RFValue(8),
-                  }}
-                >
+                  }}>
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(12),
-                        fontFamily: "plusjakarta-bold",
+                        fontSize: RFValue(14),
+                        fontFamily: "urbanist-medium",
                         lineHeight: RFValue(20),
-                        color: "#1A1A1A",
-                      }}
-                    >
+                        color: "#000000",
+                      }}>
                       Frequently asked questions
                     </Text>
                   </View>
@@ -144,8 +148,8 @@ export default function Faq() {
             ))}
           </View>
         </View>
-          </View>
-          <FaqModal modalVisible={modalVisible} closeModal={closeModal}/>
+      </View>
+      <FaqModal modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );
 }
@@ -182,5 +186,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "outfit-medium",
     textAlign: "center",
+  },
+  clearIcon: {
+    backgroundColor: "#fff",
+    padding: RFValue(6),
+    borderRadius: 50,
+    position: "absolute",
+    right: RFValue(15),
+    borderWidth: 1,
+    borderColor: "#e5e5e5",
   },
 });

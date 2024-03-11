@@ -12,15 +12,13 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
-import {
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "../components/Auth/errors/errorMsg";
 import DeleteAccountFlow from "../components/accountInformation/deleteAccountFlow";
 import colors from "../constants/Colors";
+import AppBar from "../components/appBar";
 
 const { width, height } = Dimensions.get("window");
 
@@ -28,7 +26,7 @@ export default function Security() {
   const fade = useRef(new Animated.Value(0)).current;
   const [modalCancelVisible, setModalCancelVisible] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
-  const [showUpdatePasswordForm, setShowUpdatePasswordForm] = useState(false)
+  const [showUpdatePasswordForm, setShowUpdatePasswordForm] = useState(false);
 
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -36,19 +34,13 @@ export default function Security() {
 
   const handleNewPassword = (values: any, setSubmitting: any) => {};
 
-  const openCancelModal = () => {
-   setModalCancelVisible(true);
-  };
-
   const closeCancelModal = () => {
     setModalCancelVisible(false);
   };
 
   const handleShowUpdatePasswordForm = () => {
-    setShowUpdatePasswordForm(!showUpdatePasswordForm)
+    setShowUpdatePasswordForm(!showUpdatePasswordForm);
   };
-
-
 
   const animation = () => {
     Animated.timing(fade, {
@@ -62,32 +54,6 @@ export default function Security() {
     animation();
   }, []);
 
-  const accountItem = [
-    {
-      id: 1,
-      title: "Account activity",
-      account: "On: Email, Push notification and Sms",
-    },
-    {
-      id: 2,
-      title: "Listing activity",
-      account: "On: Email, Push notification and Sms",
-    },
-  ];
-
-  const updatesItem = [
-    {
-      id: 1,
-      title: "News and offers",
-      account: "Off",
-    },
-    {
-      id: 2,
-      title: "New listing",
-      account: "Off",
-    },
-  ];
-
   return (
     <>
       <Stack.Screen
@@ -97,6 +63,7 @@ export default function Security() {
           gestureEnabled: false,
         }}
       />
+      <AppBar title="Security settings" returnRoute={"/home/account"} />
       <Animated.View
         style={{
           flex: 1,
@@ -112,64 +79,28 @@ export default function Security() {
               }),
             },
           ],
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenWidth(20),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            Security settings
-          </Text>
-          <TouchableOpacity
-            onPress={() => router.push("/home/account")}
-            style={styles.clearIcon}
-          >
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+        }}>
         <ScrollView
           contentContainerStyle={{
             paddingHorizontal: RFValue(20),
             marginTop: RFValue(15),
-          }}
-        >
+          }}>
           <Text
             style={{
-              fontSize: RFValue(14),
+              fontSize: RFValue(18),
               fontFamily: "outfit-bold",
               lineHeight: RFValue(20),
-              color: "#1A1A1A",
-            }}
-          >
+              color: "#000000",
+            }}>
             Password
           </Text>
           <Text
             style={{
-              fontSize: RFValue(11),
-              fontFamily: "plusjakarta-regular",
-              color: "#1A1A1A",
-            }}
-          >
+              fontSize: RFValue(12),
+              fontFamily: "urbanist-medium",
+              lineHeight: RFValue(20),
+              color: "#414141",
+            }}>
             Manage your login password
           </Text>
 
@@ -179,243 +110,227 @@ export default function Security() {
               alignItems: "center",
               justifyContent: "space-between",
               marginTop: RFValue(20),
-            }}
-          >
+            }}>
             <View>
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#000000",
+                }}>
                 Change password
               </Text>
               <Text
                 style={{
-                  fontSize: RFValue(11),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-medium",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#414141",
+                }}>
                 Last updated 13 months ago
               </Text>
             </View>
-            <TouchableOpacity
-            onPress={handleShowUpdatePasswordForm}
-            >
+            <TouchableOpacity onPress={handleShowUpdatePasswordForm}>
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
-                  textDecorationLine: "underline"
-                }}
-              >
+                  textDecorationLine: "underline",
+                }}>
                 Update
               </Text>
             </TouchableOpacity>
           </View>
           {showUpdatePasswordForm && (
             <Formik
-            initialValues={{
-              confirmPassword: "",
-              password: "",
-            }}
-            validationSchema={Yup.object({
-              currentPassword: Yup.string()
-                .required("Password is required")
-                .min(5, "Your password is too short."),
+              initialValues={{
+                confirmPassword: "",
+                password: "",
+              }}
+              validationSchema={Yup.object({
+                currentPassword: Yup.string()
+                  .required("Password is required")
+                  .min(5, "Your password is too short."),
                 newPassword: Yup.string()
-                .required("Password is required")
-                .min(5, "Your password is too short."),
-              confirmPassword: Yup.string().oneOf(
-                [Yup.ref("password")],
-                "Passwords must match"
-              ),
-            })}
-            onSubmit={async (values: any, { setSubmitting }) =>
-              handleNewPassword(values, setSubmitting)
-            }
-          >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-              errors,
-            }) => (
-              <View>
-                <View
-                  style={{
-                    backgroundColor: "#fafafa",
-                    borderRadius: 10,
-                    padding: RFValue(15),
-                    marginTop: RFValue(20),
-                  }}
-                >
-                  <View>
-                    <View>
-                      <Text
-                        style={{
-                          fontFamily: "outfit-bold",
-                          fontSize: RFValue(14),
-
-                          color: "#5f5f5f",
-                        }}
-                      >
-                        Current Password
-                      </Text>
-                      <View
-                        style={{
-                          borderRadius: 10,
-                          borderWidth: 1,
-                          borderColor: "#E4E4E7",
-                          padding: RFValue(8),
-                          marginTop: RFValue(10),
-                        }}
-                      >
-                        <TextInput
-                          placeholder="**********"
-                          value={values.currentPassword}
-                          style={styles.inputbox}
-                          onChangeText={handleChange("currentPassword")}
-                          onBlur={handleBlur("currentPassword")}
-                          placeholderTextColor="#5f5f5f"
-                          secureTextEntry={passwordVisible}
-                        />
-                      </View>
-                      {errors.currentPassword && (
-                        <ErrorMsg message={`${errors.currentPassword}`} />
-                      )}
-                      <Link href={"/auth/otpverification"} asChild>
-                        <TouchableOpacity>
-                          <Text style={styles.passText}>Forgot password</Text>
-                        </TouchableOpacity>
-                      </Link>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontFamily: "outfit-bold",
-                          fontSize: RFValue(14),
-                          marginTop: RFValue(20),
-                          color: "#5f5f5f",
-                        }}
-                      >
-                        New Password
-                      </Text>
-                      <View
-                        style={{
-                          borderRadius: 10,
-                          borderWidth: 1,
-                          borderColor: "#E4E4E7",
-                          padding: RFValue(8),
-                          marginTop: RFValue(10),
-                        }}
-                      >
-                        <TextInput
-                          placeholder="**********"
-                          value={values.newPassword}
-                          style={styles.inputbox}
-                          onChangeText={handleChange("newPassword")}
-                          onBlur={handleBlur("newPassword")}
-                          placeholderTextColor="#5f5f5f"
-                          secureTextEntry={passwordVisible}
-                        />
-                      </View>
-
-                      {errors.newPassword && (
-                        <ErrorMsg message={`${errors.newPassword}`} />
-                      )}
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontFamily: "outfit-bold",
-                          fontSize: RFValue(14),
-                          marginTop: RFValue(20),
-                          color: "#5f5f5f",
-                        }}
-                      >
-                        Confirm Password
-                      </Text>
-                      <View
-                        style={{
-                          borderRadius: 10,
-                          borderWidth: 1,
-                          borderColor: "#E4E4E7",
-                          padding: RFValue(8),
-                          marginTop: RFValue(10),
-                        }}
-                      >
-                        <TextInput
-                          placeholder="**********"
-                          value={values.confirmPassword}
-                          onChangeText={handleChange("confirmPassword")}
-                          onBlur={handleBlur("confirmPassword")}
-                          style={styles.inputbox}
-                          placeholderTextColor="#5f5f5f"
-                          secureTextEntry={passwordVisible}
-                        />
-                      </View>
-                      {errors.confirmPassword && (
-                        <ErrorMsg message={`${errors.confirmPassword}`} />
-                      )}
-                    </View>
-                  </View>
+                  .required("Password is required")
+                  .min(5, "Your password is too short."),
+                confirmPassword: Yup.string().oneOf(
+                  [Yup.ref("password")],
+                  "Passwords must match"
+                ),
+              })}
+              onSubmit={async (values: any, { setSubmitting }) =>
+                handleNewPassword(values, setSubmitting)
+              }>
+              {({
+                values,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                errors,
+              }) => (
+                <View>
                   <View
                     style={{
-                      marginTop: RFValue(30),
-                    }}
-                  >
-                    {isSubmitting ||
-                    errors.currentPassword ||
-                    errors.newPassword ||
-                    errors.confirmPassword ? (
-                      <TouchableOpacity style={styles.disableBtn}>
-                        <Text style={styles.disableBtnText}>Update Password</Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        onPress={() => handleSubmit()}
-                        style={styles.activeBtn}
-                      >
-                        <Text style={styles.button}>Update Password</Text>
-                      </TouchableOpacity>
-                    )}
+                      backgroundColor: "#fafafa",
+                      borderRadius: 10,
+                      padding: RFValue(15),
+                      marginTop: RFValue(20),
+                    }}>
+                    <View>
+                      <View>
+                        <Text
+                          style={{
+                            fontFamily: "outfit-bold",
+                            fontSize: RFValue(14),
+
+                            color: "#5f5f5f",
+                          }}>
+                          Current Password
+                        </Text>
+                        <View
+                          style={{
+                            borderRadius: 10,
+                            borderWidth: 1,
+                            borderColor: "#E4E4E7",
+                            padding: RFValue(8),
+                            marginTop: RFValue(10),
+                          }}>
+                          <TextInput
+                            placeholder="**********"
+                            value={values.currentPassword}
+                            style={styles.inputbox}
+                            onChangeText={handleChange("currentPassword")}
+                            onBlur={handleBlur("currentPassword")}
+                            placeholderTextColor="#5f5f5f"
+                            secureTextEntry={passwordVisible}
+                          />
+                        </View>
+                        {errors.currentPassword && (
+                          <ErrorMsg message={`${errors.currentPassword}`} />
+                        )}
+                        <Link href={"/auth/otpverification"} asChild>
+                          <TouchableOpacity>
+                            <Text style={styles.passText}>Forgot password</Text>
+                          </TouchableOpacity>
+                        </Link>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontFamily: "outfit-bold",
+                            fontSize: RFValue(14),
+                            marginTop: RFValue(20),
+                            color: "#5f5f5f",
+                          }}>
+                          New Password
+                        </Text>
+                        <View
+                          style={{
+                            borderRadius: 10,
+                            borderWidth: 1,
+                            borderColor: "#E4E4E7",
+                            padding: RFValue(8),
+                            marginTop: RFValue(10),
+                          }}>
+                          <TextInput
+                            placeholder="**********"
+                            value={values.newPassword}
+                            style={styles.inputbox}
+                            onChangeText={handleChange("newPassword")}
+                            onBlur={handleBlur("newPassword")}
+                            placeholderTextColor="#5f5f5f"
+                            secureTextEntry={passwordVisible}
+                          />
+                        </View>
+
+                        {errors.newPassword && (
+                          <ErrorMsg message={`${errors.newPassword}`} />
+                        )}
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontFamily: "outfit-bold",
+                            fontSize: RFValue(14),
+                            marginTop: RFValue(20),
+                            color: "#5f5f5f",
+                          }}>
+                          Confirm Password
+                        </Text>
+                        <View
+                          style={{
+                            borderRadius: 10,
+                            borderWidth: 1,
+                            borderColor: "#E4E4E7",
+                            padding: RFValue(8),
+                            marginTop: RFValue(10),
+                          }}>
+                          <TextInput
+                            placeholder="**********"
+                            value={values.confirmPassword}
+                            onChangeText={handleChange("confirmPassword")}
+                            onBlur={handleBlur("confirmPassword")}
+                            style={styles.inputbox}
+                            placeholderTextColor="#5f5f5f"
+                            secureTextEntry={passwordVisible}
+                          />
+                        </View>
+                        {errors.confirmPassword && (
+                          <ErrorMsg message={`${errors.confirmPassword}`} />
+                        )}
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        marginTop: RFValue(30),
+                      }}>
+                      {isSubmitting ||
+                      errors.currentPassword ||
+                      errors.newPassword ||
+                      errors.confirmPassword ? (
+                        <TouchableOpacity style={styles.disableBtn}>
+                          <Text style={styles.disableBtnText}>
+                            Update Password
+                          </Text>
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => handleSubmit()}
+                          style={styles.activeBtn}>
+                          <Text style={styles.button}>Update Password</Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
                   </View>
                 </View>
-              </View>
-            )}
-          </Formik>
+              )}
+            </Formik>
           )}
           <View
             style={{
               marginTop: RFValue(35),
-            }}
-          >
+            }}>
             <Text
               style={{
-                fontSize: RFValue(14),
-                fontFamily: "outfit-bold",
+                fontSize: RFValue(18),
+                fontFamily: "outfit-semibold",
                 lineHeight: RFValue(20),
-                color: "#1A1A1A",
-              }}
-            >
+                color: "#000000",
+              }}>
               Device history
             </Text>
             <Text
               style={{
-                fontSize: RFValue(11),
-                fontFamily: "plusjakarta-regular",
-                color: "#1A1A1A",
-              }}
-            >
+                fontSize: RFValue(12),
+                fontFamily: "urbanist-medium",
+                lineHeight: RFValue(20),
+                color: "#414141",
+              }}>
               You are currently logged into these devices
             </Text>
           </View>
@@ -424,19 +339,20 @@ export default function Security() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              marginTop: RFValue(20),
               marginBottom: RFValue(30),
-            }}
-          >
-            <View>
+              marginTop: RFValue(20),
+            }}>
+            <View
+              style={{
+                gap: 2,
+              }}>
               <Text
                 style={{
-                  fontSize: RFValue(11),
-                  fontFamily: "plusjakarta-medium",
+                  fontSize: RFValue(14),
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#000000",
+                }}>
                 Iphone 14 promax
               </Text>
               <Image
@@ -449,12 +365,11 @@ export default function Security() {
               />
               <Text
                 style={{
-                  fontSize: RFValue(9),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-medium",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#414141",
+                }}>
                 December 23, 2022 at 10:14
               </Text>
               <View
@@ -462,23 +377,21 @@ export default function Security() {
                   flexDirection: "row",
                   gap: 5,
                   alignItems: "center",
-                }}
-              >
+                }}>
                 <Image
                   resizeMode="contain"
                   source={require("../assets/images/location.png")}
                   style={{
-                    width: RFValue(12),
-                    height: RFValue(12),
+                    width: RFValue(15),
+                    height: RFValue(15),
                   }}
                 />
                 <Text
                   style={{
-                    fontSize: RFValue(9),
-                    fontFamily: "plusjakarta-regular",
-                    color: "#414141",
-                  }}
-                >
+                    fontSize: RFValue(12),
+                    fontFamily: "urbanist-medium",
+                    color: "#000000",
+                  }}>
                   Lagos, Nigeria
                 </Text>
               </View>
@@ -487,12 +400,11 @@ export default function Security() {
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
-                  textDecorationLine: "underline"
-                }}
-              >
+                  textDecorationLine: "underline",
+                }}>
                 Logout
               </Text>
             </TouchableOpacity>
@@ -503,27 +415,27 @@ export default function Security() {
               alignItems: "center",
               justifyContent: "space-between",
               marginBottom: RFValue(30),
-            }}
-          >
-            <View>
+            }}>
+            <View
+              style={{
+                gap: 2,
+              }}>
               <Text
                 style={{
-                  fontSize: RFValue(11),
-                  fontFamily: "plusjakarta-medium",
+                  fontSize: RFValue(14),
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#000000",
+                }}>
                 Iphone 14 promax
               </Text>
               <Text
                 style={{
-                  fontSize: RFValue(9),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-medium",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#414141",
+                }}>
                 December 23, 2022 at 10:14
               </Text>
               <View
@@ -531,23 +443,21 @@ export default function Security() {
                   flexDirection: "row",
                   gap: 5,
                   alignItems: "center",
-                }}
-              >
+                }}>
                 <Image
                   resizeMode="contain"
                   source={require("../assets/images/location.png")}
                   style={{
-                    width: RFValue(12),
-                    height: RFValue(12),
+                    width: RFValue(15),
+                    height: RFValue(15),
                   }}
                 />
                 <Text
                   style={{
-                    fontSize: RFValue(9),
-                    fontFamily: "plusjakarta-regular",
-                    color: "#414141",
-                  }}
-                >
+                    fontSize: RFValue(12),
+                    fontFamily: "urbanist-medium",
+                    color: "#000000",
+                  }}>
                   Lagos, Nigeria
                 </Text>
               </View>
@@ -556,12 +466,11 @@ export default function Security() {
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
-                  textDecorationLine: "underline"
-                }}
-              >
+                  textDecorationLine: "underline",
+                }}>
                 Logout
               </Text>
             </TouchableOpacity>
@@ -572,27 +481,27 @@ export default function Security() {
               alignItems: "center",
               justifyContent: "space-between",
               marginBottom: RFValue(30),
-            }}
-          >
-            <View>
+            }}>
+            <View
+              style={{
+                gap: 2,
+              }}>
               <Text
                 style={{
-                  fontSize: RFValue(11),
-                  fontFamily: "plusjakarta-medium",
+                  fontSize: RFValue(14),
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#000000",
+                }}>
                 Iphone 14 promax
               </Text>
               <Text
                 style={{
-                  fontSize: RFValue(9),
-                  fontFamily: "plusjakarta-regular",
+                  fontSize: RFValue(12),
+                  fontFamily: "urbanist-medium",
                   lineHeight: RFValue(20),
-                  color: "#1A1A1A",
-                }}
-              >
+                  color: "#414141",
+                }}>
                 December 23, 2022 at 10:14
               </Text>
               <View
@@ -600,23 +509,21 @@ export default function Security() {
                   flexDirection: "row",
                   gap: 5,
                   alignItems: "center",
-                }}
-              >
+                }}>
                 <Image
                   resizeMode="contain"
                   source={require("../assets/images/location.png")}
                   style={{
-                    width: RFValue(12),
-                    height: RFValue(12),
+                    width: RFValue(15),
+                    height: RFValue(15),
                   }}
                 />
                 <Text
                   style={{
-                    fontSize: RFValue(9),
-                    fontFamily: "plusjakarta-regular",
-                    color: "#414141",
-                  }}
-                >
+                    fontSize: RFValue(12),
+                    fontFamily: "urbanist-medium",
+                    color: "#000000",
+                  }}>
                   Lagos, Nigeria
                 </Text>
               </View>
@@ -625,12 +532,11 @@ export default function Security() {
               <Text
                 style={{
                   fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(40),
                   color: colors.primary,
-                  textDecorationLine: "underline"
-                }}
-              >
+                  textDecorationLine: "underline",
+                }}>
                 Logout
               </Text>
             </TouchableOpacity>
@@ -638,25 +544,23 @@ export default function Security() {
           <View
             style={{
               marginBottom: RFValue(20),
-            }}
-          >
+            }}>
             <Text
               style={{
-                fontSize: RFValue(14),
-                fontFamily: "outfit-bold",
+                fontSize: RFValue(18),
+                fontFamily: "outfit-semibold",
                 lineHeight: RFValue(20),
-                color: "#1A1A1A",
-              }}
-            >
+                color: "#000000",
+              }}>
               Account
             </Text>
             <Text
               style={{
-                fontSize: RFValue(11),
-                fontFamily: "plusjakarta-regular",
-                color: "#1A1A1A",
-              }}
-            >
+                fontSize: RFValue(12),
+                fontFamily: "urbanist-medium",
+                lineHeight: RFValue(20),
+                color: "#414141",
+              }}>
               Delete account
             </Text>
             <TouchableOpacity
@@ -672,16 +576,14 @@ export default function Security() {
                 borderColor: "#F0F4FF",
                 justifyContent: "center",
                 marginBottom: RFValue(30),
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontFamily: "outfit-medium",
                   textAlign: "center",
                   color: "#FA5C47",
                   fontSize: RFValue(14),
-                }}
-              >
+                }}>
                 Delete Account
               </Text>
             </TouchableOpacity>
@@ -801,7 +703,8 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),
-    borderRadius: Platform.OS == "android" ? 15 : 15,
+    borderRadius: RFValue(10),
+    borderBottomRightRadius: 0,
     justifyContent: "center",
     opacity: 0.2,
   },
@@ -810,7 +713,8 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(14),
     paddingVertical: RFValue(12),
-    borderRadius: Platform.OS == "android" ? 15 : 15,
+    borderRadius: RFValue(10),
+    borderBottomRightRadius: 0,
     justifyContent: "center",
   },
 });
