@@ -62,7 +62,7 @@ export default function PaymentManagement() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Payment management" onPress={() => router.push("/payment-management/payment-history")}/>
+      <AppBar title="Payment management" onPress={() => router.push("/home/account")}/>
       <Animated.View
         style={{
           flex: 1,
@@ -83,7 +83,6 @@ export default function PaymentManagement() {
         <View
           style={{
             paddingHorizontal: RFValue(15),
-            marginTop: RFValue(15),
           }}
         >
           <View>
