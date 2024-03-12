@@ -104,10 +104,9 @@ export default function PaymentManagement() {
                   backgroundColor: "#fff",
                   borderRadius: RFValue(10),
                   marginTop: RFValue(10),
-                  marginBottom: RFValue(12),
                   shadowOffset: { width: 2, height: 2 },
                   shadowRadius: 20,
-                  elevation: 4,
+                  elevation: 2,
                   shadowColor: "#d1d5db",
                 }}
               >
@@ -167,7 +166,7 @@ export default function PaymentManagement() {
                   borderRadius: RFValue(10),
                   shadowOffset: { width: 2, height: 2 },
                   shadowRadius: 20,
-                  elevation: 4,
+                  elevation: 2,
                   shadowColor: "#d1d5db",
                 }}
               >

@@ -72,9 +72,19 @@ import colors from "../../constants/Colors";
         <View
           style={{
             paddingHorizontal: RFValue(15),
-            paddingVertical: RFValue(20),
+            paddingBottom: RFValue(20),
           }}
-        >
+            >
+              <Text
+                style={{
+                  fontSize: RFValue(16),
+                  fontFamily: "outfit-bold",
+                  color: "#414141",
+                  lineHeight: RFValue(40),
+                }}
+              >
+                Add and manage your card
+              </Text>
           <View>
             <View
               style={{

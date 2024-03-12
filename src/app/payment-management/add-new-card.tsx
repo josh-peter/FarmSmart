@@ -86,7 +86,7 @@ import { TextInput } from "react-native-paper";
             gestureEnabled: false,
           }}
         />
-        <AppBar title="Add new card" returnRoute={"/card-payment"}/>
+        <AppBar title="Add new card" returnRoute={"/payment-management/card-payment"}/>
         <Animated.View
           style={{
             flex: 1,
@@ -127,7 +127,7 @@ import { TextInput } from "react-native-paper";
             >
               <Text
                 style={{
-                  fontSize: RFValue(18),
+                  fontSize: RFValue(16),
                   fontFamily: "outfit-bold",
                   color: "#161917",
                   lineHeight: RFValue(30),
