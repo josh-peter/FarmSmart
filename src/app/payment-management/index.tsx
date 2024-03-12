@@ -62,7 +62,7 @@ export default function PaymentManagement() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Payment management" returnRoute={"/home/account"}/>
+      <AppBar title="Payment management" onPress={() => router.push("/payment-management/payment-history")}/>
       <Animated.View
         style={{
           flex: 1,

@@ -141,7 +141,7 @@ export default function EditPasswordAccess({
                     alignItems: "center",
                     overflow: "hidden",
                     gap: RFValue(6),
-                    backgroundColor: "#F1F5FF",
+                    backgroundColor: "#F5F5F5",
                     paddingHorizontal: RFValue(12),
                     paddingVertical: RFValue(10),
                     marginTop: RFValue(20),

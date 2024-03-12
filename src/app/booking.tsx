@@ -11,21 +11,11 @@ import {
   TextInput,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
-import { Link, Stack, router } from "expo-router";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import {
-  AntDesign,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { Tab, TabView } from "@rneui/themed";
+import { Stack, router } from "expo-router";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
-import { Switch } from "react-native-switch";
 import BookingDetails from "../components/accountInformation/bookingDetails";
 import CancelBooking from "../components/accountInformation/cancelBooking";
 import colors from "../constants/Colors";
@@ -74,7 +64,7 @@ export default function Booking() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Booking" returnRoute={"/home/account"} />
+      <AppBar title="Booking" onPress={() => router.push("/home/account")} />
       <Animated.View
         style={{
           flex: 1,
@@ -448,7 +438,7 @@ export default function Booking() {
                   }}>
                   <Text
                     style={{
-                      fontSize: RFValue(10),
+                      fontSize: RFValue(9),
                       fontFamily: "outfit-semibold",
                       color: "#00AE31",
                     }}>
@@ -687,7 +677,7 @@ export default function Booking() {
                   alignItems: "center",
                   overflow: "hidden",
                   gap: RFValue(6),
-                  backgroundColor: "#F1F5FF",
+                  backgroundColor: "#F5F5F5",
                   paddingHorizontal: RFValue(12),
                   paddingVertical: RFValue(10),
                   marginTop: RFValue(8),

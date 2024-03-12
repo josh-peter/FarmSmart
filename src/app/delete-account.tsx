@@ -70,7 +70,7 @@ export default function Refund() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Delete account" returnRoute={"security"}/>
+      <AppBar title="Delete account" onPress={() => router.push("/security")}/>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         style={{

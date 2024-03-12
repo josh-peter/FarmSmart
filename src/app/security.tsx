@@ -63,7 +63,7 @@ export default function Security() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Security settings" returnRoute={"/home/account"} />
+      <AppBar title="Security settings" onPress={() => router.push("/home/account")}/>
       <Animated.View
         style={{
           flex: 1,

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -45,7 +45,7 @@ export default function PaymentHistory() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Payment history" returnRoute={"/payment-management"} />
+      <AppBar title="Payment history" onPress={() => router.push("/payment-management/")} />
       <Animated.View
         style={{
           flex: 1,

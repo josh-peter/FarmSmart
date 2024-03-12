@@ -44,7 +44,7 @@ import colors from "../../constants/Colors";
             gestureEnabled: false,
           }}
         />
-        <AppBar title="Payment method" returnRoute={"/payment-management"}/>
+        <AppBar title="Payment method" onPress={() => router.push("/payment-management/")}/>
         <Animated.View
           style={{
             flex: 1,

@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import AccountActivityModal from "../components/common/modals/accountActivityModal";
 import ListingActivityModal from "../components/common/modals/listingActivityModal";
@@ -84,7 +84,7 @@ export default function NotificationSettings() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Notification settings" returnRoute={"/home/account"} />
+      <AppBar title="Notification settings" onPress={() => router.push("/home/account")}/>
       <Animated.View
         style={{
           flex: 1,

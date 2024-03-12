@@ -4,10 +4,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import {
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
-import { router } from "expo-router";
 import colors from "../constants/Colors";
-// import { useNavigation } from '@react-navigation/native';
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
 type Props = {

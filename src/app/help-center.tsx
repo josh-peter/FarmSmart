@@ -71,7 +71,7 @@ export default function Helpcenter() {
   return (
     <>
       <StatusBar style="dark" />
-      <AppBar title="Help & support" returnRoute={"/home/account"} />
+      <AppBar title="Help & support" onPress={() => router.push("/home/account")}/>
       <Animated.ScrollView
         style={{
           flex: 1,

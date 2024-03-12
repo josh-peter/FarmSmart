@@ -86,7 +86,7 @@ import { TextInput } from "react-native-paper";
             gestureEnabled: false,
           }}
         />
-        <AppBar title="Add new card" returnRoute={"/payment-management/card-payment"}/>
+        <AppBar title="Add new card" onPress={() => router.push("/payment-management/card-payment")}/>
         <Animated.View
           style={{
             flex: 1,
