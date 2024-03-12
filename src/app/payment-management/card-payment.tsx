@@ -77,7 +77,7 @@ import colors from "../../constants/Colors";
             >
               <Text
                 style={{
-                  fontSize: RFValue(16),
+                  fontSize: RFValue(15),
                   fontFamily: "outfit-bold",
                   color: "#414141",
                   lineHeight: RFValue(40),
@@ -209,7 +209,7 @@ import colors from "../../constants/Colors";
       startText: {
         fontSize: RFValue(16),
         color: "#fff",
-        fontFamily: "outfit-medium",
+        fontFamily: "outfit-semibold",
         textAlign: "center",
       },
   });

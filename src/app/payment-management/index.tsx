@@ -127,7 +127,7 @@ export default function PaymentManagement() {
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(16),
+                        fontSize: RFValue(15),
                         fontFamily: "outfit-medium",
                         lineHeight: RFValue(20),
                         color: "#1A1A1A",
@@ -187,7 +187,7 @@ export default function PaymentManagement() {
                   <View>
                     <Text
                       style={{
-                        fontSize: RFValue(16),
+                        fontSize: RFValue(15),
                         fontFamily: "outfit-medium",
                         lineHeight: RFValue(20),
                         color: "#1A1A1A",
