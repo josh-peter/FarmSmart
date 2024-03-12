@@ -18,6 +18,8 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import AddNewCard from "./addNewCard";
+import AppBar from "../../appBar";
+import colors from "../../../constants/Colors";
 
 interface Props {
   modalVisible: boolean;
@@ -27,7 +29,7 @@ interface Props {
 export default function EditPayment({
   modalVisible,
   closeModal,
-}: Props) {
+}: Readonly<Props>) {
 
   const [modalCardVisible, setModalCardVisible] = useState(false);
   
@@ -64,38 +66,17 @@ export default function EditPayment({
       >
         <View
           style={{
-            backgroundColor: "#fff",
+          backgroundColor:colors.background,
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(38),
           }}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#fafafa",
-              width: responsiveScreenWidth(100),
-              height: responsiveScreenHeight(10),
-            }}
-          >
-            <Text
-              style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(30),
-              }}
-            >
-              Edit payment
-            </Text>
-            <TouchableOpacity onPress={closeModal} style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+          <AppBar title={"Edit payment method"} onPress={undefined} />
           <View
             style={{
               paddingHorizontal: RFValue(15),
               paddingVertical: RFValue(20),
+             
             }}
           >
             <View>
@@ -104,6 +85,7 @@ export default function EditPayment({
                   flexDirection: "column",
                   gap: RFValue(25),
                   marginTop: RFValue(10),
+                  
                 }}
               >
                 <View
@@ -132,7 +114,7 @@ export default function EditPayment({
                       style={{
                         fontSize: RFValue(14),
                         fontFamily: "outfit-regular",
-                        color: "#414141",
+                        color: colors.onboardingText,
                       }}
                     >
                       **** 3421
@@ -173,7 +155,7 @@ export default function EditPayment({
                       style={{
                         fontSize: RFValue(14),
                         fontFamily: "outfit-regular",
-                        color: "#414141",
+                        color: colors.onboardingText,
                       }}
                     >
                       **** 3421
@@ -192,17 +174,19 @@ export default function EditPayment({
               <TouchableOpacity
                 onPress={openCardModal}
                 style={{
-                  backgroundColor: "#ECFFF4",
+                  backgroundColor: colors.warm,
                   padding: Platform.OS === "ios" ? 14 : 13,
                   borderRadius: 10,
                   marginTop: RFValue(25),
+                  borderWidth: 1,
+                  borderColor:colors.border2
                 }}
               >
                 <Text
                   style={{
                     fontSize: RFValue(16),
-                    fontFamily: "outfit-regular",
-                    color: "#06782F",
+                    fontFamily: "outfit-medium",
+                    color: colors.primary,
                     textAlign: "center",
                   }}
                 >

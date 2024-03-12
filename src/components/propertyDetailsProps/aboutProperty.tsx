@@ -11,6 +11,7 @@ import SingleApartment from "../../Data/singleApartment.json";
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
 import colors from '../../constants/Colors';
 import { Image } from 'expo-image';
+import CustomButton from '../common/customButton';
 
 export default function AboutProperty() {
       const [modalVisible, setModalVisible] = useState(false);
@@ -196,7 +197,7 @@ export default function AboutProperty() {
               borderRadius: 10,
               marginTop: RFValue(10),
               borderWidth: 1,
-              borderColor:colors.border2
+              borderColor: colors.border2,
             }}
           >
             <Image
@@ -224,7 +225,7 @@ export default function AboutProperty() {
           style={{
             fontSize: RFValue(17),
             fontFamily: "outfit-bold",
-            color:colors.primary,
+            color: colors.primary,
             lineHeight: RFValue(30),
             marginTop: RFValue(15),
           }}
@@ -365,26 +366,14 @@ export default function AboutProperty() {
             Lagos, Nigeria
           </Text>
         </View>
-        <Pressable
+        <CustomButton
+          buttonText={"Book appointment"}
+          buttonColor={colors.warm}
           onPress={() => router.push("/book-appointment")}
-          style={{
-            backgroundColor: colors.warm,
-            padding: Platform.OS === "ios" ? 18 : 17,
-            borderRadius: 10,
-            marginTop: RFValue(15),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              color: colors.primary,
-              textAlign: "center",
-            }}
-          >
-            Book appointment
-          </Text>
-        </Pressable>
+          buttonTextColor={colors.primary}
+          disabled={false}
+          marginTop={RFValue(15)}
+        />
       </View>
       <AboutPropertyModal modalVisible={modalVisible} closeModal={closeModal} />
     </View>
