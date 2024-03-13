@@ -10,10 +10,8 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import {
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+import { useNavigation } from "@react-navigation/native";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
 import AccountDeletedModal from "../components/common/modals/accountDeletedModal";
@@ -21,21 +19,21 @@ import PasswordInputField from "../components/inputs/passwordInputField";
 import colors from "../constants/Colors";
 import AppBar from "../components/appBar";
 
-export default function Refund() {
-    const navigation = useNavigation();
+export default function DeleteAccount() {
+  const navigation = useNavigation();
 
   const fade = useRef(new Animated.Value(0)).current;
   const [modalPopVisible, setModalPopVisible] = useState(false);
-    const [passwordVisible, setPasswordVisible] = useState(true);
-    const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [password, setPassword] = useState("");
 
-    const handleBackBtn = () => {
-        navigation.goBack(); 
-    }
+  const handleBackBtn = () => {
+    navigation.goBack();
+  };
 
-    const handleInputChange = (text: string) => {
-      setPassword(text);
-    };
+  const handleInputChange = (text: string) => {
+    setPassword(text);
+  };
 
   const openPopModal = () => {
     setModalPopVisible(true);
@@ -47,7 +45,7 @@ export default function Refund() {
 
   const handleSubmit = () => {
     console.log("Password submitted:");
-    openPopModal()
+    openPopModal();
   };
 
   const animation = () => {
@@ -61,6 +59,7 @@ export default function Refund() {
   useEffect(() => {
     animation();
   }, []);
+  
   return (
     <>
       <Stack.Screen
@@ -70,7 +69,7 @@ export default function Refund() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Delete account" onPress={() => router.push("/security")}/>
+      <AppBar title="Delete account" onPress={() => router.push("/security")} />
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         style={{
@@ -88,52 +87,52 @@ export default function Refund() {
               }),
             },
           ],
-        }}
-      >
+        }}>
         <View
+          style={{
+            padding: RFValue(9),
+          }}>
+          <Text
             style={{
-              padding: RFValue(9),
-            }}
-          >
-            <Text
-              style={{
-                color: "#000000",
-                fontSize: RFValue(13),
-                fontFamily: "urbanist-medium",
-                marginTop: RFValue(10),
-              }}
-            >
-              Please understand that your account can not be recovered if 
-              you choose to proceed with this action. Please enter your 
-              password to authorize account deletion
-            </Text>
-            <PasswordInputField
-                label={"Password"}
-                value={password}
-                onChangeText={handleInputChange}
-                errorMessage={""}
-                placeholder={"**********"}
-                returnKeyType="done"
-                keyboardType="password"
-                secureTextEntry={passwordVisible}
-                placeholderTextColor={colors.onboardingText}
-              />
-          </View>
-          <AccountDeletedModal modalPopVisible={modalPopVisible} closePopModal={closePopModal} />
+              color: "#000000",
+              fontSize: RFValue(13),
+              fontFamily: "urbanist-medium",
+              marginTop: RFValue(10),
+            }}>
+            Please understand that your account can not be recovered if you
+            choose to proceed with this action. Please enter your password to
+            authorize account deletion
+          </Text>
+          <PasswordInputField
+            label={"Password"}
+            value={password}
+            onChangeText={handleInputChange}
+            errorMessage={""}
+            placeholder={"**********"}
+            returnKeyType="done"
+            keyboardType="password"
+            secureTextEntry={passwordVisible}
+            placeholderTextColor={colors.onboardingText}
+          />
+        </View>
+        <AccountDeletedModal
+          modalPopVisible={modalPopVisible}
+          closePopModal={closePopModal}
+        />
       </Animated.ScrollView>
       <View>
-                {password.length < 3 ? (
-                  <TouchableOpacity style={styles.disableBtn}>
-                    <Text style={styles.button}>Delete account</Text>
-                  </TouchableOpacity>
-                ) : (
-          <TouchableOpacity 
-          onPress={() => handleSubmit()}
-          style={styles.deleteBtn}>
-          <Text style={styles.deleteText}>Delete account</Text>
-        </TouchableOpacity>
-                )}
-              </View>
+        {password.length < 3 ? (
+          <TouchableOpacity style={styles.disableBtn}>
+            <Text style={styles.button}>Delete account</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => handleSubmit()}
+            style={styles.deleteBtn}>
+            <Text style={styles.deleteText}>Delete account</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </>
   );
 }

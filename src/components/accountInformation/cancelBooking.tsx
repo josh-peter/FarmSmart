@@ -31,7 +31,7 @@ const checkboxes = [
   { id: 4, label: "I am no longer available" },
 ];
 
-export default function EditPasswordAccess({
+export default function CancelBooking({
   modalCancelVisible,
   closeCancelModal,
 }: Readonly<Props>) {

@@ -46,19 +46,25 @@ const PasswordInputField = ({
           fontSize: RFValue(14),
           marginTop: RFValue(15),
           color: colors.dark,
-        }}
-      >
+        }}>
         {label}
       </Text>
       <View
         style={{
           borderRadius: 10,
           borderWidth: 1,
-          borderColor: colors.button,
           padding: RFValue(8),
           marginTop: RFValue(10),
-        }}
-      >
+          borderColor: "#f3f4f6",
+          paddingHorizontal: RFValue(10),
+          paddingVertical: RFValue(10),
+          backgroundColor: "#fff",
+          marginBottom: RFValue(10),
+          shadowOffset: { width: 2, height: 2 },
+          shadowRadius: 20,
+          elevation: 2,
+          shadowColor: "#d1d5db",
+        }}>
         <TextInput
           placeholder="**********"
           value={value}
@@ -70,8 +76,7 @@ const PasswordInputField = ({
         />
         <TouchableOpacity
           style={styles.eyeIcon}
-          onPress={handlePasswordVisibility}
-        >
+          onPress={handlePasswordVisibility}>
           <Ionicons
             name={passwordVisible ? "eye-outline" : "eye-off-outline"}
             size={28}
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
     fontSize: RFValue(16),
-    paddingVertical: RFValue(5),
+    paddingVertical: RFValue(3),
   },
   eyeIcon: {
     position: "absolute",
