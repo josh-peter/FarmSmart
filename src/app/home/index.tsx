@@ -1,5 +1,5 @@
-import { StyleSheet, Animated, Platform, Dimensions } from "react-native";
-import React, { useEffect, useRef, useState, memo } from "react";
+import { StyleSheet, Platform, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import Header from "../../components/homeScreens/headerComponent";
@@ -8,7 +8,14 @@ import PropertyListItem from "../../components/homeScreens/propertyListItem";
 import HeaderButtons from "../../components/homeScreens/headerButtons";
 import HomeIcons from "../../components/homeScreens/HomeIcons";
 import colors from "../../constants/Colors";
-const { width, height } = Dimensions.get("window");
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
+
+const { width } = Dimensions.get("window");
 
 const Index = () => {
   const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
@@ -24,53 +31,42 @@ const Index = () => {
     });
   };
 
-   const [animationTriggered, setAnimationTriggered] = useState(false);
-   const [fade] = useState(new Animated.Value(0));
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
 
-   const animation = () => {
-     Animated.timing(fade, {
-       toValue: 1,
-       duration: 800,
-       useNativeDriver: true,
-     }).start();
-   };
+  useEffect(() => {
+    slideIn.value = withTiming(1, {
+      duration: 500,
+      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
 
-   useEffect(() => {
-     if (!animationTriggered) {
-       setAnimationTriggered(true);
-       animation();
-     }
-   }, [animationTriggered]);
+    fadeIn.value = withTiming(1, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateX = -0.3 * width * (1 - slideIn.value);
+
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateX }],
+    };
+  });
 
   return (
     <>
       <Header />
-      {animationTriggered && (
-        <Animated.View
-          style={[
-            styles.container,
-            {
-              opacity: fade,
-              transform: [
-                {
-                  translateY: fade.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [150, 0],
-                  }),
-                },
-              ],
-            },
-          ]}
-        >
-          <SearchBarComponent onSearch={searchHandler} />
-          <HeaderButtons
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
-          />
-          <HomeIcons />
-          <PropertyListItem selectedType={selectedType} />
-        </Animated.View>
-      )}
+      <Animated.View style={[styles.container, animatedStyle]}>
+        <SearchBarComponent onSearch={searchHandler} />
+        <HeaderButtons
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+        />
+        <HomeIcons />
+        <PropertyListItem selectedType={selectedType} />
+      </Animated.View>
     </>
   );
 };
@@ -80,7 +76,6 @@ export default Index;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: width,
     backgroundColor: colors.background,
     paddingHorizontal: Platform.OS === "ios" ? RFValue(10) : RFValue(15),
     paddingVertical: RFValue(20),

@@ -5,13 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
-  Animated,
 } from "react-native";
 import React, { useEffect, useRef, useState, } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import Animated from "react-native-reanimated";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import InputField from "../inputs/inputField";
@@ -25,20 +24,6 @@ export default function LoginComp() {
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-
-      const fade = useRef(new Animated.Value(0)).current;
-
-      const animation = () => {
-        Animated.timing(fade, {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-        }).start();
-      };
-
-      useEffect(() => {
-        animation();
-      }, []);
 
 
   const handleUserLogin = (values: any, setSubmitting: any) => {
@@ -81,19 +66,7 @@ export default function LoginComp() {
             isSubmitting,
             errors,
           }) => (
-            <Animated.View
-              style={{
-                opacity: fade,
-                transform: [
-                  {
-                    translateY: fade.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [150, 0],
-                    }),
-                  },
-                ],
-              }}
-            >
+            <Animated.View sharedTransitionTag="tag">
               <Image
                 contentFit="contain"
                 source={require("../../assets/images/icon2.png")}
@@ -222,7 +195,15 @@ export default function LoginComp() {
               <Text style={styles.smallText}>
                 Don't have an account?
                 <Link href={"/auth/signup"} asChild>
-                  <Text style={{ color: colors.primary, fontFamily:"urbanist-bold" }}> Sign Up</Text>
+                  <Text
+                    style={{
+                      color: colors.primary,
+                      fontFamily: "urbanist-bold",
+                    }}
+                  >
+                    {" "}
+                    Sign Up
+                  </Text>
                 </Link>
               </Text>
             </Animated.View>

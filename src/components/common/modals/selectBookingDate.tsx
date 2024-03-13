@@ -8,7 +8,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Modal from "react-native-modal";
 import {
   responsiveScreenHeight,
@@ -19,35 +19,43 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DatePicker from "react-native-modern-datepicker";
 import PayForApartment from "./payForApartment";
 import { router } from "expo-router";
+import { Calendar } from "react-native-calendars";
+import colors from "../../../constants/Colors";
 
 interface Props {
   modalVisible: boolean;
   closeModal: () => void;
+  props:any
 }
 
-const availableDates = ["2024-02-17", "2024-02-18", "2024-02-19"]; 
-const bookedDates = ["2024-02-20", "2024-02-21"];
-
-export default function SelectBookingDate({ modalVisible, closeModal }: Readonly<Props>) {
+export default function SelectBookingDate({
+  modalVisible,
+  closeModal,
+  props,
+}: Readonly<Props>) {
   const [selectedDate, setSelectedDate] = useState("");
   const [modalPayVisible, setModalPayVisible] = useState(false);
+  const initDate = "2024-03-13";
+  const [selected, setSelected] = useState(initDate);
+  const marked = useMemo(
+    () => ({
+      [selected]: {
+        customStyles: {
+          container: {
+            backgroundColor: colors.primary,
+            borderRadius: 0,
+          },
+          text: {
+            color: "white",
+          },
+        },
+      },
+    }),
+    [selected]
+  );
 
-      const closePayModal = () => {
-        setModalPayVisible(false);
-  };
-  
-  const getDateStyle = (date: any) => {
-    if (availableDates.includes(date)) {
-      return {
-        backgroundColor: "#7FFF7F", 
-      };
-    } else if (bookedDates.includes(date)) {
-      return {
-        backgroundColor: "#7FFF7F80", 
-      };
-    } else {
-      return {}; 
-    }
+  const closePayModal = () => {
+    setModalPayVisible(false);
   };
 
 
@@ -121,14 +129,61 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
               >
                 Select check-in date
               </Text>
-              <DatePicker
-                onSelectedChange={(date) => setSelectedDate(date)}
-                mode="calendar"
-                options={{
-                  backgroundColor: "#fafafa",
-                  mainColor: "#06782F",
+
+              <Calendar
+                onPress={(date: any) => setSelectedDate(date)}
+                markingType="custom"
+                markedDates={marked}
+                onDayPress={(day: any) => {
+                  setSelected(day.dateString);
                 }}
-                style={{ borderRadius: 10 }}
+                {...props}
+                style={{
+                  borderRadius: 5,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowRadius: 20,
+                  shadowOpacity: 0.16,
+                  elevation: 14,
+                  shadowColor: "#d5d0dd",
+                }}
+                theme={{
+                  calendarBackground: colors.background,
+                  dayTextColor: colors.primary,
+                  textDisabledColor: "#00175426",
+                  monthTextColor: colors.primary,
+                  textMonthFontFamily: "outfit-bold",
+                  arrowColor: colors.primary,
+                  "stylesheet.calendar.header": {
+                    dayTextAtIndex0: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex1: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex2: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex3: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex4: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex5: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex6: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                  },
+                }}
               />
             </View>
             <View
@@ -146,8 +201,62 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
               >
                 Select check-out date
               </Text>
-              <DatePicker
-                onSelectedChange={(date) => setSelectedDate(date)}
+              <Calendar
+                onPress={(date: any) => setSelectedDate(date)}
+                markingType="custom"
+                markedDates={marked}
+                onDayPress={(day: any) => {
+                  setSelected(day.dateString);
+                }}
+                {...props}
+                style={{
+                  borderRadius: 5,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowRadius: 20,
+                  shadowOpacity: 0.16,
+                  elevation: 14,
+                  shadowColor: "#d5d0dd",
+                }}
+                theme={{
+                  calendarBackground: colors.background,
+                  dayTextColor: colors.primary,
+                  textDisabledColor: "#00175426",
+                  monthTextColor: colors.primary,
+                  textMonthFontFamily: "outfit-bold",
+                  arrowColor: colors.primary,
+                  "stylesheet.calendar.header": {
+                    dayTextAtIndex0: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex1: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex2: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex3: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex4: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex5: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                    dayTextAtIndex6: {
+                      color: colors.primary,
+                      fontFamily: "outfit-medium",
+                    },
+                  },
+                }}
+              />
+              {/* <DatePicker
                 mode="calendar"
                 options={{
                   backgroundColor: "#fafafa",
@@ -156,7 +265,7 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
                 style={{
                   borderRadius: 10,
                 }}
-              />
+              /> */}
             </View>
           </ScrollView>
           <View
@@ -165,6 +274,8 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
               alignItems: "center",
               justifyContent: "space-between",
               padding: RFValue(15),
+              borderTopWidth: 1,
+              borderTopColor: colors.border2,
             }}
           >
             <View>
@@ -172,7 +283,7 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
                 style={{
                   fontSize: RFValue(13),
                   fontFamily: "outfit-bold",
-                  color: "#161917",
+                  color: colors.primary,
                   lineHeight: RFValue(20),
                 }}
               >
@@ -182,7 +293,7 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
                 style={{
                   fontSize: RFValue(13),
                   fontFamily: "outfit-bold",
-                  color: "#06782f",
+                  color: colors.green,
                   lineHeight: RFValue(20),
                 }}
               >
@@ -192,8 +303,7 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
                 style={{
                   fontSize: RFValue(11),
                   fontFamily: "outfit-regular",
-                  color: "#414141",
-                  textDecorationLine: "underline",
+                  color: colors.onboardingText,
                 }}
               >
                 Sat, 3 Nov 2023 - Mon, 5 Nov 2023
@@ -204,13 +314,15 @@ export default function SelectBookingDate({ modalVisible, closeModal }: Readonly
                 router.push("/summary-confirmation");
               }}
               style={{
-                backgroundColor: "#06782F",
+                backgroundColor: colors.primary,
                 padding: Platform.OS === "ios" ? 15 : 14,
-                borderRadius: 10,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                borderBottomLeftRadius: 10,
                 width: RFValue(100),
               }}
             >
-              <Text style={styles.startText}>Pay</Text>
+              <Text style={styles.startText}>Confirm</Text>
             </TouchableOpacity>
           </View>
         </View>
