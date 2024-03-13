@@ -5,7 +5,6 @@ import {
   Text,
   Animated,
   Dimensions,
-  Image,
   TouchableOpacity,
   Platform,
   StyleSheet,
@@ -14,38 +13,19 @@ import { useNavigation } from "@react-navigation/native";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
-import AccountDeletedModal from "../components/common/modals/accountDeletedModal";
-import PasswordInputField from "../components/inputs/passwordInputField";
-import colors from "../constants/Colors";
-import AppBar from "../components/appBar";
+import PasswordInputField from "../../components/inputs/passwordInputField";
+import colors from "../../constants/Colors";
+import { MaterialIcons } from "@expo/vector-icons";
 
-export default function DeleteAccount() {
+export default function Password() {
   const navigation = useNavigation();
 
   const fade = useRef(new Animated.Value(0)).current;
-  const [modalPopVisible, setModalPopVisible] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [password, setPassword] = useState("");
 
-  const handleBackBtn = () => {
-    navigation.goBack();
-  };
-
   const handleInputChange = (text: string) => {
     setPassword(text);
-  };
-
-  const openPopModal = () => {
-    setModalPopVisible(true);
-  };
-
-  const closePopModal = () => {
-    setModalPopVisible(false);
-  };
-
-  const handleSubmit = () => {
-    console.log("Password submitted:");
-    openPopModal();
   };
 
   const animation = () => {
@@ -59,7 +39,7 @@ export default function DeleteAccount() {
   useEffect(() => {
     animation();
   }, []);
-  
+
   return (
     <>
       <Stack.Screen
@@ -69,7 +49,35 @@ export default function DeleteAccount() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Delete account" onPress={() => router.push("/security")} />
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#FFFFFF",
+          marginBottom: RFValue(15),
+          shadowOffset: { width: 0, height: 4 },
+          shadowRadius: 20,
+          shadowOpacity: 0.16,
+          elevation: 14,
+          shadowColor: "#d5d0dd",
+          width: responsiveScreenWidth(100),
+          height: responsiveScreenWidth(20),
+        }}>
+        <Text
+          style={{
+            fontSize: RFValue(16),
+            fontFamily: "outfit-bold",
+            lineHeight: RFValue(30),
+          }}>
+          Enter password
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.push("/account-information/")}
+          style={styles.clearIcon}>
+          <MaterialIcons name="clear" size={18} color="#1A1A1A" />
+        </TouchableOpacity>
+      </View>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         style={{
@@ -99,9 +107,8 @@ export default function DeleteAccount() {
               fontFamily: "urbanist-medium",
               marginTop: RFValue(10),
             }}>
-            Please understand that your account can not be recovered if you
-            choose to proceed with this action. Please enter your password to
-            authorize account deletion
+            This is a sensitive action, please provide your password to
+            continue.
           </Text>
           <PasswordInputField
             label={"Password"}
@@ -115,24 +122,24 @@ export default function DeleteAccount() {
             placeholderTextColor={colors.onboardingText}
           />
         </View>
-        <AccountDeletedModal
-          modalPopVisible={modalPopVisible}
-          closePopModal={closePopModal}
-        />
       </Animated.ScrollView>
-      <View>
-        {password.length < 3 ? (
-          <TouchableOpacity style={styles.disableBtn}>
-            <Text style={styles.button}>Delete account</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.deleteBtn}>
-            <Text style={styles.deleteText}>Delete account</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+        <View
+          style={{
+            paddingHorizontal: RFValue(15),
+            marginBottom: RFValue(20),
+          }}>
+          {password.length < 3 ? (
+            <TouchableOpacity style={styles.disableBtn}>
+              <Text style={styles.button}>Continue</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => router.push("/account-information/editInformation")}
+              style={styles.startBtn}>
+              <Text style={styles.startText}>Continue</Text>
+            </TouchableOpacity>
+          )}
+        </View>
     </>
   );
 }
@@ -140,10 +147,10 @@ export default function DeleteAccount() {
 const styles = StyleSheet.create({
   clearIcon: {
     backgroundColor: "#fff",
-    padding: RFValue(10),
+    padding: RFValue(6),
     borderRadius: 50,
     position: "absolute",
-    left: RFValue(15),
+    right: RFValue(15),
     borderWidth: 1,
     borderColor: "#e5e5e5",
   },
@@ -153,29 +160,25 @@ const styles = StyleSheet.create({
     color: colors.buttontext,
     fontSize: RFValue(14),
   },
-  deleteBtn: {
-    backgroundColor: "#FDFDFD",
-    padding: Platform.OS === "ios" ? 15 : 14,
-    borderRadius: 10,
-    borderBottomRightRadius: 0,
-    borderWidth: RFValue(1),
-    borderColor: "#F0F4FF",
-    marginTop: RFValue(15),
-    marginHorizontal: RFValue(20),
-    marginVertical: RFValue(20),
-  },
   disableBtn: {
     backgroundColor: colors.button,
     padding: Platform.OS === "ios" ? 15 : 14,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     marginTop: RFValue(15),
-    marginHorizontal: RFValue(12),
     marginVertical: RFValue(20),
   },
-  deleteText: {
+  startBtn: {
+    backgroundColor: colors.primary,
+    padding: Platform.OS === "ios" ? 15 : 14,
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+    marginTop: RFValue(15),
+    marginVertical: RFValue(20),
+  },
+  startText: {
     fontSize: RFValue(14),
-    color: "#FA5C47",
+    color: "#fff",
     fontFamily: "outfit-semibold",
     textAlign: "center",
   },
