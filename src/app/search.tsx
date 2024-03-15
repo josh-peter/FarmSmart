@@ -4,14 +4,13 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Animated,
   FlatList,
   Modal,
   Platform,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
-import { Link,router, SearchParams, useSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Link,router} from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import { MaterialIcons } from "@expo/vector-icons";
 import { PropertiesData } from "../Data/propertiesData";
@@ -22,6 +21,12 @@ import colors from "../constants/Colors";
 import { Image } from "expo-image";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 const { width, height } = Dimensions.get("window");
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 
 interface SearchItem {
   id: number;
@@ -89,6 +94,30 @@ export default function Search() {
   const setData = (option: any) => {
     setChooseData(option);
   };
+
+    const slideIn = useSharedValue(0);
+    const fadeIn = useSharedValue(0);
+
+    useEffect(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+
+      fadeIn.value = withTiming(1, {
+        duration: 1000,
+        easing: Easing.linear,
+      });
+    }, []);
+
+    const animatedStyle = useAnimatedStyle(() => {
+      const translateX = -0.3 * width * (1 - slideIn.value);
+
+      return {
+        opacity: fadeIn.value,
+        transform: [{ translateX }],
+      };
+    });
 
   return (
     <View style={styles.container}>

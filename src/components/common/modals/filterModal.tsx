@@ -15,10 +15,11 @@ import {
 } from "react-native-responsive-dimensions";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import Checkbox from "expo-checkbox";
 import colors from "../../../constants/Colors";
 import { Image } from "expo-image";
+import { propertyType } from "../../../Data/propertyType";
+import { reviewSetData } from "../../../Data/reviewsSetData";
 
 interface Props {
   modalVisible: boolean;
@@ -57,82 +58,9 @@ const handleIconPress = (id: number) => {
    };
 
 
-  const propertyType = [
-    {
-      id: 1,
-      img: require("../../../assets/images/building.png"),
-      img2: require("../../../assets/images/building-dark.png"),
-      type: "Apartment",
-    },
-    {
-      id: 2,
-      img: require("../../../assets/images/house.png"),
-      img2: require("../../../assets/images/house-dark.png"),
-      type: "Home",
-    },
-    {
-      id: 3,
-      img: require("../../../assets/images/shop.png"),
-      img2: require("../../../assets/images/shop-dark.png"),
-      type: "Shop space",
-    },
-    {
-      id: 4,
-      img: require("../../../assets/images/slider-vertical.png"),
-      img2: require("../../../assets/images/land-dark.png"),
-      type: "Land",
-    },
-    {
-      id: 5,
-      img: require("../../../assets/images/hotels.png"),
-      img2: require("../../../assets/images/hotels-dark.png"),
-      type: "Hotel",
-    },
-    {
-      id: 6,
-      img: require("../../../assets/images/shortlet.png"),
-      img2: require("../../../assets/images/shortlet-dark.png"),
-      type: "Shortlet",
-    },
-    {
-      id: 7,
-      img: require("../../../assets/images/building-3.png"),
-      img2: require("../../../assets/images/building3-dark.png"),
-      type: "Office Space",
-    },
-    {
-      id: 8,
-      img: require("../../../assets/images/Component.png"),
-      img2: require("../../../assets/images/Component-dark.png"),
-      type: "Rooms",
-    },
-  ];
-
-  const reviewData = [
-    {
-      id: 1,
-      result: "1.0 (300 results)",
-    },
-    {
-      id: 2,
-      result: "2.0 (50 results)",
-    },
-    {
-      id: 3,
-      result: "3.0 (800 results)",
-    },
-    {
-      id: 4,
-      result: "4.0 (2K results)",
-    },
-    {
-      id: 5,
-      result: "5.0 (1K+ results)",
-    },
-  ];
 
   const [isChecked, setChecked] = useState<boolean[]>(
-    Array(reviewData.length).fill(false)
+    Array(reviewSetData.length).fill(false)
   );
 
   const roomData = [
@@ -187,9 +115,8 @@ const handleIconPress = (id: number) => {
           >
             <Text
               style={{
-                fontSize: RFValue(13),
+                fontSize: RFValue(16),
                 fontFamily: "outfit-bold",
-                textTransform: "uppercase",
                 lineHeight: RFValue(30),
               }}
             >
@@ -261,7 +188,7 @@ const handleIconPress = (id: number) => {
                   />
                   <TouchableOpacity style={styles.eyeIcon}>
                     <Image
-                      resizeMode="contain"
+                      contentFit="contain"
                       source={require("../../../assets/images/₦.png")}
                       style={{
                         width: RFValue(15),
@@ -306,7 +233,7 @@ const handleIconPress = (id: number) => {
                   />
                   <TouchableOpacity style={styles.eyeIcon}>
                     <Image
-                      resizeMode="contain"
+                      contentFit="contain"
                       source={require("../../../assets/images/₦.png")}
                       style={{
                         width: RFValue(15),
@@ -331,7 +258,7 @@ const handleIconPress = (id: number) => {
               }}
             >
               <Image
-                resizeMode="contain"
+                contentFit="contain"
                 source={require("../../../assets/images/danger.png")}
                 style={{
                   width: RFValue(20),
@@ -451,8 +378,9 @@ const handleIconPress = (id: number) => {
                           gap: RFValue(7),
                         }}
                       >
-                        {roomData?.map((room, index: number) => (
+                        {roomData?.map((room, index) => (
                           <TouchableOpacity
+                            key={index}
                             onPress={() => handleRoomPress(index)}
                             style={{
                               backgroundColor:
@@ -464,7 +392,6 @@ const handleIconPress = (id: number) => {
                               borderRadius: 50,
                               marginTop: RFValue(10),
                             }}
-                            key={index}
                           >
                             <Text
                               style={{
@@ -686,7 +613,7 @@ const handleIconPress = (id: number) => {
                   </View>
                 </View>
                 <View>
-                  {reviewData?.map((review) => (
+                  {reviewSetData?.map((review) => (
                     <View
                       style={{
                         flexDirection: "row",
@@ -740,11 +667,13 @@ const handleIconPress = (id: number) => {
 
 const styles = StyleSheet.create({
   clearIcon: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     padding: RFValue(10),
     borderRadius: 50,
     position: "absolute",
     right: RFValue(15),
+    borderWidth: 1,
+    borderColor: colors.border2
   },
   inputbox: {
     width: responsiveScreenWidth(33),

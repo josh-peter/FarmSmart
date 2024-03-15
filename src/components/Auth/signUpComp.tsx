@@ -7,7 +7,6 @@ import {
   Platform,
   ScrollView,
   Alert,
-  Animated,
   Dimensions,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
@@ -24,6 +23,12 @@ import ErrorMsg from "./errors/errorMsg";
 import { CheckBox } from "@rneui/themed";
 import { Image } from "expo-image";
 import colors from "../../constants/Colors";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 const { width, height } = Dimensions.get("window");
 
 export default function SignUpComp() {
@@ -42,20 +47,29 @@ export default function SignUpComp() {
     router.push("/auth/otpverification");
     setSubmitting(false);
   };
+    const slideIn = useSharedValue(0);
+    const fadeIn = useSharedValue(0);
 
-   const fade = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
 
-   const animation = () => {
-     Animated.timing(fade, {
-       toValue: 1,
-       duration: 800,
-       useNativeDriver: true,
-     }).start();
-   };
+      fadeIn.value = withTiming(1, {
+        duration: 1000,
+        easing: Easing.linear,
+      });
+    }, []);
 
-   useEffect(() => {
-     animation();
-   }, []);
+    const animatedStyle = useAnimatedStyle(() => {
+      const translateX = -0.3 * width * (1 - slideIn.value);
+
+      return {
+        opacity: fadeIn.value,
+        transform: [{ translateX }],
+      };
+    });
 
   return (
     <>
@@ -114,17 +128,7 @@ export default function SignUpComp() {
             errors,
           }) => (
             <Animated.View
-              style={{
-                opacity: fade,
-                transform: [
-                  {
-                    translateY: fade.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [150, 0],
-                    }),
-                  },
-                ],
-              }}
+              style={animatedStyle}
             >
               <Image
                 contentFit="contain"

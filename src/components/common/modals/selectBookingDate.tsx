@@ -21,6 +21,7 @@ import PayForApartment from "./payForApartment";
 import { router } from "expo-router";
 import { Calendar } from "react-native-calendars";
 import colors from "../../../constants/Colors";
+import Animated from "react-native-reanimated";
 
 interface Props {
   modalVisible: boolean;

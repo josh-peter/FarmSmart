@@ -5,18 +5,25 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useRef, useState, } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
-import Animated from "react-native-reanimated";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import InputField from "../inputs/inputField";
 import PasswordInputField from "../inputs/passwordInputField";
 import { Image } from "expo-image";
 import colors from "../../constants/Colors";
+const { width } = Dimensions.get("window");
 
 
 export default function LoginComp() {
@@ -30,6 +37,30 @@ export default function LoginComp() {
     router.push("/home/");
     setSubmitting(false)
   };
+
+    const slideIn = useSharedValue(0);
+    const fadeIn = useSharedValue(0);
+
+    useEffect(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+
+      fadeIn.value = withTiming(1, {
+        duration: 1000,
+        easing: Easing.linear,
+      });
+    }, []);
+
+    const animatedStyle = useAnimatedStyle(() => {
+      const translateX = -0.3 * width * (1 - slideIn.value);
+
+      return {
+        opacity: fadeIn.value,
+        transform: [{ translateX }],
+      };
+    });
   
 
   return (
@@ -41,7 +72,7 @@ export default function LoginComp() {
         }}
       />
       <StatusBar style="dark" />
-      <Animated.View style={styles.container}>
+      <Animated.View style={[styles.container, animatedStyle]}>
         <Formik
           initialValues={{
             email: "",

@@ -214,7 +214,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
                     style={{
                       fontSize: RFValue(14),
                       fontFamily: "urbanist-regular",
-                      color: "#414141",
+                      color: colors.onboardingText,
                     }}
                   >
                     {item.type === "Rental" ? item.rent : ""}
