@@ -1,13 +1,18 @@
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   Image,
   TouchableOpacity,
   StyleSheet,
   TextInput,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import {
@@ -20,19 +25,29 @@ import colors from "../constants/Colors";
 const { width, height } = Dimensions.get("window");
 
 export default function ChatBox() {
-  const fade = useRef(new Animated.Value(0)).current;
-
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -44,85 +59,68 @@ export default function ChatBox() {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
+      <View
         style={{
-          flex: 1,
-          width: width,
           backgroundColor: colors.background,
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
+          width: responsiveScreenWidth(100),
+          height: responsiveScreenHeight(10),
+        }}>
         <View
           style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
             backgroundColor: colors.background,
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(10),
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: colors.background,
-              paddingHorizontal: RFValue(15),
-              marginTop: RFValue(25),
-              paddingBottom: RFValue(10),
-            }}
-          >
-            <TouchableOpacity
-              style={styles.clearIcon}
-              onPress={() => router.push("/notification")}
-            >
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/arrow-left.png")}
-                style={{
-                  height: RFValue(22),
-                  width: RFValue(22),
-                }}
-              />
-            </TouchableOpacity>
-
-            <View>
-              <Text
-                style={{
-                  fontSize: RFValue(15),
-                  fontFamily: "outfit-bold",
-                  textAlign: "center",
-                }}
-              >
-                Abigail Williams
-              </Text>
-              <Text
-                style={{
-                  fontSize: RFValue(11),
-                  fontFamily: "outfit-regular",
-                  textAlign: "center",
-                }}
-              >
-                Last online yesterday
-              </Text>
-            </View>
+            paddingHorizontal: RFValue(15),
+            paddingTop: RFValue(25),
+            paddingBottom: RFValue(10),
+            shadowOffset: { width: 0, height: 4 },
+            shadowRadius: 20,
+            shadowOpacity: 0.16,
+            elevation: 14,
+            shadowColor: "#d5d0dd",
+          }}>
+          <TouchableOpacity
+            style={styles.clearIcon}
+            onPress={() => router.push("/notification")}>
             <Image
               resizeMode="contain"
-              source={require("../assets/images/profile.png")}
+              source={require("../assets/images/arrow-left.png")}
               style={{
-                height: RFValue(35),
-                width: RFValue(35),
+                height: RFValue(15),
+                width: RFValue(15),
               }}
             />
+          </TouchableOpacity>
+          <View>
+            <Text
+              style={{
+                fontSize: RFValue(15),
+                fontFamily: "outfit-bold",
+                textAlign: "center",
+              }}>
+              Abigail Williams
+            </Text>
+            <Text
+              style={{
+                fontSize: RFValue(11),
+                fontFamily: "outfit-regular",
+                textAlign: "center",
+              }}>
+              Last online yesterday
+            </Text>
           </View>
+          <Image
+            resizeMode="contain"
+            source={require("../assets/images/profile.png")}
+            style={{
+              height: RFValue(35),
+              width: RFValue(35),
+            }}
+          />
         </View>
+      </View>
+      <Animated.ScrollView style={[styles.container, animatedStyle]}>
         <View
           style={{
             flexDirection: "row",
@@ -137,8 +135,7 @@ export default function ChatBox() {
             marginBottom: RFValue(10),
             borderWidth: 1,
             borderColor: colors.border,
-          }}
-        >
+          }}>
           <Image
             resizeMode="contain"
             source={require("../assets/images/bedroom.png")}
@@ -152,8 +149,7 @@ export default function ChatBox() {
               style={{
                 fontSize: RFValue(14),
                 fontFamily: "outfit-bold",
-              }}
-            >
+              }}>
               One bedroom flat
             </Text>
             <View
@@ -162,8 +158,7 @@ export default function ChatBox() {
                 gap: 5,
                 alignItems: "center",
                 marginTop: RFValue(3),
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/location.png")}
@@ -177,8 +172,7 @@ export default function ChatBox() {
                   fontSize: RFValue(12),
                   fontFamily: "urbanist-regular",
                   color: colors.onboardingText,
-                }}
-              >
+                }}>
                 Lekki phase 1, Lagos, Nigeria
               </Text>
             </View>
@@ -190,38 +184,33 @@ export default function ChatBox() {
                 backgroundColor: colors.warm,
                 width: RFValue(60),
                 marginTop: RFValue(3),
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(12),
                   fontFamily: "outfit-medium",
                   color: colors.green,
-                }}
-              >
+                }}>
                 Rental
               </Text>
             </TouchableOpacity>
             <View
               style={{
                 marginTop: RFValue(3),
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(14),
                   fontFamily: "outfit-bold",
                   color: colors.green,
-                }}
-              >
+                }}>
                 ₦1,500,000{" "}
                 <Text
                   style={{
                     fontSize: RFValue(10),
                     fontFamily: "urbanist-regular",
                     color: "#414141",
-                  }}
-                >
+                  }}>
                   yearly
                 </Text>
               </Text>
@@ -231,16 +220,14 @@ export default function ChatBox() {
         <View
           style={{
             paddingHorizontal: RFValue(15),
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: RFValue(13),
               fontFamily: "urbanist-regular",
               color: "#414141",
               textAlign: "center",
-            }}
-          >
+            }}>
             Yesterday
           </Text>
           <View
@@ -249,8 +236,7 @@ export default function ChatBox() {
               alignItems: "flex-end",
               justifyContent: "flex-end",
               marginTop: RFValue(20),
-            }}
-          >
+            }}>
             <View
               style={{
                 backgroundColor: colors.primary,
@@ -262,15 +248,13 @@ export default function ChatBox() {
                 borderTopStartRadius: 20,
                 borderBottomStartRadius: 20,
                 borderTopEndRadius: 20,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(12),
                   fontFamily: "urbanist-regular",
                   color: "#fff",
-                }}
-              >
+                }}>
                 Hi
               </Text>
               <Text
@@ -278,8 +262,7 @@ export default function ChatBox() {
                   fontSize: RFValue(12),
                   fontFamily: "urbanist-regular",
                   color: "#fff",
-                }}
-              >
+                }}>
                 Abigail
               </Text>
             </View>
@@ -289,8 +272,7 @@ export default function ChatBox() {
                 fontFamily: "urbanist-regular",
                 color: colors.onboardingText,
                 alignItems: "flex-end",
-              }}
-            >
+              }}>
               {new Intl.DateTimeFormat("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -303,8 +285,7 @@ export default function ChatBox() {
               alignItems: "flex-end",
               justifyContent: "flex-end",
               marginTop: RFValue(20),
-            }}
-          >
+            }}>
             <View
               style={{
                 backgroundColor: colors.primary,
@@ -316,15 +297,13 @@ export default function ChatBox() {
                 borderTopStartRadius: 20,
                 borderBottomStartRadius: 20,
                 borderTopEndRadius: 20,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(12),
                   fontFamily: "urbanist-regular",
                   color: colors.background,
-                }}
-              >
+                }}>
                 I will like to make reservation now, but I have some other
                 questions
               </Text>
@@ -335,8 +314,7 @@ export default function ChatBox() {
                 fontFamily: "urbanist-regular",
                 color: colors.onboardingText,
                 alignItems: "flex-end",
-              }}
-            >
+              }}>
               {new Intl.DateTimeFormat("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -348,8 +326,7 @@ export default function ChatBox() {
                 fontFamily: "urbanist-regular",
                 color: colors.onboardingText,
                 alignItems: "flex-end",
-              }}
-            >
+              }}>
               Seen by Abigail
             </Text>
           </View>
@@ -359,8 +336,7 @@ export default function ChatBox() {
               alignItems: "flex-start",
               justifyContent: "flex-start",
               marginTop: RFValue(20),
-            }}
-          >
+            }}>
             <View
               style={{
                 backgroundColor: "#F9FAFA",
@@ -372,15 +348,13 @@ export default function ChatBox() {
                 borderTopEndRadius: 20,
                 borderBottomEndRadius: 20,
                 borderTopStartRadius: 20,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(12),
                   fontFamily: "urbanist-regular",
                   color: colors.onboardingText,
-                }}
-              >
+                }}>
                 Okay then
               </Text>
             </View>
@@ -390,8 +364,7 @@ export default function ChatBox() {
                 fontFamily: "urbanist-regular",
                 color: "#414141",
                 alignItems: "flex-end",
-              }}
-            >
+              }}>
               {new Intl.DateTimeFormat("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -401,16 +374,14 @@ export default function ChatBox() {
           <View
             style={{
               marginTop: RFValue(10),
-            }}
-          >
+            }}>
             <Text
               style={{
                 fontSize: RFValue(13),
                 fontFamily: "urbanist-regular",
                 color: "#414141",
                 textAlign: "center",
-              }}
-            >
+              }}>
               Today
             </Text>
             <View
@@ -419,8 +390,7 @@ export default function ChatBox() {
                 alignItems: "flex-end",
                 justifyContent: "flex-end",
                 marginTop: RFValue(20),
-              }}
-            >
+              }}>
               <View
                 style={{
                   backgroundColor: colors.primary,
@@ -432,15 +402,13 @@ export default function ChatBox() {
                   borderTopStartRadius: 20,
                   borderBottomStartRadius: 20,
                   borderTopEndRadius: 20,
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(12),
                     fontFamily: "urbanist-regular",
                     color: "#fff",
-                  }}
-                >
+                  }}>
                   I don’t think I will be able to make it, sorry!
                 </Text>
               </View>
@@ -450,8 +418,7 @@ export default function ChatBox() {
                   fontFamily: "urbanist-regular",
                   color: colors.onboardingText,
                   alignItems: "flex-end",
-                }}
-              >
+                }}>
                 {new Intl.DateTimeFormat("en-GB", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -460,53 +427,50 @@ export default function ChatBox() {
             </View>
           </View>
         </View>
+      </Animated.ScrollView>
+      <View
+        style={{
+          backgroundColor: "#FCFCFC",
+          width: responsiveScreenWidth(100),
+          height: responsiveScreenHeight(10),
+          position: "absolute",
+          bottom: responsiveScreenHeight(0),
+          paddingHorizontal: RFValue(20),
+        }}>
         <View
           style={{
-            backgroundColor: "#FCFCFC",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(10),
-            position: "absolute",
-            bottom: responsiveScreenHeight(0),
-            paddingHorizontal: RFValue(20),
-          }}
-        >
+            flexDirection: "row",
+            gap: 15,
+            alignItems: "center",
+            marginTop: RFValue(15),
+          }}>
           <View
             style={{
-              flexDirection: "row",
-              gap: 15,
-              alignItems: "center",
-              marginTop: RFValue(15),
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                borderRadius: 10,
-                borderWidth: 1,
-                borderColor: colors.warmBtn,
-                padding: RFValue(6),
-                backgroundColor: colors.background,
-              }}
-            >
-              <TextInput
-                placeholder="Type here"
-                style={styles.inputbox}
-                placeholderTextColor={colors.onboardingText}
-              />
-            </View>
-            <TouchableOpacity>
-              <Image
-                resizeMode="contain"
-                source={require("../assets/images/chatBtn.png")}
-                style={{
-                  height: RFValue(35),
-                  width: RFValue(35),
-                }}
-              />
-            </TouchableOpacity>
+              flex: 1,
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: colors.warmBtn,
+              padding: RFValue(6),
+              backgroundColor: colors.background,
+            }}>
+            <TextInput
+              placeholder="Type here"
+              style={styles.inputbox}
+              placeholderTextColor={colors.onboardingText}
+            />
           </View>
+          <TouchableOpacity>
+            <Image
+              resizeMode="contain"
+              source={require("../assets/images/chatBtn.png")}
+              style={{
+                height: RFValue(35),
+                width: RFValue(35),
+              }}
+            />
+          </TouchableOpacity>
         </View>
-      </Animated.View>
+      </View>
     </>
   );
 }
@@ -515,77 +479,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    backgroundColor: "#3538cd",
+    backgroundColor: colors.background,
     position: "relative",
-  },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#15263A",
-  },
-  lightThemeText: {
-    color: "#242c40",
-  },
-  darkThemeText: {
-    color: "#fff",
-  },
-  videoSize: {
-    height: "100%",
-    width: "100%",
-  },
-  animationContainer: {
-    backgroundColor: "#eef8ff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  animatedContainer: {
-    backgroundColor: "#173273",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: RFValue(22),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  subtitle: {
-    fontSize: RFValue(28),
-    lineHeight: RFValue(32),
-    fontFamily: "satoshi-bold",
-    color: "#051040",
-    textAlign: "center",
-    paddingHorizontal: RFValue(20),
-  },
-  smallText: {
-    marginTop: 10,
-    fontSize: RFValue(11),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  tabInner: {
-    marginTop: RFValue(20),
-  },
-  tabContainer: {
-    flex: 1,
-    width: width,
-  },
-  button: {
-    fontFamily: "satoshi-bold",
-    textAlign: "center",
-    color: "#fff",
-    fontSize: RFValue(14),
   },
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),
-    borderRadius: 10,
+    borderRadius: 50,
     borderWidth: 1,
     borderColor: "#e5e5e5",
   },
@@ -595,12 +495,5 @@ const styles = StyleSheet.create({
     fontFamily: "outfit-light",
     fontSize: RFValue(14),
     paddingVertical: RFValue(3),
-  },
-  eyeIcon: {
-    position: "absolute",
-    left: 6,
-    top: "20%",
-    transform: [{ translateY: RFValue(3.0) }],
-    zIndex: 10,
   },
 });

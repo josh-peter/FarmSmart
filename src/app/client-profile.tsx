@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   Image,
   TouchableOpacity,
@@ -10,42 +9,51 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
-import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
 import { Link, Stack, router } from "expo-router";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
-import {
-  AntDesign,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import NotificationComponents from "../components/notificationsComps/notification";
-import MessagesComp from "../components/notificationsComps/messagesComp";
 import { Switch } from "react-native-switch";
+import AppBar from "../components/appBar";
 const { width, height } = Dimensions.get("window");
 
 export default function ClientProfile() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -56,61 +64,12 @@ export default function ClientProfile() {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenWidth(20),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            My profile
-          </Text>
-          <TouchableOpacity
-            style={styles.clearIcon}
-            onPress={() => router.push("/home/account")}
-          >
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+      <AppBar title="My profile" onPress={() => router.push("/home/account")} />
+      <Animated.View style={[styles.container, animatedStyle]}>
         <View
           style={{
             paddingHorizontal: RFValue(25),
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
@@ -123,9 +82,8 @@ export default function ClientProfile() {
               borderRadius: RFValue(8),
               marginBottom: RFValue(10),
               marginTop: RFValue(30),
-              width:responsiveScreenWidth(52),
-            }}
-          >
+              width: responsiveScreenWidth(52),
+            }}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/eyeIcon.png")}
@@ -140,8 +98,7 @@ export default function ClientProfile() {
                 fontFamily: "outfit-medium",
                 color: "#000",
                 flexShrink: 1,
-              }}
-            >
+              }}>
               Visible to all agents
             </Text>
           </View>
@@ -173,8 +130,7 @@ export default function ClientProfile() {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(13),
@@ -182,8 +138,7 @@ export default function ClientProfile() {
                   color: "#161917",
                   lineHeight: RFValue(30),
                   marginTop: RFValue(5),
-                }}
-              >
+                }}>
                 Daniel Israel
               </Text>
             </View>
@@ -192,8 +147,7 @@ export default function ClientProfile() {
                 fontSize: RFValue(14),
                 fontFamily: "outfit-regular",
                 color: "#414141",
-              }}
-            >
+              }}>
               I am a realtor with over 2 years in real estates, I have sold over
               ₦400M property and I have helped client find their dream homes.
             </Text>
@@ -205,8 +159,7 @@ export default function ClientProfile() {
                 alignItems: "center",
                 gap: 4,
                 marginTop: RFValue(8),
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/square.png")}
@@ -220,8 +173,7 @@ export default function ClientProfile() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 English, Yoruba and Ibibio
               </Text>
             </View>
@@ -231,8 +183,7 @@ export default function ClientProfile() {
                 alignItems: "center",
                 gap: 4,
                 marginTop: RFValue(8),
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/location.png")}
@@ -246,8 +197,7 @@ export default function ClientProfile() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 Lagos, Nigeria
               </Text>
             </View>
@@ -255,23 +205,20 @@ export default function ClientProfile() {
           <View
             style={{
               marginTop: RFValue(10),
-            }}
-          >
+            }}>
             <TouchableOpacity
               style={{
                 backgroundColor: "#f9fafa",
                 padding: RFValue(10),
                 borderRadius: 10,
-              }}
-            >
+              }}>
               <View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     gap: RFValue(4),
-                  }}
-                >
+                  }}>
                   <Image
                     resizeMode="contain"
                     source={require("../assets/images/sms.png")}
@@ -286,8 +233,7 @@ export default function ClientProfile() {
                       fontFamily: "plusjakarta-regular",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     danielsnr.design@gmail.com
                   </Text>
                 </View>
@@ -297,16 +243,14 @@ export default function ClientProfile() {
                     alignItems: "center",
                     justifyContent: "space-between",
                     marginTop: RFValue(10),
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       fontSize: RFValue(13),
                       fontFamily: "plusjakarta-regular",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     Show email address
                   </Text>
                   <Switch
@@ -325,23 +269,20 @@ export default function ClientProfile() {
           <View
             style={{
               marginTop: RFValue(10),
-            }}
-          >
+            }}>
             <TouchableOpacity
               style={{
                 backgroundColor: "#f9fafa",
                 padding: RFValue(10),
                 borderRadius: 10,
-              }}
-            >
+              }}>
               <View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     gap: RFValue(4),
-                  }}
-                >
+                  }}>
                   <Image
                     resizeMode="contain"
                     source={require("../assets/images/call.png")}
@@ -356,8 +297,7 @@ export default function ClientProfile() {
                       fontFamily: "plusjakarta-regular",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     +2348160523342
                   </Text>
                 </View>
@@ -367,16 +307,14 @@ export default function ClientProfile() {
                     alignItems: "center",
                     justifyContent: "space-between",
                     marginTop: RFValue(10),
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       fontSize: RFValue(13),
                       fontFamily: "plusjakarta-regular",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     Show phone number
                   </Text>
                   <Switch
@@ -399,16 +337,14 @@ export default function ClientProfile() {
               padding: Platform.OS === "ios" ? 18 : 17,
               borderRadius: 10,
               marginTop: RFValue(15),
-            }}
-          >
+            }}>
             <Text
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-regular",
                 color: "#06782F",
                 textAlign: "center",
-              }}
-            >
+              }}>
               Edit profile
             </Text>
           </TouchableOpacity>
@@ -422,80 +358,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    backgroundColor: "#3538cd",
+    backgroundColor: "#fff",
     position: "relative",
-  },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#15263A",
-  },
-  lightThemeText: {
-    color: "#242c40",
-  },
-  darkThemeText: {
-    color: "#fff",
-  },
-  videoSize: {
-    height: "100%",
-    width: "100%",
-  },
-  animationContainer: {
-    backgroundColor: "#eef8ff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  animatedContainer: {
-    backgroundColor: "#173273",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: RFValue(22),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  subtitle: {
-    fontSize: RFValue(28),
-    lineHeight: RFValue(32),
-    fontFamily: "satoshi-bold",
-    color: "#051040",
-    textAlign: "center",
-    paddingHorizontal: RFValue(20),
-  },
-  smallText: {
-    marginTop: 10,
-    fontSize: RFValue(11),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  tabInner: {
-    marginTop: RFValue(20),
-  },
-  tabContainer: {
-    flex: 1,
-    width: width,
-  },
-  button: {
-    fontFamily: "satoshi-bold",
-    textAlign: "center",
-    color: "#fff",
-    fontSize: RFValue(14),
-  },
-  clearIcon: {
-    backgroundColor: "#fff",
-    padding: RFValue(10),
-    borderRadius: 10,
-    position: "absolute",
-    left: RFValue(15),
-    borderWidth: 1,
-    borderColor: "#e5e5e5",
   },
 });

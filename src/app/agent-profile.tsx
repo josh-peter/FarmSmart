@@ -7,8 +7,13 @@ import {
   ScrollView,
   Platform,
   Dimensions,
-  Animated,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import {
   responsiveScreenHeight,
@@ -19,6 +24,7 @@ import { Stack, router } from "expo-router";
 import { reviewsData } from "../Data/reviewsData";
 import Morelist from "../components/propertyDetailsProps/moreListing";
 import AddReview from "../components/common/modals/addReview";
+import AppBar from "../components/appBar";
 const { width, height } = Dimensions.get("window");
 
 export default function AgentProfile() {
@@ -33,19 +39,30 @@ export default function AgentProfile() {
     setModalVisible(false);
   };
 
-  const fade = useRef(new Animated.Value(0)).current;
-
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
+
   return (
     <>
       <Stack.Screen
@@ -55,63 +72,13 @@ export default function AgentProfile() {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          backgroundColor: "#fff",
-          width: responsiveScreenWidth(100),
-          height: responsiveScreenHeight(100),
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenHeight(9),
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.clearIcon}
-          >
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(22),
-                width: RFValue(22),
-              }}
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: RFValue(18),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            Agent profile
-          </Text>
-        </View>
+      <AppBar title="Agent profile" onPress={() => router.back()} />
+      <Animated.View style={[styles.container, animatedStyle]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingHorizontal: RFValue(20),
-          }}
-        >
+          }}>
           <View>
             {/* <Text
               style={{
@@ -127,8 +94,7 @@ export default function AgentProfile() {
             <View
               style={{
                 marginTop: RFValue(20),
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/agentprofile.png")}
@@ -155,8 +121,7 @@ export default function AgentProfile() {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(13),
@@ -164,8 +129,7 @@ export default function AgentProfile() {
                   color: "#161917",
                   lineHeight: RFValue(30),
                   marginTop: RFValue(5),
-                }}
-              >
+                }}>
                 Angella Okoro
               </Text>
               <View
@@ -173,8 +137,7 @@ export default function AgentProfile() {
                   flexDirection: "row",
                   alignItems: "center",
                   gap: 3,
-                }}
-              >
+                }}>
                 <Image
                   resizeMode="contain"
                   source={require("../assets/images/icon-star.png")}
@@ -188,8 +151,7 @@ export default function AgentProfile() {
                     fontSize: RFValue(12),
                     fontFamily: "outfit-regular",
                     color: "#414141",
-                  }}
-                >
+                  }}>
                   5.0
                 </Text>
               </View>
@@ -199,8 +161,7 @@ export default function AgentProfile() {
                 fontSize: RFValue(14),
                 fontFamily: "outfit-regular",
                 color: "#414141",
-              }}
-            >
+              }}>
               I am a realtor with over 2 years in real estates, I have sold over
               ₦400M property and I have helped client find their dream homes.
             </Text>
@@ -212,8 +173,7 @@ export default function AgentProfile() {
                 alignItems: "center",
                 gap: 4,
                 marginTop: RFValue(8),
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/square.png")}
@@ -227,8 +187,7 @@ export default function AgentProfile() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 English, Yoruba and Ibibio
               </Text>
             </View>
@@ -238,8 +197,7 @@ export default function AgentProfile() {
                 alignItems: "center",
                 gap: 4,
                 marginTop: RFValue(8),
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/location.png")}
@@ -253,8 +211,7 @@ export default function AgentProfile() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 Lagos, Nigeria
               </Text>
             </View>
@@ -267,8 +224,7 @@ export default function AgentProfile() {
                 color: "#161917",
                 lineHeight: RFValue(30),
                 marginTop: RFValue(20),
-              }}
-            >
+              }}>
               Agent review (40)
             </Text>
             <TouchableOpacity
@@ -278,16 +234,14 @@ export default function AgentProfile() {
                 padding: Platform.OS === "ios" ? 18 : 17,
                 borderRadius: 10,
                 marginTop: RFValue(15),
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(16),
                   fontFamily: "outfit-regular",
                   color: "#06782F",
                   textAlign: "center",
-                }}
-              >
+                }}>
                 Add review
               </Text>
             </TouchableOpacity>
@@ -298,8 +252,7 @@ export default function AgentProfile() {
                 color: "#161917",
                 lineHeight: RFValue(20),
                 marginTop: RFValue(20),
-              }}
-            >
+              }}>
               Host review (40)
             </Text>
             <ScrollView
@@ -309,15 +262,13 @@ export default function AgentProfile() {
                 flexDirection: "row",
                 gap: 30,
                 alignItems: "center",
-              }}
-            >
+              }}>
               {reviewsData?.map((review) => (
                 <View
                   key={review.id}
                   style={{
                     width: width * 0.7,
-                  }}
-                >
+                  }}>
                   <View
                     style={{
                       flexDirection: "row",
@@ -325,8 +276,7 @@ export default function AgentProfile() {
                       gap: 4,
                       marginTop: RFValue(8),
                       marginBottom: RFValue(8),
-                    }}
-                  >
+                    }}>
                     <Image
                       resizeMode="contain"
                       source={require("../assets/images/calendar.png")}
@@ -340,8 +290,7 @@ export default function AgentProfile() {
                         fontSize: RFValue(14),
                         fontFamily: "outfit-regular",
                         color: "#414141",
-                      }}
-                    >
+                      }}>
                       {review.date}
                     </Text>
                   </View>
@@ -360,8 +309,7 @@ export default function AgentProfile() {
                       flexDirection: "row",
                       alignItems: "center",
                       justifyContent: "space-between",
-                    }}
-                  >
+                    }}>
                     <Text
                       style={{
                         fontSize: RFValue(15),
@@ -369,8 +317,7 @@ export default function AgentProfile() {
                         color: "#161917",
                         lineHeight: RFValue(30),
                         marginTop: RFValue(5),
-                      }}
-                    >
+                      }}>
                       {review.name}
                     </Text>
                     <View
@@ -378,8 +325,7 @@ export default function AgentProfile() {
                         flexDirection: "row",
                         alignItems: "center",
                         gap: 3,
-                      }}
-                    >
+                      }}>
                       <Image
                         resizeMode="contain"
                         source={require("../assets/images/icon-star.png")}
@@ -393,8 +339,7 @@ export default function AgentProfile() {
                           fontSize: RFValue(12),
                           fontFamily: "outfit-regular",
                           color: "#414141",
-                        }}
-                      >
+                        }}>
                         {review.rating}
                       </Text>
                     </View>
@@ -405,8 +350,7 @@ export default function AgentProfile() {
                       fontFamily: "outfit-regular",
                       color: "#414141",
                       textAlign: "justify",
-                    }}
-                  >
+                    }}>
                     {review.review}
                   </Text>
                 </View>
@@ -419,8 +363,7 @@ export default function AgentProfile() {
                   fontFamily: "outfit-regular",
                   color: "#06782F",
                   lineHeight: RFValue(30),
-                }}
-              >
+                }}>
                 See all 40 reviews
               </Text>
             </TouchableOpacity>
@@ -434,17 +377,15 @@ export default function AgentProfile() {
               borderRadius: 10,
               marginTop: RFValue(65),
               marginBottom: RFValue(15),
-            }}
-          >
+            }}>
             <Text
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-regular",
                 color: "#fff",
                 textAlign: "center",
-              }}
-            >
-    Book apartment
+              }}>
+              Book apartment
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -455,6 +396,13 @@ export default function AgentProfile() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    width: responsiveScreenWidth(100),
+    height: responsiveScreenHeight(100),
+    position: "relative",
+  },
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),

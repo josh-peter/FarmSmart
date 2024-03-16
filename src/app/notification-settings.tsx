@@ -1,13 +1,19 @@
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import { Stack, router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
 import AccountActivityModal from "../components/common/modals/accountActivityModal";
 import ListingActivityModal from "../components/common/modals/listingActivityModal";
@@ -17,7 +23,6 @@ import AppBar from "../components/appBar";
 const { width, height } = Dimensions.get("window");
 
 export default function NotificationSettings() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [accountActivityModalVisible, setAccountActivityModalVisible] = useState(false);
   const [listingActivityModalodalVisible, setListingActivityModalVisible] = useState(false);
 
@@ -37,17 +42,29 @@ export default function NotificationSettings() {
     setListingActivityModalVisible(false);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   const accountItem = [
     {
@@ -77,6 +94,7 @@ export default function NotificationSettings() {
 
   return (
     <>
+      <StatusBar style="dark" />
       <Stack.Screen
         options={{
           title: "Notification settings",
@@ -84,37 +102,22 @@ export default function NotificationSettings() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Notification settings" onPress={() => router.push("/home/account")}/>
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
+      <AppBar
+        title="Notification settings"
+        onPress={() => router.push("/home/account")}
+      />
+      <Animated.View style={[styles.container, animatedStyle]}>
         <View
           style={{
             paddingHorizontal: RFValue(15),
             marginTop: RFValue(15),
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: RFValue(17),
               fontFamily: "outfit-bold",
               color: "#1A1A1A",
-            }}
-          >
+            }}>
             Account activity & policies
           </Text>
           <Text
@@ -122,8 +125,7 @@ export default function NotificationSettings() {
               color: "#5F5F5F",
               fontSize: RFValue(13),
               fontFamily: "plusjakarta-regular",
-            }}
-          >
+            }}>
             Confirm your booking and account activity, and learn about important
             Easyfynd policies.
           </Text>
@@ -132,8 +134,7 @@ export default function NotificationSettings() {
               flexDirection: "column",
               gap: RFValue(20),
               marginTop: RFValue(20),
-            }}
-          >
+            }}>
             {accountItem?.map((item) => (
               <View
                 key={item.id}
@@ -141,8 +142,7 @@ export default function NotificationSettings() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                }}
-              >
+                }}>
                 <View>
                   <Text
                     style={{
@@ -150,8 +150,7 @@ export default function NotificationSettings() {
                       fontFamily: "plusjakarta-semibold",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     {item.title}
                   </Text>
                   <Text
@@ -160,8 +159,7 @@ export default function NotificationSettings() {
                       fontFamily: "plusjakarta-regular",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     {item.account}
                   </Text>
                 </View>
@@ -172,17 +170,15 @@ export default function NotificationSettings() {
                       : item.id === 2
                       ? openListingActivityModal
                       : undefined
-                  }
-                >
+                  }>
                   <Text
                     style={{
                       fontSize: RFValue(14),
                       fontFamily: "outfit-bold",
                       lineHeight: RFValue(40),
                       color: colors.primary,
-                      textDecorationLine: "underline"
-                    }}
-                  >
+                      textDecorationLine: "underline",
+                    }}>
                     Edit
                   </Text>
                 </TouchableOpacity>
@@ -194,15 +190,13 @@ export default function NotificationSettings() {
           style={{
             paddingHorizontal: RFValue(15),
             marginTop: RFValue(45),
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: RFValue(17),
               fontFamily: "outfit-bold",
               color: "#1A1A1A",
-            }}
-          >
+            }}>
             Easyfynd updates & offers
           </Text>
           <Text
@@ -210,8 +204,7 @@ export default function NotificationSettings() {
               color: "#5F5F5F",
               fontSize: RFValue(13),
               fontFamily: "plusjakarta-regular",
-            }}
-          >
+            }}>
             Stay up to date on the latest news from Easyfynd let us know how we
             can improve.
           </Text>
@@ -220,8 +213,7 @@ export default function NotificationSettings() {
               flexDirection: "column",
               gap: RFValue(20),
               marginTop: RFValue(20),
-            }}
-          >
+            }}>
             {updatesItem?.map((item) => (
               <View
                 key={item.id}
@@ -229,8 +221,7 @@ export default function NotificationSettings() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                }}
-              >
+                }}>
                 <View>
                   <Text
                     style={{
@@ -238,8 +229,7 @@ export default function NotificationSettings() {
                       fontFamily: "plusjakarta-semibold",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     {item.title}
                   </Text>
                   <Text
@@ -248,29 +238,26 @@ export default function NotificationSettings() {
                       fontFamily: "plusjakarta-regular",
                       lineHeight: RFValue(20),
                       color: "#1A1A1A",
-                    }}
-                  >
+                    }}>
                     {item.account}
                   </Text>
                 </View>
                 <TouchableOpacity
                   onPress={
                     item.id === 1
-                    ? openAccountActivityModal
-                    : item.id === 2
-                    ? openListingActivityModal
-                    : undefined
-                  }
-                >
+                      ? openAccountActivityModal
+                      : item.id === 2
+                      ? openListingActivityModal
+                      : undefined
+                  }>
                   <Text
                     style={{
                       fontSize: RFValue(14),
                       fontFamily: "outfit-bold",
                       lineHeight: RFValue(40),
                       color: colors.primary,
-                      textDecorationLine: "underline"
-                    }}
-                  >
+                      textDecorationLine: "underline",
+                    }}>
                     Edit
                   </Text>
                 </TouchableOpacity>
@@ -278,8 +265,14 @@ export default function NotificationSettings() {
             ))}
           </View>
         </View>
-        <AccountActivityModal modalVisible={accountActivityModalVisible} closeModal={closeAccountActivityModal}/>
-        <ListingActivityModal modalVisible={listingActivityModalodalVisible} closeModal={closeListingActivityModal}/>
+        <AccountActivityModal
+          modalVisible={accountActivityModalVisible}
+          closeModal={closeAccountActivityModal}
+        />
+        <ListingActivityModal
+          modalVisible={listingActivityModalodalVisible}
+          closeModal={closeListingActivityModal}
+        />
       </Animated.View>
     </>
   );
@@ -289,80 +282,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    backgroundColor: "#3538cd",
+    backgroundColor: "#fff",
     position: "relative",
-  },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#15263A",
-  },
-  lightThemeText: {
-    color: "#242c40",
-  },
-  darkThemeText: {
-    color: "#fff",
-  },
-  videoSize: {
-    height: "100%",
-    width: "100%",
-  },
-  animationContainer: {
-    backgroundColor: "#eef8ff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  animatedContainer: {
-    backgroundColor: "#173273",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: RFValue(22),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  subtitle: {
-    fontSize: RFValue(28),
-    lineHeight: RFValue(32),
-    fontFamily: "satoshi-bold",
-    color: "#051040",
-    textAlign: "center",
-    paddingHorizontal: RFValue(20),
-  },
-  smallText: {
-    marginTop: 10,
-    fontSize: RFValue(11),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-
-  button: {
-    fontFamily: "satoshi-bold",
-    textAlign: "center",
-    color: "#fff",
-    fontSize: RFValue(14),
-  },
-  clearIcon: {
-    backgroundColor: "#fff",
-    padding: RFValue(10),
-    borderRadius: 50,
-    position: "absolute",
-    left: RFValue(15),
-    borderWidth: 1,
-    borderColor: "#e5e5e5",
-  },
-  inputbox: {
-    backgroundColor: "transparent",
-    fontFamily: "outfit-light",
-    fontSize: RFValue(14),
-    paddingVertical: RFValue(5),
   },
 });

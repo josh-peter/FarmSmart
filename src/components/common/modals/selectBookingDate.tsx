@@ -26,7 +26,7 @@ import Animated from "react-native-reanimated";
 interface Props {
   modalVisible: boolean;
   closeModal: () => void;
-  props:any
+  props?:any
 }
 
 export default function SelectBookingDate({

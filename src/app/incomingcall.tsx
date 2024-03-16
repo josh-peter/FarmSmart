@@ -1,8 +1,30 @@
 import { Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, StyleSheet, Animated, Dimensions, TouchableOpacity, Button } from "react-native";
-import { responsiveScreenHeight, responsiveScreenWidth } from "react-native-responsive-dimensions";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+} from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
 import { Image } from "expo-image";
@@ -14,35 +36,43 @@ import {
 import { BlurView } from "expo-blur";
 import colors from "../constants/Colors";
 
-
 export default function IncomingCall() {
-  const fade = useRef(new Animated.Value(0)).current;
-   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-   // variables
-   const snapPoints = useMemo(() => ["25%", "30%"], []);
+  // variables
+  const snapPoints = useMemo(() => ["25%", "30%"], []);
 
-   // callbacks
-   const handleSheetChanges = useCallback((index: number) => {
-  
-   }, []);
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {}, []);
 
-   // Present the modal when the component mounts
-   useEffect(() => {
-     bottomSheetModalRef.current?.present();
-   }, []);
-
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  // Present the modal when the component mounts
   useEffect(() => {
-    animation();
+    bottomSheetModalRef.current?.present();
   }, []);
+
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -54,21 +84,7 @@ export default function IncomingCall() {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
-        style={{
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [160, 0],
-              }),
-            },
-          ],
-        }}
-      >
+      <Animated.View style={[styles.container, animatedStyle]}>
         <Image
           contentFit="contain"
           source={require("../assets/images/caller.png")}
@@ -92,7 +108,11 @@ export default function IncomingCall() {
           ]}
         />
         <BottomSheetModalProvider>
-          <View style={{ flex: 1, paddingHorizontal: RFValue(15) }}>
+          <View
+            style={{
+              flex: 1,
+              paddingHorizontal: RFValue(15),
+            }}>
             <BottomSheetModal
               ref={bottomSheetModalRef}
               index={1}
@@ -100,8 +120,7 @@ export default function IncomingCall() {
               onChange={handleSheetChanges}
               backgroundComponent={({ style }) => (
                 <BlurView intensity={50} style={[style, { flex: 1 }]} />
-              )}
-            >
+              )}>
               <BottomSheetView style={styles.contentContainer}>
                 <View
                   style={{
@@ -109,8 +128,7 @@ export default function IncomingCall() {
                     alignItems: "center",
                     justifyContent: "space-between",
                     width: "100%",
-                  }}
-                >
+                  }}>
                   <TouchableOpacity>
                     <Image
                       contentFit="contain"
@@ -131,7 +149,8 @@ export default function IncomingCall() {
                       }}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={()=>router.push("/home/appointment")}>
+                  <TouchableOpacity
+                    onPress={() => router.push("/home/appointment")}>
                     <Image
                       contentFit="contain"
                       source={require("../assets/images/hang.png")}
@@ -148,8 +167,7 @@ export default function IncomingCall() {
                     alignItems: "center",
                     gap: 20,
                     marginTop: RFValue(20),
-                  }}
-                >
+                  }}>
                   <TouchableOpacity>
                     <BlurView
                       intensity={90}
@@ -161,8 +179,7 @@ export default function IncomingCall() {
                         paddingVertical: RFValue(10),
                         borderRadius: 50,
                         overflow: "hidden",
-                      }}
-                    >
+                      }}>
                       <Image
                         contentFit="contain"
                         source={require("../assets/images/cameraoff.png")}
@@ -176,8 +193,7 @@ export default function IncomingCall() {
                           fontSize: RFValue(11),
                           fontFamily: "urbanist-regular",
                           color: colors.background,
-                        }}
-                      >
+                        }}>
                         Camera Off
                       </Text>
                     </BlurView>
@@ -193,8 +209,7 @@ export default function IncomingCall() {
                         paddingVertical: RFValue(10),
                         borderRadius: 50,
                         overflow: "hidden",
-                      }}
-                    >
+                      }}>
                       <Image
                         contentFit="contain"
                         source={require("../assets/images/volume-high.png")}
@@ -208,8 +223,7 @@ export default function IncomingCall() {
                           fontSize: RFValue(11),
                           fontFamily: "urbanist-regular",
                           color: colors.background,
-                        }}
-                      >
+                        }}>
                         Speaker
                       </Text>
                     </BlurView>
@@ -225,6 +239,10 @@ export default function IncomingCall() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#fff",
+    position: "relative",
+  },
   contentContainer: {
     flex: 1,
     alignItems: "center",

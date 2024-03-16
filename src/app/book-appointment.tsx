@@ -6,9 +6,14 @@ import {
   Image,
   ScrollView,
   Platform,
-  Dimensions,
-  Animated,
+  Dimensions
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import {
   responsiveScreenHeight,
@@ -28,6 +33,8 @@ import colors from "../constants/Colors";
 import TimeAndDataComp from "../components/propertyDetailsProps/timeAndDataComp";
 import PropertyCard from "../components/propertyDetailsProps/propertyCard";
 import NoticeCard from "../components/propertyDetailsProps/noticeCard";
+
+const { width, height } = Dimensions.get("window");
 
 export default function BookAppointmentModal() {
   const [appointmentDate, setAppointmentDate] = useState("");
@@ -54,19 +61,29 @@ export default function BookAppointmentModal() {
     setModalPopVisible(false);
   };
 
-  const fade = useRef(new Animated.Value(0)).current;
-
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   const handleNextStep = () => {
     if (step === 1 && appointmentDate) {
@@ -111,35 +128,17 @@ export default function BookAppointmentModal() {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          backgroundColor: "#fff",
-          width: responsiveScreenWidth(100),
-          height: responsiveScreenHeight(100),
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <AppBar
-          title={step === 3 ? "Pay for appointment" : "Book appointment"}
-          onPress={() => router.back()}
-        />
+      <AppBar
+        title={step === 3 ? "Pay for appointment" : "Book appointment"}
+        onPress={() => router.back()}
+      />
+      <Animated.View style={[styles.container, animatedStyle]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             height: registeredUser ? RFValue(800) : RFValue(850),
             paddingHorizontal: RFValue(20),
-          }}
-        >
+          }}>
           {registeredUser ? (
             <>
               <BookApartmentProps />
@@ -156,8 +155,7 @@ export default function BookAppointmentModal() {
 
                   flexDirection: "column",
                   gap: RFValue(150),
-                }}
-              >
+                }}>
                 <View
                   style={{
                     padding: RFValue(10),
@@ -165,8 +163,7 @@ export default function BookAppointmentModal() {
                     borderWidth: 1,
                     borderColor: colors.border2,
                     borderRadius: 10,
-                  }}
-                >
+                  }}>
                   <View>
                     <Text
                       style={{
@@ -174,8 +171,7 @@ export default function BookAppointmentModal() {
                         fontFamily: "outfit-bold",
                         color: colors.primary,
                         lineHeight: RFValue(30),
-                      }}
-                    >
+                      }}>
                       Pay with
                     </Text>
                     <View
@@ -183,15 +179,13 @@ export default function BookAppointmentModal() {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "space-between",
-                      }}
-                    >
+                      }}>
                       <View
                         style={{
                           flexDirection: "row",
                           alignItems: "center",
                           gap: RFValue(5),
-                        }}
-                      >
+                        }}>
                         <Image
                           resizeMode="contain"
                           source={require("../assets/images/Mastercard.png")}
@@ -205,8 +199,7 @@ export default function BookAppointmentModal() {
                             fontSize: RFValue(14),
                             fontFamily: "outfit-regular",
                             color: colors.onboardingText,
-                          }}
-                        >
+                          }}>
                           **** 3421
                         </Text>
                       </View>
@@ -217,8 +210,7 @@ export default function BookAppointmentModal() {
                             fontFamily: "outfit-bold",
                             lineHeight: RFValue(40),
                             color: colors.primary,
-                          }}
-                        >
+                          }}>
                           Edit
                         </Text>
                       </TouchableOpacity>
@@ -230,8 +222,7 @@ export default function BookAppointmentModal() {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                  }}
-                >
+                  }}>
                   <View>
                     <Text
                       style={{
@@ -239,8 +230,7 @@ export default function BookAppointmentModal() {
                         fontFamily: "outfit-bold",
                         color: "#161917",
                         lineHeight: RFValue(20),
-                      }}
-                    >
+                      }}>
                       Total (2 nights)
                     </Text>
                     <Text
@@ -249,8 +239,7 @@ export default function BookAppointmentModal() {
                         fontFamily: "outfit-bold",
                         color: colors.primary,
                         lineHeight: RFValue(20),
-                      }}
-                    >
+                      }}>
                       ₦60,000
                     </Text>
                     <Text
@@ -259,8 +248,7 @@ export default function BookAppointmentModal() {
                         fontFamily: "outfit-regular",
                         color: colors.onboardingText,
                         textDecorationLine: "underline",
-                      }}
-                    >
+                      }}>
                       Sat, 3 Nov 2023 - Mon, 5 Nov 2023
                     </Text>
                   </View>
@@ -271,8 +259,7 @@ export default function BookAppointmentModal() {
                       padding: Platform.OS === "ios" ? 15 : 14,
                       borderRadius: 10,
                       width: RFValue(100),
-                    }}
-                  >
+                    }}>
                     <Text style={styles.startText}>Pay</Text>
                   </TouchableOpacity>
                 </View>
@@ -308,8 +295,7 @@ export default function BookAppointmentModal() {
               <View
                 style={{
                   marginTop: RFValue(20),
-                }}
-              >
+                }}>
                 <CustomButton
                   buttonText={
                     step === 3
@@ -341,6 +327,13 @@ export default function BookAppointmentModal() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    width: responsiveScreenWidth(100),
+    height: responsiveScreenHeight(100),
+    position: "relative",
+  },
   eyeIcon: {
     position: "absolute",
     top: RFValue(8),

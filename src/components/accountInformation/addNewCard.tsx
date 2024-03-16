@@ -18,7 +18,7 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import Checkbox from "expo-checkbox";
 import { TextInput } from "react-native-paper";
-import CardPay from "./cardPay";
+// import CardPay from "./cardPay";
 
 interface Props {
   modalCardVisible: boolean;
@@ -289,7 +289,7 @@ export default function AddNewCard({
           </ScrollView>
         </View>
       </Modal>
-      <CardPay modalPayVisible={modalPayVisible} closePayModal={closePayModal}/>
+      {/* <CardPay modalPayVisible={modalPayVisible} closePayModal={closePayModal}/> */}
     </View>
   );
 }

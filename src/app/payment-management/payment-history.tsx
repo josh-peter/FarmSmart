@@ -2,11 +2,17 @@ import {
   View,
   ScrollView,
   Text,
-  Animated,
   Dimensions,
   Image,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import { Stack, router } from "expo-router";
 import {
@@ -20,20 +26,31 @@ const { width, height } = Dimensions.get("window");
 import { Tab, TabView } from "@rneui/themed";
 
 export default function PaymentHistory() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(0);
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -45,23 +62,11 @@ export default function PaymentHistory() {
           gestureEnabled: false,
         }}
       />
-      <AppBar title="Payment history" onPress={() => router.push("/payment-management/")} />
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}>
+      <AppBar
+        title="Payment history"
+        onPress={() => router.push("/payment-management/")}
+      />
+      <Animated.View style={[styles.container, animatedStyle]}>
         <View
           style={{
             backgroundColor: "#fff",
@@ -911,4 +916,19 @@ export default function PaymentHistory() {
       </Animated.View>
     </>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: "#fff",
+    position: "relative",
+  },
+  inputbox: {
+    backgroundColor: "transparent",
+    fontFamily: "outfit-light",
+    fontSize: RFValue(14),
+    paddingVertical: RFValue(5),
+  },
+});

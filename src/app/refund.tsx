@@ -8,7 +8,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   Image,
   TouchableOpacity,
@@ -17,6 +16,12 @@ import {
   StyleSheet,
   Modal,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -30,7 +35,6 @@ import * as Yup from "yup";
 import RefundSuccessful from "../components/common/modals/refundSuccessfull";
 
 export default function Refund() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [modalPopVisible, setModalPopVisible] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(true);
 
@@ -49,17 +53,30 @@ export default function Refund() {
     setSubmitting(false);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
+
   return (
     <>
       <Stack.Screen
@@ -71,23 +88,7 @@ export default function Refund() {
       />
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
-        style={{
-          flex: 1,
-          height: height,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
+        style={[styles.container, animatedStyle]}>
         <View
           style={{
             flexDirection: "row",
@@ -96,15 +97,13 @@ export default function Refund() {
             backgroundColor: "#fafafa",
             width: responsiveScreenWidth(100),
             height: responsiveScreenWidth(22),
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: RFValue(16),
               fontFamily: "outfit-bold",
               lineHeight: RFValue(30),
-            }}
-          >
+            }}>
             Refund
           </Text>
           <TouchableOpacity style={styles.clearIcon}>
@@ -122,16 +121,14 @@ export default function Refund() {
           style={{
             paddingHorizontal: RFValue(20),
             paddingVertical: RFValue(30),
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: RFValue(16),
               fontFamily: "outfit-medium",
               lineHeight: RFValue(30),
               color: "#1A1A1AB2",
-            }}
-          >
+            }}>
             Refund for
           </Text>
           <View
@@ -147,8 +144,7 @@ export default function Refund() {
               marginBottom: RFValue(10),
               borderWidth: 1,
               borderColor: "#d5d0dd",
-            }}
-          >
+            }}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/bedroom.png")}
@@ -162,8 +158,7 @@ export default function Refund() {
                 style={{
                   fontSize: RFValue(14),
                   fontFamily: "outfit-bold",
-                }}
-              >
+                }}>
                 One bedroom flat
               </Text>
               <View
@@ -172,8 +167,7 @@ export default function Refund() {
                   gap: 5,
                   alignItems: "center",
                   marginTop: RFValue(3),
-                }}
-              >
+                }}>
                 <Image
                   resizeMode="contain"
                   source={require("../assets/images/location.png")}
@@ -187,8 +181,7 @@ export default function Refund() {
                     fontSize: RFValue(11),
                     fontFamily: "plusjakarta-regular",
                     color: "#414141",
-                  }}
-                >
+                  }}>
                   Lekki phase 1, Lagos, Nigeria
                 </Text>
               </View>
@@ -200,38 +193,33 @@ export default function Refund() {
                   backgroundColor: "#ECFFF4",
                   width: RFValue(60),
                   marginTop: RFValue(3),
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(11),
                     fontFamily: "outfit-medium",
                     color: "#06782F",
-                  }}
-                >
+                  }}>
                   Rental
                 </Text>
               </TouchableOpacity>
               <View
                 style={{
                   marginTop: RFValue(3),
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(14),
                     fontFamily: "outfit-bold",
                     color: "#06782F",
-                  }}
-                >
+                  }}>
                   ₦1,500,000{" "}
                   <Text
                     style={{
                       fontSize: RFValue(9),
                       fontFamily: "plusjakarta-regular",
                       color: "#414141",
-                    }}
-                  >
+                    }}>
                     yearly
                   </Text>
                 </Text>
@@ -250,8 +238,7 @@ export default function Refund() {
               marginTop: RFValue(20),
               marginBottom: RFValue(15),
               borderRadius: RFValue(8),
-            }}
-          >
+            }}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/danger.png")}
@@ -266,8 +253,7 @@ export default function Refund() {
                 fontFamily: "plusjakarta-regular",
                 color: "#306AFF",
                 flexShrink: 1,
-              }}
-            >
+              }}>
               Account name must match your name on Easyfynd
             </Text>
           </View>
@@ -283,8 +269,7 @@ export default function Refund() {
                 })}
                 onSubmit={async (values: any, { setSubmitting }) =>
                   handleUserLogin(values, setSubmitting)
-                }
-              >
+                }>
                 {({ values, handleChange, handleBlur, errors }) => (
                   <View>
                     <InputField
@@ -304,7 +289,10 @@ export default function Refund() {
             </View>
           </View>
         </View>
-        <RefundSuccessful modalPopVisible={modalPopVisible} closePopModal={closePopModal} />
+        <RefundSuccessful
+          modalPopVisible={modalPopVisible}
+          closePopModal={closePopModal}
+        />
       </Animated.ScrollView>
       <TouchableOpacity
         onPress={openPopModal}
@@ -315,16 +303,14 @@ export default function Refund() {
           marginTop: RFValue(15),
           marginHorizontal: RFValue(20),
           marginVertical: RFValue(20),
-        }}
-      >
+        }}>
         <Text
           style={{
             fontSize: RFValue(16),
             fontFamily: "outfit-regular",
             color: "#fff",
             textAlign: "center",
-          }}
-        >
+          }}>
           Done
         </Text>
       </TouchableOpacity>
@@ -333,6 +319,13 @@ export default function Refund() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: height,
+    width: width,
+    backgroundColor: "#fff",
+    position: "relative",
+  },
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),
