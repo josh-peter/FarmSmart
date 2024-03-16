@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  Animated,
   Dimensions,
+  StyleSheet,
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { additionalData } from "../../Data/additionalData";
@@ -15,31 +15,44 @@ import { accountData } from "../../Data/accountData";
 import { Stack, router } from "expo-router";
 import { Switch } from "react-native-switch";
 import colors from "../../constants/Colors";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 const { width, height } = Dimensions.get("window");
 
 export default function Account() {
-   const [animationTriggered, setAnimationTriggered] = useState(false);
-  const [fade] = useState(new Animated.Value(0));
   const [toggleLocation, setToggleLocation] = useState(false);
 
   const handleToggleLocation = () => {
     setToggleLocation((prev) => !prev);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    if (!animationTriggered) {
-      setAnimationTriggered(true);
-      animation();
-    }
-  }, [animationTriggered]);
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -50,26 +63,10 @@ export default function Account() {
           gestureEnabled: false,
         }}
       />
-      {animationTriggered && (
-        <Animated.ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{
-            flex: 1,
-            width: width,
-            backgroundColor: "#fff",
-            position: "relative",
-            opacity: fade,
-            paddingVertical: RFValue(40),
-            paddingHorizontal: RFValue(15),
-            transform: [
-              {
-                translateY: fade.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [150, 0],
-                }),
-              },
-            ],
-          }}>
+      <Animated.ScrollView
+        style={[styles.container, animatedStyle]}
+        showsVerticalScrollIndicator={false}
+      >
           <View>
             <TouchableOpacity
               onPress={() => router.push("/client-profile")}
@@ -476,11 +473,21 @@ export default function Account() {
                 fontFamily: "outfit-semibold",
                 textAlign: "center",
               }}>
-              Become an Easyfynd agent
+              Become an Easyfynd agent style
             </Text>
           </TouchableOpacity>
         </Animated.ScrollView>
-      )}
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: "#fff",
+    position: "relative",
+    paddingVertical: RFValue(40),
+    paddingHorizontal: RFValue(15),
+  },
+});

@@ -6,9 +6,14 @@ import {
   Image,
   ScrollView,
   Platform,
-  Animated,
   Dimensions,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-native-modal";
 import {
@@ -23,28 +28,40 @@ import { TextInput } from "react-native-paper";
 import { Stack, router } from "expo-router";
 import PaymentSuccessful from "./payment-successful";
 import { StatusBar } from "expo-status-bar";
+import AppBar from "../components/appBar";
 const { width, height } = Dimensions.get("window");
 
 export default function SummaryAndConfirmation() {
   const [isChecked, setIsChecked] = useState(false);
   const [modalPopVisible, setModalPopVisible] = useState(false);
-  const fade = useRef(new Animated.Value(0)).current;
 
   const closePopModal = () => {
     setModalPopVisible(false);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -56,75 +73,31 @@ export default function SummaryAndConfirmation() {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
+      <AppBar title="Summary & Confirmation" onPress={() => router.back()} />
+      <Animated.View style={[styles.container, animatedStyle]}>
         <View
           style={{
             backgroundColor: "#fff",
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(100),
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#fafafa",
-              width: responsiveScreenWidth(100),
-              height: responsiveScreenHeight(7),
-            }}
-          >
-            <Text
-              style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(30),
-                textAlign: "center",
-                marginTop: RFValue(5),
-              }}
-            >
-              Summary & Confirmation
-            </Text>
-            <TouchableOpacity style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={20} color="black" />
-            </TouchableOpacity>
-          </View>
+          }}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               height: RFValue(900),
               paddingHorizontal: RFValue(15),
-            }}
-          >
+            }}>
             <View
               style={{
                 paddingVertical: RFValue(15),
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(15),
                   fontFamily: "outfit-bold",
                   color: "#161917",
                   lineHeight: RFValue(20),
-                }}
-              >
+                }}>
                 Please carefully review your details
               </Text>
               <Text
@@ -132,8 +105,7 @@ export default function SummaryAndConfirmation() {
                   fontSize: RFValue(13),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 Make sure to read and tick all boxes before approving payment.
               </Text>
             </View>
@@ -150,8 +122,7 @@ export default function SummaryAndConfirmation() {
                 marginBottom: RFValue(10),
                 borderWidth: 1,
                 borderColor: "#d5d0dd",
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/bedroom.png")}
@@ -165,8 +136,7 @@ export default function SummaryAndConfirmation() {
                   style={{
                     fontSize: RFValue(14),
                     fontFamily: "outfit-bold",
-                  }}
-                >
+                  }}>
                   One bedroom flat
                 </Text>
                 <View
@@ -175,8 +145,7 @@ export default function SummaryAndConfirmation() {
                     gap: 5,
                     alignItems: "center",
                     marginTop: RFValue(3),
-                  }}
-                >
+                  }}>
                   <Image
                     resizeMode="contain"
                     source={require("../assets/images/location.png")}
@@ -190,8 +159,7 @@ export default function SummaryAndConfirmation() {
                       fontSize: RFValue(11),
                       fontFamily: "plusjakarta-regular",
                       color: "#414141",
-                    }}
-                  >
+                    }}>
                     Lekki phase 1, Lagos, Nigeria
                   </Text>
                 </View>
@@ -203,38 +171,33 @@ export default function SummaryAndConfirmation() {
                     backgroundColor: "#ECFFF4",
                     width: RFValue(80),
                     marginTop: RFValue(3),
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       fontSize: RFValue(11),
                       fontFamily: "outfit-medium",
                       color: "#06782F",
-                    }}
-                  >
+                    }}>
                     Apartment
                   </Text>
                 </TouchableOpacity>
                 <View
                   style={{
                     marginTop: RFValue(3),
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       fontSize: RFValue(14),
                       fontFamily: "outfit-bold",
                       color: "#06782F",
-                    }}
-                  >
+                    }}>
                     ₦30,000{" "}
                     <Text
                       style={{
                         fontSize: RFValue(10),
                         fontFamily: "plusjakarta-regular",
                         color: "#414141",
-                      }}
-                    >
+                      }}>
                       /night
                     </Text>
                   </Text>
@@ -244,24 +207,21 @@ export default function SummaryAndConfirmation() {
             <View
               style={{
                 marginTop: RFValue(5),
-              }}
-            >
+              }}>
               <View>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                  }}
-                >
+                  }}>
                   <View>
                     <Text
                       style={{
                         fontSize: RFValue(14),
                         fontFamily: "outfit-medium",
                         lineHeight: RFValue(30),
-                      }}
-                    >
+                      }}>
                       Check-in details
                     </Text>
                     <View
@@ -269,8 +229,7 @@ export default function SummaryAndConfirmation() {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "space-between",
-                      }}
-                    >
+                      }}>
                       <View
                         style={{
                           flexDirection: "row",
@@ -278,8 +237,7 @@ export default function SummaryAndConfirmation() {
                           gap: 8,
 
                           marginBottom: RFValue(8),
-                        }}
-                      >
+                        }}>
                         <Image
                           resizeMode="contain"
                           source={require("../assets/images/calendar.png")}
@@ -293,8 +251,7 @@ export default function SummaryAndConfirmation() {
                             fontSize: RFValue(13),
                             fontFamily: "outfit-regular",
                             color: "#414141",
-                          }}
-                        >
+                          }}>
                           Wed, Aug 23, 2023
                         </Text>
                       </View>
@@ -306,8 +263,7 @@ export default function SummaryAndConfirmation() {
                         fontSize: RFValue(13),
                         fontFamily: "outfit-medium",
                         lineHeight: RFValue(30),
-                      }}
-                    >
+                      }}>
                       Check-out details
                     </Text>
                     <View
@@ -315,8 +271,7 @@ export default function SummaryAndConfirmation() {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "space-between",
-                      }}
-                    >
+                      }}>
                       <View
                         style={{
                           flexDirection: "row",
@@ -324,8 +279,7 @@ export default function SummaryAndConfirmation() {
                           gap: 8,
 
                           marginBottom: RFValue(8),
-                        }}
-                      >
+                        }}>
                         <Image
                           resizeMode="contain"
                           source={require("../assets/images/calendar.png")}
@@ -339,8 +293,7 @@ export default function SummaryAndConfirmation() {
                             fontSize: RFValue(14),
                             fontFamily: "outfit-regular",
                             color: "#414141",
-                          }}
-                        >
+                          }}>
                           Wed, Aug 23, 2023
                         </Text>
                       </View>
@@ -357,16 +310,14 @@ export default function SummaryAndConfirmation() {
                 borderWidth: 1,
                 borderColor: "#E6E6E6",
                 borderRadius: 10,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(15),
                   fontFamily: "outfit-bold",
                   color: "#161917",
                   lineHeight: RFValue(30),
-                }}
-              >
+                }}>
                 Apartment Rules
               </Text>
               <Text
@@ -375,8 +326,7 @@ export default function SummaryAndConfirmation() {
                   fontFamily: "outfit-regular",
                   color: "#414141",
                   lineHeight: RFValue(20),
-                }}
-              >
+                }}>
                 Check-In From: 9am-10pm
               </Text>
               <Text
@@ -384,8 +334,7 @@ export default function SummaryAndConfirmation() {
                   fontSize: RFValue(14),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 Check-out before: 9am
               </Text>
               <TouchableOpacity>
@@ -395,8 +344,7 @@ export default function SummaryAndConfirmation() {
                     fontFamily: "outfit-regular",
                     color: "#06782F",
                     lineHeight: RFValue(40),
-                  }}
-                >
+                  }}>
                   See all rules
                 </Text>
               </TouchableOpacity>
@@ -405,8 +353,7 @@ export default function SummaryAndConfirmation() {
                   flexDirection: "row",
                   alignItems: "center",
                   gap: RFValue(5),
-                }}
-              >
+                }}>
                 <Checkbox
                   style={{
                     borderRadius: RFValue(4),
@@ -419,8 +366,7 @@ export default function SummaryAndConfirmation() {
                   style={{
                     fontSize: RFValue(13),
                     fontFamily: "plusjakarta-regular",
-                  }}
-                >
+                  }}>
                   I agree to follow Host apartment rules
                 </Text>
               </View>
@@ -433,16 +379,14 @@ export default function SummaryAndConfirmation() {
                 borderWidth: 1,
                 borderColor: "#E6E6E6",
                 borderRadius: 10,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(15),
                   fontFamily: "outfit-bold",
                   color: "#161917",
                   lineHeight: RFValue(30),
-                }}
-              >
+                }}>
                 Cancellation policy
               </Text>
               <Text
@@ -450,15 +394,13 @@ export default function SummaryAndConfirmation() {
                   fontSize: RFValue(13),
                   fontFamily: "outfit-regular",
                   color: "#414141",
-                }}
-              >
+                }}>
                 Free cancellation before Aug 22, cancel before Aug 23 to get
                 partial refund.{" "}
                 <Text
                   style={{
                     color: "#06782f",
-                  }}
-                >
+                  }}>
                   Learn more
                 </Text>
               </Text>
@@ -468,8 +410,7 @@ export default function SummaryAndConfirmation() {
                   alignItems: "center",
                   gap: RFValue(5),
                   marginTop: RFValue(10),
-                }}
-              >
+                }}>
                 <Checkbox
                   style={{
                     borderRadius: RFValue(4),
@@ -482,8 +423,7 @@ export default function SummaryAndConfirmation() {
                   style={{
                     fontSize: RFValue(13),
                     fontFamily: "plusjakarta-regular",
-                  }}
-                >
+                  }}>
                   I agree to follow Host apartment rules
                 </Text>
               </View>
@@ -499,8 +439,7 @@ export default function SummaryAndConfirmation() {
                 paddingVertical: RFValue(10),
                 marginTop: RFValue(20),
                 borderRadius: RFValue(8),
-              }}
-            >
+              }}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/images/danger.png")}
@@ -515,8 +454,7 @@ export default function SummaryAndConfirmation() {
                   fontFamily: "plusjakarta-regular",
                   color: "#306AFF",
                   flexShrink: 1,
-                }}
-              >
+                }}>
                 Please note that upon payment approval, your payment will be
                 escrowed to Easyfynd until host accept your booking request
                 (within 24hours) if host does not accept your booking you will
@@ -529,8 +467,7 @@ export default function SummaryAndConfirmation() {
               backgroundColor: "#fff",
               position: "absolute",
               bottom: Platform.OS === "android" ? RFValue(30) : RFValue(45),
-            }}
-          >
+            }}>
             <View
               style={{
                 flexDirection: "row",
@@ -538,8 +475,7 @@ export default function SummaryAndConfirmation() {
                 justifyContent: "space-between",
                 padding: RFValue(15),
                 position: "relative",
-              }}
-            >
+              }}>
               <View>
                 <Text
                   style={{
@@ -547,8 +483,7 @@ export default function SummaryAndConfirmation() {
                     fontFamily: "outfit-bold",
                     color: "#161917",
                     lineHeight: RFValue(20),
-                  }}
-                >
+                  }}>
                   Total (2 nights)
                 </Text>
                 <Text
@@ -557,8 +492,7 @@ export default function SummaryAndConfirmation() {
                     fontFamily: "outfit-bold",
                     color: "#06782f",
                     lineHeight: RFValue(20),
-                  }}
-                >
+                  }}>
                   ₦60,000
                 </Text>
                 <Text
@@ -567,8 +501,7 @@ export default function SummaryAndConfirmation() {
                     fontFamily: "outfit-regular",
                     color: "#414141",
                     textDecorationLine: "underline",
-                  }}
-                >
+                  }}>
                   Sat, 3 Nov 2023 - Mon, 5 Nov 2023
                 </Text>
               </View>
@@ -582,8 +515,7 @@ export default function SummaryAndConfirmation() {
                   paddingHorizontal: RFValue(10),
                   borderRadius: 10,
                   marginLeft: RFValue(10),
-                }}
-              >
+                }}>
                 <Text style={styles.startText}>Approve payment</Text>
               </TouchableOpacity>
             </View>
@@ -599,6 +531,12 @@ export default function SummaryAndConfirmation() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: "#fff",
+    position: "relative",
+  },
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(10),

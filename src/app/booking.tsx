@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   Image,
   TouchableOpacity,
@@ -10,6 +9,12 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import { Tab, TabView } from "@rneui/themed";
 import { Stack, router } from "expo-router";
@@ -22,7 +27,6 @@ import colors from "../constants/Colors";
 import AppBar from "../components/appBar";
 
 export default function Booking() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [index, setIndex] = useState(0);
   const [modalBookVisible, setModalBookVisible] = useState(false);
   const [modalCancelVisible, setModalCancelVisible] = useState(false);
@@ -43,17 +47,29 @@ export default function Booking() {
     setModalCancelVisible(false);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -65,22 +81,7 @@ export default function Booking() {
         }}
       />
       <AppBar title="Booking" onPress={() => router.push("/home/account")} />
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}>
+      <Animated.View style={[styles.container, animatedStyle]}>
         <Tab
           value={index}
           onChange={(e) => setIndex(e)}
@@ -1259,80 +1260,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    backgroundColor: "#3538cd",
+    backgroundColor: "#fff",
     position: "relative",
-  },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#15263A",
-  },
-  lightThemeText: {
-    color: "#242c40",
-  },
-  darkThemeText: {
-    color: "#fff",
-  },
-  videoSize: {
-    height: "100%",
-    width: "100%",
-  },
-  animationContainer: {
-    backgroundColor: "#eef8ff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  animatedContainer: {
-    backgroundColor: "#173273",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: RFValue(22),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  subtitle: {
-    fontSize: RFValue(28),
-    lineHeight: RFValue(32),
-    fontFamily: "satoshi-bold",
-    color: "#051040",
-    textAlign: "center",
-    paddingHorizontal: RFValue(20),
-  },
-  smallText: {
-    marginTop: 10,
-    fontSize: RFValue(11),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  tabInner: {
-    marginTop: RFValue(20),
-  },
-  tabContainer: {
-    flex: 1,
-    width: width,
-  },
-  button: {
-    fontFamily: "satoshi-bold",
-    textAlign: "center",
-    color: "#fff",
-    fontSize: RFValue(14),
-  },
-  clearIcon: {
-    backgroundColor: "#fff",
-    padding: RFValue(10),
-    borderRadius: 10,
-    position: "absolute",
-    left: RFValue(15),
-    borderWidth: 1,
-    borderColor: "#e5e5e5",
   },
 });

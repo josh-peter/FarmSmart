@@ -1,5 +1,5 @@
 import { StyleSheet, Platform, Dimensions } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link, Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import Header from "../../components/homeScreens/headerComponent";
@@ -33,25 +33,25 @@ const Index = () => {
 
   const slideIn = useSharedValue(0);
   const fadeIn = useSharedValue(0);
-
   useEffect(() => {
-    slideIn.value = withTiming(1, {
-      duration: 500,
-      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-    });
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
 
-    fadeIn.value = withTiming(1, {
-      duration: 1000,
-      easing: Easing.linear,
-    });
+    return () => clearTimeout(timer);
   }, []);
-
   const animatedStyle = useAnimatedStyle(() => {
-    const translateX = -0.3 * width * (1 - slideIn.value);
-
+    const translateY = 0.3 * width * (1 - slideIn.value);
     return {
       opacity: fadeIn.value,
-      transform: [{ translateX }],
+      transform: [{ translateY }],
     };
   });
 

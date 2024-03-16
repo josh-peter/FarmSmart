@@ -2,13 +2,18 @@ import React, { useEffect, useState, useMemo } from "react";
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   TouchableOpacity,
   Platform,
   StyleSheet,
   ScrollView,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import { RFValue } from "react-native-responsive-fontsize";
 import PropertyFeatureComp from "../components/propertyDetailsProps/propertyFeaturesComp";
 import AboutProperty from "../components/propertyDetailsProps/aboutProperty";
@@ -24,8 +29,6 @@ const { width, height } = Dimensions.get("window");
 
 export default function PropertyDetails() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [animationTriggered, setAnimationTriggered] = useState(false);
-  const fade = React.useMemo(() => new Animated.Value(0), []);
 
   const openModal = () => {
     setModalVisible(true);
@@ -35,20 +38,29 @@ export default function PropertyDetails() {
     setModalVisible(false);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    if (!animationTriggered) {
-      setAnimationTriggered(true);
-      animation();
-    }
-  }, [animationTriggered]);
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -59,49 +71,45 @@ export default function PropertyDetails() {
           gestureEnabled: false,
         }}
       />
-        <Animated.ScrollView
-       contentContainerStyle={{
-            width: width,
-            backgroundColor: "#fff",
-          }}
-        >
-          <PropertyCarouselImages />
-          <PropertyFeatureComp />
-          <AboutProperty />
-          <HostReviews />
-          <Morelist />
-          <Similarlisting />
-          <View
+      <Animated.ScrollView
+        contentContainerStyle={{
+          width: width,
+          backgroundColor: "#fff",
+        }}>
+        <PropertyCarouselImages />
+        <PropertyFeatureComp />
+        <AboutProperty />
+        <HostReviews />
+        <Morelist />
+        <Similarlisting />
+        <View
+          style={{
+            height: RFValue(100),
+            paddingHorizontal: RFValue(20),
+            marginTop: 50,
+          }}>
+          <TouchableOpacity
+            onPress={openModal}
             style={{
-              height: RFValue(100),
-              paddingHorizontal: RFValue(20),
-              marginTop: 50,
-            }}
-          >
-            <TouchableOpacity
-              onPress={openModal}
+              backgroundColor: colors.primary,
+              padding: Platform.OS === "ios" ? 18 : 17,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              borderBottomLeftRadius: 10,
+              marginTop: RFValue(15),
+            }}>
+            <Text
               style={{
-                backgroundColor: colors.primary,
-                padding: Platform.OS === "ios" ? 18 : 17,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-                borderBottomLeftRadius: 10,
-                marginTop: RFValue(15),
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: RFValue(16),
-                  fontFamily: "outfit-regular",
-                  color: colors.background,
-                  textAlign: "center",
-                }}
-              >
-                Rent apartment
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.ScrollView>
+                fontSize: RFValue(16),
+                fontFamily: "outfit-regular",
+                color: colors.background,
+                textAlign: "center",
+              }}>
+              Rent apartment
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.ScrollView>
       <SelectBookingDate modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );

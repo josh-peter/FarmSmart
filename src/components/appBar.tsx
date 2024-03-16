@@ -4,6 +4,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import colors from "../constants/Colors";
 import { StatusBar } from "expo-status-bar";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 type Props = {
   title: string;
@@ -14,7 +15,7 @@ export default function AppBar({ title, onPress }: Readonly<Props>) {
   return (
     <>
       <StatusBar style="dark" />
-      <View style={styles.appBar}>
+      <Animated.View style={styles.appBar} entering={FadeInUp}>
         <Text
           style={{
             fontSize: RFValue(16),
@@ -28,12 +29,12 @@ export default function AppBar({ title, onPress }: Readonly<Props>) {
             resizeMode="contain"
             source={require("../assets/images/arrow-left.png")}
             style={{
-              height: RFValue(15),
-              width: RFValue(15),
+              height: RFValue(16),
+              width: RFValue(16),
             }}
           />
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     </>
   );
 }

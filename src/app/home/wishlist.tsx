@@ -1,15 +1,29 @@
-import { Animated, FlatList, StyleSheet, Text, TouchableOpacity, View,TextInput, Platform, Dimensions } from 'react-native'
-import React,{useEffect, useState} from 'react'
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Platform,
+  Dimensions,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFValue } from "react-native-responsive-fontsize";
 import { PropertiesData } from "../../Data/propertiesData";
-import { Link } from 'expo-router';
+import { Link } from "expo-router";
 import Carousel from "pinar";
-import { Image } from 'expo-image';
-import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
-import colors from '../../constants/Colors';
+import { Image } from "expo-image";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
+import colors from "../../constants/Colors";
 const { width, height } = Dimensions.get("window");
-
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState<any>();
@@ -21,10 +35,7 @@ const Wishlist = () => {
         if (res == null) return setWishlist([]);
         let parsedRes = JSON.parse(res!);
         setWishlist(parsedRes);
-      
-      } catch (e) {
-       
-      }
+      } catch (e) {}
     };
 
     getWishList();
@@ -32,48 +43,44 @@ const Wishlist = () => {
 
   const [isHeartClicked, setHeartClicked] = useState(true);
 
-
-    const toggleHeart = async (property: any) => {
-      console.log(property, "the selected");
-      setHeartClicked(!isHeartClicked);
-      setWishlist([...wishlist, property]);
-      await AsyncStorage.setItem("@wishlist", JSON.stringify(wishlist));
+  const toggleHeart = async (property: any) => {
+    console.log(property, "the selected");
+    setHeartClicked(!isHeartClicked);
+    setWishlist([...wishlist, property]);
+    await AsyncStorage.setItem("@wishlist", JSON.stringify(wishlist));
   };
 
-     const [animationTriggered, setAnimationTriggered] = useState(false);
-     const [fade] = useState(new Animated.Value(0));
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
 
-     const animation = () => {
-       Animated.timing(fade, {
-         toValue: 1,
-         duration: 800,
-         useNativeDriver: true,
-       }).start();
-     };
+    return () => clearTimeout(timer);
+  }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
-     useEffect(() => {
-       if (!animationTriggered) {
-         setAnimationTriggered(true);
-         animation();
-       }
-     }, [animationTriggered]);
-  
   const renderPropertyItem = ({ item }: { item: any }) => (
-    
-    <Animated.View
-      style={{
-        width: responsiveScreenWidth(100),
-        marginBottom: RFValue(40),
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
+    <Animated.View style={[styles.container, animatedStyle]}>
       <View
         style={{
           position: "relative",
           overflow: "hidden",
-        }}
-      >
+        }}>
         <TouchableOpacity>
           <View
             style={{
@@ -84,15 +91,13 @@ const Wishlist = () => {
               paddingHorizontal: RFValue(22),
               backgroundColor: "#ECFFF452",
               borderRadius: 12,
-            }}
-          >
+            }}>
             <Text
               style={{
                 fontSize: RFValue(13),
                 fontFamily: "outfit-bold",
                 color: colors.green,
-              }}
-            >
+              }}>
               {item.name}
             </Text>
           </View>
@@ -107,8 +112,7 @@ const Wishlist = () => {
               paddingHorizontal: RFValue(10),
               backgroundColor: "#ECFFF452",
               borderRadius: 30,
-            }}
-          >
+            }}>
             <Image
               contentFit="contain"
               source={
@@ -133,8 +137,7 @@ const Wishlist = () => {
             height: RFValue(270),
             marginBottom: RFValue(5),
             zIndex: -999,
-          }}
-        >
+          }}>
           {[
             item.img,
             item.img1,
@@ -147,7 +150,7 @@ const Wishlist = () => {
             <Image
               key={index}
               source={img}
-              contentFit='contain'
+              contentFit="contain"
               style={{
                 width: width,
                 maxWidth: Platform.OS === "ios" ? RFValue(315) : RFValue(301),
@@ -164,14 +167,12 @@ const Wishlist = () => {
           justifyContent: "space-between",
           alignItems: "center",
           marginTop: RFValue(0),
-        }}
-      >
+        }}>
         <Text
           style={{
             fontSize: RFValue(18),
             fontFamily: "outfit-bold",
-          }}
-        >
+          }}>
           {item.description}
         </Text>
         <TouchableOpacity
@@ -181,15 +182,13 @@ const Wishlist = () => {
             marginRight: RFValue(25),
             borderRadius: RFValue(10),
             backgroundColor: colors.warm,
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: RFValue(14),
               fontFamily: "outfit-medium",
               color: colors.green,
-            }}
-          >
+            }}>
             {item.type}
           </Text>
         </TouchableOpacity>
@@ -200,16 +199,14 @@ const Wishlist = () => {
             fontSize: RFValue(18),
             fontFamily: "outfit-bold",
             color: colors.green,
-          }}
-        >
+          }}>
           {item.price}{" "}
           <Text
             style={{
               fontSize: RFValue(14),
               fontFamily: "plusjakarta-regular",
               color: "#414141",
-            }}
-          >
+            }}>
             {item.type === "Rental" ? item.rent : ""}
           </Text>
         </Text>
@@ -220,8 +217,7 @@ const Wishlist = () => {
           alignItems: "center",
           marginTop: RFValue(3),
           gap: 5,
-        }}
-      >
+        }}>
         <Image
           contentFit="contain"
           source={require("../../assets/images/location.png")}
@@ -235,23 +231,21 @@ const Wishlist = () => {
             fontSize: RFValue(13),
             fontFamily: "plusjakarta-regular",
             color: colors.onboardingText,
-          }}
-        >
+          }}>
           {item.location}
         </Text>
       </View>
     </Animated.View>
   );
-  
+
   return (
-    <View style={styles.container}>
+    <View style={styles.headerContainer}>
       <Text
         style={{
           fontSize: RFValue(20),
           fontFamily: "outfit-bold",
           lineHeight: RFValue(30),
-        }}
-      >
+        }}>
         Wishlist
       </Text>
       <View
@@ -264,8 +258,7 @@ const Wishlist = () => {
           backgroundColor: colors.background,
           marginTop: RFValue(13),
           marginBottom: RFValue(23),
-        }}
-      >
+        }}>
         <TouchableOpacity style={styles.eyeIcon}>
           <Image
             contentFit="contain"
@@ -296,17 +289,23 @@ const Wishlist = () => {
       </View>
     </View>
   );
-}
+};
 
-export default Wishlist
+export default Wishlist;
 
 const styles = StyleSheet.create({
-  container: {
+  headerContainer: {
     flex: 1,
     paddingHorizontal: RFValue(15),
     paddingVertical: RFValue(30),
     overflow: "hidden",
-backgroundColor:colors.background
+    backgroundColor: colors.background,
+  },
+  container: {
+    width: responsiveScreenWidth(100),
+    marginBottom: RFValue(40),
+    position: "relative",
+    overflow: "hidden",
   },
   inputbox: {
     backgroundColor: "transparent",

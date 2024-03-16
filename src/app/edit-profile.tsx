@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   Image,
   TouchableOpacity,
@@ -11,6 +10,12 @@ import {
   TextInput,
   Modal,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Icon, ListItem, Tab, TabView } from "@rneui/themed";
 import { Link, Stack, router } from "expo-router";
@@ -22,10 +27,10 @@ import { RFValue } from "react-native-responsive-fontsize";
 import ModalPicker from "../components/common/modalPicker";
 import AddressModalPicker from "../components/common/addressModalPicker";
 import LanguageModalPicker from "../components/common/languageModalPicker";
+import AppBar from "../components/appBar";
 const { width, height } = Dimensions.get("window");
 
 export default function EditProfile() {
-  const fade = useRef(new Animated.Value(0)).current;
   const [chooseData, setChooseData] = useState("Lagos, Nigeria");
   const [chooseLanguage, setChooseLanguage] = useState(
     "English"
@@ -50,17 +55,29 @@ export default function EditProfile() {
         setChooseLanguage(option);
       };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -71,58 +88,12 @@ export default function EditProfile() {
           gestureEnabled: false,
         }}
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fafafa",
-            width: responsiveScreenWidth(100),
-            height: responsiveScreenWidth(20),
-          }}
-        >
-          <Text
-            style={{
-              fontSize: RFValue(16),
-              fontFamily: "outfit-bold",
-              lineHeight: RFValue(30),
-            }}
-          >
-            Edit profile
-          </Text>
-          <TouchableOpacity style={styles.clearIcon} onPress={()=> router.back()}>
-            <Image
-              resizeMode="contain"
-              source={require("../assets/images/arrow-left.png")}
-              style={{
-                height: RFValue(15),
-                width: RFValue(15),
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+      <AppBar title="Edit profile" onPress={() => router.back()} />
+      <Animated.View style={[styles.container, animatedStyle]}>
         <ScrollView
           contentContainerStyle={{
             paddingHorizontal: RFValue(15),
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
@@ -136,8 +107,7 @@ export default function EditProfile() {
               marginBottom: RFValue(10),
               marginTop: RFValue(30),
               width: responsiveScreenWidth(52),
-            }}
-          >
+            }}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/eyeIcon.png")}
@@ -152,8 +122,7 @@ export default function EditProfile() {
                 fontFamily: "outfit-medium",
                 color: "#000",
                 flexShrink: 1,
-              }}
-            >
+              }}>
               Visible to all agents
             </Text>
           </View>
@@ -185,8 +154,7 @@ export default function EditProfile() {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(13),
@@ -194,8 +162,7 @@ export default function EditProfile() {
                   color: "#161917",
                   lineHeight: RFValue(30),
                   marginTop: RFValue(5),
-                }}
-              >
+                }}>
                 Daniel Israel
               </Text>
             </View>
@@ -204,16 +171,14 @@ export default function EditProfile() {
                 backgroundColor: "#fafafa",
                 padding: RFValue(10),
                 borderRadius: 10,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(14),
                   fontFamily: "outfit-medium",
                   lineHeight: RFValue(20),
                   color: "#5F5F5F",
-                }}
-              >
+                }}>
                 Bio (300 characters)
               </Text>
               <View
@@ -223,8 +188,7 @@ export default function EditProfile() {
                   borderColor: "#E4E4E7",
                   padding: RFValue(8),
                   marginTop: RFValue(10),
-                }}
-              >
+                }}>
                 <TextInput
                   style={[styles.inputbox, { textAlignVertical: "top" }]}
                   placeholderTextColor="#5f5f5f"
@@ -240,16 +204,14 @@ export default function EditProfile() {
             <View
               style={{
                 marginTop: RFValue(10),
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(16),
                   fontFamily: "outfit-bold",
                   color: "#1A1A1AB2",
                   lineHeight: RFValue(30),
-                }}
-              >
+                }}>
                 Address
               </Text>
               <TouchableOpacity
@@ -264,14 +226,12 @@ export default function EditProfile() {
                   paddingVertical: RFValue(12),
                   paddingHorizontal: RFValue(10),
                   backgroundColor: "#Fdfdfd",
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(13),
                     fontFamily: "plusjakarta-regular",
-                  }}
-                >
+                  }}>
                   {chooseData}
                 </Text>
               </TouchableOpacity>
@@ -279,8 +239,7 @@ export default function EditProfile() {
                 transparent={true}
                 animationType="fade"
                 visible={isModdalVisible}
-                onRequestClose={() => changeModalVisibility(false)}
-              >
+                onRequestClose={() => changeModalVisibility(false)}>
                 <AddressModalPicker
                   changeModalVisibility={changeModalVisibility}
                   setData={setData}
@@ -290,16 +249,14 @@ export default function EditProfile() {
             <View
               style={{
                 marginTop: RFValue(10),
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(16),
                   fontFamily: "outfit-bold",
                   color: "#1A1A1AB2",
                   lineHeight: RFValue(30),
-                }}
-              >
+                }}>
                 Language
               </Text>
               <TouchableOpacity
@@ -314,14 +271,12 @@ export default function EditProfile() {
                   paddingVertical: RFValue(12),
                   paddingHorizontal: RFValue(10),
                   backgroundColor: "#Fdfdfd",
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(13),
                     fontFamily: "plusjakarta-regular",
-                  }}
-                >
+                  }}>
                   {chooseLanguage}
                 </Text>
               </TouchableOpacity>
@@ -329,8 +284,7 @@ export default function EditProfile() {
                 transparent={true}
                 animationType="fade"
                 visible={isModdalVisible}
-                onRequestClose={() => changeModalLangVisibility(false)}
-              >
+                onRequestClose={() => changeModalLangVisibility(false)}>
                 <LanguageModalPicker
                   changeModalLangVisibility={changeModalLangVisibility}
                   setData={setLanguageData}
@@ -345,16 +299,14 @@ export default function EditProfile() {
               padding: Platform.OS === "ios" ? 18 : 17,
               borderRadius: 10,
               marginTop: RFValue(15),
-            }}
-          >
+            }}>
             <Text
               style={{
                 fontSize: RFValue(16),
                 fontFamily: "outfit-regular",
                 color: "#fff",
                 textAlign: "center",
-              }}
-            >
+              }}>
               Update profile
             </Text>
           </TouchableOpacity>
@@ -368,81 +320,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    backgroundColor: "#3538cd",
+    backgroundColor: "#fff",
     position: "relative",
-  },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#15263A",
-  },
-  lightThemeText: {
-    color: "#242c40",
-  },
-  darkThemeText: {
-    color: "#fff",
-  },
-  videoSize: {
-    height: "100%",
-    width: "100%",
-  },
-  animationContainer: {
-    backgroundColor: "#eef8ff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  animatedContainer: {
-    backgroundColor: "#173273",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: RFValue(22),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  subtitle: {
-    fontSize: RFValue(28),
-    lineHeight: RFValue(32),
-    fontFamily: "satoshi-bold",
-    color: "#051040",
-    textAlign: "center",
-    paddingHorizontal: RFValue(20),
-  },
-  smallText: {
-    marginTop: 10,
-    fontSize: RFValue(11),
-    fontFamily: "satoshi-medium",
-    color: "#fff",
-  },
-  tabInner: {
-    marginTop: RFValue(20),
-  },
-  tabContainer: {
-    flex: 1,
-    width: width,
-  },
-  button: {
-    fontFamily: "satoshi-bold",
-    textAlign: "center",
-    color: "#fff",
-    fontSize: RFValue(14),
-  },
-  clearIcon: {
-    backgroundColor: "#fff",
-    padding: RFValue(10),
-    borderRadius: 10,
-    position: "absolute",
-    left: RFValue(15),
-    borderWidth: 1,
-    borderColor: "#e5e5e5",
   },
   inputbox: {
     backgroundColor: "transparent",

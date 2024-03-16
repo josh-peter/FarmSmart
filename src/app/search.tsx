@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Animated,
   FlatList,
   Modal,
   Platform,

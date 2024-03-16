@@ -96,8 +96,7 @@ export default function PayForApartment() {
           backgroundColor: "#fff",
           width: responsiveScreenWidth(100),
           height: responsiveScreenHeight(100),
-        }}
-      >
+        }}>
         <View
           style={{
             flexDirection: "row",
@@ -106,31 +105,27 @@ export default function PayForApartment() {
             backgroundColor: "#fafafa",
             width: responsiveScreenWidth(100),
             height: responsiveScreenHeight(10),
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: RFValue(16),
               fontFamily: "outfit-bold",
               lineHeight: RFValue(30),
-            }}
-          >
+            }}>
             Pay for apartment
           </Text>
           <TouchableOpacity
             onPress={() => {
               router.push("/book-appointment");
             }}
-            style={styles.clearIcon}
-          >
+            style={styles.clearIcon}>
             <MaterialIcons name="clear" size={24} color="black" />
           </TouchableOpacity>
         </View>
         <ScrollView
           contentContainerStyle={{
             paddingHorizontal: RFValue(15),
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
@@ -144,8 +139,7 @@ export default function PayForApartment() {
               marginBottom: RFValue(10),
               borderWidth: 1,
               borderColor: "#d5d0dd",
-            }}
-          >
+            }}>
             <Image
               resizeMode="contain"
               source={require("../assets/images/bedroom.png")}
@@ -159,8 +153,7 @@ export default function PayForApartment() {
                 style={{
                   fontSize: RFValue(14),
                   fontFamily: "outfit-bold",
-                }}
-              >
+                }}>
                 One bedroom flat
               </Text>
               <View
@@ -169,8 +162,7 @@ export default function PayForApartment() {
                   gap: 5,
                   alignItems: "center",
                   marginTop: RFValue(3),
-                }}
-              >
+                }}>
                 <Image
                   resizeMode="contain"
                   source={require("../assets/images/location.png")}
@@ -184,8 +176,7 @@ export default function PayForApartment() {
                     fontSize: RFValue(11),
                     fontFamily: "plusjakarta-regular",
                     color: "#414141",
-                  }}
-                >
+                  }}>
                   Lekki phase 1, Lagos, Nigeria
                 </Text>
               </View>
@@ -197,38 +188,33 @@ export default function PayForApartment() {
                   backgroundColor: "#ECFFF4",
                   width: RFValue(80),
                   marginTop: RFValue(3),
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(11),
                     fontFamily: "outfit-medium",
                     color: "#06782F",
-                  }}
-                >
+                  }}>
                   Apartment
                 </Text>
               </TouchableOpacity>
               <View
                 style={{
                   marginTop: RFValue(3),
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     fontSize: RFValue(14),
                     fontFamily: "outfit-bold",
                     color: "#06782F",
-                  }}
-                >
+                  }}>
                   ₦300,000{" "}
                   <Text
                     style={{
                       fontSize: RFValue(9),
                       fontFamily: "plusjakarta-regular",
                       color: "#414141",
-                    }}
-                  >
+                    }}>
                     /night
                   </Text>
                 </Text>
@@ -239,39 +225,34 @@ export default function PayForApartment() {
             style={{
               paddingHorizontal: RFValue(15),
               paddingVertical: RFValue(20),
-            }}
-          >
+            }}>
             <View>
               <Text
                 style={{
                   fontSize: RFValue(14),
                   fontFamily: "outfit-bold",
-                }}
-              >
+                }}>
                 Check-In details
               </Text>
               <View
                 style={{
                   flexDirection: "column",
                   gap: RFValue(10),
-                }}
-              >
+                }}>
                 <View>
                   <View
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
                       justifyContent: "space-between",
-                    }}
-                  >
+                    }}>
                     <View
                       style={{
                         flexDirection: "row",
                         alignItems: "center",
                         gap: 8,
                         marginBottom: RFValue(8),
-                      }}
-                    >
+                      }}>
                       <Image
                         resizeMode="contain"
                         source={require("../assets/images/calendar.png")}
@@ -285,8 +266,7 @@ export default function PayForApartment() {
                           fontSize: RFValue(14),
                           fontFamily: "outfit-regular",
                           color: "#414141",
-                        }}
-                      >
+                        }}>
                         Wed, Aug 23, 2023
                       </Text>
                     </View>
@@ -297,8 +277,7 @@ export default function PayForApartment() {
                           fontFamily: "outfit-bold",
                           lineHeight: RFValue(40),
                           color: "#06782F",
-                        }}
-                      >
+                        }}>
                         Edit
                       </Text>
                     </TouchableOpacity>
@@ -309,8 +288,7 @@ export default function PayForApartment() {
                     style={{
                       fontSize: RFValue(14),
                       fontFamily: "outfit-bold",
-                    }}
-                  >
+                    }}>
                     Check-out details
                   </Text>
                   <View
@@ -318,8 +296,7 @@ export default function PayForApartment() {
                       flexDirection: "row",
                       alignItems: "center",
                       justifyContent: "space-between",
-                    }}
-                  >
+                    }}>
                     <View
                       style={{
                         flexDirection: "row",
@@ -327,8 +304,7 @@ export default function PayForApartment() {
                         gap: 8,
 
                         marginBottom: RFValue(8),
-                      }}
-                    >
+                      }}>
                       <Image
                         resizeMode="contain"
                         source={require("../assets/images/calendar.png")}
@@ -342,8 +318,7 @@ export default function PayForApartment() {
                           fontSize: RFValue(14),
                           fontFamily: "outfit-regular",
                           color: "#414141",
-                        }}
-                      >
+                        }}>
                         Wed, Aug 23, 2023
                       </Text>
                     </View>
@@ -354,8 +329,7 @@ export default function PayForApartment() {
                           fontFamily: "outfit-bold",
                           lineHeight: RFValue(40),
                           color: "#06782F",
-                        }}
-                      >
+                        }}>
                         Edit
                       </Text>
                     </TouchableOpacity>
@@ -367,30 +341,26 @@ export default function PayForApartment() {
           <View
             style={{
               marginTop: RFValue(10),
-            }}
-          >
+            }}>
             <View
               style={{
                 backgroundColor: "#FAFAFA",
                 padding: RFValue(10),
                 borderRadius: 15,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontSize: RFValue(18),
                   fontFamily: "outfit-bold",
                   color: "#161917",
                   lineHeight: RFValue(30),
-                }}
-              >
+                }}>
                 Pay with card
               </Text>
               <View
                 style={{
                   marginTop: RFValue(10),
-                }}
-              >
+                }}>
                 <TextInput
                   placeholder="Card number"
                   keyboardType="numeric"
@@ -438,8 +408,7 @@ export default function PayForApartment() {
                   justifyContent: "space-between",
 
                   marginTop: RFValue(15),
-                }}
-              >
+                }}>
                 <TextInput
                   ref={expiryInputRef}
                   placeholder="MM/YY"
@@ -477,8 +446,7 @@ export default function PayForApartment() {
                   alignItems: "center",
                   gap: RFValue(5),
                   marginTop: RFValue(15),
-                }}
-              >
+                }}>
                 <Checkbox
                   style={{
                     borderRadius: RFValue(4),
@@ -491,8 +459,7 @@ export default function PayForApartment() {
                   style={{
                     fontSize: RFValue(12),
                     fontFamily: "plusjakarta-regular",
-                  }}
-                >
+                  }}>
                   Save my card
                 </Text>
               </View>
@@ -503,8 +470,7 @@ export default function PayForApartment() {
           style={{
             position: "absolute",
             bottom: RFValue(40),
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
@@ -512,8 +478,7 @@ export default function PayForApartment() {
               justifyContent: "space-between",
               padding: RFValue(15),
               position: "relative",
-            }}
-          >
+            }}>
             <View>
               <Text
                 style={{
@@ -521,8 +486,7 @@ export default function PayForApartment() {
                   fontFamily: "outfit-bold",
                   color: "#161917",
                   lineHeight: RFValue(20),
-                }}
-              >
+                }}>
                 Total (2 nights)
               </Text>
               <Text
@@ -531,8 +495,7 @@ export default function PayForApartment() {
                   fontFamily: "outfit-bold",
                   color: "#06782f",
                   lineHeight: RFValue(20),
-                }}
-              >
+                }}>
                 ₦60,000
               </Text>
               <Text
@@ -541,8 +504,7 @@ export default function PayForApartment() {
                   fontFamily: "outfit-regular",
                   color: "#414141",
                   textDecorationLine: "underline",
-                }}
-              >
+                }}>
                 Sat, 3 Nov 2023 - Mon, 5 Nov 2023
               </Text>
             </View>
@@ -555,8 +517,7 @@ export default function PayForApartment() {
                 borderRadius: 10,
                 width: RFValue(100),
                 marginLeft: RFValue(20),
-              }}
-            >
+              }}>
               <Text style={styles.startText}>Pay</Text>
             </TouchableOpacity>
           </View>

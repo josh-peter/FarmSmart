@@ -7,9 +7,14 @@ import {
   TextInput,
   StyleSheet,
   Platform,
-  Animated,
   Dimensions,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import { RFValue } from "react-native-responsive-fontsize";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
@@ -54,40 +59,38 @@ export default function Helpcenter() {
     console.log("Message submitted:", message);
   };
 
-  const fade = useRef(new Animated.Value(0)).current;
-
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
       <StatusBar style="dark" />
-      <AppBar title="Help & support" onPress={() => router.push("/home/account")}/>
-      <Animated.ScrollView
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}>
+      <AppBar
+        title="Help & support"
+        onPress={() => router.push("/home/account")}
+      />
+      <Animated.ScrollView style={[styles.container, animatedStyle]}>
         <View style={{ flex: 1, paddingHorizontal: RFValue(20) }}>
           <View>
             <TouchableOpacity
@@ -189,50 +192,51 @@ export default function Helpcenter() {
                 PS: All follow ups will be via your registered email
               </Text>
               <View>
-              {message.length < 1 ? (
-                <TouchableOpacity style={styles.disableBtn}>
-                  <Text style={styles.button}>Send</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => handleSubmit()}
-                  style={styles.startBtn}>
-                  <Text style={styles.startText}>Send</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-            <View
-              style={{
-                marginTop: RFValue(20),
-              }}>
-              <Text
+                {message.length < 1 ? (
+                  <TouchableOpacity style={styles.disableBtn}>
+                    <Text style={styles.button}>Send</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => handleSubmit()}
+                    style={styles.startBtn}>
+                    <Text style={styles.startText}>Send</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+              <View
                 style={{
-                  fontSize: RFValue(13),
-                  fontFamily: "outfit-bold",
-                  lineHeight: RFValue(30),
-                  color: "#A9A9A9",
+                  marginTop: RFValue(20),
                 }}>
-                Socials
+                <Text
+                  style={{
+                    fontSize: RFValue(13),
+                    fontFamily: "outfit-bold",
+                    lineHeight: RFValue(30),
+                    color: "#A9A9A9",
+                  }}>
+                  Socials
                 </Text>
-                <View style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}>
-                {socialIcons?.map((icon) => (
-                  <TouchableOpacity 
-                  key={icon.id}>
-                  <Image
-                    resizeMode="cover"
-                    source={icon.img}
-                    style={{
-                      width: RFValue(50),
-                      height: RFValue(50),
-                    }}
-                    />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}>
+                  {socialIcons?.map((icon) => (
+                    <TouchableOpacity key={icon.id}>
+                      <Image
+                        resizeMode="cover"
+                        source={icon.img}
+                        style={{
+                          width: RFValue(50),
+                          height: RFValue(50),
+                        }}
+                      />
                     </TouchableOpacity>
-                ))}</View>              
-            </View>
+                  ))}
+                </View>
+              </View>
             </View>
           </View>
         </View>
@@ -242,6 +246,12 @@ export default function Helpcenter() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: "#fff",
+    position: "relative",
+  },
   inputbox: {
     backgroundColor: "#F9FAFA",
     color: "#000000",

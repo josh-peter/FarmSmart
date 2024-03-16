@@ -3,13 +3,18 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   TouchableOpacity,
   Platform,
   StyleSheet,
   TextInput,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { RFValue } from "react-native-responsive-fontsize";
 const { width, height } = Dimensions.get("window");
@@ -19,7 +24,6 @@ import AppBar from "../../components/appBar";
 export default function EditInformation() {
   const navigation = useNavigation();
 
-  const fade = useRef(new Animated.Value(0)).current;
   const [password, setPassword] = useState("");
 
   const handleBackBtn = () => {
@@ -30,17 +34,29 @@ export default function EditInformation() {
     setPassword(text);
   };
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
   useEffect(() => {
-    animation();
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
 
   return (
     <>
@@ -57,22 +73,7 @@ export default function EditInformation() {
       />
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
-        style={{
-          flex: 1,
-          height: height,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}>
+        style={[styles.container, animatedStyle]}>
         <View
           style={{
             padding: RFValue(15),
@@ -241,6 +242,12 @@ export default function EditInformation() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: "#fff",
+    position: "relative",
+  },
   clearIcon: {
     backgroundColor: "#fff",
     padding: RFValue(6),

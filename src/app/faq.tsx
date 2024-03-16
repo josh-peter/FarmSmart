@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,14 @@ import {
   TextInput,
   StyleSheet,
   Platform,
+  Dimensions
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import { RFValue } from "react-native-responsive-fontsize";
 import InputField from "../components/inputs/inputField";
 import { StatusBar } from "expo-status-bar";
@@ -19,6 +26,8 @@ import {
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 
+const { width, height } = Dimensions.get("window");
+
 export default function Faq() {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -29,6 +38,8 @@ export default function Faq() {
   const closeModal = () => {
     setModalVisible(false);
   };
+
+
   const faqData = [
     {
       id: 1,
@@ -59,40 +70,65 @@ export default function Faq() {
       faq: "Question 1 placeholder",
     },
   ];
+
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      slideIn.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      });
+      fadeIn.value = withTiming(1, {
+        duration: 600,
+        easing: Easing.linear,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateY = 0.3 * width * (1 - slideIn.value);
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateY }],
+    };
+  });
+
   return (
     <>
       <StatusBar style="dark" />
       <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#FFFFFF",
-              shadowOffset: { width: 0, height: 4 },
-              shadowRadius: 20,
-              shadowOpacity: 0.16,
-              elevation: 14,
-              shadowColor: "#d5d0dd",
-              width: responsiveScreenWidth(100),
-              height: responsiveScreenWidth(20),
-            }}>
-            <Text
-              style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-bold",
-                lineHeight: RFValue(30),
-              }}>
-              Frequently asked questions
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                router.push("/help-center");
-              }}
-              style={styles.clearIcon}>
-              <MaterialIcons name="clear" size={18} color="#1A1A1A" />
-            </TouchableOpacity>
-          </View>
-      <View style={{ flex: 1, paddingHorizontal: RFValue(20) }}>
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#FFFFFF",
+          shadowOffset: { width: 0, height: 4 },
+          shadowRadius: 20,
+          shadowOpacity: 0.16,
+          elevation: 14,
+          shadowColor: "#d5d0dd",
+          width: responsiveScreenWidth(100),
+          height: responsiveScreenWidth(20),
+        }}>
+        <Text
+          style={{
+            fontSize: RFValue(16),
+            fontFamily: "outfit-bold",
+            lineHeight: RFValue(30),
+          }}>
+          Frequently asked questions
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/help-center");
+          }}
+          style={styles.clearIcon}>
+          <MaterialIcons name="clear" size={18} color="#1A1A1A" />
+        </TouchableOpacity>
+      </View>
+      <Animated.ScrollView style={[styles.container, animatedStyle]}>
         <View>
           <View
             style={{
@@ -148,13 +184,17 @@ export default function Faq() {
             ))}
           </View>
         </View>
-      </View>
+      </Animated.ScrollView>
       <FaqModal modalVisible={modalVisible} closeModal={closeModal} />
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: RFValue(20),
+  },
   inputbox: {
     backgroundColor: "#F9FAFA",
     fontFamily: "outfit-light",

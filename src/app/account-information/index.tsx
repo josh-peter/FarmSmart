@@ -1,11 +1,16 @@
 import {
   View,
   Text,
-  Animated,
   Dimensions,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import React, { useEffect, useRef, useState } from "react";
 import { Stack, router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -14,19 +19,30 @@ import colors from "../../constants/Colors";
 const { width } = Dimensions.get("window");
 
 export default function AccountInformation() {
-  const fade = useRef(new Animated.Value(0)).current;
+   const slideIn = useSharedValue(0);
+   const fadeIn = useSharedValue(0);
+   useEffect(() => {
+     const timer = setTimeout(() => {
+       slideIn.value = withTiming(1, {
+         duration: 500,
+         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+       });
+       fadeIn.value = withTiming(1, {
+         duration: 600,
+         easing: Easing.linear,
+       });
+     }, 200);
 
-  const animation = () => {
-    Animated.timing(fade, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
+     return () => clearTimeout(timer);
+   }, []);
+   const animatedStyle = useAnimatedStyle(() => {
+     const translateY = 0.3 * width * (1 - slideIn.value);
+     return {
+       opacity: fadeIn.value,
+       transform: [{ translateY }],
+     };
+   });
 
-  useEffect(() => {
-    animation();
-  }, []);
 
   const accountItem = [
     {
@@ -59,22 +75,7 @@ export default function AccountInformation() {
         title="Account information"
         onPress={() => router.push("/home/account")}
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          width: width,
-          backgroundColor: "#fff",
-          position: "relative",
-          opacity: fade,
-          transform: [
-            {
-              translateY: fade.interpolate({
-                inputRange: [0, 1],
-                outputRange: [150, 0],
-              }),
-            },
-          ],
-        }}>
+      <Animated.View style={[styles.container, animatedStyle]}>
         <View
           style={{
             paddingHorizontal: RFValue(15),
@@ -133,7 +134,9 @@ export default function AccountInformation() {
           paddingHorizontal: RFValue(15),
           marginBottom: RFValue(20),
         }}>
-        <TouchableOpacity onPress={() => router.push("/account-information/password")} style={styles.startBtn}>
+        <TouchableOpacity
+          onPress={() => router.push("/account-information/password")}
+          style={styles.startBtn}>
           <Text style={styles.startText}>Edit information</Text>
         </TouchableOpacity>
       </View>
@@ -142,6 +145,12 @@ export default function AccountInformation() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: "#fff",
+    position: "relative",
+  },
 
   smallText: {
     marginTop: 10,

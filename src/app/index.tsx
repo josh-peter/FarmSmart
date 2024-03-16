@@ -1,14 +1,10 @@
 import {
-  Animated,
-  Easing,
   SafeAreaView,
   StyleSheet,
-  Text,
-  View,
 } from "react-native";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Link, Stack } from "expo-router";
+import {  Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { SplashScreen, Slot } from "expo-router";
 import { RootSiblingParent } from "react-native-root-siblings";
@@ -54,6 +50,7 @@ const Home = () => {
 
   return (
     <>
+      <StatusBar style="dark"/>
       <Stack.Screen options={{ title: "Splash Screen", headerShown: false }} />
       <RootSiblingParent>
         <SafeAreaProvider onLayout={onLayoutRootView}>
@@ -78,39 +75,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  box: {
-    width: 100,
-    height: 80,
-    backgroundColor: "black",
-    margin: 30,
-  },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#15263A",
-  },
-  lightThemeText: {
-    color: "#242c40",
-  },
-  darkThemeText: {
-    color: "#fff",
-  },
-  videoSize: {
-    height: "100%",
-    width: "100%",
-  },
-  animationContainer: {
-    backgroundColor: "#eef8ff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  animatedContainer: {
-    backgroundColor: "#173273",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
   },
 });
