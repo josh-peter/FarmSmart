@@ -12,6 +12,7 @@ import colors from "../../constants/Colors";
 import { Image } from "expo-image";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
+import CustomCallout from "../../components/mapProps/customCallout";
 
 export default function Explore() {
   const [selectedApartment, setSelectedApartment] = useState<any>(null)
@@ -50,11 +51,13 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
           }}
         >
           {apartments?.map((apartment) => (
-            <CustomMarker
+            <><CustomMarker
               key={apartment.id}
               apartment={apartment}
-              onPress={() => setSelectedApartment(apartment)}
-            />
+              onPress={() => setSelectedApartment(apartment)} /><CustomCallout
+                key={apartment.id}
+                apartment={apartment}
+                 /></>
           ))}
         </MapView>
         {selectedApartment && (
