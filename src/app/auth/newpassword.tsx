@@ -5,8 +5,9 @@ import {
     TextInput,
     TouchableOpacity,
     Platform,
+    Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -17,6 +18,13 @@ import ErrorMsg from "../../components/Auth/errors/errorMsg";
 import CustomAlert from "../../components/common/modals/customAlert";
 import colors from "../../constants/Colors";
 import { Image } from "expo-image";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
+const { width } = Dimensions.get("window");
 
 export default function NewPassword() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -38,6 +46,32 @@ export default function NewPassword() {
      setSubmitting(false);
    }, 500);
   }
+
+     const slideIn = useSharedValue(0);
+     const fadeIn = useSharedValue(0);
+
+     useEffect(() => {
+       slideIn.value = withTiming(1, {
+         duration: 500,
+         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+       });
+
+       fadeIn.value = withTiming(1, {
+         duration: 1000,
+         easing: Easing.linear,
+       });
+     }, []);
+
+     const animatedStyle = useAnimatedStyle(() => {
+       const translateX = -0.3 * width * (1 - slideIn.value);
+
+       return {
+         opacity: fadeIn.value,
+         transform: [{ translateX }],
+       };
+     });
+  
+  
     return (
       <>
         <Stack.Screen
@@ -47,6 +81,9 @@ export default function NewPassword() {
           }}
         />
         <StatusBar style="dark" />
+        <Animated.View style={animatedStyle}>
+
+        </Animated.View>
         <Formik
           initialValues={{
             confirmPassword: "",
@@ -74,7 +111,7 @@ export default function NewPassword() {
             errors,
           }) => (
             <>
-              <View style={styles.container}>
+              <Animated.View style={[styles.container, animatedStyle]}>
                 <View>
                   <Image
                     contentFit="contain"
@@ -185,10 +222,10 @@ export default function NewPassword() {
                     </View>
                   </View>
                 </View>
-              </View>
+              </Animated.View>
               <View
                 style={{
-                  paddingHorizontal: RFValue(10),
+                  paddingHorizontal: RFValue(20),
                   paddingVertical: RFValue(28),
                 }}
               >

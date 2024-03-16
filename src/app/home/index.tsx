@@ -80,33 +80,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: Platform.OS === "ios" ? RFValue(10) : RFValue(15),
     paddingVertical: RFValue(20),
   },
-  inputbox: {
-    width: RFValue(230),
-    backgroundColor: "transparent",
-    fontFamily: "outfit-light",
-    fontSize: RFValue(14),
-    paddingVertical: Platform.OS === "android" ? RFValue(6) : RFValue(8),
-    paddingLeft: RFValue(32),
-    paddingRight: RFValue(15),
-  },
-  eyeIcon: {
-    position: "absolute",
-    top: RFValue(10),
-    left: RFValue(10),
-    zIndex: 1,
-  },
-  dot: {
-    width: RFValue(18),
-    height: RFValue(4),
-    borderRadius: 30,
-    backgroundColor: "#D9D9D9",
-    marginHorizontal: RFValue(2),
-  },
-  activeDot: {
-    width: RFValue(18),
-    height: RFValue(4),
-    borderRadius: 30,
-    backgroundColor: "#06782F",
-    marginHorizontal: RFValue(2),
-  },
 });
