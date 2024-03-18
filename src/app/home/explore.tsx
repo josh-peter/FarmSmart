@@ -17,8 +17,8 @@ import CustomCallout from "../../components/mapProps/customCallout";
 export default function Explore() {
   const [selectedApartment, setSelectedApartment] = useState<any>(null)
 const [modalVisible, setModalVisible] = useState<boolean>(true);
-    const [selectedType, setSelectedType] = useState<"Rental" | "Sales">(
-      "Rental"
+    const [selectedType, setSelectedType] = useState<"Label" | "Marker">(
+      "Marker"
     );
 
   const openModal = () => {
@@ -51,13 +51,13 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
           }}
         >
           {apartments?.map((apartment) => (
-            <><CustomMarker
+            <CustomMarker
               key={apartment.id}
               apartment={apartment}
-              onPress={() => setSelectedApartment(apartment)} /><CustomCallout
-                key={apartment.id}
-                apartment={apartment}
-                 /></>
+              onPress={() => setSelectedApartment(apartment)}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+            />
           ))}
         </MapView>
         {selectedApartment && (
@@ -109,13 +109,13 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
               }}
             >
               <TouchableOpacity
-                onPress={() => setSelectedType("Rental")}
+                onPress={() => setSelectedType("Label")}
                 style={{
                   paddingVertical: RFValue(7),
                   paddingHorizontal: RFValue(20),
                   borderRadius: RFValue(5),
                   backgroundColor:
-                    selectedType === "Rental"
+                    selectedType === "Label"
                       ? colors.background
                       : colors.btnbackground,
                 }}
@@ -130,13 +130,13 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => setSelectedType("Sales")}
+                onPress={() => setSelectedType("Marker")}
                 style={{
                   paddingVertical: RFValue(7),
                   paddingHorizontal: RFValue(20),
                   borderRadius: RFValue(5),
                   backgroundColor:
-                    selectedType === "Sales"
+                    selectedType === "Marker"
                       ? colors.background
                       : colors.btnbackground,
                 }}
@@ -236,7 +236,7 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
                 style={{
                   fontSize: RFValue(12),
                   fontFamily: "urbanist-regular",
-                  color: "#414141",
+                  color: colors.onboardingText,
                 }}
               >
                 Rental
@@ -261,7 +261,7 @@ const [modalVisible, setModalVisible] = useState<boolean>(true);
                 style={{
                   fontSize: RFValue(12),
                   fontFamily: "urbanist-regular",
-                  color: "#414141",
+                  color: colors.onboardingText,
                 }}
               >
                 Land
