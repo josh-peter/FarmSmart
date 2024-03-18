@@ -12,10 +12,11 @@ import React, { useState } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { responsiveScreenHeight } from "react-native-responsive-dimensions";
 import Checkbox from "expo-checkbox";
+import colors from "../../constants/Colors";
 
-const LanguageModalPicker = (props: any) => {
+const LanguagePicker = (props: any) => {
   const [activeLanguages, setActiveLanguages] = useState("English");
-    const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const OPTIONS = [
     "English",
     "Yoruba",
@@ -38,58 +39,55 @@ const LanguageModalPicker = (props: any) => {
   };
 
   const option = OPTIONS.map((item, index) => (
-    <TouchableOpacity
+    <View
       key={index}
-      style={styles.option}
-      onPress={() => onPressItem(item)}
-    >
+      style={styles.option}>
       <Checkbox
         style={{
           borderRadius: RFValue(4),
         }}
         value={isChecked}
         onValueChange={setIsChecked}
-        color={isChecked ? "#06782F" : "#e1e1e1"}
+        color={isChecked ? colors.primary : "#e1e1e1"}
       />
       <Text
-        style={[
-          activeLanguages === item
-            ? styles.text
-            : {
-                fontSize: RFValue(17),
-                fontFamily: "plusjakarta-regular",
-              },
-        ]}
-      >
+        style={{
+          fontSize: RFValue(14),
+          fontFamily: "urbanist-medium",
+        }}>
         {item}
       </Text>
-    </TouchableOpacity>
+    </View>
   ));
   return (
-    <TouchableOpacity
-      onPress={() => props.changeModalLangVisibility(false)}
-      style={styles.container}
-    >
-      <View style={[styles.modal, { width: WIDTH - 20, height: RFValue(180) }]}>
+    <View
+      style={styles.container}>
+      <View>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{}}
-        >
+          contentContainerStyle={{}}>
           {option}
         </ScrollView>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
-export default LanguageModalPicker;
+export default LanguagePicker;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: responsiveScreenHeight(60),
+    backgroundColor: "#fff",
+    padding: RFValue(15),
+    borderRadius: 10,
+    borderWidth: RFValue(1),
+    borderColor: "#F0F4FF",
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 20,
+    elevation: 4,
+    shadowColor: "#d1d5db",
+    marginTop: RFValue(15),
   },
   modal: {
     backgroundColor: "#fff",
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
   option: {
     flexDirection: "row",
     alignItems: "center",
-    gap:RFValue(6),
+    gap: RFValue(6),
     paddingHorizontal: RFValue(15),
     paddingVertical: RFValue(8),
     marginTop: RFValue(3),

@@ -24,6 +24,7 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import { Switch } from "react-native-switch";
 import AppBar from "../components/appBar";
+import colors from "../constants/Colors";
 const { width, height } = Dimensions.get("window");
 
 export default function ClientProfile() {
@@ -68,21 +69,22 @@ export default function ClientProfile() {
       <Animated.View style={[styles.container, animatedStyle]}>
         <View
           style={{
-            paddingHorizontal: RFValue(25),
+            paddingHorizontal: RFValue(15),
           }}>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
+              justifyContent: "center",
               overflow: "hidden",
               gap: RFValue(6),
               backgroundColor: "#F5F5F5",
-              paddingHorizontal: RFValue(12),
-              paddingVertical: RFValue(10),
-              borderRadius: RFValue(8),
+              paddingHorizontal: RFValue(6),
+              paddingVertical: RFValue(8),
+              borderRadius: RFValue(10),
               marginBottom: RFValue(10),
               marginTop: RFValue(30),
-              width: responsiveScreenWidth(52),
+              width: responsiveScreenWidth(50),
             }}>
             <Image
               resizeMode="contain"
@@ -94,9 +96,9 @@ export default function ClientProfile() {
             />
             <Text
               style={{
-                fontSize: RFValue(14),
-                fontFamily: "outfit-medium",
-                color: "#000",
+                fontSize: RFValue(12),
+                fontFamily: "outfit-semibold",
+                color: "#121212",
                 flexShrink: 1,
               }}>
               Visible to all agents
@@ -133,9 +135,9 @@ export default function ClientProfile() {
               }}>
               <Text
                 style={{
-                  fontSize: RFValue(13),
+                  fontSize: RFValue(15),
                   fontFamily: "outfit-bold",
-                  color: "#161917",
+                  color: "#000000",
                   lineHeight: RFValue(30),
                   marginTop: RFValue(5),
                 }}>
@@ -144,9 +146,9 @@ export default function ClientProfile() {
             </View>
             <Text
               style={{
-                fontSize: RFValue(14),
-                fontFamily: "outfit-regular",
-                color: "#414141",
+                fontSize: RFValue(13),
+                fontFamily: "urbanist-medium",
+                color: "#000000",
               }}>
               I am a realtor with over 2 years in real estates, I have sold over
               ₦400M property and I have helped client find their dream homes.
@@ -170,8 +172,8 @@ export default function ClientProfile() {
               />
               <Text
                 style={{
-                  fontSize: RFValue(14),
-                  fontFamily: "outfit-regular",
+                  fontSize: RFValue(13),
+                  fontFamily: "urbanist-medium",
                   color: "#414141",
                 }}>
                 English, Yoruba and Ibibio
@@ -194,8 +196,8 @@ export default function ClientProfile() {
               />
               <Text
                 style={{
-                  fontSize: RFValue(14),
-                  fontFamily: "outfit-regular",
+                  fontSize: RFValue(13),
+                  fontFamily: "urbanist-medium",
                   color: "#414141",
                 }}>
                 Lagos, Nigeria
@@ -208,9 +210,11 @@ export default function ClientProfile() {
             }}>
             <TouchableOpacity
               style={{
-                backgroundColor: "#f9fafa",
+                backgroundColor: "#FDFDFD",
                 padding: RFValue(10),
                 borderRadius: 10,
+                borderWidth: RFValue(1),
+                borderColor: "#F0F4FF",
               }}>
               <View>
                 <View
@@ -229,10 +233,10 @@ export default function ClientProfile() {
                   />
                   <Text
                     style={{
-                      fontSize: RFValue(12),
-                      fontFamily: "plusjakarta-regular",
+                      fontSize: RFValue(13),
+                      fontFamily: "urbanist-medium",
                       lineHeight: RFValue(20),
-                      color: "#1A1A1A",
+                      color: "#414141",
                     }}>
                     danielsnr.design@gmail.com
                   </Text>
@@ -247,16 +251,16 @@ export default function ClientProfile() {
                   <Text
                     style={{
                       fontSize: RFValue(13),
-                      fontFamily: "plusjakarta-regular",
+                      fontFamily: "urbanist-medium",
                       lineHeight: RFValue(20),
-                      color: "#1A1A1A",
+                      color: "#000000",
                     }}>
                     Show email address
                   </Text>
                   <Switch
                     value={true}
                     onValueChange={(val) => console.warn(val)}
-                    backgroundActive={"green"}
+                    backgroundActive={colors.primary}
                     backgroundInactive={"gray"}
                     activeText={""}
                     inActiveText={""}
@@ -272,9 +276,11 @@ export default function ClientProfile() {
             }}>
             <TouchableOpacity
               style={{
-                backgroundColor: "#f9fafa",
+                backgroundColor: "#FDFDFD",
                 padding: RFValue(10),
                 borderRadius: 10,
+                borderWidth: RFValue(1),
+                borderColor: "#F0F4FF",
               }}>
               <View>
                 <View
@@ -293,10 +299,10 @@ export default function ClientProfile() {
                   />
                   <Text
                     style={{
-                      fontSize: RFValue(12),
-                      fontFamily: "plusjakarta-regular",
+                      fontSize: RFValue(13),
+                      fontFamily: "urbanist-medium",
                       lineHeight: RFValue(20),
-                      color: "#1A1A1A",
+                      color: "#414141",
                     }}>
                     +2348160523342
                   </Text>
@@ -311,16 +317,16 @@ export default function ClientProfile() {
                   <Text
                     style={{
                       fontSize: RFValue(13),
-                      fontFamily: "plusjakarta-regular",
+                      fontFamily: "urbanist-medium",
                       lineHeight: RFValue(20),
-                      color: "#1A1A1A",
+                      color: "#000000",
                     }}>
                     Show phone number
                   </Text>
                   <Switch
                     value={true}
                     onValueChange={(val) => console.warn(val)}
-                    backgroundActive={"green"}
+                    backgroundActive={colors.primary}
                     backgroundInactive={"gray"}
                     activeText={""}
                     inActiveText={""}
@@ -330,26 +336,34 @@ export default function ClientProfile() {
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => router.push("/edit-profile")}
-            style={{
-              backgroundColor: "#ECFFF4",
-              padding: Platform.OS === "ios" ? 18 : 17,
-              borderRadius: 10,
-              marginTop: RFValue(15),
-            }}>
-            <Text
-              style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-regular",
-                color: "#06782F",
-                textAlign: "center",
-              }}>
-              Edit profile
-            </Text>
-          </TouchableOpacity>
         </View>
       </Animated.View>
+      <View
+        style={{
+          paddingHorizontal: RFValue(15),
+          paddingBottom: RFValue(15),
+        }}>
+        <TouchableOpacity
+          onPress={() => router.push("/edit-profile")}
+          style={{
+            backgroundColor: colors.primary,
+            paddingHorizontal: RFValue(14),
+            paddingVertical: RFValue(12),
+            borderRadius: 10,
+            borderBottomRightRadius: 0,
+            marginTop: RFValue(10),
+          }}>
+          <Text
+            style={{
+              fontSize: RFValue(14),
+              color: "#fff",
+              fontFamily: "outfit-semibold",
+              textAlign: "center",
+            }}>
+            Edit profile
+          </Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 }

@@ -137,7 +137,7 @@ export default function Booking() {
                 style={{
                   position: "relative",
                   borderWidth: 1,
-                  borderColor: "#f3f4f6",
+                  borderColor: "#F0F4FF",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
@@ -410,7 +410,7 @@ export default function Booking() {
                 style={{
                   position: "relative",
                   borderWidth: 1,
-                  borderColor: "#f3f4f6",
+                  borderColor: "#F0F4FF",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
@@ -711,7 +711,7 @@ export default function Booking() {
                 style={{
                   position: "relative",
                   borderWidth: 1,
-                  borderColor: "#f3f4f6",
+                  borderColor: "#F0F4FF",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
@@ -890,7 +890,7 @@ export default function Booking() {
                 style={{
                   position: "relative",
                   borderWidth: 1,
-                  borderColor: "#f3f4f6",
+                  borderColor: "#F0F4FF",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
@@ -1069,7 +1069,7 @@ export default function Booking() {
                 style={{
                   position: "relative",
                   borderWidth: 1,
-                  borderColor: "#f3f4f6",
+                  borderColor: "#F0F4FF",
                   paddingHorizontal: RFValue(10),
                   paddingVertical: RFValue(10),
                   backgroundColor: "#fff",
