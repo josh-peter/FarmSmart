@@ -25,35 +25,40 @@ import {
 } from "react-native-responsive-dimensions";
 import { RFValue } from "react-native-responsive-fontsize";
 import ModalPicker from "../components/common/modalPicker";
-import AddressModalPicker from "../components/common/addressModalPicker";
-import LanguageModalPicker from "../components/common/languageModalPicker";
+import LanguageModalPicker from "../components/common/languagePicker";
 import AppBar from "../components/appBar";
+import colors from "../constants/Colors";
+import AddressPicker from "../components/common/addressPicker";
+import LanguagePicker from "../components/common/languagePicker";
 const { width, height } = Dimensions.get("window");
 
 export default function EditProfile() {
   const [chooseData, setChooseData] = useState("Lagos, Nigeria");
-  const [chooseLanguage, setChooseLanguage] = useState(
-    "English"
-  );
-  const [isModdalVisible, setisModdalVisible] = useState(false);
+  const [chooseLanguage, setChooseLanguage] = useState("English");
+  const [showAddressPicker, setShowAddressPicker] = useState(false);
+  const [showLanguagePicker, setShowLanguagePicker] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [propertyResult, setPropertyResult] = useState<any>();
 
-  const changeModalVisibility = (bool: any) => {
-    setisModdalVisible(bool);
+  const toggleAddressPicker = () => {
+    setShowAddressPicker(!showAddressPicker);
   };
 
-    const changeModalLangVisibility = (bool: any) => {
-      setChooseLanguage(bool);
-    };
+  const toggleLanguagePicker = () => {
+    setShowLanguagePicker(!showLanguagePicker);
+  };
+
+  const changeModalLangVisibility = (bool: any) => {
+    setChooseLanguage(bool);
+  };
 
   const setData = (option: any) => {
     setChooseData(option);
-    };
-    
-      const setLanguageData = (option: any) => {
-        setChooseLanguage(option);
-      };
+  };
+
+  const setLanguageData = (option: any) => {
+    setChooseLanguage(option);
+  };
 
   const slideIn = useSharedValue(0);
   const fadeIn = useSharedValue(0);
@@ -168,14 +173,20 @@ export default function EditProfile() {
             </View>
             <View
               style={{
-                backgroundColor: "#fafafa",
+                backgroundColor: "#fff",
                 padding: RFValue(10),
                 borderRadius: 10,
+                borderWidth: RFValue(1),
+                borderColor: "#F0F4FF",
+                shadowOffset: { width: 2, height: 2 },
+                shadowRadius: 20,
+                elevation: 4,
+                shadowColor: "#d1d5db",
               }}>
               <Text
                 style={{
-                  fontSize: RFValue(14),
-                  fontFamily: "outfit-medium",
+                  fontSize: RFValue(13),
+                  fontFamily: "outfit-semibold",
                   lineHeight: RFValue(20),
                   color: "#5F5F5F",
                 }}>
@@ -183,9 +194,10 @@ export default function EditProfile() {
               </Text>
               <View
                 style={{
+                  backgroundColor: "#FDFDFD",
                   borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: "#E4E4E7",
+                  borderWidth: RFValue(1),
+                  borderColor: "#F0F4FF",
                   padding: RFValue(8),
                   marginTop: RFValue(10),
                 }}>
@@ -200,116 +212,125 @@ export default function EditProfile() {
               </View>
             </View>
           </View>
+
           <View>
             <View
               style={{
-                marginTop: RFValue(10),
+                marginTop: RFValue(20),
               }}>
               <Text
                 style={{
-                  fontSize: RFValue(16),
-                  fontFamily: "outfit-bold",
+                  fontSize: RFValue(14),
+                  fontFamily: "outfit-semibold",
                   color: "#1A1A1AB2",
                   lineHeight: RFValue(30),
                 }}>
                 Address
               </Text>
               <TouchableOpacity
-                onPress={() => changeModalVisibility(true)}
+                onPress={toggleAddressPicker}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
                   gap: 4,
                   borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: "#E4E4E7",
+                  borderWidth: RFValue(1),
+                  borderColor: "#F0F4FF",
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
                   paddingVertical: RFValue(12),
                   paddingHorizontal: RFValue(10),
-                  backgroundColor: "#Fdfdfd",
+                  backgroundColor: "#fff",
                 }}>
                 <Text
                   style={{
                     fontSize: RFValue(13),
-                    fontFamily: "plusjakarta-regular",
+                    fontFamily: "urbanist-medium",
                   }}>
                   {chooseData}
                 </Text>
               </TouchableOpacity>
-              <Modal
-                transparent={true}
-                animationType="fade"
-                visible={isModdalVisible}
-                onRequestClose={() => changeModalVisibility(false)}>
-                <AddressModalPicker
-                  changeModalVisibility={changeModalVisibility}
+              {showAddressPicker && (
+                <AddressPicker
+                  changeVisibility={toggleAddressPicker}
                   setData={setData}
                 />
-              </Modal>
+              )}
             </View>
             <View
               style={{
-                marginTop: RFValue(10),
+                marginTop: RFValue(20),
               }}>
               <Text
                 style={{
-                  fontSize: RFValue(16),
-                  fontFamily: "outfit-bold",
+                  fontSize: RFValue(14),
+                  fontFamily: "outfit-semibold",
                   color: "#1A1A1AB2",
                   lineHeight: RFValue(30),
                 }}>
                 Language
               </Text>
               <TouchableOpacity
-                onPress={() => changeModalLangVisibility(true)}
+                onPress={toggleLanguagePicker}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
                   gap: 4,
                   borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: "#E4E4E7",
+                  borderWidth: RFValue(1),
+                  borderColor: "#F0F4FF",
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowRadius: 20,
+                  elevation: 4,
+                  shadowColor: "#d1d5db",
                   paddingVertical: RFValue(12),
                   paddingHorizontal: RFValue(10),
-                  backgroundColor: "#Fdfdfd",
+                  backgroundColor: "#fff",
                 }}>
                 <Text
                   style={{
                     fontSize: RFValue(13),
-                    fontFamily: "plusjakarta-regular",
+                    fontFamily: "urbanist-medium",
                   }}>
                   {chooseLanguage}
                 </Text>
               </TouchableOpacity>
-              <Modal
-                transparent={true}
-                animationType="fade"
-                visible={isModdalVisible}
-                onRequestClose={() => changeModalLangVisibility(false)}>
-                <LanguageModalPicker
+              {showLanguagePicker && (
+                <LanguagePicker
                   changeModalLangVisibility={changeModalLangVisibility}
                   setData={setLanguageData}
                 />
-              </Modal>
+              )}
             </View>
           </View>
-          <TouchableOpacity
-            onPress={() => router.push("/edit-profile")}
+          <View
             style={{
-              backgroundColor: "#06782F",
-              padding: Platform.OS === "ios" ? 18 : 17,
-              borderRadius: 10,
-              marginTop: RFValue(15),
+              paddingBottom: RFValue(15),
+              marginTop: RFValue(30),
             }}>
-            <Text
+            <TouchableOpacity
+              onPress={() => router.push("/client-profile")}
               style={{
-                fontSize: RFValue(16),
-                fontFamily: "outfit-regular",
-                color: "#fff",
-                textAlign: "center",
+                backgroundColor: colors.primary,
+                paddingHorizontal: RFValue(14),
+                paddingVertical: RFValue(12),
+                borderRadius: 10,
+                borderBottomRightRadius: 0,
+                marginTop: RFValue(10),
               }}>
-              Update profile
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: RFValue(14),
+                  color: "#fff",
+                  fontFamily: "outfit-semibold",
+                  textAlign: "center",
+                }}>
+                Update profile
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </Animated.View>
     </>
@@ -323,10 +344,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     position: "relative",
   },
+  eyeIcon: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    zIndex: 1,
+  },
   inputbox: {
+    width: RFValue(230),
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
     fontSize: RFValue(14),
-    paddingVertical: RFValue(5),
+    paddingVertical: Platform.OS === "android" ? RFValue(3) : RFValue(8),
+    paddingLeft: RFValue(32),
+    paddingRight: RFValue(15),
   },
 });

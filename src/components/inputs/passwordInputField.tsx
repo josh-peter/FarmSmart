@@ -55,7 +55,7 @@ const PasswordInputField = ({
           borderWidth: 1,
           padding: RFValue(8),
           marginTop: RFValue(10),
-          borderColor: "#f3f4f6",
+          borderColor: "#F0F4FF",
           paddingHorizontal: RFValue(10),
           paddingVertical: RFValue(10),
           backgroundColor: "#fff",
