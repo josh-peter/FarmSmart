@@ -23,7 +23,6 @@ interface PropertyListProps {
 }
 
 const PropertyList: React.FC<PropertyListProps> = ({ selectedType }) => {
-     const [activeIndex, setActiveIndex] = useState<number | null>(null);
      const [isHeartClicked, setIsHeartClicked] = useState(false);
      const [wishlist, setWishlist] = useState<any>([]);
 

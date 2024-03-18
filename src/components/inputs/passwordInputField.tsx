@@ -80,7 +80,7 @@ const PasswordInputField = ({
           <Ionicons
             name={passwordVisible ? "eye-outline" : "eye-off-outline"}
             size={28}
-            color={colors.dark}
+            color={colors.icon}
           />
         </TouchableOpacity>
       </View>
@@ -104,5 +104,6 @@ const styles = StyleSheet.create({
     top: 15,
     right: 19,
     zIndex: 1,
+    color:colors.icon
   },
 });

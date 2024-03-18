@@ -23,7 +23,7 @@ import InputField from "../inputs/inputField";
 import PasswordInputField from "../inputs/passwordInputField";
 import { Image } from "expo-image";
 import colors from "../../constants/Colors";
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 
 export default function LoginComp() {
@@ -247,7 +247,10 @@ export default function LoginComp() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: RFValue(20),
+    flex: 1,
+    width: width,
+    height: height,
+    paddingHorizontal: 20,
     backgroundColor:colors.background
   },
   logo: {
