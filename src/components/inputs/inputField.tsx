@@ -1,14 +1,14 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize';
+import {  } from 'react-native-responsive-fontsize';
 import ErrorMsg from '../Auth/errors/errorMsg';
 import colors from '../../constants/Colors';
 
 interface InputProps {
     label: string;
-    value: any; //value is optional because it can be a read only input
+    value: any; 
     onChangeText: (text: string) => void;
-    errorMessage: any; //the message to show if there is an error in this field`
+    errorMessage: any; 
     onBlur: any;
     placeholder: string;
     returnKeyType: any;
@@ -20,13 +20,13 @@ const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, on
     return (
       <View
         style={{
-          marginTop: RFValue(10),
+          marginTop: 12,
         }}>
         <Text
           style={{
             fontFamily: "outfit-bold",
-            fontSize: RFValue(14),
-            marginTop: RFValue(15),
+            fontSize: 16,
+            marginTop:15,
             color: colors.dark,
           }}>
           {label}
@@ -35,17 +35,17 @@ const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, on
           style={{
             borderRadius: 10,
             borderWidth: 1,
-            padding: RFValue(8),
-            marginTop: RFValue(10),
-            borderColor: "#F0F4FF",
-            paddingHorizontal: RFValue(10),
-            paddingVertical: RFValue(10),
-            backgroundColor: "#fff",
-            marginBottom: RFValue(10),
-            shadowOffset: { width: 2, height: 2 },
+            padding: 10,
+            marginTop: 11,
+            borderColor: colors.warmBtn,
+            paddingHorizontal:12,
+            paddingVertical: 12,
+            backgroundColor:colors.background,
+            marginBottom: 10,
+            shadowOffset: { width: 4, height: 4 },
             shadowRadius: 20,
-            elevation: 2,
-            shadowColor: "#d1d5db",
+            elevation: 1,
+            shadowColor: colors.border,
           }}>
           <TextInput
             placeholder={placeholder}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     inputbox: {
         backgroundColor: "transparent",
         fontFamily: "outfit-light",
-        fontSize: RFValue(16),
-        paddingVertical: RFValue(3),
+        fontSize: 15,
+        paddingVertical:3,
     },
 });

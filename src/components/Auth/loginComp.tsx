@@ -7,10 +7,9 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import React, { useEffect, useRef, useState, } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { RFValue } from "react-native-responsive-fontsize";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -25,43 +24,40 @@ import { Image } from "expo-image";
 import colors from "../../constants/Colors";
 const { width, height } = Dimensions.get("window");
 
-
 export default function LoginComp() {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-
   const handleUserLogin = (values: any, setSubmitting: any) => {
     router.push("/home/");
-    setSubmitting(false)
+    setSubmitting(false);
   };
 
-    const slideIn = useSharedValue(0);
-    const fadeIn = useSharedValue(0);
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
 
-    useEffect(() => {
-      slideIn.value = withTiming(1, {
-        duration: 500,
-        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-      });
-
-      fadeIn.value = withTiming(1, {
-        duration: 1000,
-        easing: Easing.linear,
-      });
-    }, []);
-
-    const animatedStyle = useAnimatedStyle(() => {
-      const translateX = -0.3 * width * (1 - slideIn.value);
-
-      return {
-        opacity: fadeIn.value,
-        transform: [{ translateX }],
-      };
+  useEffect(() => {
+    slideIn.value = withTiming(1, {
+      duration: 500,
+      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
     });
-  
+
+    fadeIn.value = withTiming(1, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateX = -0.3 * width * (1 - slideIn.value);
+
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateX }],
+    };
+  });
 
   return (
     <>
@@ -153,7 +149,7 @@ export default function LoginComp() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginTop: RFValue(30),
+                  marginTop: 30,
                 }}
               >
                 <View style={styles.line} />
@@ -164,8 +160,8 @@ export default function LoginComp() {
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  marginTop: RFValue(20),
+                  gap: 30,
+                  marginTop: 20,
                 }}
               >
                 <TouchableOpacity
@@ -176,9 +172,9 @@ export default function LoginComp() {
                     gap: 2,
                     borderWidth: 1,
                     borderColor: colors.button,
-                    paddingVertical: RFValue(5),
-                    width: RFValue(140),
-                    borderRadius: RFValue(5),
+                    paddingVertical: 5,
+                    width: "45%",
+                    borderRadius: 5,
                   }}
                 >
                   <Image
@@ -188,7 +184,7 @@ export default function LoginComp() {
                   />
                   <Text
                     style={{
-                      fontSize: RFValue(13),
+                      fontSize: 13,
                       fontFamily: "urbanist-medium",
                     }}
                   >
@@ -203,9 +199,9 @@ export default function LoginComp() {
                     gap: 2,
                     borderWidth: 1,
                     borderColor: colors.button,
-                    paddingVertical: RFValue(5),
-                    width: RFValue(140),
-                    borderRadius: RFValue(5),
+                    paddingVertical: 5,
+                    width: "45%",
+                    borderRadius: 5,
                   }}
                 >
                   <Image
@@ -215,7 +211,7 @@ export default function LoginComp() {
                   />
                   <Text
                     style={{
-                      fontSize: RFValue(13),
+                      fontSize: 13,
                       fontFamily: "urbanist-medium",
                     }}
                   >
@@ -251,38 +247,38 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     paddingHorizontal: 20,
-    backgroundColor:colors.background
+    backgroundColor: colors.background,
   },
   logo: {
-    height: RFValue(40),
-    width: RFValue(150),
+    height: 40,
+    width: 150,
     alignSelf: "center",
-    marginTop: RFValue(30),
+    marginTop: 30,
   },
   title: {
     textAlign: "center",
-    fontSize: RFValue(17),
+    fontSize: 17,
     fontFamily: "outfit-bold",
     color: "#32264D",
-    marginTop: RFValue(10),
+    marginTop: 15,
   },
   subtitle: {
     textAlign: "center",
-    fontSize: RFValue(13),
+    fontSize: 13,
     fontWeight: "normal",
     fontFamily: "outfit-regular",
     color: "#8E8C84",
-    marginVertical: RFValue(7),
+    marginVertical: 7,
   },
   inputbox: {
     backgroundColor: "transparent",
     fontFamily: "outfit-light",
-    fontSize: RFValue(16),
-    paddingVertical: RFValue(5),
+    fontSize: 16,
+    paddingVertical: 5,
   },
   errorText: {
     fontFamily: "outfit-medium",
-    fontSize: RFValue(10),
+    fontSize: 10,
     color: "red",
   },
   eyeIcon: {
@@ -292,67 +288,67 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   passText: {
-    fontSize: RFValue(15),
+    fontSize: 15,
     fontWeight: "normal",
     fontFamily: "outfit-medium",
     color: colors.primary,
-    marginVertical: RFValue(13),
+    marginVertical: 13,
   },
   button: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.buttontext,
-    fontSize: RFValue(14),
+    fontSize: 14,
   },
   activeButton: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.background,
-    fontSize: RFValue(14),
+    fontSize: 14,
   },
   disableBtn: {
     backgroundColor: colors.button,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   activeBtn: {
     backgroundColor: colors.primary,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 16,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   line: {
-    height: RFValue(1.2),
-    width: Platform.OS === "ios" ? RFValue(110) : RFValue(104),
+    height: 1.2,
+    width: Platform.OS === "ios" ? 145 : 140,
     backgroundColor: colors.line,
   },
   signupText: {
-color: colors.onboardingText,
-    fontSize: RFValue(11),
+    color: colors.onboardingText,
+    fontSize: 11,
     fontWeight: "normal",
     fontFamily: "urbanist-regular",
-    marginHorizontal: RFValue(4),
+    marginHorizontal: 4,
   },
   appleLogo: {
-    height: RFValue(30),
-    width: RFValue(30),
+    height: 30,
+    width: 30,
   },
   googleLogo: {
-    height: RFValue(30),
-    width: RFValue(30),
+    height: 30,
+    width: 30,
   },
   smallText: {
-    marginTop: RFValue(15),
-    fontSize: RFValue(15),
+    marginTop: 15,
+    fontSize: 15,
     fontFamily: "urbanist-medium",
     textAlign: "center",
-    color:colors.header
+    color: colors.header,
   },
 });

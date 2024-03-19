@@ -172,9 +172,9 @@ export default Onboarding;
 
 const styles = StyleSheet.create({
   indicator: {
-    height: RFValue(2.5),
-    width: RFValue(70),
-    backgroundColor: "#D9D9D9",
+    height: 2.5,
+    width: 85,
+backgroundColor: colors.primary,
     marginHorizontal: RFValue(3),
     marginTop: RFValue(20),
   },

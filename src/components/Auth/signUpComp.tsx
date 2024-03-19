@@ -12,7 +12,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { RFValue } from "react-native-responsive-fontsize";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -162,9 +161,9 @@ export default function SignUpComp() {
                 <Text
                   style={{
                     fontFamily: "outfit-bold",
-                    fontSize: RFValue(14),
-                    marginTop: RFValue(15),
-                    color: "#5f5f5f",
+                    fontSize:16,
+                    marginTop: 17,
+                    color: colors.dark,
                   }}
                 >
                   Phone number
@@ -173,9 +172,9 @@ export default function SignUpComp() {
                   style={{
                     borderRadius: 10,
                     borderWidth: 1,
-                    borderColor: "#E4E4E7",
-                    padding: RFValue(8),
-                    marginTop: RFValue(10),
+                    borderColor: colors.border2,
+                    padding: 10,
+                    marginTop: 12,
                   }}
                 >
                   <PhoneInput
@@ -255,7 +254,7 @@ export default function SignUpComp() {
                   flexDirection: "row",
                   alignItems: "center",
                   width: 350,
-                  marginLeft: RFValue(-18),
+                  marginLeft: -21,
                 }}
               >
                 <CheckBox
@@ -267,7 +266,7 @@ export default function SignUpComp() {
                   checkedColor={colors.primary}
                   size={30}
                   style={{
-                    borderRadius: RFValue(45),
+                    borderRadius: 50,
                   }}
                 />
                 <Text style={styles.TStext}>
@@ -323,7 +322,7 @@ export default function SignUpComp() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginTop: RFValue(30),
+                  marginTop:32,
                 }}
               >
                 <View style={styles.line} />
@@ -332,7 +331,7 @@ export default function SignUpComp() {
               </View>
               <View
                 style={{
-                  marginBottom: RFValue(100),
+                  marginBottom: 100,
                 }}
               >
                 <View
@@ -340,7 +339,7 @@ export default function SignUpComp() {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    marginTop: RFValue(20),
+                    marginTop: 22,
                   }}
                 >
                   <TouchableOpacity style={styles.appleLogoBtn}>
@@ -351,7 +350,7 @@ export default function SignUpComp() {
                     />
                     <Text
                       style={{
-                        fontSize: RFValue(13),
+                        fontSize: 15,
                         fontWeight: "500",
                         fontFamily: "plusjakarta-regular",
                       }}
@@ -367,7 +366,7 @@ export default function SignUpComp() {
                     />
                     <Text
                       style={{
-                        fontSize: RFValue(13),
+                        fontSize: 15,
                         fontWeight: "500",
                         fontFamily: "plusjakarta-regular",
                       }}
@@ -402,108 +401,76 @@ export default function SignUpComp() {
 const styles = StyleSheet.create({
   container: {
     width: width,
-    marginTop: RFValue(40),
-    marginBottom: RFValue(40),
-    paddingHorizontal: RFValue(20),
+    marginTop: 40,
+    marginBottom: 40,
+    paddingHorizontal: 22,
   },
   logo: {
-    height: RFValue(40),
-    width: RFValue(150),
+    height: 49,
+    width: 170,
     alignSelf: "center",
-    marginTop: RFValue(30),
+    marginTop: 30,
   },
   title: {
     textAlign: "center",
-    fontSize: RFValue(17),
+    fontSize: 18,
     fontFamily: "outfit-bold",
-    color: "#32264D",
-    marginTop: RFValue(10),
-  },
-  subtitle: {
-    textAlign: "center",
-    fontSize: RFValue(13),
-    fontWeight: "normal",
-    fontFamily: "outfit-regular",
-    color: "#8E8C84",
-    marginVertical: RFValue(7),
-  },
-  inputbox: {
-    backgroundColor: "transparent",
-    fontFamily: "outfit-light",
-    fontSize: RFValue(16),
-    paddingVertical: RFValue(5),
-  },
-  errorText: {
-    fontFamily: "outfit-medium",
-    fontSize: RFValue(10),
-    color: "red",
-  },
-  eyeIcon: {
-    position: "absolute",
-    top: 10,
-    right: 19,
-    zIndex: 1,
-  },
-  passText: {
-    fontSize: RFValue(15),
-    fontWeight: "normal",
-    fontFamily: "outfit-regular",
-    color: colors.primary,
-    marginVertical: RFValue(13),
+    color: colors.dark,
+    marginTop: 12,
   },
   button: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.buttontext,
-    fontSize: RFValue(14),
+    fontSize: 17,
   },
   activeButton: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.background,
-    fontSize: RFValue(14),
+    fontSize: 17,
   },
   disableBtn: {
     backgroundColor: colors.button,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 13,
+    paddingHorizontal: 17,
+    paddingVertical: 15,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   activeBtn: {
     backgroundColor: colors.primary,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 13,
+    paddingHorizontal: 17,
+    paddingVertical: 15,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   line: {
-    height: RFValue(1.2),
-    width: Platform.OS === "ios" ? RFValue(110) : RFValue(104),
-    backgroundColor: "#C0C0C0",
+    height: 1.2,
+    width: Platform.OS === "ios" ? 138 : 130,
+    backgroundColor: colors.line,
   },
   signupText: {
     color: "#C0C0C0",
-    fontSize: RFValue(11),
+    fontSize: 13,
     fontWeight: "normal",
     fontFamily: "outfit-regular",
-    marginHorizontal: RFValue(4),
+    marginHorizontal: 6,
   },
   appleLogo: {
-    height: RFValue(30),
-    width: RFValue(30),
+    height: 33,
+    width: 33,
   },
   googleLogo: {
-    height: RFValue(30),
-    width: RFValue(30),
+    height: 33,
+    width: 33,
   },
   smallText: {
-    marginTop: RFValue(15),
-    fontSize: RFValue(15),
+    marginTop: 17,
+    fontSize: 17,
     fontFamily: "urbanist-medium",
     textAlign: "center",
     color: colors.header,
@@ -514,10 +481,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 2,
     borderWidth: 1,
-    borderColor: "#f2f2f2",
-    paddingVertical: RFValue(5),
-    width: RFValue(140),
-    borderRadius: RFValue(5),
+    borderColor: colors.border2,
+    paddingVertical: 7,
+    width: "45%",
+    borderRadius: 5,
   },
   googleLogoBtn: {
     flexDirection: "row",
@@ -525,17 +492,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 2,
     borderWidth: 1,
-    borderColor: "#f2f2f2",
-    paddingVertical: RFValue(5),
-    width: RFValue(140),
-    borderRadius: RFValue(5),
+    borderColor: colors.border2,
+    paddingVertical: 7,
+    width: "45%",
+    borderRadius: 5,
   },
   textInput: {
     paddingVertical: 0,
-    color: "red",
-    backgroundColor: "#fff",
+    color: colors.danger,
+    backgroundColor: colors.background,
     borderLeft: 1,
-    borderLeftColor: "#000",
+    borderLeftColor: colors.border2,
   },
   phoneContainer: {
     width: "75%",
@@ -550,9 +517,9 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   TStext: {
-    fontSize: RFValue(13),
+    fontSize: 16,
     fontFamily: "urbanist-regular",
-    marginLeft: RFValue(-10),
+    marginLeft: -13,
     color: colors.onboardingText,
   },
 });
