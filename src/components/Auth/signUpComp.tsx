@@ -173,7 +173,7 @@ export default function SignUpComp() {
                     borderRadius: 10,
                     borderWidth: 1,
                     borderColor: colors.border2,
-                    padding: 10,
+                    padding: Platform.OS==="ios" ? 7 :15,
                     marginTop: 12,
                   }}
                 >
