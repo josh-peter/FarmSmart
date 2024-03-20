@@ -123,72 +123,100 @@ const OtpVerification = () => {
                 </Text>
               </Text>
 
-                <View style={styles.otpHeaderContainer}>
-                  <View style={styles.otpInputContainer}>
-                    <OTPTextInput
-                      textInputStyle={{
-                        ...styles.otpInput,
-                      }}
-                      tintColor={colors.primary}
-                      ref={(e) => (values.code = e)}
-                      autoFocus={true}
-                      handleTextChange={handleChange("code")}
-                    />
-                  </View>
+              <View style={styles.otpHeaderContainer}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginHorizontal: 50,
+                  }}
+                >
+                  {/* <OTPTextInput
+                    textInputStyle={{
+                      ...styles.otpInput,
+                    }}
+                    tintColor={colors.primary}
+                    ref={(e) => (values.code = e)}
+                    autoFocus={true}
+                    handleTextChange={handleChange("code")}
+                  /> */}
+                  <OtpTextInput
+                    otp={otp}
+                    setOtp={setOtp}
+                    digits={4}
+                    style={{
+                      borderRadius: 10,
+                      borderTopWidth: 2,
+                      borderRightWidth: 2,
+                      borderLeftWidth: 2,
+                      height: 55,
+                      width: 55,
+                      borderColor: colors.border2,
+                    }}
+                    fontStyle={{ fontSize: 22, fontFamily: "outfit-medium", marginTop: 5 }}
+                    focusedStyle={{
+                      borderColor: colors.border2,
+                      borderWidth: 2,
+                    }}
+                    ref={(e: any) => (values.code = e)}
+                    autoFocus={true}
+                    handleTextChange={handleChange("code")}
+                  />
                 </View>
-                {errors.code && (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 2,
-                      paddingVertical: 7,
-                    }}
+              </View>
+              {errors.code && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 2,
+                    paddingVertical: RFValue(7),
+                  }}
+                >
+                  <ErrorMsg message={`${errors.code}`} />
+                </View>
+              )}
+              <View style={{}}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.resendText,
+                      {
+                        color: colors.onboardingText,
+                        textAlign: "center",
+                      },
+                    ]}
                   >
-                    <ErrorMsg message={`${errors.code}`} />
-                  </View>
-                )}
-                <View style={{}}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
+                    {!errors.code && "Didn’t receive code? "}
+                  </Text>
+                  <TouchableOpacity onPress={handleRequestAgain}>
                     <Text
                       style={[
                         styles.resendText,
                         {
-                          color: colors.onboardingText,
+                          color: colors.primary,
                           textAlign: "center",
                         },
                       ]}
                     >
-                      {!errors.code && "Didn’t receive code? "}
-                    </Text>
-                    <TouchableOpacity onPress={handleRequestAgain}>
-                      <Text
-                        style={[
-                          styles.resendText,
-                          {
-                            color: colors.primary,
-                            textAlign: "center",
-                          },
-                        ]}
-                      >
-                        <Text style={{ fontFamily: "urbanist-bold" }}>
-                          {!errors.code ? "" : "Resend"}
-                        </Text>
-                        <Text style={styles.resendTextbold}>
-                          {!errors.code ? "Resend code" : ""}
-                        </Text>
+                      <Text style={{ fontFamily: "urbanist-bold" }}>
+                        {!errors.code ? "" : "Resend"}
                       </Text>
-                    </TouchableOpacity>
-                  </View>
+                      <Text style={styles.resendTextbold}>
+                        {!errors.code ? "Resend code" : ""}
+                      </Text>
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-              
+              </View>
             </Animated.View>
             <View
               style={{
@@ -238,7 +266,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: "center",
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: "normal",
     fontFamily: "urbanist-medium",
     marginVertical: 7,
@@ -328,7 +356,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.button,
     marginTop: 10,
     paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingVertical: 16,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
@@ -337,7 +365,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     marginTop: 10,
     paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingVertical: 16,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",

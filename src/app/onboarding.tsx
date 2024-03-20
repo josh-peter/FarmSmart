@@ -72,16 +72,16 @@ const Onboarding = () => {
 
 const indicatorColor = (index: number) => {
   if (index < 2 && screenIndex < 2) {
-    return colors.primary; // Set colors.primary for the first two screens when active
+    return colors.primary; 
   } else if (
     index >= OnboardingData.length - 2 &&
     screenIndex >= OnboardingData.length - 2
   ) {
-    return colors.green; // Set colors.green for the last two screens when active
+    return colors.green; 
   } else if (index === screenIndex) {
-    return colors.primary; // Keep the current active color for other screens
+    return colors.primary;
   } else {
-    return colors.indicator; // For inactive screens, use colors.indicator
+    return colors.indicator; 
   }
 };
 
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   indicatorContainer: {
     flexDirection: "row",
-    paddingHorizontal: RFValue(15),
+    marginHorizontal: RFValue(15),
   },
   pageContainer: {
     flex: 1,
@@ -250,7 +250,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     padding: Platform.OS === "ios" ? 13 : 12,
     borderRadius: 10,
-    marginTop: RFValue(10),
   },
   startText: {
     fontSize: RFValue(14),
