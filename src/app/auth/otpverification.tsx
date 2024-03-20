@@ -141,7 +141,7 @@ const OtpVerification = () => {
                       alignItems: "center",
                       justifyContent: "center",
                       gap: 2,
-                      paddingVertical: RFValue(7),
+                      paddingVertical: 7,
                     }}
                   >
                     <ErrorMsg message={`${errors.code}`} />
@@ -190,8 +190,8 @@ const OtpVerification = () => {
             </Animated.View>
             <View
               style={{
-                paddingHorizontal: RFValue(20),
-                paddingVertical: RFValue(28),
+                paddingHorizontal: 20,
+                paddingVertical: 28,
               }}
             >
               {isSubmitting || errors.code ? (
@@ -216,41 +216,42 @@ const OtpVerification = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    paddingHorizontal: RFValue(20),
-    paddingVertical: RFValue(7),
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 7,
   },
   logo: {
-    height: RFValue(40),
-    width: RFValue(140),
+    height: 40,
+    width: 140,
     alignSelf: "center",
-    marginTop: RFValue(30),
+    marginTop: 30,
   },
   title: {
     textAlign: "center",
-    fontSize: RFValue(16),
-    fontFamily: "outfit-bold",
-    color: "#32264D",
-    marginTop: 9,
+    fontSize: 22,
+    fontFamily: "outfit-semibold",
+    color: "#000000",
+    marginTop: 5,
+    marginBottom: 10,
   },
   subtitle: {
     textAlign: "center",
-    fontSize: RFValue(13),
+    fontSize: 13,
     fontWeight: "normal",
     fontFamily: "urbanist-medium",
-    marginVertical: RFValue(7),
+    marginVertical: 7,
   },
   headerText: {
-    fontSize: RFValue(3.5),
+    fontSize: 3.5,
     fontFamily: "satoshi-bold",
   },
   smallText: {
-    fontSize: RFValue(2),
+    fontSize: 2,
     fontFamily: "plusjakarta-regular",
-    marginTop: Platform.OS === "android" ? RFValue(1) : RFValue(2),
+    marginTop: Platform.OS === "android" ? 1 : 2,
   },
   phoneText: {
-    fontSize: RFValue(29),
+    fontSize: 29,
     fontFamily: "satoshi-bold",
   },
   otpInputContainer: {
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   otpHeaderContainer: {
-    marginTop: RFValue(10),
+    marginTop: 10,
   },
   inputWrapper: {
     flexDirection: "row",
@@ -282,11 +283,11 @@ const styles = StyleSheet.create({
     color: "#D0D5DD",
   },
   verifyButton: {
-    marginTop: RFValue(2),
+    marginTop: 2,
     backgroundColor: "#4a9cda",
-    paddingVertical: RFValue(2),
+    paddingVertical: 2,
     borderRadius: 30,
-    marginBottom: Platform.OS === "ios" ? RFValue(1) : RFValue(0.5),
+    marginBottom: Platform.OS === "ios" ? 1 : 0.5,
   },
   verifyButtonText: {
     fontSize: 18,
@@ -297,43 +298,43 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   resendText: {
-    fontSize: RFValue(14),
+    fontSize: 14,
     fontFamily: "urbanist-medium",
     textAlign: "center",
-    marginTop: RFValue(10),
+    marginTop: 10,
   },
   resendTextbold: {
-    fontSize: RFValue(14),
+    fontSize: 14,
     fontFamily: "urbanist-bold",
     textAlign: "center",
-    marginTop: RFValue(10),
+    marginTop: 10,
   },
   button: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.buttontext,
-    fontSize: RFValue(14),
+    fontSize: 14,
   },
   activeButton: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.background,
-    fontSize: RFValue(14),
+    fontSize: 14,
   },
   disableBtn: {
     backgroundColor: colors.button,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   activeBtn: {
     backgroundColor: colors.primary,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",

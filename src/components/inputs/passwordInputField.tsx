@@ -42,9 +42,9 @@ const PasswordInputField = ({
     <View>
       <Text
         style={{
-          fontFamily: "outfit-bold",
-          fontSize: RFValue(14),
-          marginTop: RFValue(15),
+          fontFamily: "outfit-medium",
+          fontSize: 16,
+          marginTop: 15,
           color: colors.dark,
         }}>
         {label}
@@ -53,13 +53,13 @@ const PasswordInputField = ({
         style={{
           borderRadius: 10,
           borderWidth: 1,
-          padding: RFValue(8),
-          marginTop: RFValue(10),
+          padding: 8,
+          marginTop: 8,
           borderColor: "#F0F4FF",
-          paddingHorizontal: RFValue(10),
-          paddingVertical: RFValue(10),
+          paddingHorizontal: 10,
+          paddingVertical: 10,
           backgroundColor: "#fff",
-          marginBottom: RFValue(10),
+          marginBottom: 5,
           shadowOffset: { width: 2, height: 2 },
           shadowRadius: 20,
           elevation: 2,
@@ -95,7 +95,7 @@ export default PasswordInputField
 const styles = StyleSheet.create({
   inputbox: {
     backgroundColor: "transparent",
-    fontFamily: "outfit-light",
+    fontFamily: "urbanist-medium",
     fontSize: RFValue(16),
     paddingVertical: RFValue(3),
   },

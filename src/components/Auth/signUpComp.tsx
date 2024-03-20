@@ -81,8 +81,7 @@ export default function SignUpComp() {
       <StatusBar style="dark" />
       <Animated.ScrollView
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.container}
-      >
+        contentContainerStyle={styles.container}>
         <Formik
           initialValues={{
             fullName: "",
@@ -116,8 +115,7 @@ export default function SignUpComp() {
           })}
           onSubmit={async (values: any, { setSubmitting }) =>
             handleUserLogin(values, setSubmitting)
-          }
-        >
+          }>
           {({
             values,
             handleChange,
@@ -126,9 +124,7 @@ export default function SignUpComp() {
             isSubmitting,
             errors,
           }) => (
-            <Animated.View
-              style={animatedStyle}
-            >
+            <Animated.View style={animatedStyle}>
               <Image
                 contentFit="contain"
                 source={require("../../assets/images/icon2.png")}
@@ -160,30 +156,34 @@ export default function SignUpComp() {
                 />
                 <Text
                   style={{
-                    fontFamily: "outfit-bold",
-                    fontSize:16,
-                    marginTop: 17,
+                    fontFamily: "outfit-medium",
+                    fontSize: 16,
+                    marginTop: 15,
                     color: colors.dark,
-                  }}
-                >
+                  }}>
                   Phone number
                 </Text>
                 <View
                   style={{
+                    paddingVertical: Platform.OS === "ios" ? 7 : 13,
+                    marginTop: 8,
                     borderRadius: 10,
                     borderWidth: 1,
-                    borderColor: colors.border2,
-                    padding: Platform.OS==="ios" ? 7 :15,
-                    marginTop: 12,
-                  }}
-                >
+                    borderColor: "#F0F4FF",
+                    backgroundColor: "#fff",
+                    marginBottom: 2,
+                    shadowOffset: { width: 2, height: 2 },
+                    shadowRadius: 20,
+                    elevation: 2,
+                    shadowColor: "#d1d5db",
+                  }}>
                   <PhoneInput
                     placeholder="643-334-0009"
                     ref={phoneInput}
                     defaultValue={value}
                     onChangeText={handleChange("phone")}
                     defaultCode="NG"
-                    layout="first"
+                    layout="second"
                     onChangeFormattedText={(text) => {
                       setFormattedValue(text);
                     }}
@@ -253,10 +253,10 @@ export default function SignUpComp() {
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  width: 350,
+                  // width: 350,
                   marginLeft: -21,
-                }}
-              >
+                  paddingRight: 20,
+                }}>
                 <CheckBox
                   checked={checked}
                   onPress={toggleCheckbox}
@@ -276,8 +276,7 @@ export default function SignUpComp() {
                       style={{
                         color: colors.primary,
                         fontFamily: "urbanist-bold",
-                      }}
-                    >
+                      }}>
                       Term of Service
                     </Text>
                   </Link>{" "}
@@ -287,8 +286,7 @@ export default function SignUpComp() {
                       style={{
                         color: colors.primary,
                         fontFamily: "urbanist-bold",
-                      }}
-                    >
+                      }}>
                       Privacy Policy
                     </Text>
                   </Link>
@@ -306,14 +304,13 @@ export default function SignUpComp() {
                 errors.confirmPassword ||
                 errors.checkBox ? (
                   <TouchableOpacity style={styles.disableBtn}>
-                    <Text style={styles.button}>Sign in</Text>
+                    <Text style={styles.button}>Sign up</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
                     onPress={() => handleSubmit()}
-                    style={styles.activeBtn}
-                  >
-                    <Text style={styles.activeButton}>Sign in</Text>
+                    style={styles.activeBtn}>
+                    <Text style={styles.activeButton}>Sign up</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -322,26 +319,23 @@ export default function SignUpComp() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginTop:32,
-                }}
-              >
+                  marginTop: 32,
+                }}>
                 <View style={styles.line} />
-                <Text style={styles.signupText}>Or Sign In With</Text>
+                <Text style={styles.signupText}>Or Sign Up With</Text>
                 <View style={styles.line} />
               </View>
               <View
                 style={{
                   marginBottom: 100,
-                }}
-              >
+                }}>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
                     marginTop: 22,
-                  }}
-                >
+                  }}>
                   <TouchableOpacity style={styles.appleLogoBtn}>
                     <Image
                       contentFit="contain"
@@ -352,9 +346,8 @@ export default function SignUpComp() {
                       style={{
                         fontSize: 15,
                         fontWeight: "500",
-                        fontFamily: "plusjakarta-regular",
-                      }}
-                    >
+                        fontFamily: "urbanist-medium",
+                      }}>
                       Apple
                     </Text>
                   </TouchableOpacity>
@@ -368,22 +361,20 @@ export default function SignUpComp() {
                       style={{
                         fontSize: 15,
                         fontWeight: "500",
-                        fontFamily: "plusjakarta-regular",
-                      }}
-                    >
+                        fontFamily: "urbanist-medium",
+                      }}>
                       Google
                     </Text>
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.smallText}>
-                  Don't have an account?
+                  Already have an account?
                   <Link href={"/auth/login"} asChild>
                     <Text
                       style={{
                         color: colors.primary,
                         fontFamily: "urbanist-bold",
-                      }}
-                    >
+                      }}>
                       {" "}
                       Sign In
                     </Text>
@@ -401,9 +392,9 @@ export default function SignUpComp() {
 const styles = StyleSheet.create({
   container: {
     width: width,
-    marginTop: 40,
+    marginTop: 10,
     marginBottom: 40,
-    paddingHorizontal: 22,
+    paddingHorizontal: 20,
   },
   logo: {
     height: 49,
@@ -413,10 +404,11 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: 18,
-    fontFamily: "outfit-bold",
-    color: colors.dark,
-    marginTop: 12,
+    fontSize: 22,
+    fontFamily: "outfit-semibold",
+    color: "#000000",
+    marginTop: 5,
+    marginBottom: 10,
   },
   button: {
     fontFamily: "outfit-medium",
@@ -450,15 +442,15 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 1.2,
-    width: Platform.OS === "ios" ? 138 : 130,
+    width: Platform.OS === "ios" ? 138 : 120,
     backgroundColor: colors.line,
   },
   signupText: {
-    color: "#C0C0C0",
-    fontSize: 13,
+    color: colors.onboardingText,
+    fontSize: 11,
     fontWeight: "normal",
-    fontFamily: "outfit-regular",
-    marginHorizontal: 6,
+    fontFamily: "urbanist-regular",
+    marginHorizontal: 4,
   },
   appleLogo: {
     height: 33,
@@ -469,8 +461,8 @@ const styles = StyleSheet.create({
     width: 33,
   },
   smallText: {
-    marginTop: 17,
-    fontSize: 17,
+    marginTop: 15,
+    fontSize: 15,
     fontFamily: "urbanist-medium",
     textAlign: "center",
     color: colors.header,
@@ -483,7 +475,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border2,
     paddingVertical: 7,
-    width: "45%",
+    width: Platform.OS === "ios" ? "40%" : "45%",
     borderRadius: 5,
   },
   googleLogoBtn: {
@@ -494,7 +486,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border2,
     paddingVertical: 7,
-    width: "45%",
+    width: Platform.OS === "ios" ? "40%" : "45%",
     borderRadius: 5,
   },
   textInput: {
@@ -517,9 +509,9 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   TStext: {
-    fontSize: 16,
-    fontFamily: "urbanist-regular",
+    fontSize: 15,
+    fontFamily: "urbanist-medium",
     marginLeft: -13,
-    color: colors.onboardingText,
+    color: "#414141",
   },
 });

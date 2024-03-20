@@ -16,7 +16,7 @@ const ErrorMsg = ({message}: IErrorProps) => {
         paddingVertical: 2,
       }}
     >
-      <MaterialIcons name="info-outline" size={26} color="red" />
+      <MaterialIcons name="error-outline" size={26} color="red" />
       <Text
         style={{
           textAlign: "left",
