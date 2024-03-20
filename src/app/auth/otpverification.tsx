@@ -23,10 +23,13 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 const { width, height } = Dimensions.get("window");
+import OtpTextInput from "react-native-text-input-otp";
+
 
 const OtpVerification = () => {
   const [resendText, setResendText] = useState("Resend code in 60s");
   const [timer, setTimer] = useState(60);
+  const [otp, setOtp] = React.useState("");
 
   const handleVerifyOTPCode = (values: any, setSubmitting: any) => {
     router.push("/auth/newpassword");
@@ -103,90 +106,117 @@ const OtpVerification = () => {
         {({ values, handleChange, handleSubmit, isSubmitting, errors }) => (
           <>
             <Animated.View style={[styles.container, animatedStyle]}>
-              
-                <Image
-                  contentFit="contain"
-                  source={require("../../assets/images/icon2.png")}
-                  style={styles.logo}
-                />
-                <Text style={styles.title}>Verify Code</Text>
-                <Text style={styles.subtitle}>
-                  Please enter the code we just sent to your email{" "}
-                  <Text
-                    style={{
-                      color: colors.secondary,
-                    }}
-                  >
-                    danielsnr.design@gmail.com
-                  </Text>
+              <Image
+                contentFit="contain"
+                source={require("../../assets/images/icon2.png")}
+                style={styles.logo}
+              />
+              <Text style={styles.title}>Verify Code</Text>
+              <Text style={styles.subtitle}>
+                Please enter the code we just sent to your email{" "}
+                <Text
+                  style={{
+                    color: colors.secondary,
+                  }}
+                >
+                  danielsnr.design@gmail.com
                 </Text>
+              </Text>
 
-                <View style={styles.otpHeaderContainer}>
-                  <View style={styles.otpInputContainer}>
-                    <OTPTextInput
-                      textInputStyle={{
-                        ...styles.otpInput,
-                      }}
-                      tintColor={colors.primary}
-                      ref={(e) => (values.code = e)}
-                      autoFocus={true}
-                      handleTextChange={handleChange("code")}
-                    />
-                  </View>
+              <View style={styles.otpHeaderContainer}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginHorizontal: 50,
+                  }}
+                >
+                  {/* <OTPTextInput
+                    textInputStyle={{
+                      ...styles.otpInput,
+                    }}
+                    tintColor={colors.primary}
+                    ref={(e) => (values.code = e)}
+                    autoFocus={true}
+                    handleTextChange={handleChange("code")}
+                  /> */}
+                  <OtpTextInput
+                    otp={otp}
+                    setOtp={setOtp}
+                    digits={4}
+                    style={{
+                      borderRadius: 10,
+                      borderTopWidth: 2,
+                      borderRightWidth: 2,
+                      borderLeftWidth: 2,
+                      height: 55,
+                      width: 55,
+                      borderColor: colors.border2,
+                    }}
+                    fontStyle={{ fontSize: 25, fontFamily: "outfit-medium" }}
+                    focusedStyle={{
+                      borderColor: colors.border2,
+                      borderWidth: 2,
+                    }}
+                    ref={(e: any) => (values.code = e)}
+                    autoFocus={true}
+                    handleTextChange={handleChange("code")}
+                  />
                 </View>
-                {errors.code && (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 2,
-                      paddingVertical: RFValue(7),
-                    }}
+              </View>
+              {errors.code && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 2,
+                    paddingVertical: RFValue(7),
+                  }}
+                >
+                  <ErrorMsg message={`${errors.code}`} />
+                </View>
+              )}
+              <View style={{}}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.resendText,
+                      {
+                        color: colors.onboardingText,
+                        textAlign: "center",
+                      },
+                    ]}
                   >
-                    <ErrorMsg message={`${errors.code}`} />
-                  </View>
-                )}
-                <View style={{}}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
+                    {!errors.code && "Didn’t receive code? "}
+                  </Text>
+                  <TouchableOpacity onPress={handleRequestAgain}>
                     <Text
                       style={[
                         styles.resendText,
                         {
-                          color: colors.onboardingText,
+                          color: colors.primary,
                           textAlign: "center",
                         },
                       ]}
                     >
-                      {!errors.code && "Didn’t receive code? "}
-                    </Text>
-                    <TouchableOpacity onPress={handleRequestAgain}>
-                      <Text
-                        style={[
-                          styles.resendText,
-                          {
-                            color: colors.primary,
-                            textAlign: "center",
-                          },
-                        ]}
-                      >
-                        <Text style={{ fontFamily: "urbanist-bold" }}>
-                          {!errors.code ? "" : "Resend"}
-                        </Text>
-                        <Text style={styles.resendTextbold}>
-                          {!errors.code ? "Resend code" : ""}
-                        </Text>
+                      <Text style={{ fontFamily: "urbanist-bold" }}>
+                        {!errors.code ? "" : "Resend"}
                       </Text>
-                    </TouchableOpacity>
-                  </View>
+                      <Text style={styles.resendTextbold}>
+                        {!errors.code ? "Resend code" : ""}
+                      </Text>
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-              
+              </View>
             </Animated.View>
             <View
               style={{
@@ -257,6 +287,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal:20
   },
   otpHeaderContainer: {
     marginTop: RFValue(10),

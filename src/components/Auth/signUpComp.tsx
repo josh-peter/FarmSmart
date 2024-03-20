@@ -46,29 +46,29 @@ export default function SignUpComp() {
     router.push("/auth/otpverification");
     setSubmitting(false);
   };
-    const slideIn = useSharedValue(0);
-    const fadeIn = useSharedValue(0);
+  const slideIn = useSharedValue(0);
+  const fadeIn = useSharedValue(0);
 
-    useEffect(() => {
-      slideIn.value = withTiming(1, {
-        duration: 500,
-        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-      });
-
-      fadeIn.value = withTiming(1, {
-        duration: 1000,
-        easing: Easing.linear,
-      });
-    }, []);
-
-    const animatedStyle = useAnimatedStyle(() => {
-      const translateX = -0.3 * width * (1 - slideIn.value);
-
-      return {
-        opacity: fadeIn.value,
-        transform: [{ translateX }],
-      };
+  useEffect(() => {
+    slideIn.value = withTiming(1, {
+      duration: 500,
+      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
     });
+
+    fadeIn.value = withTiming(1, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const translateX = -0.3 * width * (1 - slideIn.value);
+
+    return {
+      opacity: fadeIn.value,
+      transform: [{ translateX }],
+    };
+  });
 
   return (
     <>
@@ -126,9 +126,7 @@ export default function SignUpComp() {
             isSubmitting,
             errors,
           }) => (
-            <Animated.View
-              style={animatedStyle}
-            >
+            <Animated.View style={animatedStyle}>
               <Image
                 contentFit="contain"
                 source={require("../../assets/images/icon2.png")}
@@ -161,7 +159,7 @@ export default function SignUpComp() {
                 <Text
                   style={{
                     fontFamily: "outfit-bold",
-                    fontSize:16,
+                    fontSize: 16,
                     marginTop: 17,
                     color: colors.dark,
                   }}
@@ -173,7 +171,7 @@ export default function SignUpComp() {
                     borderRadius: 10,
                     borderWidth: 1,
                     borderColor: colors.border2,
-                    padding: Platform.OS==="ios" ? 7 :15,
+                    padding: Platform.OS === "ios" ? 7 : 15,
                     marginTop: 12,
                   }}
                 >
@@ -322,7 +320,7 @@ export default function SignUpComp() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginTop:32,
+                  marginTop: 32,
                 }}
               >
                 <View style={styles.line} />

@@ -70,18 +70,33 @@ const Onboarding = () => {
     }
   };
 
+const indicatorColor = (index: number) => {
+  if (index < 2 && screenIndex < 2) {
+    return colors.primary; // Set colors.primary for the first two screens when active
+  } else if (
+    index >= OnboardingData.length - 2 &&
+    screenIndex >= OnboardingData.length - 2
+  ) {
+    return colors.green; // Set colors.green for the last two screens when active
+  } else if (index === screenIndex) {
+    return colors.primary; // Keep the current active color for other screens
+  } else {
+    return colors.indicator; // For inactive screens, use colors.indicator
+  }
+};
+
   return (
     <SafeAreaView>
       <Stack.Screen options={{ headerShown: false }} />
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <View style={styles.indicatorContainer}>
-        {OnboardingData?.map((_, index) => (
+        {OnboardingData.map((_, index) => (
           <View
             key={index}
             style={[
               styles.indicator,
               {
-                backgroundColor: index === screenIndex ? colors.primary : colors.indicator,
+                backgroundColor: indicatorColor(index),
               },
             ]}
           />
@@ -132,7 +147,7 @@ const Onboarding = () => {
               style={{
                 marginTop: RFValue(-90),
                 paddingHorizontal: RFValue(15),
-                height:RFValue(120)
+                height: RFValue(120),
               }}
             >
               <Text style={styles.title}>{item.title}</Text>
@@ -174,7 +189,7 @@ const styles = StyleSheet.create({
   indicator: {
     height: 2.5,
     width: 85,
-backgroundColor: colors.primary,
+    backgroundColor: colors.primary,
     marginHorizontal: RFValue(3),
     marginTop: RFValue(20),
   },
