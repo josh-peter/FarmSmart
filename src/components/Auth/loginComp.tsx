@@ -83,8 +83,7 @@ export default function LoginComp() {
           })}
           onSubmit={async (values: any, { setSubmitting }) =>
             handleUserLogin(values, setSubmitting)
-          }
-        >
+          }>
           {({
             values,
             handleChange,
@@ -138,8 +137,7 @@ export default function LoginComp() {
                 ) : (
                   <TouchableOpacity
                     onPress={() => handleSubmit()}
-                    style={styles.activeBtn}
-                  >
+                    style={styles.activeBtn}>
                     <Text style={styles.activeButton}>Sign in</Text>
                   </TouchableOpacity>
                 )}
@@ -150,8 +148,8 @@ export default function LoginComp() {
                   alignItems: "center",
                   justifyContent: "center",
                   marginTop: 30,
-                }}
-              >
+                  paddingHorizontal: 20,
+                }}>
                 <View style={styles.line} />
                 <Text style={styles.signupText}>Or Sign In With</Text>
                 <View style={styles.line} />
@@ -160,10 +158,10 @@ export default function LoginComp() {
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: 30,
+                  justifyContent: "space-between",
+                  gap: 20,
                   marginTop: 20,
-                }}
-              >
+                }}>
                 <TouchableOpacity
                   style={{
                     flexDirection: "row",
@@ -173,10 +171,9 @@ export default function LoginComp() {
                     borderWidth: 1,
                     borderColor: colors.button,
                     paddingVertical: 5,
-                    width: "45%",
+                    width: Platform.OS === "ios" ? "40%" : "45%",
                     borderRadius: 5,
-                  }}
-                >
+                  }}>
                   <Image
                     contentFit="contain"
                     source={require("../../assets/images/apple.png")}
@@ -186,8 +183,7 @@ export default function LoginComp() {
                     style={{
                       fontSize: 13,
                       fontFamily: "urbanist-medium",
-                    }}
-                  >
+                    }}>
                     Apple
                   </Text>
                 </TouchableOpacity>
@@ -200,10 +196,9 @@ export default function LoginComp() {
                     borderWidth: 1,
                     borderColor: colors.button,
                     paddingVertical: 5,
-                    width: "45%",
+                    width: Platform.OS === "ios" ? "40%" : "45%",
                     borderRadius: 5,
-                  }}
-                >
+                  }}>
                   <Image
                     contentFit="contain"
                     source={require("../../assets/images/google.png")}
@@ -213,8 +208,7 @@ export default function LoginComp() {
                     style={{
                       fontSize: 13,
                       fontFamily: "urbanist-medium",
-                    }}
-                  >
+                    }}>
                     Google
                   </Text>
                 </TouchableOpacity>
@@ -226,8 +220,7 @@ export default function LoginComp() {
                     style={{
                       color: colors.primary,
                       fontFamily: "urbanist-bold",
-                    }}
-                  >
+                    }}>
                     {" "}
                     Sign Up
                   </Text>
@@ -257,10 +250,10 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: 17,
-    fontFamily: "outfit-bold",
-    color: "#32264D",
-    marginTop: 15,
+    fontSize: 22,
+    fontFamily: "outfit-semibold",
+    color: "#000000",
+    marginTop: 5,
   },
   subtitle: {
     textAlign: "center",
@@ -326,7 +319,7 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 1.2,
-    width: Platform.OS === "ios" ? 145 : 140,
+    width: Platform.OS === "ios" ? 138 : 120,
     backgroundColor: colors.line,
   },
   signupText: {

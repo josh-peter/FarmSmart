@@ -20,13 +20,13 @@ const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, on
     return (
       <View
         style={{
-          marginTop: 12,
+          marginTop: 0,
         }}>
         <Text
           style={{
-            fontFamily: "outfit-bold",
+            fontFamily: "outfit-medium",
             fontSize: 16,
-            marginTop:15,
+            marginTop: 15,
             color: colors.dark,
           }}>
           {label}
@@ -35,17 +35,17 @@ const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, on
           style={{
             borderRadius: 10,
             borderWidth: 1,
-            padding: 10,
-            marginTop: 11,
-            borderColor: colors.warmBtn,
-            paddingHorizontal:12,
-            paddingVertical: 12,
-            backgroundColor:colors.background,
-            marginBottom: 10,
-            shadowOffset: { width: 4, height: 4 },
+            padding: 8,
+            marginTop: 5,
+            borderColor: "#F0F4FF",
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            backgroundColor: "#fff",
+            marginBottom: 2,
+            shadowOffset: { width: 2, height: 2 },
             shadowRadius: 20,
-            elevation: 1,
-            shadowColor: colors.border,
+            elevation: 2,
+            shadowColor: "#d1d5db",
           }}>
           <TextInput
             placeholder={placeholder}
@@ -69,7 +69,7 @@ export default InputField
 const styles = StyleSheet.create({
     inputbox: {
         backgroundColor: "transparent",
-        fontFamily: "outfit-light",
+        fontFamily: "urbanist-medium",
         fontSize: 15,
         paddingVertical:3,
     },

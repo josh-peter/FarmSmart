@@ -123,105 +123,77 @@ const OtpVerification = () => {
                 </Text>
               </Text>
 
-              <View style={styles.otpHeaderContainer}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginHorizontal: 50,
-                  }}
-                >
-                  {/* <OTPTextInput
-                    textInputStyle={{
-                      ...styles.otpInput,
-                    }}
-                    tintColor={colors.primary}
-                    ref={(e) => (values.code = e)}
-                    autoFocus={true}
-                    handleTextChange={handleChange("code")}
-                  /> */}
-                  <OtpTextInput
-                    otp={otp}
-                    setOtp={setOtp}
-                    digits={4}
+                <View style={styles.otpHeaderContainer}>
+                  <View style={styles.otpInputContainer}>
+                    <OTPTextInput
+                      textInputStyle={{
+                        ...styles.otpInput,
+                      }}
+                      tintColor={colors.primary}
+                      ref={(e) => (values.code = e)}
+                      autoFocus={true}
+                      handleTextChange={handleChange("code")}
+                    />
+                  </View>
+                </View>
+                {errors.code && (
+                  <View
                     style={{
-                      borderRadius: 10,
-                      borderTopWidth: 2,
-                      borderRightWidth: 2,
-                      borderLeftWidth: 2,
-                      height: 55,
-                      width: 55,
-                      borderColor: colors.border2,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 2,
+                      paddingVertical: 7,
                     }}
-                    fontStyle={{ fontSize: 25, fontFamily: "outfit-medium" }}
-                    focusedStyle={{
-                      borderColor: colors.border2,
-                      borderWidth: 2,
-                    }}
-                    ref={(e: any) => (values.code = e)}
-                    autoFocus={true}
-                    handleTextChange={handleChange("code")}
-                  />
-                </View>
-              </View>
-              {errors.code && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 2,
-                    paddingVertical: RFValue(7),
-                  }}
-                >
-                  <ErrorMsg message={`${errors.code}`} />
-                </View>
-              )}
-              <View style={{}}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.resendText,
-                      {
-                        color: colors.onboardingText,
-                        textAlign: "center",
-                      },
-                    ]}
                   >
-                    {!errors.code && "Didn’t receive code? "}
-                  </Text>
-                  <TouchableOpacity onPress={handleRequestAgain}>
+                    <ErrorMsg message={`${errors.code}`} />
+                  </View>
+                )}
+                <View style={{}}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     <Text
                       style={[
                         styles.resendText,
                         {
-                          color: colors.primary,
+                          color: colors.onboardingText,
                           textAlign: "center",
                         },
                       ]}
                     >
-                      <Text style={{ fontFamily: "urbanist-bold" }}>
-                        {!errors.code ? "" : "Resend"}
-                      </Text>
-                      <Text style={styles.resendTextbold}>
-                        {!errors.code ? "Resend code" : ""}
-                      </Text>
+                      {!errors.code && "Didn’t receive code? "}
                     </Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={handleRequestAgain}>
+                      <Text
+                        style={[
+                          styles.resendText,
+                          {
+                            color: colors.primary,
+                            textAlign: "center",
+                          },
+                        ]}
+                      >
+                        <Text style={{ fontFamily: "urbanist-bold" }}>
+                          {!errors.code ? "" : "Resend"}
+                        </Text>
+                        <Text style={styles.resendTextbold}>
+                          {!errors.code ? "Resend code" : ""}
+                        </Text>
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
+              
             </Animated.View>
             <View
               style={{
-                paddingHorizontal: RFValue(20),
-                paddingVertical: RFValue(28),
+                paddingHorizontal: 20,
+                paddingVertical: 28,
               }}
             >
               {isSubmitting || errors.code ? (
@@ -246,41 +218,42 @@ const OtpVerification = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    paddingHorizontal: RFValue(20),
-    paddingVertical: RFValue(7),
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 7,
   },
   logo: {
-    height: RFValue(40),
-    width: RFValue(140),
+    height: 40,
+    width: 140,
     alignSelf: "center",
-    marginTop: RFValue(30),
+    marginTop: 30,
   },
   title: {
     textAlign: "center",
-    fontSize: RFValue(16),
-    fontFamily: "outfit-bold",
-    color: "#32264D",
-    marginTop: 9,
+    fontSize: 22,
+    fontFamily: "outfit-semibold",
+    color: "#000000",
+    marginTop: 5,
+    marginBottom: 10,
   },
   subtitle: {
     textAlign: "center",
-    fontSize: RFValue(13),
+    fontSize: 13,
     fontWeight: "normal",
     fontFamily: "urbanist-medium",
-    marginVertical: RFValue(7),
+    marginVertical: 7,
   },
   headerText: {
-    fontSize: RFValue(3.5),
+    fontSize: 3.5,
     fontFamily: "satoshi-bold",
   },
   smallText: {
-    fontSize: RFValue(2),
+    fontSize: 2,
     fontFamily: "plusjakarta-regular",
-    marginTop: Platform.OS === "android" ? RFValue(1) : RFValue(2),
+    marginTop: Platform.OS === "android" ? 1 : 2,
   },
   phoneText: {
-    fontSize: RFValue(29),
+    fontSize: 29,
     fontFamily: "satoshi-bold",
   },
   otpInputContainer: {
@@ -290,7 +263,7 @@ const styles = StyleSheet.create({
     marginHorizontal:20
   },
   otpHeaderContainer: {
-    marginTop: RFValue(10),
+    marginTop: 10,
   },
   inputWrapper: {
     flexDirection: "row",
@@ -313,11 +286,11 @@ const styles = StyleSheet.create({
     color: "#D0D5DD",
   },
   verifyButton: {
-    marginTop: RFValue(2),
+    marginTop: 2,
     backgroundColor: "#4a9cda",
-    paddingVertical: RFValue(2),
+    paddingVertical: 2,
     borderRadius: 30,
-    marginBottom: Platform.OS === "ios" ? RFValue(1) : RFValue(0.5),
+    marginBottom: Platform.OS === "ios" ? 1 : 0.5,
   },
   verifyButtonText: {
     fontSize: 18,
@@ -328,43 +301,43 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   resendText: {
-    fontSize: RFValue(14),
+    fontSize: 14,
     fontFamily: "urbanist-medium",
     textAlign: "center",
-    marginTop: RFValue(10),
+    marginTop: 10,
   },
   resendTextbold: {
-    fontSize: RFValue(14),
+    fontSize: 14,
     fontFamily: "urbanist-bold",
     textAlign: "center",
-    marginTop: RFValue(10),
+    marginTop: 10,
   },
   button: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.buttontext,
-    fontSize: RFValue(14),
+    fontSize: 14,
   },
   activeButton: {
     fontFamily: "outfit-medium",
     textAlign: "center",
     color: colors.background,
-    fontSize: RFValue(14),
+    fontSize: 14,
   },
   disableBtn: {
     backgroundColor: colors.button,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   activeBtn: {
     backgroundColor: colors.primary,
-    marginTop: RFValue(10),
-    paddingHorizontal: RFValue(14),
-    paddingVertical: RFValue(12),
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
