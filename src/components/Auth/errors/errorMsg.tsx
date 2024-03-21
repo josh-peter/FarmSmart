@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
-import { RFValue } from 'react-native-responsive-fontsize';
 
 interface IErrorProps{
     message: string
@@ -16,12 +15,13 @@ const ErrorMsg = ({message}: IErrorProps) => {
         paddingVertical: 2,
       }}
     >
-      <MaterialIcons name="error-outline" size={26} color="red" />
+      <MaterialIcons name="error-outline" size={18} color="red" />
       <Text
         style={{
           textAlign: "left",
           color: "red",
-         fontSize:13,
+          fontFamily: "outfit-regular",
+         fontSize: 14,
         }}
           >
               {message}

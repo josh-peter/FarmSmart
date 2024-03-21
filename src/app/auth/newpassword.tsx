@@ -24,6 +24,7 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import PasswordInputField from "../../components/inputs/passwordInputField";
 const { width } = Dimensions.get("window");
 
 export default function NewPassword() {
@@ -81,9 +82,7 @@ export default function NewPassword() {
           }}
         />
         <StatusBar style="dark" />
-        <Animated.View style={animatedStyle}>
-
-        </Animated.View>
+        <Animated.View style={animatedStyle}></Animated.View>
         <Formik
           initialValues={{
             confirmPassword: "",
@@ -100,8 +99,7 @@ export default function NewPassword() {
           })}
           onSubmit={async (values: any, { setSubmitting }) =>
             handleNewPassword(values, setSubmitting)
-          }
-        >
+          }>
           {({
             values,
             handleChange,
@@ -111,7 +109,7 @@ export default function NewPassword() {
             errors,
           }) => (
             <>
-              <Animated.View style={[styles.container, animatedStyle]}>
+              <Animated.ScrollView style={[styles.container, animatedStyle]}>
                 <View>
                   <Image
                     contentFit="contain"
@@ -123,112 +121,40 @@ export default function NewPassword() {
                     Please enter your new password to Sign In
                   </Text>
                   <View>
-                    <View>
-                      <Text
-                        style={{
-                          fontFamily: "outfit-bold",
-                          fontSize: RFValue(14),
-                          marginTop: RFValue(20),
-                          color: "#5f5f5f",
-                        }}
-                      >
-                        New Password
-                      </Text>
-                      <View
-                        style={{
-                          borderRadius: 10,
-                          borderWidth: 1,
-                          borderColor: "#E4E4E7",
-                          padding: RFValue(8),
-                          marginTop: RFValue(10),
-                        }}
-                      >
-                        <TextInput
-                          placeholder="**********"
-                          value={values.password}
-                          style={styles.inputbox}
-                          onChangeText={handleChange("password")}
-                          onBlur={handleBlur("password")}
-                          placeholderTextColor="#5f5f5f"
-                          secureTextEntry={passwordVisible}
-                        />
-                        <TouchableOpacity
-                          style={styles.eyeIcon}
-                          onPress={handlePasswordVisibility}
-                        >
-                          <Ionicons
-                            name={
-                              passwordVisible
-                                ? "eye-outline"
-                                : "eye-off-outline"
-                            }
-                            size={34}
-                            color="#5f5f5f"
-                          />
-                        </TouchableOpacity>
-                      </View>
-
-                      {errors.password && (
-                        <ErrorMsg message={`${errors.password}`} />
-                      )}
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontFamily: "outfit-bold",
-                          fontSize: RFValue(14),
-                          marginTop: RFValue(20),
-                          color: "#5f5f5f",
-                        }}
-                      >
-                        Confirm New Password
-                      </Text>
-                      <View
-                        style={{
-                          borderRadius: 10,
-                          borderWidth: 1,
-                          borderColor: "#E4E4E7",
-                          padding: RFValue(8),
-                          marginTop: RFValue(10),
-                        }}
-                      >
-                        <TextInput
-                          placeholder="**********"
-                          value={values.confirmPassword}
-                          onChangeText={handleChange("confirmPassword")}
-                          onBlur={handleBlur("confirmPassword")}
-                          style={styles.inputbox}
-                          placeholderTextColor="#5f5f5f"
-                          secureTextEntry={passwordVisible}
-                        />
-                        <TouchableOpacity
-                          style={styles.eyeIcon}
-                          onPress={handlePasswordVisibility}
-                        >
-                          <Ionicons
-                            name={
-                              passwordVisible
-                                ? "eye-outline"
-                                : "eye-off-outline"
-                            }
-                            size={34}
-                            color="#5f5f5f"
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      {errors.confirmPassword && (
-                        <ErrorMsg message={`${errors.confirmPassword}`} />
-                      )}
+                    <View style={{ marginBottom: 20 }}>
+                      <PasswordInputField
+                        label={"New Password"}
+                        value={values.password}
+                        onChangeText={handleChange("password")}
+                        errorMessage={errors.password}
+                        // onBlur={handleBlur("password")}
+                        placeholder={"**********"}
+                        returnKeyType="done"
+                        keyboardType="password"
+                        secureTextEntry={passwordVisible}
+                        placeholderTextColor={colors.onboardingText}
+                      />
+                      <PasswordInputField
+                        label={"Confirm New Password"}
+                        value={values.confirmPassword}
+                        onChangeText={handleChange("confirmPassword")}
+                        errorMessage={errors.password}
+                        // onBlur={handleBlur("confirmPassword")}
+                        placeholder={"**********"}
+                        returnKeyType="done"
+                        keyboardType="password"
+                        secureTextEntry={passwordVisible}
+                        placeholderTextColor={colors.onboardingText}
+                      />
                     </View>
                   </View>
                 </View>
-              </Animated.View>
+              </Animated.ScrollView>
               <View
                 style={{
-                  paddingHorizontal: RFValue(20),
                   paddingVertical: RFValue(28),
-                }}
-              >
+                  paddingHorizontal: RFValue(20),
+                }}>
                 {isSubmitting || errors.password || errors.confirmPassword ? (
                   <TouchableOpacity style={styles.disableBtn}>
                     <Text style={styles.button}>Update</Text>
@@ -236,8 +162,7 @@ export default function NewPassword() {
                 ) : (
                   <TouchableOpacity
                     onPress={() => handleSubmit()}
-                    style={styles.activeBtn}
-                  >
+                    style={styles.activeBtn}>
                     <Text style={styles.activeButton}>Update</Text>
                   </TouchableOpacity>
                 )}
@@ -259,6 +184,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: RFValue(20),
     flex: 1,
+    position: "relative",
   },
   logo: {
     height: RFValue(40),
@@ -268,10 +194,10 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: RFValue(16),
-    fontFamily: "outfit-bold",
-    color: "#32264D",
-    marginTop: 9,
+    fontSize: 23,
+    fontFamily: "outfit-semibold",
+    color: "#000000",
+    marginTop: 5,
   },
   subtitle: {
     textAlign: "center",
@@ -305,16 +231,16 @@ const styles = StyleSheet.create({
     marginVertical: RFValue(13),
   },
   button: {
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
     color: colors.buttontext,
-    fontSize: RFValue(14),
+    fontSize: 17,
   },
   activeButton: {
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
     color: colors.background,
-    fontSize: RFValue(14),
+    fontSize: 17,
   },
   disableBtn: {
     backgroundColor: colors.button,

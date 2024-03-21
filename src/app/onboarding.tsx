@@ -71,17 +71,14 @@ const Onboarding = () => {
   };
 
 const indicatorColor = (index: number) => {
-  if (index < 2 && screenIndex < 2) {
-    return colors.primary; 
-  } else if (
-    index >= OnboardingData.length - 2 &&
-    screenIndex >= OnboardingData.length - 2
-  ) {
-    return colors.green; 
-  } else if (index === screenIndex) {
+  if (index < 2 && index <= screenIndex) {
     return colors.primary;
+  } else if (index >= OnboardingData.length - 2 && index <= screenIndex) {
+    return colors.green;
+  } else if (index <= screenIndex && index <= screenIndex) {
+    return colors.green;
   } else {
-    return colors.indicator; 
+    return colors.indicator;
   }
 };
 
@@ -129,14 +126,12 @@ const indicatorColor = (index: number) => {
                   },
                 ],
               },
-            ]}
-          >
+            ]}>
             <Animated.View
               style={{
                 flexDirection: "column",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <Image
                 contentFit="contain"
                 source={item.img}
@@ -148,8 +143,7 @@ const indicatorColor = (index: number) => {
                 marginTop: RFValue(-90),
                 paddingHorizontal: RFValue(15),
                 height: RFValue(120),
-              }}
-            >
+              }}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.description}>{item.description}</Text>
             </Animated.View>
@@ -161,8 +155,8 @@ const indicatorColor = (index: number) => {
         <View
           style={{
             paddingHorizontal: RFValue(15),
-          }}
-        >
+            marginTop: Platform.OS === "ios" ? RFValue(-10) : RFValue(15),
+          }}>
           <Link href={"/auth/login"} asChild>
             <TouchableOpacity style={styles.startBtn}>
               <Text style={styles.startText}>Get Started</Text>
@@ -188,13 +182,13 @@ export default Onboarding;
 const styles = StyleSheet.create({
   indicator: {
     height: 2.5,
-    width: 85,
+    width: "24%",
     backgroundColor: colors.primary,
-    marginHorizontal: RFValue(3),
     marginTop: RFValue(20),
   },
   indicatorContainer: {
     flexDirection: "row",
+    justifyContent: "space-between",
     marginHorizontal: RFValue(15),
   },
   pageContainer: {
@@ -207,9 +201,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: RFValue(32),
-    fontFamily: "outfit-semibold",
+    fontFamily: "outfit-medium",
     marginBottom: RFValue(5),
-    color:colors.dark
+    color: colors.dark,
   },
   description: {
     fontSize: RFValue(13),
@@ -226,10 +220,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: RFValue(15),
+    marginTop: Platform.OS === "ios" ? RFValue(-5) : RFValue(15),
   },
   skipText: {
-    fontSize: RFValue(14),
-    fontFamily: "urbanist-bold",
+    fontSize: RFValue(16),
+    fontFamily: "outfit-semibold",
     color: colors.primary,
   },
   nextBtn: {
@@ -237,24 +232,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: { width: 2, height: 2 },
     shadowRadius: 20,
-    shadowOpacity: 0.1,
     elevation: 5,
-    shadowColor: Platform.OS === "ios" ? "#000" : "green",
+    shadowColor: "rgba(0, 46, 62, 0.13)",
     width: RFValue(50),
     height: RFValue(50),
     borderRadius: RFValue(30),
+    borderWidth: 1,
+    borderColor: "#F0F4FF",
   },
   startBtn: {
     backgroundColor: colors.primary,
-    padding: Platform.OS === "ios" ? 13 : 12,
+    padding: 14,
     borderRadius: 10,
+    borderBottomRightRadius: 0,
   },
   startText: {
-    fontSize: RFValue(14),
+    fontSize: RFValue(15),
     color: "#fff",
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
   },
 });
