@@ -28,6 +28,8 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import authService from "../../features/auth/authAction";
+import axios from 'axios'
 const { width, height } = Dimensions.get("window");
 
 export default function SignUpComp() {
@@ -42,8 +44,44 @@ export default function SignUpComp() {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleUserLogin = (values: any, setSubmitting: any) => {
-    router.push("/auth/otpverification");
+  const handleUserLogin = async (values: any, setSubmitting: any) => {
+   console.log(values, "WEY ENTEREDDD");
+    const payload = {
+      name: {
+        firstName: values.fullName.split(" ")[0],
+        lastName: values.fullName.split(" ")[1],
+      },
+      email: values.email,
+      password: values.password,
+      address: {
+        name: values.address,
+        city: values.city,
+        state: values.state,
+        // placeId: string,
+        // coordinate: {
+        //   type: "point",
+        //   coordinates: [3.748],
+        // },
+      },
+      device: 'Iphone',
+      // location: {
+      //   name: string,
+      //   city: string,
+      //   state: string,
+      //   placeId: string,
+      //   coordinate: {
+      //     type: any,
+      //     coordinates: [{}],
+      //   },
+      // },
+    };
+    
+    const res = await axios.post(
+      "https://easyfynd.onrender.com/auth/client/signup",
+      payload
+    );
+    console.log("the resss", res?.data)
+    // router.push("/auth/otpverification");
     setSubmitting(false);
   };
   const slideIn = useSharedValue(0);
@@ -81,7 +119,8 @@ export default function SignUpComp() {
       <StatusBar style="dark" />
       <Animated.ScrollView
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.container}>
+        contentContainerStyle={styles.container}
+      >
         <Formik
           initialValues={{
             fullName: "",
@@ -113,15 +152,17 @@ export default function SignUpComp() {
             phone: Yup.number().required("A phone number is required"),
             checkBox: Yup.boolean().required("This field is required"),
           })}
-          onSubmit={async (values: any, { setSubmitting }) =>
+          onSubmit={async (values, { setSubmitting }) =>
             handleUserLogin(values, setSubmitting)
-          }>
+          }
+        >
           {({
             values,
             handleChange,
             handleBlur,
             handleSubmit,
             isSubmitting,
+            setSubmitting,
             errors,
           }) => (
             <Animated.View style={animatedStyle}>
@@ -134,9 +175,10 @@ export default function SignUpComp() {
               <View>
                 <InputField
                   label={"Full name"}
+                  id={"fullName"}
                   value={values.fullName}
                   onChangeText={handleChange("fullName")}
-                  onBlur={handleBlur}
+                  onBlur={handleBlur("fullName")}
                   placeholder={"E.g John Doe"}
                   returnKeyType="done"
                   keyboardType="name-phone-pad"
@@ -145,9 +187,10 @@ export default function SignUpComp() {
                 />
                 <InputField
                   label={"Email"}
+                  id={"email"}
                   value={values.email}
                   onChangeText={handleChange("email")}
-                  onBlur={handleBlur}
+                  onBlur={handleBlur("email")}
                   placeholder={"E.g myfreshpass@gmail.com"}
                   returnKeyType="done"
                   keyboardType="email-address"
@@ -160,7 +203,8 @@ export default function SignUpComp() {
                     fontSize: 16,
                     marginTop: 15,
                     color: colors.dark,
-                  }}>
+                  }}
+                >
                   Phone number
                 </Text>
                 <View
@@ -176,7 +220,8 @@ export default function SignUpComp() {
                     shadowRadius: 20,
                     elevation: 2,
                     shadowColor: "#d1d5db",
-                  }}>
+                  }}
+                >
                   <PhoneInput
                     placeholder="643-334-0009"
                     ref={phoneInput}
@@ -193,9 +238,10 @@ export default function SignUpComp() {
                 {errors.phone && <ErrorMsg message={`${errors.phone}`} />}
                 <InputField
                   label={"State"}
+                  id={"state"}
                   value={values.state}
                   onChangeText={handleChange("state")}
-                  onBlur={handleBlur}
+              onBlur={handleBlur("state")}
                   placeholder={"E.g Akwa Ibom"}
                   returnKeyType="done"
                   keyboardType="default"
@@ -204,9 +250,10 @@ export default function SignUpComp() {
                 />
                 <InputField
                   label={"City"}
+                  id={"city"}
                   value={values.city}
                   onChangeText={handleChange("city")}
-                  onBlur={handleBlur}
+                  onBlur={handleBlur("city")}
                   placeholder={"Uyo"}
                   returnKeyType="done"
                   keyboardType="default"
@@ -215,9 +262,10 @@ export default function SignUpComp() {
                 />
                 <InputField
                   label={"Address"}
+                  id={"address"}
                   value={values.address}
                   onChangeText={handleChange("address")}
-                  onBlur={handleBlur}
+                  onBlur={handleBlur("address")}
                   placeholder={"E.g 13 Ekpri-nsuka"}
                   returnKeyType="done"
                   keyboardType="default"
@@ -256,7 +304,8 @@ export default function SignUpComp() {
                   // width: 350,
                   marginLeft: -21,
                   paddingRight: 20,
-                }}>
+                }}
+              >
                 <CheckBox
                   checked={checked}
                   onPress={toggleCheckbox}
@@ -276,7 +325,8 @@ export default function SignUpComp() {
                       style={{
                         color: colors.primary,
                         fontFamily: "urbanist-bold",
-                      }}>
+                      }}
+                    >
                       Term of Service
                     </Text>
                   </Link>{" "}
@@ -286,30 +336,28 @@ export default function SignUpComp() {
                       style={{
                         color: colors.primary,
                         fontFamily: "urbanist-bold",
-                      }}>
+                      }}
+                    >
                       Privacy Policy
                     </Text>
                   </Link>
                 </Text>
               </View>
               <View>
-                {isSubmitting ||
-                errors.fullName ||
-                errors.email ||
-                errors.phone ||
-                errors.state ||
-                errors.city ||
-                errors.address ||
-                errors.password ||
-                errors.confirmPassword ||
-                errors.checkBox ? (
+                {isSubmitting
+? (
                   <TouchableOpacity style={styles.disableBtn}>
                     <Text style={styles.button}>Sign up</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => handleSubmit()}
-                    style={styles.activeBtn}>
+                      onPress={() => {
+                        console.log("Press444")
+                        handleUserLogin(values, setSubmitting)
+                         handleSubmit
+                      }}
+                    style={styles.activeBtn}
+                  >
                     <Text style={styles.activeButton}>Sign up</Text>
                   </TouchableOpacity>
                 )}
@@ -320,7 +368,8 @@ export default function SignUpComp() {
                   alignItems: "center",
                   justifyContent: "center",
                   marginTop: 32,
-                }}>
+                }}
+              >
                 <View style={styles.line} />
                 <Text style={styles.signupText}>Or Sign Up With</Text>
                 <View style={styles.line} />
@@ -328,14 +377,16 @@ export default function SignUpComp() {
               <View
                 style={{
                   marginBottom: 100,
-                }}>
+                }}
+              >
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
                     marginTop: 22,
-                  }}>
+                  }}
+                >
                   <TouchableOpacity style={styles.appleLogoBtn}>
                     <Image
                       contentFit="contain"
@@ -347,7 +398,8 @@ export default function SignUpComp() {
                         fontSize: 15,
                         fontWeight: "500",
                         fontFamily: "urbanist-medium",
-                      }}>
+                      }}
+                    >
                       Apple
                     </Text>
                   </TouchableOpacity>
@@ -362,7 +414,8 @@ export default function SignUpComp() {
                         fontSize: 15,
                         fontWeight: "500",
                         fontFamily: "urbanist-medium",
-                      }}>
+                      }}
+                    >
                       Google
                     </Text>
                   </TouchableOpacity>
@@ -374,7 +427,8 @@ export default function SignUpComp() {
                       style={{
                         color: colors.primary,
                         fontFamily: "urbanist-bold",
-                      }}>
+                      }}
+                    >
                       {" "}
                       Sign In
                     </Text>
@@ -509,9 +563,9 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   TStext: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "urbanist-medium",
-    marginLeft: -13,
+    marginLeft: -10,
     color: "#414141",
   },
 });

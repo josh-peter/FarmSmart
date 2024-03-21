@@ -13,10 +13,11 @@ interface InputProps {
     placeholder: string;
     returnKeyType: any;
     keyboardType: any;
-    placeholderTextColor: any;
+  placeholderTextColor: any;
+  id: string
 }
 
-const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, onChangeText, onBlur, errorMessage, placeholderTextColor }: InputProps) => {
+const InputField = ({ label, id, returnKeyType, value, keyboardType, placeholder, onChangeText, onBlur, errorMessage, placeholderTextColor }: InputProps) => {
     return (
       <View
         style={{
@@ -48,6 +49,7 @@ const InputField = ({ label, returnKeyType, value, keyboardType, placeholder, on
             shadowColor: "#d1d5db",
           }}>
           <TextInput
+            id={id}
             placeholder={placeholder}
             value={value}
             style={styles.inputbox}

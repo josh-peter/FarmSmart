@@ -10,6 +10,7 @@ import { SplashScreen, Slot } from "expo-router";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Onboarding from "./onboarding";
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -50,11 +51,12 @@ const Home = () => {
 
   return (
     <>
-      <StatusBar style="dark"/>
+      <StatusBar style="dark" />
       <Stack.Screen options={{ title: "Splash Screen", headerShown: false }} />
       <RootSiblingParent>
         <SafeAreaProvider onLayout={onLayoutRootView}>
           <SafeAreaView style={styles.container}>
+            <Toast />
             <Onboarding />
             <StatusBar
               style="auto"

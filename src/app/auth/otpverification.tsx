@@ -153,8 +153,15 @@ const OtpVerification = () => {
                       height: 55,
                       width: 55,
                       borderColor: colors.border2,
+                      shadowOffset: { width: 2, height: 2 },
+                      shadowRadius: 2,
+                      shadowColor: "#d1d5db",
                     }}
-                    fontStyle={{ fontSize: 22, fontFamily: "outfit-medium", marginTop: 5 }}
+                    fontStyle={{
+                      fontSize: 22,
+                      fontFamily: "outfit-medium",
+                      marginTop: 5,
+                    }}
                     focusedStyle={{
                       borderColor: colors.border2,
                       borderWidth: 2,
