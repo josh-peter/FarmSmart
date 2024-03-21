@@ -80,8 +80,7 @@ const OtpVerification = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
+      style={{ flex: 1 }}>
       <Stack.Screen
         options={{
           title: "OtpVerification",
@@ -101,8 +100,7 @@ const OtpVerification = () => {
         })}
         onSubmit={async (values: any, { setSubmitting }) =>
           handleVerifyOTPCode(values, setSubmitting)
-        }
-      >
+        }>
         {({ values, handleChange, handleSubmit, isSubmitting, errors }) => (
           <>
             <Animated.View style={[styles.container, animatedStyle]}>
@@ -117,8 +115,7 @@ const OtpVerification = () => {
                 <Text
                   style={{
                     color: colors.secondary,
-                  }}
-                >
+                  }}>
                   danielsnr.design@gmail.com
                 </Text>
               </Text>
@@ -129,9 +126,8 @@ const OtpVerification = () => {
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginHorizontal: 50,
-                  }}
-                >
+                    marginHorizontal: 25,
+                  }}>
                   {/* <OTPTextInput
                     textInputStyle={{
                       ...styles.otpInput,
@@ -180,8 +176,7 @@ const OtpVerification = () => {
                     justifyContent: "center",
                     gap: 2,
                     paddingVertical: RFValue(7),
-                  }}
-                >
+                  }}>
                   <ErrorMsg message={`${errors.code}`} />
                 </View>
               )}
@@ -191,8 +186,7 @@ const OtpVerification = () => {
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
-                  }}
-                >
+                  }}>
                   <Text
                     style={[
                       styles.resendText,
@@ -200,8 +194,7 @@ const OtpVerification = () => {
                         color: colors.onboardingText,
                         textAlign: "center",
                       },
-                    ]}
-                  >
+                    ]}>
                     {!errors.code && "Didn’t receive code? "}
                   </Text>
                   <TouchableOpacity onPress={handleRequestAgain}>
@@ -212,8 +205,7 @@ const OtpVerification = () => {
                           color: colors.primary,
                           textAlign: "center",
                         },
-                      ]}
-                    >
+                      ]}>
                       <Text style={{ fontFamily: "urbanist-bold" }}>
                         {!errors.code ? "" : "Resend"}
                       </Text>
@@ -229,8 +221,7 @@ const OtpVerification = () => {
               style={{
                 paddingHorizontal: 20,
                 paddingVertical: 28,
-              }}
-            >
+              }}>
               {isSubmitting || errors.code ? (
                 <TouchableOpacity style={styles.disableBtn}>
                   <Text style={styles.button}>Verify</Text>
@@ -238,8 +229,7 @@ const OtpVerification = () => {
               ) : (
                 <TouchableOpacity
                   style={styles.activeBtn}
-                  onPress={() => router.push("/auth/newpassword")}
-                >
+                  onPress={() => router.push("/auth/newpassword")}>
                   <Text style={styles.activeButton}>Verify</Text>
                 </TouchableOpacity>
               )}
@@ -265,7 +255,7 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: 22,
+    fontSize: 23,
     fontFamily: "outfit-semibold",
     color: "#000000",
     marginTop: 5,
@@ -278,24 +268,11 @@ const styles = StyleSheet.create({
     fontFamily: "urbanist-medium",
     marginVertical: 7,
   },
-  headerText: {
-    fontSize: 3.5,
-    fontFamily: "satoshi-bold",
-  },
-  smallText: {
-    fontSize: 2,
-    fontFamily: "plusjakarta-regular",
-    marginTop: Platform.OS === "android" ? 1 : 2,
-  },
-  phoneText: {
-    fontSize: 29,
-    fontFamily: "satoshi-bold",
-  },
   otpInputContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal:20
+    marginHorizontal: 20,
   },
   otpHeaderContainer: {
     marginTop: 10,
@@ -320,29 +297,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     color: "#D0D5DD",
   },
-  verifyButton: {
-    marginTop: 2,
-    backgroundColor: "#4a9cda",
-    paddingVertical: 2,
-    borderRadius: 30,
-    marginBottom: Platform.OS === "ios" ? 1 : 0.5,
-  },
-  verifyButtonText: {
-    fontSize: 18,
-    color: colors.background,
-  },
   incorrectCodeText: {
     color: colors.danger,
     marginTop: 10,
   },
   resendText: {
-    fontSize: 14,
+    marginTop: 15,
+    fontSize: 15,
     fontFamily: "urbanist-medium",
     textAlign: "center",
-    marginTop: 10,
+    color: colors.header,
   },
   resendTextbold: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "urbanist-bold",
     textAlign: "center",
     marginTop: 10,
@@ -354,16 +321,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   activeButton: {
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
     color: colors.background,
-    fontSize: 14,
+    fontSize: 17,
   },
   disableBtn: {
     backgroundColor: colors.button,
     marginTop: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 16,
+    padding: 13,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
@@ -371,8 +337,7 @@ const styles = StyleSheet.create({
   activeBtn: {
     backgroundColor: colors.primary,
     marginTop: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 16,
+    padding: 13,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",

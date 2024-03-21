@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import {  } from 'react-native-responsive-fontsize';
 import ErrorMsg from '../Auth/errors/errorMsg';
@@ -9,7 +9,7 @@ interface InputProps {
     value: any; 
     onChangeText: (text: string) => void;
     errorMessage: any; 
-    onBlur: any;
+    onBlur?: any;
     placeholder: string;
     returnKeyType: any;
     keyboardType: any;
@@ -26,7 +26,7 @@ const InputField = ({ label, id, returnKeyType, value, keyboardType, placeholder
         <Text
           style={{
             fontFamily: "outfit-medium",
-            fontSize: 16,
+            fontSize: Platform.OS === "ios" ? 17 : 16,
             marginTop: 15,
             color: colors.dark,
           }}>

@@ -119,8 +119,7 @@ export default function SignUpComp() {
       <StatusBar style="dark" />
       <Animated.ScrollView
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.container}
-      >
+        style={[styles.container, animatedStyle]}>
         <Formik
           initialValues={{
             fullName: "",
@@ -165,7 +164,7 @@ export default function SignUpComp() {
             setSubmitting,
             errors,
           }) => (
-            <Animated.View style={animatedStyle}>
+            <Animated.View>
               <Image
                 contentFit="contain"
                 source={require("../../assets/images/icon2.png")}
@@ -200,7 +199,7 @@ export default function SignUpComp() {
                 <Text
                   style={{
                     fontFamily: "outfit-medium",
-                    fontSize: 16,
+                    fontSize: Platform.OS === "ios" ? 17 : 16,
                     marginTop: 15,
                     color: colors.dark,
                   }}
@@ -209,7 +208,7 @@ export default function SignUpComp() {
                 </Text>
                 <View
                   style={{
-                    paddingVertical: Platform.OS === "ios" ? 7 : 13,
+                    paddingVertical: 13,
                     marginTop: 8,
                     borderRadius: 10,
                     borderWidth: 1,
@@ -303,9 +302,8 @@ export default function SignUpComp() {
                   alignItems: "center",
                   // width: 350,
                   marginLeft: -21,
-                  paddingRight: 20,
-                }}
-              >
+                  marginTop: 10,
+                }}>
                 <CheckBox
                   checked={checked}
                   onPress={toggleCheckbox}
@@ -449,6 +447,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 40,
     paddingHorizontal: 20,
+    overflowX: "hidden",
   },
   logo: {
     height: 49,
@@ -458,7 +457,7 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: 22,
+    fontSize: 23,
     fontFamily: "outfit-semibold",
     color: "#000000",
     marginTop: 5,
@@ -501,7 +500,7 @@ const styles = StyleSheet.create({
   },
   signupText: {
     color: colors.onboardingText,
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: "normal",
     fontFamily: "urbanist-regular",
     marginHorizontal: 4,
@@ -516,7 +515,7 @@ const styles = StyleSheet.create({
   },
   smallText: {
     marginTop: 15,
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "urbanist-medium",
     textAlign: "center",
     color: colors.header,
@@ -529,7 +528,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border2,
     paddingVertical: 7,
-    width: Platform.OS === "ios" ? "40%" : "45%",
+    width:  "47%",
     borderRadius: 5,
   },
   googleLogoBtn: {
@@ -540,7 +539,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border2,
     paddingVertical: 7,
-    width: Platform.OS === "ios" ? "40%" : "45%",
+    width:  "47%",
     borderRadius: 5,
   },
   textInput: {
@@ -549,6 +548,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     borderLeft: 1,
     borderLeftColor: colors.border2,
+    fontSize: 15,
   },
   phoneContainer: {
     width: "75%",

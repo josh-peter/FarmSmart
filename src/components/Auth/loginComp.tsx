@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
+import { RFValue } from "react-native-responsive-fontsize";
 import { Link, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import Animated, {
@@ -16,7 +17,7 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
-import { Formik, ErrorMessage } from "formik";
+import { Formik, useFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import InputField from "../inputs/inputField";
 import PasswordInputField from "../inputs/passwordInputField";
@@ -68,7 +69,7 @@ export default function LoginComp() {
         }}
       />
       <StatusBar style="dark" />
-      <Animated.View style={[styles.container, animatedStyle]}>
+      <Animated.ScrollView style={[styles.container, animatedStyle]}>
         <Formik
           initialValues={{
             email: "",
@@ -77,7 +78,7 @@ export default function LoginComp() {
           validationSchema={Yup.object({
             email: Yup.string()
               .required("Email is required")
-              .email("Invalid emai")
+              .email("Invalid email")
               .min(5, "Must be a valid email"),
             password: Yup.string().required("Password is required"),
           })}
@@ -103,7 +104,7 @@ export default function LoginComp() {
                 label={"Email/Phone"}
                 value={values.email}
                 onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
+                // onBlur={handleBlur("email")}
                 placeholder={"E.g myfreshpass@gmail.com"}
                 returnKeyType="done"
                 keyboardType="email-address"
@@ -116,7 +117,7 @@ export default function LoginComp() {
                 value={values.password}
                 onChangeText={handleChange("password")}
                 errorMessage={errors.password}
-                onBlur={handleBlur("password")}
+                // onBlur={handleBlur("password")}
                 placeholder={"**********"}
                 returnKeyType="done"
                 keyboardType="password"
@@ -148,7 +149,6 @@ export default function LoginComp() {
                   alignItems: "center",
                   justifyContent: "center",
                   marginTop: 30,
-                  paddingHorizontal: 20,
                 }}>
                 <View style={styles.line} />
                 <Text style={styles.signupText}>Or Sign In With</Text>
@@ -159,7 +159,6 @@ export default function LoginComp() {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  gap: 20,
                   marginTop: 20,
                 }}>
                 <TouchableOpacity
@@ -171,7 +170,7 @@ export default function LoginComp() {
                     borderWidth: 1,
                     borderColor: colors.button,
                     paddingVertical: 5,
-                    width: Platform.OS === "ios" ? "40%" : "45%",
+                    width: "47%",
                     borderRadius: 5,
                   }}>
                   <Image
@@ -181,7 +180,7 @@ export default function LoginComp() {
                   />
                   <Text
                     style={{
-                      fontSize: 13,
+                      fontSize: 15,
                       fontFamily: "urbanist-medium",
                     }}>
                     Apple
@@ -196,7 +195,7 @@ export default function LoginComp() {
                     borderWidth: 1,
                     borderColor: colors.button,
                     paddingVertical: 5,
-                    width: Platform.OS === "ios" ? "40%" : "45%",
+                    width: "47%",
                     borderRadius: 5,
                   }}>
                   <Image
@@ -206,7 +205,7 @@ export default function LoginComp() {
                   />
                   <Text
                     style={{
-                      fontSize: 13,
+                      fontSize: 15,
                       fontFamily: "urbanist-medium",
                     }}>
                     Google
@@ -229,7 +228,7 @@ export default function LoginComp() {
             </Animated.View>
           )}
         </Formik>
-      </Animated.View>
+      </Animated.ScrollView>
     </>
   );
 }
@@ -241,6 +240,7 @@ const styles = StyleSheet.create({
     height: height,
     paddingHorizontal: 20,
     backgroundColor: colors.background,
+    overflowX: "hidden",
   },
   logo: {
     height: 40,
@@ -250,60 +250,34 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: 22,
+    fontSize: 23,
     fontFamily: "outfit-semibold",
     color: "#000000",
     marginTop: 5,
   },
-  subtitle: {
-    textAlign: "center",
-    fontSize: 13,
-    fontWeight: "normal",
-    fontFamily: "outfit-regular",
-    color: "#8E8C84",
-    marginVertical: 7,
-  },
-  inputbox: {
-    backgroundColor: "transparent",
-    fontFamily: "outfit-light",
-    fontSize: 16,
-    paddingVertical: 5,
-  },
-  errorText: {
-    fontFamily: "outfit-medium",
-    fontSize: 10,
-    color: "red",
-  },
-  eyeIcon: {
-    position: "absolute",
-    top: 10,
-    right: 19,
-    zIndex: 1,
-  },
   passText: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: "normal",
     fontFamily: "outfit-medium",
     color: colors.primary,
-    marginVertical: 13,
+    marginVertical: 15,
   },
   button: {
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
     color: colors.buttontext,
-    fontSize: 14,
+    fontSize: 17,
   },
   activeButton: {
-    fontFamily: "outfit-medium",
+    fontFamily: "outfit-semibold",
     textAlign: "center",
     color: colors.background,
-    fontSize: 14,
+    fontSize: 17,
   },
   disableBtn: {
     backgroundColor: colors.button,
     marginTop: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    padding: 13,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
@@ -311,20 +285,19 @@ const styles = StyleSheet.create({
   activeBtn: {
     backgroundColor: colors.primary,
     marginTop: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 16,
+    padding: 13,
     borderRadius: 10,
     borderBottomRightRadius: 0,
     justifyContent: "center",
   },
   line: {
     height: 1.2,
-    width: Platform.OS === "ios" ? 138 : 120,
+    width: 170,
     backgroundColor: colors.line,
   },
   signupText: {
     color: colors.onboardingText,
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: "normal",
     fontFamily: "urbanist-regular",
     marginHorizontal: 4,
@@ -339,7 +312,7 @@ const styles = StyleSheet.create({
   },
   smallText: {
     marginTop: 15,
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "urbanist-medium",
     textAlign: "center",
     color: colors.header,
